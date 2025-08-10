@@ -1,0 +1,29 @@
+---
+title: "Gestão de Conectividade e Comunicação"
+---
+
+## Suporte a Redes: Conectividade e Comunicação
+
+A maioria dos **Sistemas Operacionais** fornecem capacidades de rede integradas. Vamos esmiuçar as principais funcionalidades de rede que um **Sistema Operacional** deve oferecer:
+
+1. **Gerenciamento de Interfaces de Rede**: o **Sistema Operacional** é responsável por identificar e gerenciar todo o hardware de conectividade, como placas de rede Ethernet, adaptadores Wi-Fi e interfaces virtuais. Essa gestão inclui a ativação e desativação das interfaces, a configuração de parâmetros essenciais como endereços IP, máscaras de sub-rede e gateways, e o monitoramento do tráfego e de possíveis erros, fornecendo uma base estável para toda a comunicação em rede.
+
+2. **Implementação de Protocolos de Comunicação**: no núcleo de suas funcionalidades de rede, o **Sistema Operacional** implementa uma pilha de protocolos, sendo a pilha TCP/IP a mais comum. Essa pilha é formada por um conjunto de camadas de software que define como os dados são formatados, endereçados, transmitidos, roteados e recebidos. Inclui protocolos fundamentais como o IP para o endereçamento e roteamento de pacotes entre redes, o TCP para garantir uma comunicação orientada à conexão e confiável, e o UDP para transmissões rápidas e sem conexão confirmada. O sistema operacional gerencia todo o ciclo de vida dos pacotes de dados por meio dessas camadas.
+
+::: callout-note
+**Pilha TCP/IP**
+A pilha TCP/IP é um conjunto de protocolos de comunicação organizados em camadas que permite a interconexão de redes heterogêneas, formando a base da Internet moderna. Este modelo de quatro camadas (Aplicação, transporte, Internet e Acesso à Rede) foi desenvolvido para ser mais prático que o [modelo OSI de sete camadas](https://www.cloudflare.com/pt-br/learning/ddos/glossary/open-systems-interconnection-model-osi/), focando na implementação real de protocolos. Cada camada possui responsabilidades específicas e se comunica apenas com as camadas adjacentes, criando uma abstração que permite que aplicações utilizem a rede sem conhecer detalhes de baixo nível da transmissão de dados.
+
+A **camada de Aplicação** hospeda protocolos que interagem diretamente com programas do usuário, incluindo HTTP/HTTPS para navegação web, SMTP para email, FTP para transferência de arquivos, e DNS para resolução de nomes. A **camada de transporte** gerencia a comunicação fim-a-fim entre processos, sendo o TCP, em inglês transmission Control Protocol, responsável por conexões confiáveis com controle de fluxo e detecção de erros, enquanto o UDP, em inglês (User Datagram Protocol, oferece transmissão mais rápida sem garantias de entrega. Esta camada também implementa o conceito de portas, permitindo que múltiplas aplicações compartilhem a mesma conexão de rede.
+
+A **camada de Internet** (ou Rede) é dominada pelo protocolo IP (Internet Protocol), responsável pelo roteamento de pacotes entre redes diferentes por meio de endereçamento lógico. O IP fornece um serviço de entrega no padrão *best-effort* sem garantias, delegando confiabilidade para camadas superiores. Protocolos auxiliares como ICMP (para mensagens de controle e erro) e ARP (para resolução de endereços físicos) também operam nesta camada. A **camada de Acesso à Rede** engloba protocolos de enlace de dados e físicos, como Ethernet para redes locais e Wi-Fi para conexões sem fio, responsáveis pela transmissão real de bits por meio do meio físico.
+
+O **Sistema Operacional** implementa a pilha TCP/IP por meio de drivers de rede, buffers de socket e interfaces de programação como Berkeley Sockets API.
+::: 
+
+3. **Compartilhamento de Recursos na Rede**: uma das principais vantagens da conectividade é a capacidade que o **Sistema Operacional** oferece para compartilhar recursos locais com outros computadores. Isso permite que um sistema atue como um servidor, disponibilizando o acesso a arquivos e diretórios, impressoras, scanners e outros serviços. O **Sistema Operacional** controla as permissões de acesso a esses recursos compartilhados, garantindo que apenas usuários e sistemas autorizados possam utilizá-los.
+
+4. **Sistemas de Arquivos Distribuídos**: esta é uma forma avançada de compartilhamento de recursos que torna o acesso a arquivos remotos transparente para o usuário. Utilizando protocolos como NFS, Network File System, comum em ambientes Unix/Linux,  SMB/CIFS, Server Message Block, predominante em ambientes Windows, o **Sistema Operacional** permite montar um diretório localizado em um servidor remoto como se fosse um diretório local. Dessa forma, os usuários e aplicações podem manipular arquivos remotos usando as mesmas operações e caminhos que usariam para arquivos locais.
+
+5. **APIs para Comunicação Remota**: o **Sistema Operacional** fornece interfaces de programação para que as aplicações possam se comunicar por meio da rede. A mais fundamental delas é a interface de sockets, que representa um ponto final de comunicação. Os programas podem criar sockets para enviar e receber dados usando um protocolo específico, como TCP ou UDP. Em um nível de abstração mais alto, existem mecanismos como o RPC, em inglês Remote Procedure Call, que permitem que um programa execute uma função ou procedimento em outro computador na rede de forma quase idêntica a uma chamada de função local, com o **Sistema Operacional** e a biblioteca de RPC cuidando de toda a comunicação de rede subjacente.
+

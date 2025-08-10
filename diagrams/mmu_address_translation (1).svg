@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 800 400"
+   version="1.1"
+   id="svg27"
+   sodipodi:docname="mmu_address_translation (1).svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="..\images\mmu_address_translation.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs27">
+    <linearGradient
+       id="swatch32"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#00aa44;stop-opacity:1;"
+         offset="0"
+         id="stop33" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="namedview27"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="2.1375"
+     inkscape:cx="400.23392"
+     inkscape:cy="200"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg27" />
+  <!-- Título -->
+  <rect
+     x="137.85864"
+     y="30.022385"
+     width="523.34705"
+     height="39.955231"
+     rx="6.2801642"
+     fill="#9b59b6"
+     stroke="#8e44ad"
+     stroke-width="2.02123"
+     id="rect1" />
+  <text
+     x="400"
+     y="55"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16"
+     font-weight="bold"
+     fill="#FFFFFF"
+     id="text1">Endereço Virtual (32-bit)</text>
+  <!-- Campo Page Directory (10 bits) -->
+  <rect
+     x="150"
+     y="100"
+     width="150"
+     height="80"
+     rx="6"
+     fill="#3498DB"
+     stroke="#2980B9"
+     stroke-width="2"
+     id="rect2"
+     style="fill:#3498db;fill-opacity:1;stroke:#80b3ff" />
+  <text
+     x="225"
+     y="125"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     font-weight="bold"
+     fill="#FFFFFF"
+     id="text2">Page Dir</text>
+  <text
+     x="225"
+     y="145"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     fill="#ECF0F1"
+     id="text3">(10 bits)</text>
+  <text
+     x="225"
+     y="165"
+     text-anchor="middle"
+     font-family="monospace"
+     font-size="10"
+     fill="#FFFFFF"
+     id="text4">31 - 22</text>
+  <!-- Campo Page Table (10 bits) -->
+  <rect
+     x="325"
+     y="100"
+     width="150"
+     height="80"
+     rx="6"
+     fill="#E74C3C"
+     stroke="#C0392B"
+     stroke-width="2"
+     id="rect4"
+     style="stroke:#ff0000" />
+  <text
+     x="400"
+     y="125"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     font-weight="bold"
+     fill="#FFFFFF"
+     id="text5">Page Table</text>
+  <text
+     x="400"
+     y="145"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     fill="#ECF0F1"
+     id="text6">(10 bits)</text>
+  <text
+     x="400"
+     y="165"
+     text-anchor="middle"
+     font-family="monospace"
+     font-size="10"
+     fill="#FFFFFF"
+     id="text7">21 - 12</text>
+  <!-- Campo Offset (12 bits) -->
+  <rect
+     x="500"
+     y="100"
+     width="150"
+     height="80"
+     rx="6"
+     fill="#27AE60"
+     stroke="#229954"
+     stroke-width="2"
+     id="rect7"
+     style="stroke:#2ca02c" />
+  <text
+     x="575"
+     y="125"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     font-weight="bold"
+     fill="#FFFFFF"
+     id="text8">Offset</text>
+  <text
+     x="575"
+     y="145"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     fill="#ECF0F1"
+     id="text9">(12 bits)</text>
+  <text
+     x="575"
+     y="165"
+     text-anchor="middle"
+     font-family="monospace"
+     font-size="10"
+     fill="#FFFFFF"
+     id="text10">11 - 0</text>
+  <!-- Setas para baixo -->
+  <polygon
+     points="220,195 225,185 230,195 "
+     fill="#333333"
+     id="polygon10"
+     transform="translate(0,4)" />
+  <line
+     x1="225"
+     y1="197"
+     x2="225"
+     y2="207"
+     stroke="#333333"
+     stroke-width="2"
+     id="line10" />
+  <polygon
+     points="395,195 400,185 405,195 "
+     fill="#333333"
+     id="polygon11"
+     transform="translate(0,4)" />
+  <line
+     x1="400"
+     y1="197"
+     x2="400"
+     y2="207"
+     stroke="#333333"
+     stroke-width="2"
+     id="line11" />
+  <polygon
+     points="570,195 575,185 580,195 "
+     fill="#333333"
+     id="polygon12"
+     transform="translate(0,4)" />
+  <line
+     x1="575"
+     y1="197"
+     x2="575"
+     y2="207"
+     stroke="#333333"
+     stroke-width="2"
+     id="line12" />
+  <!-- Caixas de explicação -->
+  <rect
+     x="135.26688"
+     y="209.97447"
+     width="189.75865"
+     height="60.051052"
+     rx="5.6927595"
+     fill="#ffffff"
+     stroke="#2980b9"
+     stroke-width="2"
+     id="rect12" />
+  <text
+     x="225"
+     y="230"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     font-weight="bold"
+     fill="#2980B9"
+     id="text12">Directory Index</text>
+  <text
+     x="225"
+     y="245"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10"
+     fill="#555"
+     id="text13">Índice no Diretório</text>
+  <text
+     x="225"
+     y="260"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10"
+     fill="#555"
+     id="text14">de Páginas</text>
+  <rect
+     x="307.93356"
+     y="209.98033"
+     width="192.08611"
+     height="60.039326"
+     rx="5.7625833"
+     fill="#ffffff"
+     stroke="#c0392b"
+     stroke-width="2"
+     id="rect14" />
+  <text
+     x="400"
+     y="230"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     font-weight="bold"
+     fill="#C0392B"
+     id="text15">Table Entry Index</text>
+  <text
+     x="400"
+     y="245"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10"
+     fill="#555"
+     id="text16">Índice na Tabela</text>
+  <text
+     x="400"
+     y="260"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10"
+     fill="#555"
+     id="text17">de Páginas</text>
+  <rect
+     x="482.43546"
+     y="209.95007"
+     width="180.45071"
+     height="60.099842"
+     rx="5.4135218"
+     fill="#ffffff"
+     stroke="#229954"
+     stroke-width="1.93715"
+     id="rect17" />
+  <text
+     x="575"
+     y="230"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     font-weight="bold"
+     fill="#229954"
+     id="text18">Posição na Página</text>
+  <text
+     x="575"
+     y="245"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10"
+     fill="#555"
+     id="text19">Offset dentro da</text>
+  <text
+     x="575"
+     y="260"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10"
+     fill="#555"
+     id="text20">Página (4KB)</text>
+  <!-- Indicadores de bits nas bordas -->
+  <text
+     x="147.4269"
+     y="94.473686"
+     text-anchor="middle"
+     font-family="monospace"
+     font-size="11px"
+     font-weight="bold"
+     fill="#333333"
+     id="text21"
+     style="-inkscape-font-specification:'monospace, Bold';font-family:monospace;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:10.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">31</text>
+  <text
+     x="668.47955"
+     y="94.473686"
+     text-anchor="middle"
+     font-family="monospace"
+     font-size="11px"
+     font-weight="bold"
+     fill="#333333"
+     id="text22"
+     style="-inkscape-font-specification:'monospace, Bold';font-family:monospace;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:10.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">0</text>
+  <!-- Separadores entre campos -->
+  <line
+     x1="310"
+     y1="100"
+     x2="310"
+     y2="180"
+     stroke="#333333"
+     stroke-width="2"
+     stroke-dasharray="3, 3"
+     id="line22" />
+  <line
+     x1="138.36842"
+     y1="98.485382"
+     x2="138.36842"
+     y2="178.48538"
+     stroke="#333333"
+     stroke-width="2"
+     stroke-dasharray="3, 3"
+     id="line22-0" />
+  <line
+     x1="661.97662"
+     y1="98.631577"
+     x2="661.97662"
+     y2="178.63158"
+     stroke="#333333"
+     stroke-width="2"
+     stroke-dasharray="3, 3"
+     id="line22-0-9" />
+  <line
+     x1="485"
+     y1="100"
+     x2="485"
+     y2="180"
+     stroke="#333333"
+     stroke-width="2"
+     stroke-dasharray="3, 3"
+     id="line23" />
+  <!-- Labels dos separadores -->
+  <text
+     x="312"
+     y="92.993217"
+     font-family="monospace"
+     font-size="9px"
+     fill="#333333"
+     id="text23"
+     style="-inkscape-font-specification:'monospace, Bold';font-family:monospace;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:10.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">22</text>
+  <text
+     x="487"
+     y="92.993217"
+     font-family="monospace"
+     font-size="9px"
+     fill="#333333"
+     id="text24"
+     style="-inkscape-font-specification:'monospace, Bold';font-family:monospace;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:10.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">12</text>
+  <!-- Exemplo de valores -->
+  <rect
+     x="150"
+     y="290"
+     width="500"
+     height="40"
+     rx="4"
+     fill="#F8F9FA"
+     stroke="#BDC3C7"
+     stroke-width="1"
+     id="rect24" />
+  <text
+     x="400"
+     y="305"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     font-weight="bold"
+     fill="#333"
+     id="text25">Exemplo:</text>
+  <text
+     x="400"
+     y="320"
+     text-anchor="middle"
+     font-family="monospace"
+     font-size="10"
+     fill="#333"
+     id="text26">0x12345678 → Dir: 0x048 (72), Table: 0x145 (325), Offset: 0x678 (1656)</text>
+  <!-- Ícone MMU -->
+  <circle
+     cx="50"
+     cy="140"
+     r="20"
+     fill="#F39C12"
+     stroke="#E67E22"
+     stroke-width="2"
+     id="circle26"
+     style="stroke:#ffccaa;stroke-width:1.4;stroke-dasharray:none" />
+  <text
+     x="50"
+     y="144.19298"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text27">MMU</text>
+</svg>

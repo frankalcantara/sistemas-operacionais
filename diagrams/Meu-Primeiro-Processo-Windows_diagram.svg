@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1200 800"
+   version="1.1"
+   id="svg91"
+   sodipodi:docname="Meu-Primeiro-Processo-Windows_diagram.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview91"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.72721892"
+     inkscape:cx="1156.4606"
+     inkscape:cy="389.84134"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg91" />
+  <defs
+     id="defs1">
+    <style
+       id="style1">
+      .title-text { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #2c3e50; }
+      .header-text { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #34495e; }
+      .normal-text { font-family: Arial, sans-serif; font-size: 11px; fill: #2c3e50; }
+      .small-text { font-family: Arial, sans-serif; font-size: 9px; fill: #555; }
+      .cpp-box { fill: #e8f4fd; stroke: #3498db; stroke-width: 2; }
+      .dll-box { fill: #fff2e8; stroke: #e67e22; stroke-width: 2; }
+      .kernel-box { fill: #fdf2e9; stroke: #d35400; stroke-width: 2; }
+      .system-box { fill: #eafaf1; stroke: #27ae60; stroke-width: 2; }
+      .arrow { stroke: #7f8c8d; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .bidirectional { stroke: #e74c3c; stroke-width: 2; fill: none; marker-end: url(#arrowhead); marker-start: url(#arrowhead); }
+    </style>
+    <marker
+       id="arrowhead"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#7f8c8d"
+         id="polygon1" />
+    </marker>
+  </defs>
+  <!-- Título -->
+  <text
+     x="419.37762"
+     y="24.338379"
+     text-anchor="middle"
+     class="title-text"
+     id="text1"
+     inkscape:export-filename="..\images\meuProcesso1.webp"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96">Acesso às Estruturas de Processos do Windows</text>
+  <!-- Camada da Aplicação C++ -->
+  <rect
+     x="50.071228"
+     y="50.071228"
+     width="299.85754"
+     height="206.65317"
+     class="cpp-box"
+     rx="7.996201"
+     id="rect1" />
+  <text
+     x="200"
+     y="70"
+     text-anchor="middle"
+     class="header-text"
+     id="text2">Aplicação C++</text>
+  <rect
+     x="70.064117"
+     y="85.064117"
+     width="259.87177"
+     height="76.412277"
+     fill="#ffffff"
+     stroke="#3498db"
+     rx="3.9980271"
+     id="rect2"
+     style="stroke-width:1.12823" />
+  <text
+     x="80"
+     y="100"
+     class="normal-text"
+     id="text3">struct ProcessInfo {</text>
+  <text
+     x="90"
+     y="115"
+     class="small-text"
+     id="text4">DWORD processId;</text>
+  <text
+     x="90"
+     y="128"
+     class="small-text"
+     id="text5">std::wstring processName;</text>
+  <text
+     x="90"
+     y="141"
+     class="small-text"
+     id="text6">SIZE_T workingSetSize;</text>
+  <text
+     x="80"
+     y="155"
+     class="normal-text"
+     id="text7">}</text>
+  <rect
+     x="70.0606"
+     y="166.96977"
+     width="259.87878"
+     height="81.750114"
+     fill="#ffffff"
+     stroke="#3498db"
+     rx="3.9981353"
+     id="rect7"
+     style="stroke-width:1.12121" />
+  <text
+     x="80"
+     y="186.90916"
+     class="normal-text"
+     id="text8">class ProcessEnumerator {</text>
+  <text
+     x="90"
+     y="199.90916"
+     class="small-text"
+     id="text9">enumerateProcesses()</text>
+  <text
+     x="90"
+     y="212.90916"
+     class="small-text"
+     id="text10">getProcessName()</text>
+  <text
+     x="90"
+     y="225.90916"
+     class="small-text"
+     id="text11">getProcessMemoryInfo()</text>
+  <text
+     x="80"
+     y="241.90916"
+     class="normal-text"
+     id="text12">}</text>
+  <!-- Camada das DLLs -->
+  <rect
+     x="450.1691"
+     y="50.169106"
+     width="410.81403"
+     height="179.66179"
+     class="dll-box"
+     rx="10.95504"
+     id="rect12" />
+  <text
+     x="600"
+     y="70"
+     text-anchor="middle"
+     class="header-text"
+     id="text13">DLLs do Sistema</text>
+  <!-- PSAPI.DLL -->
+  <rect
+     x="470.10733"
+     y="85.107338"
+     width="177.3463"
+     height="129.78532"
+     fill="#ffffff"
+     stroke="#e67e22"
+     rx="5.9115434"
+     id="rect13"
+     style="stroke-width:1.21468" />
+  <text
+     x="530"
+     y="100"
+     text-anchor="middle"
+     class="normal-text"
+     id="text14">psapi.dll</text>
+  <text
+     x="480"
+     y="118"
+     class="small-text"
+     id="text15">EnumProcesses()</text>
+  <text
+     x="480"
+     y="131"
+     class="small-text"
+     id="text16">EnumProcessModules()</text>
+  <text
+     x="480"
+     y="144"
+     class="small-text"
+     id="text17">GetModuleBaseNameW()</text>
+  <text
+     x="480"
+     y="157"
+     class="small-text"
+     id="text18">GetProcessMemoryInfo()</text>
+  <text
+     x="480"
+     y="170"
+     class="small-text"
+     id="text19">QueryFullProcessImageNameW()</text>
+  <text
+     x="480"
+     y="190"
+     class="small-text"
+     id="text20">PROCESS_MEMORY_COUNTERS</text>
+  <text
+     x="480"
+     y="203"
+     class="small-text"
+     id="text21">WorkingSetSize</text>
+  <!-- KERNEL32.DLL -->
+  <rect
+     x="676.91278"
+     y="83.765839"
+     width="166.79689"
+     height="129.82184"
+     fill="#ffffff"
+     stroke="#e67e22"
+     rx="5.559896"
+     id="rect21"
+     style="stroke-width:1.17816" />
+  <text
+     x="736.82367"
+     y="98.676758"
+     text-anchor="middle"
+     class="normal-text"
+     id="text22">kernel32.dll</text>
+  <text
+     x="686.82367"
+     y="116.67676"
+     class="small-text"
+     id="text23">OpenProcess()</text>
+  <text
+     x="686.82367"
+     y="129.67676"
+     class="small-text"
+     id="text24">CloseHandle()</text>
+  <text
+     x="686.82367"
+     y="142.67676"
+     class="small-text"
+     id="text25">GetLastError()</text>
+  <text
+     x="686.82367"
+     y="168.67676"
+     class="small-text"
+     id="text26">PROCESS_QUERY_INFORMATION</text>
+  <text
+     x="686.82367"
+     y="181.67676"
+     class="small-text"
+     id="text27">PROCESS_VM_READ</text>
+  <!-- Camada do Kernel -->
+  <rect
+     x="162.47546"
+     y="280"
+     width="700"
+     height="180"
+     class="kernel-box"
+     rx="8"
+     id="rect27" />
+  <text
+     x="502.35391"
+     y="295.55554"
+     text-anchor="middle"
+     class="header-text"
+     id="text28">Estruturas Internas do Kernel (ntoskrnl.exe)</text>
+  <!-- EPROCESS -->
+  <rect
+     x="183.17503"
+     y="318.05307"
+     width="173.74243"
+     height="119.9241"
+     fill="#ffffff"
+     stroke="#d35400"
+     rx="4.6331315"
+     id="rect28"
+     style="stroke-width:1.0759" />
+  <text
+     x="258.13708"
+     y="333.01514"
+     text-anchor="middle"
+     class="normal-text"
+     id="text29">EPROCESS</text>
+  <text
+     x="193.13708"
+     y="348.01514"
+     class="small-text"
+     id="text30">UniqueProcessId</text>
+  <text
+     x="193.13708"
+     y="361.01514"
+     class="small-text"
+     id="text31">ImageFileName[16]</text>
+  <text
+     x="193.13708"
+     y="374.01514"
+     class="small-text"
+     id="text32">Peb (Process Environment Block)</text>
+  <text
+     x="193.13708"
+     y="387.01514"
+     class="small-text"
+     id="text33">VadRoot (Virtual Address Descriptors)</text>
+  <text
+     x="193.13708"
+     y="400.01514"
+     class="small-text"
+     id="text34">WorkingSetSize</text>
+  <text
+     x="193.13708"
+     y="413.01514"
+     class="small-text"
+     id="text35">ActiveProcessLinks</text>
+  <text
+     x="193.13708"
+     y="426.01514"
+     class="small-text"
+     id="text36">ThreadListHead</text>
+  <!-- PEB -->
+  <rect
+     x="370.3392"
+     y="318.67676"
+     width="150"
+     height="120"
+     fill="#ffffff"
+     stroke="#d35400"
+     rx="4"
+     id="rect36" />
+  <text
+     x="445.3392"
+     y="333.67676"
+     text-anchor="middle"
+     class="normal-text"
+     id="text37">PEB</text>
+  <text
+     x="380.3392"
+     y="348.67676"
+     class="small-text"
+     id="text38">ImageBaseAddress</text>
+  <text
+     x="380.3392"
+     y="361.67676"
+     class="small-text"
+     id="text39">Ldr (Loader Data)</text>
+  <text
+     x="380.3392"
+     y="374.67676"
+     class="small-text"
+     id="text40">ProcessParameters</text>
+  <text
+     x="380.3392"
+     y="387.67676"
+     class="small-text"
+     id="text41">ModuleList</text>
+  <text
+     x="380.3392"
+     y="400.67676"
+     class="small-text"
+     id="text42">CommandLine</text>
+  <text
+     x="380.3392"
+     y="413.67676"
+     class="small-text"
+     id="text43">ImagePathName</text>
+  <!-- VAD -->
+  <rect
+     x="536.36951"
+     y="319.33838"
+     width="150"
+     height="120"
+     fill="#ffffff"
+     stroke="#d35400"
+     rx="4"
+     id="rect43" />
+  <text
+     x="611.36951"
+     y="334.33838"
+     text-anchor="middle"
+     class="normal-text"
+     id="text44">VAD Tree</text>
+  <text
+     x="546.36951"
+     y="349.33838"
+     class="small-text"
+     id="text45">StartingVpn</text>
+  <text
+     x="546.36951"
+     y="362.33838"
+     class="small-text"
+     id="text46">EndingVpn</text>
+  <text
+     x="546.36951"
+     y="375.33838"
+     class="small-text"
+     id="text47">VadFlags</text>
+  <text
+     x="546.36951"
+     y="388.33838"
+     class="small-text"
+     id="text48">ControlArea</text>
+  <text
+     x="546.36951"
+     y="401.33838"
+     class="small-text"
+     id="text49">FileObject</text>
+  <text
+     x="546.36951"
+     y="414.33838"
+     class="small-text"
+     id="text50">CommitCharge</text>
+  <!-- Memory Manager -->
+  <rect
+     x="700.41492"
+     y="319.33838"
+     width="150"
+     height="120"
+     fill="#ffffff"
+     stroke="#d35400"
+     rx="4"
+     id="rect50" />
+  <text
+     x="775.41492"
+     y="334.33838"
+     text-anchor="middle"
+     class="normal-text"
+     id="text51">Memory Manager</text>
+  <text
+     x="710.41492"
+     y="349.33838"
+     class="small-text"
+     id="text52">WorkingSetList</text>
+  <text
+     x="710.41492"
+     y="362.33838"
+     class="small-text"
+     id="text53">PageFrameDatabase</text>
+  <text
+     x="710.41492"
+     y="375.33838"
+     class="small-text"
+     id="text54">MemoryDescriptorList</text>
+  <text
+     x="710.41492"
+     y="388.33838"
+     class="small-text"
+     id="text55">PagedPool</text>
+  <text
+     x="710.41492"
+     y="401.33838"
+     class="small-text"
+     id="text56">NonPagedPool</text>
+  <text
+     x="710.41492"
+     y="414.33838"
+     class="small-text"
+     id="text57">SystemCache</text>
+  <!-- Camada do Hardware -->
+  <rect
+     x="425.37418"
+     y="516.73669"
+     width="436.96115"
+     height="119.91042"
+     class="system-box"
+     rx="8.7392235"
+     id="rect57" />
+  <text
+     x="644.51636"
+     y="631.30359"
+     text-anchor="middle"
+     class="header-text"
+     id="text58">Representação Física</text>
+  <rect
+     x="445.32941"
+     y="556.69189"
+     width="120"
+     height="60"
+     fill="#ffffff"
+     stroke="#27ae60"
+     rx="4"
+     id="rect58" />
+  <text
+     x="505.32941"
+     y="571.69189"
+     text-anchor="middle"
+     class="normal-text"
+     id="text59">Memória RAM</text>
+  <text
+     x="455.32941"
+     y="586.69189"
+     class="small-text"
+     id="text60">Working Set Pages</text>
+  <text
+     x="455.32941"
+     y="599.69189"
+     class="small-text"
+     id="text61">Page Frames</text>
+  <rect
+     x="585.32941"
+     y="556.69189"
+     width="120"
+     height="60"
+     fill="#ffffff"
+     stroke="#27ae60"
+     rx="4"
+     id="rect61" />
+  <text
+     x="645.32941"
+     y="571.69189"
+     text-anchor="middle"
+     class="normal-text"
+     id="text62">Page File</text>
+  <text
+     x="595.32941"
+     y="586.69189"
+     class="small-text"
+     id="text63">Paged Out Memory</text>
+  <text
+     x="595.32941"
+     y="599.69189"
+     class="small-text"
+     id="text64">Virtual Memory</text>
+  <rect
+     x="725.32941"
+     y="556.69189"
+     width="120"
+     height="60"
+     fill="#ffffff"
+     stroke="#27ae60"
+     rx="4"
+     id="rect64" />
+  <text
+     x="785.32941"
+     y="571.69189"
+     text-anchor="middle"
+     class="normal-text"
+     id="text65">Executáveis</text>
+  <text
+     x="735.32941"
+     y="586.69189"
+     class="small-text"
+     id="text66">PE Headers</text>
+  <text
+     x="735.32941"
+     y="599.69189"
+     class="small-text"
+     id="text67">Code Sections</text>
+  <!-- Setas de conexão -->
+  <!-- C++ para DLLs -->
+  <line
+     x1="350"
+     y1="120"
+     x2="447.12161"
+     y2="120"
+     class="arrow"
+     id="line67" />
+  <line
+     x1="350"
+     y1="160"
+     x2="447.16217"
+     y2="160"
+     class="arrow"
+     id="line68" />
+  <line
+     x1="350"
+     y1="200"
+     x2="447.2027"
+     y2="200"
+     class="arrow"
+     id="line69" />
+  <!-- DLLs para Kernel -->
+  <path
+     id="line70"
+     class="arrow"
+     style="fill:none;stroke:#7f8c8d;stroke-width:1.95135;marker-end:url(#arrowhead)"
+     d="M 505.72346,215.36524 270.62389,316.78761"
+     sodipodi:nodetypes="cc" />
+  <path
+     id="line71"
+     class="arrow"
+     style="fill:none;stroke:#7f8c8d;stroke-width:1.97306;marker-end:url(#arrowhead)"
+     d="m 505.62205,214.69324 2.57418,101.81675"
+     sodipodi:nodetypes="cc" />
+  <path
+     id="line72"
+     class="arrow"
+     style="fill:none;stroke:#7f8c8d;stroke-width:1.95659;marker-end:url(#arrowhead)"
+     d="M 761.86519,214.48933 678.06628,317.69466"
+     sodipodi:nodetypes="cc" />
+  <path
+     id="line73"
+     class="arrow"
+     style="fill:none;stroke:#7f8c8d;stroke-width:1.85201;marker-end:url(#arrowhead)"
+     d="m 761.80662,213.8578 -0.15599,103.7865"
+     sodipodi:nodetypes="cc" />
+  <!-- Kernel para Hardware -->
+  <path
+     id="line74"
+     class="arrow"
+     style="fill:none;stroke:#7f8c8d;stroke-width:2;marker-end:url(#arrowhead)"
+     d="M 271.36949,439.33838 479.52621,558.01514"
+     sodipodi:nodetypes="cc" />
+  <path
+     id="line75"
+     class="arrow"
+     style="fill:none;stroke:#7f8c8d;stroke-width:2;marker-end:url(#arrowhead)"
+     d="m 500.25371,438.67676 -0.48079,117.35352"
+     sodipodi:nodetypes="cc" />
+  <path
+     id="line76"
+     class="arrow"
+     style="fill:none;stroke:#7f8c8d;stroke-width:2;marker-end:url(#arrowhead)"
+     d="m 616.66245,440.66162 -0.44434,117.35352"
+     sodipodi:nodetypes="cc" />
+  <path
+     id="line77"
+     class="arrow"
+     style="fill:none;stroke:#7f8c8d;stroke-width:2;marker-end:url(#arrowhead)"
+     d="M 768.13709,440 523.19315,557.35352"
+     sodipodi:nodetypes="cc" />
+  <!-- Labels das setas -->
+  <text
+     x="398.01514"
+     y="104.04542"
+     text-anchor="middle"
+     class="small-text"
+     id="text77"
+     style="font-size:16px">API Calls</text>
+  <text
+     x="583.86169"
+     y="261.04001"
+     text-anchor="middle"
+     class="small-text"
+     id="text78"
+     style="font-size:16px">System Calls</text>
+  <text
+     x="786.00403"
+     y="499.79245"
+     text-anchor="middle"
+     class="small-text"
+     id="text79"
+     style="font-size:16px">Hardware Access</text>
+  <!-- Legenda -->
+  <rect
+     x="1224.4772"
+     y="28.166527"
+     width="300"
+     height="200"
+     fill="#ffffff"
+     stroke="#bdc3c7"
+     stroke-width="1"
+     rx="8"
+     id="rect79" />
+  <text
+     x="1374.4772"
+     y="48.166527"
+     text-anchor="middle"
+     class="header-text"
+     id="text80">Fluxo de Dados</text>
+  <text
+     x="1244.4772"
+     y="68.166527"
+     class="normal-text"
+     id="text81">1. EnumProcesses() enumera PIDs</text>
+  <text
+     x="1244.4772"
+     y="83.166527"
+     class="normal-text"
+     id="text82">2. OpenProcess() obtém handle</text>
+  <text
+     x="1244.4772"
+     y="98.166527"
+     class="normal-text"
+     id="text83">3. GetModuleBaseNameW() obtém nome</text>
+  <text
+     x="1244.4772"
+     y="113.16653"
+     class="normal-text"
+     id="text84">4. GetProcessMemoryInfo() obtém memória</text>
+  <text
+     x="1244.4772"
+     y="128.16653"
+     class="normal-text"
+     id="text85">5. QueryFullProcessImageNameW() obtém caminho</text>
+  <text
+     x="1244.4772"
+     y="153.16653"
+     class="small-text"
+     id="text86">Kernel acessa:</text>
+  <text
+     x="1244.4772"
+     y="168.16653"
+     class="small-text"
+     id="text87">• EPROCESS para metadados do processo</text>
+  <text
+     x="1244.4772"
+     y="183.16653"
+     class="small-text"
+     id="text88">• PEB para informações do executável</text>
+  <text
+     x="1244.4772"
+     y="198.16653"
+     class="small-text"
+     id="text89">• VAD para mapeamento de memória</text>
+  <text
+     x="1244.4772"
+     y="213.16653"
+     class="small-text"
+     id="text90">• Memory Manager para working set</text>
+  <!-- Indicadores de acesso -->
+  <circle
+     cx="366.91898"
+     cy="140.66162"
+     r="3"
+     fill="#e74c3c"
+     id="circle90" />
+  <text
+     x="374.56546"
+     y="143.01514"
+     class="small-text"
+     id="text91">Ponto de acesso</text>
+</svg>

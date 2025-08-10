@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1400 600"
+   version="1.1"
+   id="svg39"
+   sodipodi:docname="unix_c_timeline.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="..\images\unix_c_timeline.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs39" />
+  <sodipodi:namedview
+     id="namedview39"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.2557143"
+     inkscape:cx="700.39818"
+     inkscape:cy="299.82935"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg39" />
+  <!-- Background -->
+  <!-- Title -->
+  <text
+     x="700"
+     y="40"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="24"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text1">
+    A Evolução do UNIX e da Linguagem C
+  </text>
+  <text
+     x="700"
+     y="65"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     fill="#7f8c8d"
+     id="text2">
+    Fundamentos dos **Sistemas Operacionais**Modernos (1969-1991)
+  </text>
+  <!-- Main timeline -->
+  <line
+     x1="100"
+     y1="300"
+     x2="1300"
+     y2="300"
+     stroke="#34495e"
+     stroke-width="4"
+     id="line2" />
+  <!-- Timeline points and years -->
+  <!-- 1969: UNIX inicial -->
+  <circle
+     cx="200"
+     cy="300"
+     r="8"
+     fill="#3498db"
+     id="circle2" />
+  <text
+     x="200"
+     y="340"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     fill="#2c3e50"
+     id="text3">1969</text>
+  <!-- 1971: Linguagem B -->
+  <circle
+     cx="350"
+     cy="300"
+     r="8"
+     fill="#e74c3c"
+     id="circle3" />
+  <text
+     x="350"
+     y="270"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text4">1971</text>
+  <!-- 1972: Evolução para C -->
+  <circle
+     cx="500"
+     cy="300"
+     r="8"
+     fill="#9b59b6"
+     id="circle4" />
+  <text
+     x="500"
+     y="340"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     fill="#2c3e50"
+     id="text5">1972</text>
+  <!-- 1973: UNIX em C -->
+  <circle
+     cx="650"
+     cy="300"
+     r="8"
+     fill="#f39c12"
+     id="circle5" />
+  <text
+     x="650"
+     y="270"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text6">1973</text>
+  <!-- 1991: **Linux** -->
+  <circle
+     cx="950"
+     cy="300"
+     r="8"
+     fill="#27ae60"
+     id="circle6" />
+  <text
+     x="950"
+     y="340"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     fill="#2c3e50"
+     id="text7">1991</text>
+  <!-- 1993: Windows NT -->
+  <circle
+     cx="1100"
+     cy="300"
+     r="8"
+     fill="#e67e22"
+     id="circle7" />
+  <text
+     x="1100"
+     y="270"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text8">1993</text>
+  <!-- Event boxes -->
+  <!-- UNIX inicial -->
+  <rect
+     x="90"
+     y="120"
+     width="220"
+     height="80"
+     fill="#ebf3fd"
+     stroke="#3498db"
+     stroke-width="2"
+     rx="5"
+     id="rect8" />
+  <text
+     x="200"
+     y="140"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text9">UNIX Inicial</text>
+  <text
+     x="200"
+     y="158"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text10">Assembly Language</text>
+  <text
+     x="200"
+     y="172"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text11">Computador PDP-7</text>
+  <text
+     x="200"
+     y="186"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text12">Ken Thompson &amp; Dennis Ritchie</text>
+  <line
+     x1="200"
+     y1="200"
+     x2="200"
+     y2="292"
+     stroke="#3498db"
+     stroke-width="2"
+     id="line12" />
+  <!-- Linguagem B -->
+  <rect
+     x="240"
+     y="380"
+     width="220"
+     height="80"
+     fill="#fdf2f2"
+     stroke="#e74c3c"
+     stroke-width="2"
+     rx="5"
+     id="rect12" />
+  <text
+     x="350"
+     y="400"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text13">Linguagem B</text>
+  <text
+     x="350"
+     y="418"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text14">Ken Thompson</text>
+  <text
+     x="350"
+     y="432"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text15">Simplificação do BCPL</text>
+  <text
+     x="350"
+     y="446"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text16">Utilitários para UNIX</text>
+  <line
+     x1="350"
+     y1="308"
+     x2="350"
+     y2="380"
+     stroke="#e74c3c"
+     stroke-width="2"
+     id="line16" />
+  <!-- Evolução para C -->
+  <rect
+     x="390"
+     y="120"
+     width="220"
+     height="80"
+     fill="#f4f1f8"
+     stroke="#9b59b6"
+     stroke-width="2"
+     rx="5"
+     id="rect16" />
+  <text
+     x="500"
+     y="140"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text17">Evolução para C</text>
+  <text
+     x="500"
+     y="158"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text18">Dennis Ritchie</text>
+  <text
+     x="500"
+     y="172"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text19">NB → Linguagem C</text>
+  <text
+     x="500"
+     y="186"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text20">Tipos de dados, PDP-11</text>
+  <line
+     x1="500"
+     y1="200"
+     x2="500"
+     y2="292"
+     stroke="#9b59b6"
+     stroke-width="2"
+     id="line20" />
+  <!-- UNIX em C -->
+  <rect
+     x="540"
+     y="380"
+     width="220"
+     height="80"
+     fill="#fef9e7"
+     stroke="#f39c12"
+     stroke-width="2"
+     rx="5"
+     id="rect20" />
+  <text
+     x="650"
+     y="400"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text21">UNIX Versão 4</text>
+  <text
+     x="650"
+     y="418"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text22">Kernel reescrito em C</text>
+  <text
+     x="650"
+     y="432"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text23">Portabilidade</text>
+  <text
+     x="650"
+     y="446"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text24">Novembro 1973</text>
+  <line
+     x1="650"
+     y1="308"
+     x2="650"
+     y2="380"
+     stroke="#f39c12"
+     stroke-width="2"
+     id="line24" />
+  <!-- **Linux** -->
+  <rect
+     x="840"
+     y="120"
+     width="220"
+     height="80"
+     fill="#e8f5e8"
+     stroke="#27ae60"
+     stroke-width="2"
+     rx="5"
+     id="rect24" />
+  <text
+     x="950"
+     y="140"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text25">Linux</text>
+  <text
+     x="950"
+     y="158"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text26">Linus Torvalds</text>
+  <text
+     x="950"
+     y="172"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text27">Kernel monolítico</text>
+  <text
+     x="950"
+     y="186"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text28">Software Livre</text>
+  <line
+     x1="950"
+     y1="200"
+     x2="950"
+     y2="292"
+     stroke="#27ae60"
+     stroke-width="2"
+     id="line28" />
+  <!-- Windows NT -->
+  <rect
+     x="990"
+     y="380"
+     width="220"
+     height="80"
+     fill="#fef4e6"
+     stroke="#e67e22"
+     stroke-width="2"
+     rx="5"
+     id="rect28" />
+  <text
+     x="1100"
+     y="400"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text29">Windows NT</text>
+  <text
+     x="1100"
+     y="418"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text30">Microsoft</text>
+  <text
+     x="1100"
+     y="432"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text31">32-bit, Microkernel</text>
+  <text
+     x="1100"
+     y="446"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#2c3e50"
+     id="text32">Dave Cutler</text>
+  <line
+     x1="1100"
+     y1="308"
+     x2="1100"
+     y2="380"
+     stroke="#e67e22"
+     stroke-width="2"
+     id="line32" />
+  <!-- Legend -->
+  <text
+     x="108.75996"
+     y="531.59271"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text33">Inovações Chave:</text>
+  <!-- Legend items -->
+  <rect
+     x="108.75996"
+     y="546.59271"
+     width="15"
+     height="15"
+     fill="#3498db"
+     id="rect33" />
+  <text
+     x="133.75995"
+     y="558.59271"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text34">UNIX: **Sistema Operacional** modular e portável</text>
+  <rect
+     x="468.75995"
+     y="546.59271"
+     width="15"
+     height="15"
+     fill="#e74c3c"
+     id="rect34" />
+  <text
+     x="493.75995"
+     y="558.59271"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text35">Linguagem B: Simplificação e desenvolvimento de utilitários</text>
+  <rect
+     x="828.75995"
+     y="546.59271"
+     width="15"
+     height="15"
+     fill="#9b59b6"
+     id="rect35" />
+  <text
+     x="853.75995"
+     y="558.59271"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text36">Linguagem C: Tipos de dados e portabilidade</text>
+  <rect
+     x="108.75996"
+     y="571.59271"
+     width="15"
+     height="15"
+     fill="#f39c12"
+     id="rect36" />
+  <text
+     x="133.75995"
+     y="583.59271"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text37">UNIX em C: `kernel` portável e base para sistemas modernos</text>
+  <rect
+     x="466.75995"
+     y="571.59271"
+     width="15"
+     height="15"
+     fill="#27ae60"
+     id="rect37" />
+  <text
+     x="491.75995"
+     y="583.59271"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text38">Linux: **Sistema Operacional** livre baseado em UNIX</text>
+  <rect
+     x="828.75995"
+     y="571.59271"
+     width="15"
+     height="15"
+     fill="#e67e22"
+     id="rect38" />
+  <text
+     x="853.75995"
+     y="583.59271"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text39">Windows NT: **Sistema Operacional** comercial com arquitetura moderna</text>
+</svg>

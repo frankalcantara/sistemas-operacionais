@@ -1,0 +1,1873 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1200"
+   height="700"
+   viewBox="0 0 1200 700"
+   version="1.1"
+   id="svg99"
+   sodipodi:docname="evolucao_processadores.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="..\images\evolucao_processadores.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview99"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.92664043"
+     inkscape:cx="563.86488"
+     inkscape:cy="399.83146"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg99" />
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient110"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#ccaaff;stop-opacity:1;"
+         offset="0"
+         id="stop110" />
+      <stop
+         style="stop-color:#cfb5f4;stop-opacity:0;"
+         offset="1"
+         id="stop111" />
+    </linearGradient>
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#siliconPattern"
+       id="pattern99"
+       patternTransform="matrix(1.0010076,0,0,0.77199087,436.54049,82.974319)" />
+    <pattern
+       id="siliconPattern"
+       patternUnits="userSpaceOnUse"
+       width="8"
+       height="8">
+      <rect
+         width="8"
+         height="8"
+         fill="#f8fafc"
+         id="rect1" />
+      <circle
+         cx="2"
+         cy="2"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle1" />
+      <circle
+         cx="6"
+         cy="6"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle2" />
+    </pattern>
+    <filter
+       id="chipShadow"
+       x="-0.0057692308"
+       y="-0.0075"
+       width="1.0115385"
+       height="1.015">
+      <feDropShadow
+         dx="3"
+         dy="6"
+         stdDeviation="4"
+         flood-opacity="0.2" />
+    </filter>
+    <marker
+       id="arrow-0"
+       markerWidth="12"
+       markerHeight="12"
+       refX="11"
+       refY="4"
+       orient="auto"
+       markerUnits="strokeWidth">
+      <path
+         d="M 0,0 V 8 L 11,4 Z"
+         fill="#64748b"
+         id="path77-9" />
+    </marker>
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#siliconPattern-8"
+       id="pattern99-8"
+       patternTransform="matrix(0.97275068,0,0,1.5176786,67.074225,14.579415)" />
+    <pattern
+       id="siliconPattern-8"
+       patternUnits="userSpaceOnUse"
+       width="8"
+       height="8">
+      <rect
+         width="8"
+         height="8"
+         fill="#f8fafc"
+         id="rect1-2" />
+      <circle
+         cx="2"
+         cy="2"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle1-4" />
+      <circle
+         cx="6"
+         cy="6"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle2-5" />
+    </pattern>
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#siliconPattern-8-7"
+       id="pattern99-8-1"
+       patternTransform="matrix(1.0454606,0,0,2.2758166,430.4571,-33.11704)" />
+    <pattern
+       id="siliconPattern-8-7"
+       patternUnits="userSpaceOnUse"
+       width="8"
+       height="8">
+      <rect
+         width="8"
+         height="8"
+         fill="#f8fafc"
+         id="rect1-2-1" />
+      <circle
+         cx="2"
+         cy="2"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle1-4-1" />
+      <circle
+         cx="6"
+         cy="6"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle2-5-5" />
+    </pattern>
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#siliconPattern-8-6"
+       id="pattern99-8-7"
+       patternTransform="matrix(1.1116563,0,0,2.0766564,797.90303,-19.536476)" />
+    <pattern
+       id="siliconPattern-8-6"
+       patternUnits="userSpaceOnUse"
+       width="8"
+       height="8">
+      <rect
+         width="8"
+         height="8"
+         fill="#f8fafc"
+         id="rect1-2-14" />
+      <circle
+         cx="2"
+         cy="2"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle1-4-2" />
+      <circle
+         cx="6"
+         cy="6"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle2-5-3" />
+    </pattern>
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#siliconPattern-6"
+       id="pattern99-1"
+       patternTransform="matrix(1.0010076,0,0,0.77199087,436.67499,220.34861)" />
+    <pattern
+       id="siliconPattern-6"
+       patternUnits="userSpaceOnUse"
+       width="8"
+       height="8">
+      <rect
+         width="8"
+         height="8"
+         fill="#f8fafc"
+         id="rect1-8" />
+      <circle
+         cx="2"
+         cy="2"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle1-5" />
+      <circle
+         cx="6"
+         cy="6"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle2-7" />
+    </pattern>
+    <pattern
+       id="siliconPattern-8-2"
+       patternUnits="userSpaceOnUse"
+       width="8"
+       height="8">
+      <rect
+         width="8"
+         height="8"
+         fill="#f8fafc"
+         id="rect1-2-7" />
+      <circle
+         cx="2"
+         cy="2"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle1-4-7" />
+      <circle
+         cx="6"
+         cy="6"
+         r="0.5"
+         fill="#e2e8f0"
+         id="circle2-5-9" />
+    </pattern>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient110"
+       id="linearGradient111"
+       x1="36.408051"
+       y1="528.29969"
+       x2="835.28627"
+       y2="528.29969"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(7.5541707,29.137516)" />
+  </defs>
+  <rect
+     x="96.256737"
+     y="105.64011"
+     width="233.46014"
+     height="197.29822"
+     rx="7.7820044"
+     fill="url(#siliconPattern)"
+     stroke="#ef4444"
+     stroke-width="2.46135"
+     id="rect26-5"
+     style="fill:url(#pattern99-8);stroke:#454837;stroke-width:2.03482;stroke-dasharray:none" />
+  <rect
+     x="461.82089"
+     y="103.43197"
+     width="250.91052"
+     height="295.85617"
+     rx="8.3636837"
+     fill="url(#siliconPattern)"
+     stroke="#ef4444"
+     stroke-width="3.2202"
+     id="rect26-5-2"
+     style="fill:url(#pattern99-8-1);stroke:#454837;stroke-width:1.93518;stroke-dasharray:none" />
+  <!-- Background -->
+  <!-- Title -->
+  <text
+     x="600"
+     y="30"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="20"
+     font-weight="bold"
+     fill="#0f172a"
+     id="text2">
+    Arquitetura Detalhada dos Processadores
+  </text>
+  <!-- Single Core Processor (P4 era) -->
+  <text
+     x="212.18552"
+     y="62.979179"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#0f172a"
+     id="text3">Pentium 4 Single-Core</text>
+  <text
+     x="212.18552"
+     y="82.979179"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#64748b"
+     id="text4">NetBurst Architecture (~2000-2004)</text>
+  <rect
+     x="103.33964"
+     y="113.79998"
+     width="219.85008"
+     height="46.312077"
+     rx="3.9972744"
+     fill="#3b82f6"
+     stroke="#1e40af"
+     stroke-width="1.14991"
+     id="rect5" />
+  <text
+     x="214.49275"
+     y="129.13437"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text5">Instruction Fetch Decode Unit</text>
+  <text
+     x="212.44597"
+     y="140.49695"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#bfdbfe"
+     id="text6"><tspan
+       sodipodi:role="line"
+       id="tspan102"
+       x="212.44597"
+       y="140.49695">Branch Predictor</tspan><tspan
+       sodipodi:role="line"
+       id="tspan103"
+       x="212.44597"
+       y="151.74695">Instruction Cache (12K μops) • Decoder</tspan></text>
+  <rect
+     x="103.26468"
+     y="170.18701"
+     width="105"
+     height="60"
+     rx="4"
+     fill="#ef4444"
+     stroke="#dc2626"
+     stroke-width="1"
+     id="rect6" />
+  <text
+     x="155.35532"
+     y="184.86537"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text7"
+     style="fill:#ffffff">Execution Engine</text>
+  <text
+     x="155.35532"
+     y="197.86537"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#fecaca"
+     id="text8"
+     style="fill:#ffffff">• 4 ALUs • 2 Load/Store</text>
+  <text
+     x="155.35532"
+     y="207.86537"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#fecaca"
+     id="text9"
+     style="fill:#ffffff">• FPU • MMX/SSE2</text>
+  <text
+     x="155.35532"
+     y="217.86537"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#fecaca"
+     id="text10"
+     style="fill:#ffffff">• 31-stage pipeline</text>
+  <rect
+     x="218.26468"
+     y="170.18701"
+     width="50"
+     height="25"
+     rx="2"
+     fill="#8b5cf6"
+     stroke="#7c3aed"
+     stroke-width="1"
+     id="rect10" />
+  <text
+     x="242.44597"
+     y="180.68408"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text11"><tspan
+       sodipodi:role="line"
+       id="tspan100"
+       x="242.44597"
+       y="180.68408">Register</tspan><tspan
+       sodipodi:role="line"
+       id="tspan101"
+       x="242.44597"
+       y="191.93408">File</tspan></text>
+  <rect
+     x="278.26468"
+     y="170.18701"
+     width="45"
+     height="25"
+     rx="2"
+     fill="#06b6d4"
+     stroke="#0891b2"
+     stroke-width="1"
+     id="rect11" />
+  <text
+     x="300.76468"
+     y="180.18701"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text12">Retirement</text>
+  <text
+     x="300.76468"
+     y="190.18701"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#bae6fd"
+     id="text13"
+     style="fill:#ffffff">Unit</text>
+  <rect
+     x="218.26468"
+     y="205.18701"
+     width="50"
+     height="25"
+     rx="2"
+     fill="#f59e0b"
+     stroke="#d97706"
+     stroke-width="1"
+     id="rect13" />
+  <text
+     x="243.26468"
+     y="217.18701"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text14">TLB</text>
+  <text
+     x="243.67404"
+     y="225.54959"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#fed7aa"
+     id="text15"
+     style="fill:#ffffff">64 entries</text>
+  <rect
+     x="278.26468"
+     y="205.18701"
+     width="45"
+     height="25"
+     rx="2"
+     fill="#10b981"
+     stroke="#047857"
+     stroke-width="1"
+     id="rect15" />
+  <text
+     x="300.76468"
+     y="220.18701"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text16">MMU</text>
+  <rect
+     x="103.27174"
+     y="240.19409"
+     width="72.032654"
+     height="24.985872"
+     rx="3.0871139"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1.01413"
+     id="rect16" />
+  <text
+     x="139.85532"
+     y="251.09344"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text17">L1 Data Cache</text>
+  <text
+     x="140.26468"
+     y="259.91214"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#a7f3d0"
+     id="text18"
+     style="fill:#ffffff">8KB • 4-way</text>
+  <rect
+     x="183.27649"
+     y="240.19882"
+     width="69.976364"
+     height="26.204437"
+     rx="2.9989872"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1.02363"
+     id="rect18" />
+  <text
+     x="218.67404"
+     y="251.50281"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text19">L1 Inst Cache</text>
+  <text
+     x="217.44597"
+     y="260.3215"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#a7f3d0"
+     id="text20"
+     style="fill:#ffffff">12KB trace cache</text>
+  <rect
+     x="263.32474"
+     y="240.24707"
+     width="59.879883"
+     height="31.429588"
+     rx="2.993994"
+     fill="#f59e0b"
+     stroke="#d97706"
+     stroke-width="1.12012"
+     id="rect20" />
+  <text
+     x="293.67404"
+     y="254.77765"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text21">L2 Cache</text>
+  <text
+     x="293.67404"
+     y="265.59637"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#fed7aa"
+     id="text22"
+     style="fill:#ffffff">512KB-2MB</text>
+  <rect
+     x="103.26468"
+     y="275.18701"
+     width="220"
+     height="20"
+     rx="2"
+     fill="#64748b"
+     stroke="#475569"
+     stroke-width="1"
+     id="rect22" />
+  <text
+     x="213.26468"
+     y="288.18701"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text23">System Bus Interface (FSB 400-800MHz)</text>
+  <rect
+     x="831.25269"
+     y="105.06293"
+     width="266.79749"
+     height="269.96533"
+     rx="8.8932495"
+     fill="url(#siliconPattern)"
+     stroke="#ef4444"
+     stroke-width="3.03876"
+     id="rect26-5-22"
+     style="fill:url(#pattern99-8-7);stroke:#454837" />
+  <!-- Pentium D (Smithfield) -->
+  <text
+     x="585.61255"
+     y="62.979179"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#0f172a"
+     id="text24">Intel Pentium D (Smithfield)</text>
+  <text
+     x="585.61255"
+     y="82.979179"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#64748b"
+     id="text25">Dual-Core: Two P4 Dies + Shared FSB (2005)</text>
+  <path
+     d="m 698.85543,230.35038 q 0,20.23392 0,40.46784"
+     stroke="#dc2626"
+     stroke-width="2.84492"
+     fill="none"
+     stroke-dasharray="4, 4"
+     id="path42"
+     style="fill:#b380ff;stroke:#b380ff" />
+  <rect
+     x="466.57077"
+     y="129.29378"
+     width="240.24185"
+     height="100.35882"
+     rx="8.0080614"
+     fill="url(#siliconPattern)"
+     stroke="#ef4444"
+     stroke-width="1.75815"
+     id="rect26"
+     style="fill:url(#pattern99)" />
+  <text
+     x="533.47534"
+     y="121.87085"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ef4444"
+     id="text26">Die 0 (Pentium 4 Core)</text>
+  <rect
+     x="476.28232"
+     y="136.63692"
+     width="100"
+     height="25"
+     rx="2"
+     fill="#3b82f6"
+     stroke="#1e40af"
+     stroke-width="1"
+     id="rect27" />
+  <text
+     x="526.28235"
+     y="151.63692"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text27">Fetch/Decode/Execute</text>
+  <rect
+     x="586.28235"
+     y="136.63692"
+     width="40"
+     height="25"
+     rx="2"
+     fill="#8b5cf6"
+     stroke="#7c3aed"
+     stroke-width="1"
+     id="rect28" />
+  <text
+     x="606.28235"
+     y="151.63692"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text28">Registers</text>
+  <rect
+     x="636.28235"
+     y="136.63692"
+     width="60"
+     height="25"
+     rx="2"
+     fill="#06b6d4"
+     stroke="#0891b2"
+     stroke-width="1"
+     id="rect29" />
+  <text
+     x="666.28235"
+     y="151.63692"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text29">Branch Pred.</text>
+  <rect
+     x="476.28232"
+     y="166.63692"
+     width="60"
+     height="20"
+     rx="2"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1"
+     id="rect30" />
+  <text
+     x="506.28232"
+     y="179.63692"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text30">L1 I-Cache</text>
+  <rect
+     x="546.28235"
+     y="166.63692"
+     width="60"
+     height="20"
+     rx="2"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1"
+     id="rect31" />
+  <text
+     x="576.28235"
+     y="179.63692"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text31">L1 D-Cache</text>
+  <rect
+     x="476.28232"
+     y="196.63692"
+     width="130"
+     height="25"
+     rx="3"
+     fill="#f59e0b"
+     stroke="#d97706"
+     stroke-width="1"
+     id="rect32" />
+  <text
+     x="541.28235"
+     y="211.63692"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text32">L2 Cache (1MB)</text>
+  <rect
+     x="616.28235"
+     y="196.63692"
+     width="80"
+     height="25"
+     rx="2"
+     fill="#64748b"
+     stroke="#475569"
+     stroke-width="1"
+     id="rect33" />
+  <text
+     x="656.28235"
+     y="211.63692"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text33">Local Bus I/F</text>
+  <path
+     d="m 692.45434,230.18079 q 0,20.23392 0,40.46784"
+     stroke="#dc2626"
+     stroke-width="2.84492"
+     fill="none"
+     stroke-dasharray="4, 4"
+     id="path42-1"
+     style="fill:#b380ff;stroke:#b380ff" />
+  <rect
+     x="466.70529"
+     y="266.66806"
+     width="240.24185"
+     height="100.35882"
+     rx="8.0080614"
+     fill="url(#siliconPattern)"
+     stroke="#ef4444"
+     stroke-width="1.75815"
+     id="rect26-6"
+     style="fill:url(#pattern99-1)" />
+  <rect
+     x="476.41684"
+     y="274.0112"
+     width="100"
+     height="25"
+     rx="2"
+     fill="#3b82f6"
+     stroke="#1e40af"
+     stroke-width="1"
+     id="rect27-1" />
+  <text
+     x="526.41687"
+     y="289.0112"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text27-8">Fetch/Decode/Execute</text>
+  <rect
+     x="586.41687"
+     y="274.0112"
+     width="40"
+     height="25"
+     rx="2"
+     fill="#8b5cf6"
+     stroke="#7c3aed"
+     stroke-width="1"
+     id="rect28-9" />
+  <text
+     x="606.41687"
+     y="289.0112"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text28-2">Registers</text>
+  <rect
+     x="636.41687"
+     y="274.0112"
+     width="60"
+     height="25"
+     rx="2"
+     fill="#06b6d4"
+     stroke="#0891b2"
+     stroke-width="1"
+     id="rect29-7" />
+  <text
+     x="666.41687"
+     y="289.0112"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text29-9">Branch Pred.</text>
+  <rect
+     x="476.41684"
+     y="304.0112"
+     width="60"
+     height="20"
+     rx="2"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1"
+     id="rect30-5" />
+  <text
+     x="506.41684"
+     y="317.0112"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text30-4">L1 I-Cache</text>
+  <rect
+     x="546.41687"
+     y="304.0112"
+     width="60"
+     height="20"
+     rx="2"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1"
+     id="rect31-3" />
+  <text
+     x="576.41687"
+     y="317.0112"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text31-1">L1 D-Cache</text>
+  <rect
+     x="476.41684"
+     y="334.0112"
+     width="130"
+     height="25"
+     rx="3"
+     fill="#f59e0b"
+     stroke="#d97706"
+     stroke-width="1"
+     id="rect32-2" />
+  <text
+     x="541.41687"
+     y="349.0112"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text32-3">L2 Cache (1MB)</text>
+  <rect
+     x="616.41687"
+     y="334.0112"
+     width="80"
+     height="25"
+     rx="2"
+     fill="#64748b"
+     stroke="#475569"
+     stroke-width="1"
+     id="rect33-3" />
+  <text
+     x="656.41687"
+     y="349.0112"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text33-4">Local Bus I/F</text>
+  <text
+     x="536.75018"
+     y="261.7305"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ef4444"
+     id="text34">Die 1 (Pentium 4 Core)</text>
+  <rect
+     x="468.3291"
+     y="373.50253"
+     width="240"
+     height="20"
+     rx="2"
+     fill="#dc2626"
+     stroke="#991b1b"
+     stroke-width="1"
+     id="rect42" />
+  <text
+     x="588.32916"
+     y="386.50253"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text42">Shared Front Side Bus (800MHz) - Bottleneck!</text>
+  <path
+     d="m 686.05325,229.46149 q 0,18.69554 0,37.39109"
+     stroke="#dc2626"
+     stroke-width="2.73463"
+     fill="none"
+     stroke-dasharray="4, 4"
+     id="path42-13"
+     style="fill:#b380ff;stroke:#b380ff" />
+  <path
+     d="m 679.65216,229.46149 q 0,18.69554 0,37.39109"
+     stroke="#dc2626"
+     stroke-width="2.73463"
+     fill="none"
+     stroke-dasharray="4, 4"
+     id="path42-8"
+     style="fill:#b380ff;stroke:#b380ff" />
+  <text
+     x="613.06598"
+     y="246.90009"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#dc2626"
+     id="text43"
+     style="fill:#b380ff">Shared FSB only</text>
+  <!-- Core Duo (Yonah) -->
+  <text
+     x="960.43341"
+     y="62.979179"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#0f172a"
+     id="text44">Intel Core Duo (Yonah)</text>
+  <text
+     x="960.43341"
+     y="82.979179"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#64748b"
+     id="text45">Unified Die + Shared L2 (2006)</text>
+  <path
+     d="m 908.90853,195.97514 52.17944,35.7394"
+     stroke="#10b981"
+     stroke-width="4"
+     opacity="0.7"
+     id="path73" />
+  <rect
+     x="853.21014"
+     y="125.53018"
+     width="100.10277"
+     height="71.915634"
+     rx="4.0041108"
+     fill="#8b5cf6"
+     stroke="#7c3aed"
+     stroke-width="1.89723"
+     id="rect46" />
+  <text
+     x="903.26154"
+     y="120.0845"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#8b5cf6"
+     id="text46">Core 0</text>
+  <rect
+     x="858.26154"
+     y="135.58159"
+     width="40"
+     height="15"
+     rx="1"
+     fill="#3b82f6"
+     stroke="#1e40af"
+     stroke-width="1"
+     id="rect47" />
+  <text
+     x="878.26154"
+     y="145.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text47">Fetch/Dec</text>
+  <rect
+     x="903.26154"
+     y="135.58159"
+     width="45"
+     height="15"
+     rx="1"
+     fill="#ef4444"
+     stroke="#dc2626"
+     stroke-width="1"
+     id="rect48" />
+  <text
+     x="925.76154"
+     y="145.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text48">Exec Engine</text>
+  <rect
+     x="858.26154"
+     y="155.58159"
+     width="25"
+     height="15"
+     rx="1"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1"
+     id="rect49" />
+  <text
+     x="870.76154"
+     y="165.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text49">L1-I</text>
+  <rect
+     x="888.26154"
+     y="155.58159"
+     width="25"
+     height="15"
+     rx="1"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1"
+     id="rect50" />
+  <text
+     x="900.76154"
+     y="165.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text50">L1-D</text>
+  <rect
+     x="918.26154"
+     y="155.58159"
+     width="30"
+     height="15"
+     rx="1"
+     fill="#06b6d4"
+     stroke="#0891b2"
+     stroke-width="1"
+     id="rect51" />
+  <text
+     x="933.26154"
+     y="165.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text51">Branch</text>
+  <rect
+     x="858.26154"
+     y="175.58159"
+     width="45"
+     height="15"
+     rx="1"
+     fill="#f59e0b"
+     stroke="#d97706"
+     stroke-width="1"
+     id="rect52" />
+  <text
+     x="880.76154"
+     y="185.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text52">μop Cache</text>
+  <rect
+     x="908.26154"
+     y="175.58159"
+     width="40"
+     height="15"
+     rx="1"
+     fill="#10b981"
+     stroke="#047857"
+     stroke-width="1"
+     id="rect53" />
+  <text
+     x="928.26154"
+     y="185.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text53">TLB/MMU</text>
+  <path
+     d="m 1018.4261,195.77476 -53.80271,33.24556"
+     stroke="#10b981"
+     stroke-width="4"
+     opacity="0.7"
+     id="path74" />
+  <rect
+     x="973.21014"
+     y="125.53018"
+     width="100.10277"
+     height="71.915634"
+     rx="4.0041108"
+     fill="#8b5cf6"
+     stroke="#7c3aed"
+     stroke-width="1.89723"
+     id="rect54" />
+  <text
+     x="1023.2614"
+     y="120.49387"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#8b5cf6"
+     id="text54">Core 1</text>
+  <rect
+     x="978.26154"
+     y="135.58159"
+     width="40"
+     height="15"
+     rx="1"
+     fill="#3b82f6"
+     stroke="#1e40af"
+     stroke-width="1"
+     id="rect55" />
+  <text
+     x="998.26154"
+     y="145.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text55">Fetch/Dec</text>
+  <rect
+     x="1023.2614"
+     y="135.58159"
+     width="45"
+     height="15"
+     rx="1"
+     fill="#ef4444"
+     stroke="#dc2626"
+     stroke-width="1"
+     id="rect56" />
+  <text
+     x="1045.7616"
+     y="145.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text56">Exec Engine</text>
+  <rect
+     x="978.26154"
+     y="155.58159"
+     width="25"
+     height="15"
+     rx="1"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1"
+     id="rect57" />
+  <text
+     x="990.76154"
+     y="165.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text57">L1-I</text>
+  <rect
+     x="1008.2614"
+     y="155.58159"
+     width="25"
+     height="15"
+     rx="1"
+     fill="#14b8a6"
+     stroke="#0f766e"
+     stroke-width="1"
+     id="rect58" />
+  <text
+     x="1020.7614"
+     y="165.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text58">L1-D</text>
+  <rect
+     x="1038.2616"
+     y="155.58159"
+     width="30"
+     height="15"
+     rx="1"
+     fill="#06b6d4"
+     stroke="#0891b2"
+     stroke-width="1"
+     id="rect59" />
+  <text
+     x="1053.2616"
+     y="165.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text59">Branch</text>
+  <rect
+     x="978.26154"
+     y="175.58159"
+     width="45"
+     height="15"
+     rx="1"
+     fill="#f59e0b"
+     stroke="#d97706"
+     stroke-width="1"
+     id="rect60" />
+  <text
+     x="1000.7615"
+     y="185.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text60">μop Cache</text>
+  <rect
+     x="1028.2615"
+     y="175.58159"
+     width="40"
+     height="15"
+     rx="1"
+     fill="#10b981"
+     stroke="#047857"
+     stroke-width="1"
+     id="rect61" />
+  <text
+     x="1048.2616"
+     y="185.58159"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text61">TLB/MMU</text>
+  <rect
+     x="837.02716"
+     y="225.72153"
+     width="255.33418"
+     height="44.930401"
+     rx="6.9636598"
+     fill="#10b981"
+     stroke="#047857"
+     stroke-width="3.18168"
+     id="rect62"
+     style="stroke-width:1.38018;stroke-dasharray:none" />
+  <text
+     x="963.26154"
+     y="240.5816"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text62">Shared L2 Cache (2MB Smart Cache)</text>
+  <text
+     x="963.26154"
+     y="253.58157"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#a7f3d0"
+     id="text63"
+     style="fill:#ffffff">Dynamic allocation • Advanced prefetching • Reduced latency</text>
+  <text
+     x="963.26154"
+     y="264.44711"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#a7f3d0"
+     id="text64"
+     style="fill:#ffffff">8-way associative • Inclusive design</text>
+  <rect
+     x="853.26154"
+     y="275.5816"
+     width="65"
+     height="25"
+     rx="3"
+     fill="#06b6d4"
+     stroke="#0891b2"
+     stroke-width="1"
+     id="rect64" />
+  <text
+     x="885.35217"
+     y="287.71609"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text65"
+     style="fill:#ffffff">Enhanced</text>
+  <text
+     x="885.35217"
+     y="295.71609"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#bae6fd"
+     id="text66"
+     style="fill:#ffffff">SpeedStep</text>
+  <rect
+     x="928.26154"
+     y="275.5816"
+     width="70"
+     height="25"
+     rx="3"
+     fill="#8b5cf6"
+     stroke="#7c3aed"
+     stroke-width="1"
+     id="rect66" />
+  <text
+     x="962.85217"
+     y="286.8974"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text67"
+     style="fill:#ffffff">Smart Cache</text>
+  <text
+     x="962.85217"
+     y="294.8974"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#c4b5fd"
+     id="text68"
+     style="fill:#ffffff">Controller</text>
+  <rect
+     x="1008.2614"
+     y="275.5816"
+     width="65"
+     height="25"
+     rx="3"
+     fill="#f59e0b"
+     stroke="#d97706"
+     stroke-width="1"
+     id="rect68" />
+  <text
+     x="1040.7616"
+     y="287.71609"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text69"
+     style="fill:#ffffff">Advanced</text>
+  <text
+     x="1040.7616"
+     y="295.71609"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     fill="#fed7aa"
+     id="text70"
+     style="fill:#ffffff">Prefetcher</text>
+  <rect
+     x="853.26154"
+     y="310.5816"
+     width="100"
+     height="20"
+     rx="2"
+     fill="#64748b"
+     stroke="#475569"
+     stroke-width="1"
+     id="rect70" />
+  <text
+     x="903.26154"
+     y="323.5816"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text71">Memory Controller</text>
+  <rect
+     x="963.26154"
+     y="310.5816"
+     width="110"
+     height="20"
+     rx="2"
+     fill="#dc2626"
+     stroke="#991b1b"
+     stroke-width="1"
+     id="rect71" />
+  <text
+     x="1018.2614"
+     y="323.5816"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text72">FSB Interface (667MHz)</text>
+  <rect
+     x="837.047"
+     y="336.23843"
+     width="256.11319"
+     height="29.914358"
+     rx="2.3283019"
+     fill="#059669"
+     stroke="#047857"
+     stroke-width="1.31955"
+     id="rect72"
+     style="fill:#ff0066;stroke:#ff2a2a" />
+  <text
+     x="962.44281"
+     y="349.07867"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text73"><tspan
+       sodipodi:role="line"
+       id="tspan108"
+       x="962.44281"
+       y="349.07867">Advanced Power Management</tspan><tspan
+       sodipodi:role="line"
+       id="tspan109"
+       x="962.44281"
+       y="361.57867">(C1E, Enhanced SpeedStep)</tspan></text>
+  <text
+     x="1047.5891"
+     y="209.03189"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#059669"
+     id="text74"><tspan
+       sodipodi:role="line"
+       id="tspan104"
+       x="1047.5891"
+       y="209.03189">High-speed</tspan><tspan
+       sodipodi:role="line"
+       id="tspan105"
+       x="1047.5891"
+       y="219.03189">interconnect</tspan></text>
+  <!-- Evolution arrows -->
+  <path
+     d="m 364.70608,221.80715 q 36.8421,0 51.57895,0"
+     stroke="#64748b"
+     stroke-width="3.64187"
+     fill="none"
+     marker-end="url(#arrow)"
+     id="path75" />
+  <path
+     d="m 735.38326,217.49049 q 36.8421,0 51.57895,0"
+     stroke="#64748b"
+     stroke-width="3.64187"
+     fill="none"
+     marker-end="url(#arrow-0)"
+     id="path75-4"
+     style="marker-end:url(#arrow-0)" />
+  <!-- Arrow marker -->
+  <defs
+     id="defs77">
+    <marker
+       id="arrow"
+       markerWidth="12"
+       markerHeight="12"
+       refX="11"
+       refY="4"
+       orient="auto"
+       markerUnits="strokeWidth">
+      <path
+         d="M0,0 L0,8 L11,4 z"
+         fill="#64748b"
+         id="path77" />
+    </marker>
+  </defs>
+  <!-- Technical Analysis -->
+  <g
+     id="g111"
+     transform="translate(164.03342,-4.316669)">
+    <rect
+       x="44.982723"
+       y="437.71841"
+       width="796.83722"
+       height="239.43758"
+       rx="26.561241"
+       fill="url(#siliconPattern)"
+       stroke="#ef4444"
+       stroke-width="2.46135"
+       id="rect26-5-3"
+       style="opacity:0.33;fill:url(#linearGradient111);fill-opacity:1;stroke:#454837;stroke-width:2.041;stroke-dasharray:none" />
+    <text
+       x="412.20874"
+       y="461.51483"
+       text-anchor="middle"
+       font-family="Arial, sans-serif"
+       font-size="16px"
+       font-weight="bold"
+       fill="#0f172a"
+       id="text77">Análise Técnica Comparativa</text>
+    <rect
+       x="54.449188"
+       y="481.40189"
+       width="350"
+       height="180"
+       rx="8"
+       fill="#f8fafc"
+       stroke="#e2e8f0"
+       stroke-width="1"
+       id="rect77" />
+    <text
+       x="229.44919"
+       y="501.40189"
+       text-anchor="middle"
+       font-family="Arial, sans-serif"
+       font-size="12px"
+       font-weight="bold"
+       fill="#1e293b"
+       id="text78">Pentium D (Smithfield) - Limitações</text>
+    <circle
+       cx="69.449188"
+       cy="521.40186"
+       r="3"
+       fill="#ef4444"
+       id="circle78" />
+    <text
+       x="79.449181"
+       y="525.40186"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text79"><tspan
+   font-weight="bold"
+   id="tspan78">Dois dies separados:</tspan> Comunicação limitada ao FSB compartilhado</text>
+    <circle
+       cx="69.449188"
+       cy="541.40186"
+       r="3"
+       fill="#ef4444"
+       id="circle79" />
+    <text
+       x="79.449181"
+       y="545.40186"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text80"><tspan
+   font-weight="bold"
+   id="tspan79">Caches L2 independentes:</tspan> Sem otimização para compartilhamento</text>
+    <circle
+       cx="69.449188"
+       cy="561.40186"
+       r="3"
+       fill="#ef4444"
+       id="circle80" />
+    <text
+       x="79.449181"
+       y="565.40186"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text81"><tspan
+   font-weight="bold"
+   id="tspan80">Alto consumo:</tspan> Duas pipelines NetBurst de 31 estágios</text>
+    <circle
+       cx="69.449188"
+       cy="581.40186"
+       r="3"
+       fill="#ef4444"
+       id="circle81" />
+    <text
+       x="79.449181"
+       y="585.40186"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text82"><tspan
+   font-weight="bold"
+   id="tspan81">Gargalo do FSB:</tspan> Bandwidth limitado entre cores e memória</text>
+    <circle
+       cx="69.449188"
+       cy="601.40186"
+       r="3"
+       fill="#ef4444"
+       id="circle82" />
+    <text
+       x="79.449181"
+       y="605.40186"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text83"><tspan
+   font-weight="bold"
+   id="tspan82">Latência alta:</tspan> Acesso inter-core via barramento externo</text>
+    <circle
+       cx="69.449188"
+       cy="621.40186"
+       r="3"
+       fill="#ef4444"
+       id="circle83" />
+    <text
+       x="79.449181"
+       y="625.40186"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text84"><tspan
+   font-weight="bold"
+   id="tspan83">Escalabilidade:</tspan> Arquitetura não otimizada para parallelismo</text>
+    <circle
+       cx="69.449188"
+       cy="641.40186"
+       r="3"
+       fill="#ef4444"
+       id="circle84" />
+    <text
+       x="79.449181"
+       y="645.40186"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text85"><tspan
+   font-weight="bold"
+   id="tspan84">TDP elevado:</tspan> 95W-130W devido à duplicação ineficiente</text>
+    <rect
+       x="423.37405"
+       y="482.23593"
+       width="400"
+       height="180"
+       rx="8"
+       fill="#f8fafc"
+       stroke="#e2e8f0"
+       stroke-width="1"
+       id="rect85" />
+    <text
+       x="623.37408"
+       y="501.40189"
+       text-anchor="middle"
+       font-family="Arial, sans-serif"
+       font-size="12px"
+       font-weight="bold"
+       fill="#1e293b"
+       id="text86">Core Duo (Yonah) - Avanços Arquiteturais</text>
+    <circle
+       cx="438.37405"
+       cy="522.2359"
+       r="3"
+       fill="#10b981"
+       id="circle86" />
+    <text
+       x="448.37405"
+       y="526.2359"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text87"><tspan
+   font-weight="bold"
+   id="tspan86">Die unificado:</tspan> Comunicação direta on-chip entre cores com baixa latência</text>
+    <circle
+       cx="438.37405"
+       cy="542.2359"
+       r="3"
+       fill="#10b981"
+       id="circle87" />
+    <text
+       x="448.37405"
+       y="546.2359"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text88"><tspan
+   font-weight="bold"
+   id="tspan87">Smart Cache L2:</tspan> 2MB compartilhado com alocação dinâmica inteligente</text>
+    <circle
+       cx="438.37405"
+       cy="562.2359"
+       r="3"
+       fill="#10b981"
+       id="circle88" />
+    <text
+       x="448.37405"
+       y="566.2359"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text89"><tspan
+   font-weight="bold"
+   id="tspan88">Eficiência energética:</tspan> Pipeline otimizado + Enhanced SpeedStep</text>
+    <circle
+       cx="438.37405"
+       cy="582.2359"
+       r="3"
+       fill="#10b981"
+       id="circle89" />
+    <text
+       x="448.37405"
+       y="586.2359"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text90"><tspan
+   font-weight="bold"
+   id="tspan89">Prefetching avançado:</tspan> Hardware inteligente para predição de acesso</text>
+    <circle
+       cx="438.37405"
+       cy="602.2359"
+       r="3"
+       fill="#10b981"
+       id="circle90" />
+    <text
+       x="448.37405"
+       y="606.2359"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text91"><tspan
+   font-weight="bold"
+   id="tspan90">Micro-op fusion:</tspan> Otimização para instruções x86 complexas</text>
+    <circle
+       cx="438.37405"
+       cy="622.2359"
+       r="3"
+       fill="#10b981"
+       id="circle91" />
+    <text
+       x="448.37405"
+       y="626.2359"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text92"><tspan
+   font-weight="bold"
+   id="tspan91">TDP otimizado:</tspan> 15-31W, redução significativa vs. Pentium D</text>
+    <circle
+       cx="438.37405"
+       cy="642.2359"
+       r="3"
+       fill="#10b981"
+       id="circle92" />
+    <text
+       x="448.37405"
+       y="646.2359"
+       font-family="Arial, sans-serif"
+       font-size="10px"
+       fill="#1e293b"
+       id="text93"><tspan
+   font-weight="bold"
+   id="tspan92">Arquitetura mobile-first:</tspan> Designed para laptops, depois adaptado</text>
+  </g>
+  <!-- Clock frequencies and process nodes -->
+  <text
+     x="125.65962"
+     y="95.480957"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#1e293b"
+     id="text95"><tspan
+   font-weight="bold"
+   id="tspan94">Pentium 4:</tspan> 90nm, 3.8GHz, 125W TDP</text>
+  <text
+     x="478.5473"
+     y="95.480957"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#1e293b"
+     id="text96"><tspan
+   font-weight="bold"
+   id="tspan95">Pentium D:</tspan> 90nm/65nm, 2.8-3.2GHz, 95-130W</text>
+  <text
+     x="864.88922"
+     y="95.480957"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#1e293b"
+     id="text97"><tspan
+   font-weight="bold"
+   id="tspan96">Core Duo:</tspan> 65nm, 1.5-2.33GHz, 15-31W</text>
+  <text
+     x="883.04211"
+     y="390.92001"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#64748b"
+     id="text98">Performance/Watt: Core Duo ~3x melhor</text>
+  <text
+     x="890.28796"
+     y="402.16815"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#64748b"
+     id="text99">que Pentium D em cargas similares</text>
+</svg>

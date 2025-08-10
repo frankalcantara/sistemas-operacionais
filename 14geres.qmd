@@ -1,0 +1,30 @@
+---
+title: "Gestão de Entrada/Saída"
+---
+
+## Componentes Principais do Gerenciamento de E/S
+
+Outro sistema importante do **Sistema Operacional** é o gerenciamento de Entrada/Saída (E/S), que lida com a comunicação entre o sistema e os dispositivos periféricos, como discos rígidos, impressoras, teclados e redes. O gerenciamento de`E/S`é a base para garantir que os dados sejam transferidos de forma eficiente entre o hardware e o software, permitindo que os usuários interajam com o sistema e acessem recursos externos. Vamos explorar os principais componentes e técnicas envolvidos no gerenciamento de E/S
+
+1. **Drivers de Dispositivo (Device Drivers)**: o **Sistema Operacional** utiliza drivers como uma camada de abstração essencial para a comunicação com o hardware. Cada driver é um software especializado, projetado para um dispositivo específico, como uma placa de vídeo, impressora ou disco rígido, que traduz as requisições genéricas de`E/S`do **Sistema Operacional** em comandos que o hardware consegue entender. Este é um processo de tradução de baixa complexidade, imprimir um arquivo, para um sistema de alta complexidade, todos os detalhes do hardware.
+
+2. **Sistema de Interrupções**: para evitar que a `CPU` desperdice tempo verificando constantemente o estado dos dispositivos, processo conhecido em inglês como polling, o sistema utiliza interrupções. Uma interrupção é um sinal enviado pelo hardware para a `CPU`, informando que um evento que requer atenção ocorreu, como a finalização de uma operação de leitura ou a chegada de dados em uma porta de rede. Ao receber o sinal, a `CPU` pausa sua tarefa atual, executa uma rotina para tratar o evento, por exemplo, mover os dados recebidos para a memória, e depois retoma seu trabalho. Esse mecanismo permite que a `CPU` execute outras tarefas enquanto os dispositivos de`E/S`, que são muito mais lentos, realizam suas operações.
+
+![](/assets/images/io_architecture_interrupts_figure.webp)
+_Figura 13: Diagrama mostrando a arquitetura de`E/S`com interrupções, destacando como a `CPU` interage com dispositivos e trata interrupções._{: class=`legend`}
+
+3. **Buffering**: O buffering consiste em usar uma área de memória temporária, o buffer, para armazenar dados durante a transferência entre dispositivos com velocidades diferentes. Por exemplo, ao receber dados de uma rede, eles são primeiro acumulados em um buffer na memória principal antes de serem processados pela `CPU` ou gravados em um disco mais lento. Isso suaviza o fluxo de dados, compensa as diferenças de velocidade e permite transferências em blocos maiores e mais eficientes, em vez de lidar com cada byte individualmente.
+
+4. **Caching**: O caching é uma técnica de otimização que armazena cópias de dados frequentemente acessados em uma memória mais rápida e próxima à `CPU`, a memória cache. Quando o sistema precisa ler dados de um dispositivo lento, como um HD, ele primeiro verifica se uma cópia já existe na cache. Se existir, um **cache hit**, os dados são recuperados instantaneamente, evitando o acesso lento ao dispositivo. Se não existir, um **cache miss**, os dados são lidos do dispositivo e uma cópia é armazenada na cache para acelerar acessos futuros.
+
+![](/assets/images/io_buffering_caching_figure.webp)
+_Figura 14: Diagrama mostrando o funcionamento de buffering e caching na`E/S`, destacando como os dados são armazenados temporariamente para otimizar  transferências._{: class=`legend`}
+
+### Técnicas de Realização de Entrada/Saída
+
+1. **E/S Programada (Programmed `E/S` - PIO)**: nesta abordagem, a `CPU` tem controle total sobre a operação de`E/S`e fica dedicada a ela. A `CPU` inicia a requisição e entra em um laço de espera ativa (busy-waiting), consultando repetidamente o registrador de status do dispositivo para saber se a operação foi concluída. Essa técnica é simples de implementar, mas extremamente ineficiente, pois mantém a `CPU` 100% ocupada com uma única tarefa de`E/S`, impedindo-a de realizar qualquer outro processamento.
+
+2. **E/S Guiada por Interrupção (Interrupt-driven `E/S`)**: uma técnica mais eficiente. A `CPU` inicia a operação de`E/S`e, em vez de esperar, continua a executar outras tarefas. Quando o dispositivo termina seu trabalho, ele envia um sinal de interrupção para a `CPU`. A `CPU` então salva seu contexto atual, executa o código necessário para tratar a interrupção, como por exemplo  transferir os dados para memória, e depois retorna à tarefa que estava executando. Isso permite uma espécie de paralelismo funcional entre o processamento da `CPU` e as operações de`E/S`, melhorando significativamente a utilização do sistema.
+
+3. **Acesso Direto à Memória (em inglês: Direct Memory Access - DMA)**: para transferências de grandes volumes de dados, o DMA é a técnica mais avançada e eficiente. A `CPU` delega a operação a um controlador de DMA, um componente de hardware especializado. A `CPU` informa ao controlador de DMA a localização dos dados, o destino na memória e a quantidade de dados a serem transferidos. O controlador de DMA então gerencia a transferência diretamente entre o dispositivo e a memória principal, sem qualquer envolvimento da `CPU`. A `CPU` só é interrompida uma única vez, no final da transferência completa do bloco de dados, o que a libera para executar outras tarefas computacionais durante todo o processo. Neste caso, além do paralelismo entre o processamento e a`E/S`ser mais eficiente, também é mais rápido removendo da `CPU` todas as tarefas relacionadas a interface com os dispositivos de armazenamento mais lentos.
+

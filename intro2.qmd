@@ -1,0 +1,323 @@
+---
+title: "Exercícios"
+---
+
+## Exercícios - Capitulo 1
+
+#### Utilização da `CPU` em Multiprogramação
+Considere um sistema com multiprogramação onde cada processo gasta 60% do tempo em operações de `E/S`($p = 0.6$). Calcule a utilização da `CPU` para 3 processos residentes na memória, usando a fórmula:
+$$\text{Utilização da CPU} = 1 - p^n$$
+
+#### Otimização de Processos para Alta Utilização
+No mesmo sistema do exercício anterior ($p = 0.6$), quantos processos ($n$) são necessários para alcançar uma utilização da `CPU` de pelo menos 95%?
+
+#### Quantum Temporal em Time-Sharing
+Um sistema de time-sharing tem 8 processos ativos e um tempo total de `CPU` de 80 ms por ciclo. Calcule o quantum de tempo por processo usando:
+$$\text{Quantum time} = \frac{\text{Total `CPU` time}}{\text{Number of active processes}}$$
+
+#### Eficiência de Sistemas Híbridos SMP
+Um sistema SMP com 4 CPUs tem as seguintes utilizações e overheads:
+- CPU₁: 85% utilização, 3% overhead
+- CPU₂: 90% utilização, 2% overhead  
+- CPU₃: 78% utilização, 4% overhead
+- CPU₄: 92% utilização, 2.5% overhead
+
+Calcule a eficiência total usando:
+$$\text{System Efficiency} = \sum_{i=1}^{n} \text{CPU}_i \times \text{utilization}_i \times (1 - \text{overhead}_i)$$
+
+#### Consumo Energético de LLMs
+Um modelo de linguagem consome 1.287.000 kWh para treinamento, custando $0.12/kWh e gerando 552 toneladas de CO₂. Calcule:
+a) O custo total de energia
+b) A emissão de CO₂ por kWh
+c) Se o modelo fosse treinado com energia renovável (emissão 50% menor), qual seria a nova emissão total?
+
+#### Comparação de Throughput: Batch vs Multiprogramação
+Um sistema batch processa 150 tarefas em 300 segundos. Após implementar multiprogramação com $p = 0.5$ e 4 processos, o tempo de processamento por tarefa diminui 60%. Calcule o aumento percentual no throughput.
+
+#### Evolução das Máquinas de Computação
+Compare o ENIAC e o Z3 em termos de:
+a) Tecnologia de hardware utilizada
+b) Método de programação
+c) Vantagens e limitações de cada um
+d) Por que o Z3 foi considerado mais eficiente apesar de ser mais lento?
+
+#### Sistemas Batch e Automação
+Explique como os sistemas batch revolucionaram a computação dos anos 1950-60, descrevendo:
+a) O problema que resolviam
+b) O papel da linguagem JCL
+c) Como o conceito de "throughput" se aplicava
+d) A importância do processamento offline
+
+#### Multiprogramação vs Time-Sharing
+Construa uma tabela comparativa detalhada entre multiprogramação e time-sharing, incluindo:
+- Objetivo principal
+- Método de troca de contexto
+- Tipo de preempção
+- Overhead típico
+- Aplicações ideais
+
+#### A Revolução UNIX e Linguagem C
+Analise por que a combinação UNIX + Linguagem C representa um "degrau evolutivo" na computação:
+a) Problemas que o MULTICS apresentava
+b) Soluções implementadas no UNIX
+c) Papel da Linguagem C na portabilidade
+d) Influência nos sistemas modernos
+
+#### `kernel` vs **Sistema Operacional** Completo
+Diferencie claramente `kernel` de **Sistema Operacional**, explicando:
+a) Funções específicas do kernel
+b) Componentes adicionais do SO
+c) Por que o **Linux** é tecnicamente um kernel
+d) Relação com distribuições Linux
+
+#### Arquitetura de Containers e Virtualização
+Explique como containers diferem de máquinas virtuais:
+a) Papel dos Namespaces e Cgroups no Linux
+b) Por que o overhead é menor que 2%
+c) Vantagens para microsserviços
+d) Casos de uso onde VMs ainda são preferíveis
+
+#### **Sistemas Operacionais Embarcados**  e RTOS
+Um marca-passo cardíaco deve responder a anomalias em menos de 1ms, operando com bateria por 10 anos. Descreva:
+a) Requisitos de um RTOS para esta aplicação
+b) Técnicas de gerenciamento de energia
+c) Desafios de conectividade e segurança
+d) Diferenças para sistemas de propósito geral
+
+#### Computação Móvel e Gestão Inteligente
+Compare **Android** e iOS em termos de:
+a) Arquitetura de sistema (kernel base, runtime)
+b) Modelos de segurança e sandboxing
+c) Estratégias de gerenciamento de energia
+d) Integração de IA para otimização automática
+
+#### Microsserviços e Sistemas Distribuídos
+Analise como a arquitetura de microsserviços implementa as características fundamentais de sistemas distribuídos:
+a) transparência (localização e acesso)
+b) Escalabilidade horizontal e vertical
+c) Tolerância a falhas através de isolamento
+d) Papel do Docker e Kubernetes
+
+#### LLMs e Impacto nos Sistemas Operacionais
+Descreva os desafios que LLMs impõem aos sistemas operacionais:
+a) Gerenciamento de recursos computacionais (GPU/TPU/LPU)
+b) Integração de drivers especializados (CUDA, ROCm)
+c) Questões de segurança e privacidade
+d) Tendências futuras (LLMOS Revolution)
+
+#### Computação Quântica e QCOS
+Explique os componentes fundamentais de um **Sistema Operacional** Quântico:
+a) Diferenças do Qernel para um `kernel` clássico
+b) Desafios de decoerência e correção de erros
+c) Gerenciamento de recursos quânticos (qubits)
+d) Integração híbrida quântica-clássica
+
+#### Computação em Nuvem e Elasticidade
+Um sistema de e-commerce precisa escalar de 1.000 para 50.000 usuários durante a Black Friday. Analise:
+a) Requisitos de elasticidade do SO
+b) Diferenças entre IaaS, PaaS e SaaS
+c) Desafios de multitenancy
+d) Implementação de autoatendimento sob demanda
+
+#### Cenário IoT Industrial
+Uma fábrica inteligente implementa 2.000 sensores IoT executando TinyML em microcontroladores ARM Cortex-M4 (32KB RAM). Os dados são processados em edge gateways antes de ir para nuvem AWS. Analise:
+a) Escolha de RTOS para os sensores
+b) Protocolos de comunicação (MQTT vs CoAP)
+c) Estratégias de gerenciamento de energia
+d) Arquitetura de segurança end-to-end
+e) Integração com sistemas de nuvem híbrida
+
+#### Evolução de Data Center Moderno
+Um data center executa simultaneamente:
+- VMs tradicionais com Windows/Linux
+- Containers Docker com microsserviços
+- Cargas de trabalho de ML/AI em GPUs
+- Processamento híbrido quântico-clássico experimental
+
+Descreva como o **Sistema Operacional** hospedeiro gerencia:
+a) Virtualização multinível (VMs + containers)
+b) Escalonamento heterogêneo de recursos
+c) Balanceamento entre cargas CPU/GPU/QPU
+d) Monitoramento e telemetria unificada
+
+#### Dispositivo Móvel Autônomo
+Um smartphone moderno integra:
+- SoC com 8 cores ARM (4 performance + 4 efficiency)
+- NPU para processamento de IA local
+- Sensores MEMS multi-eixo
+- Conectividade 5G/Wi-Fi 6/Bluetooth 5.0
+
+Analise como o **Sistema Operacional** gerencia:
+a) Escalonamento big.LITTLE para eficiência energética
+b) Processamento de IA on-device vs cloud
+c) Fusão de dados de múltiplos sensores
+d) Conectividade adaptativa baseada em contexto
+
+#### Sistema Crítico Aeronáutico
+Um sistema de controle de voo utiliza:
+- RTOS certificado DO-178C
+- Processamento distribuído triplex (redundância 3x)
+- Sensores inerciais de alta precisão
+- Comunicação determinística
+
+Explique os requisitos específicos para:
+a) Determinismo temporal hard real-time
+b) Tolerância a falhas bizantinas
+c) Certificação de segurança crítica
+d) Integração com sistemas de IA confiáveis
+
+#### Tendências Futuras: LLMOS
+Projete conceptualmente um "Large Language Model Operating System":
+a) Arquitetura de `kernel` baseado em LLM
+b) Interface de usuário em linguagem natural
+c) Gerenciamento automático de recursos
+d) Desafios de confiabilidade e transparência
+e) Impacto na experiência do usuário
+
+#### Computação Quântica Prática
+Uma empresa desenvolve algoritmos VQE para descoberta de fármacos usando:
+- QPU IBM Eagle (127 qubits)
+- Sistemas clássicos para otimização
+- Cloud híbrida quântica-clássica
+
+Descreva a arquitetura do sistema:
+a) Coordenação de workflows híbridos
+b) Gerenciamento de erros quânticos
+c) Otimização de utilização de recursos raros
+d) Interfaces de programação unificadas
+
+#### Análise Comparativa Final
+Compare três paradigmas de SO em um cenário único - processamento de 1 milhão de transações financeiras:
+a) **Sistema Mainframe**: MVS com multiprogramação clássica
+b) **Sistema Distribuído**: Microsserviços em containers Kubernetes
+c) **Sistema Híbrido**: Edge computing + nuvem + processamento quântico para otimização
+
+Para cada paradigma, analise:
+- `throughput` esperado
+- Latência por  transação
+- Tolerância a falhas
+- Custos operacionais
+- Adequação para diferentes volumes de carga
+
+## Exercícios - Capitulo 2
+
+### 1. Utilização de `CPU` com Fórmula do Capítulo
+
+**Enunciado:** Usando a fórmula apresentada no texto para calcular a utilização da CPU, $U = \sum_{i=1}^{n} \frac{C_i}{T_i}$, calcule a utilização para um sistema com 3 processos, cada um com tempo de computação $C_i = 2s$ e período total $T_i = 10s$. O que esse valor indica sobre o uso do sistema?
+
+### 2. Tempo Médio de Espera com SJF
+
+**Enunciado:** Usando a fórmula do *Shortest Job First* (SJF) mencionada no texto, $\text{Tempo Médio de Espera} = \frac{1}{n} \sum_{i=1}^{n} W_i$, calcule o tempo médio de espera para 4 processos com tempos de execução: 3s, 1s, 4s, 2s. Compare o resultado com o algoritmo *First-Come, First-Served* (FCFS) assumindo a ordem de chegada P1, P2, P3, P4.
+
+### 3. As Duas Perspectivas Fundamentais
+
+**Enunciado:** Explique as duas perspectivas complementares do **Sistema Operacional** apresentadas no texto, referindo-se à @fig-perspectiva:
+a) Qual a metáfora usada para a perspectiva de gerente de recursos?
+b) Como o SO atua como máquina estendida?
+c) Por que são consideradas complementares? Dê um exemplo prático de cada perspectiva em um sistema como o Linux.
+
+### 4. Recursos Computacionais Fundamentais
+
+**Enunciado:** Liste os 4 recursos principais que o SO gerencia como “capitão de navio” e explique brevemente o desafio de cada um. Como o gerenciamento de `CPU` e `E/S`interagem em um cenário real, como um servidor web Linux?
+
+### 5. Tarefas do Capitão de Navio
+
+**Enunciado:** Liste as 3 tarefas fundamentais do SO como “capitão de navio” e dê um exemplo prático de cada uma em um sistema **Linux**, referindo-se à @fig-agendador1.
+
+### 6. Abstrações da Máquina Estendida
+
+**Enunciado:** Explique as 4 abstrações fundamentais do SO, conforme @fig-estendida1, e a complexidade que cada uma esconde. Dê um exemplo de cada uma em um sistema Windows.
+
+### 7. Exemplo de Complexidade Oculta
+
+**Enunciado:** Liste as 3 principais fases da operação `read(documento.txt, buffer, 1024)` descritas no texto. Explique como essas fases contribuem para o custo computacional total, $N_{\text{ops}} = N_{\text{directory traversal}} + N_{\text{permission checks}} + N_{\text{disk E/S}} + N_{\text{cache operations}}$.
+
+### 8. Hierarquia de Abstrações
+
+**Enunciado:** Descreva a hierarquia de 4 camadas da @fig-estendida1 e explique como cada camada transforma a complexidade. Dê um exemplo de como uma operação `write()` percorre essas camadas em um SO Linux.
+
+### 9. Objetivos Orientadores - Conveniência
+
+**Enunciado:** Liste os 3 componentes principais de conveniência para o usuário. Como a IA, como o Copilot no Windows, melhora um desses componentes?
+
+### 10. Métricas de Avaliação
+
+**Enunciado:** Analise as 5 métricas da @tbl-metrica1:
+a) Qual deve ser maximizada para aproveitar o hardware?
+b) Qual é mais importante para sistemas interativos?
+c) Como *Throughput* e *Response Time* podem conflitar? Dê um exemplo prático em um servidor Linux.
+
+### 11. Política vs. Mecanismo
+
+**Enunciado:** Explique a separação entre políticas e mecanismos, usando o exemplo de drivers e um segundo exemplo de escalonamento.
+
+### 12. trade-off: Segurança vs. Desempenho
+
+**Enunciado:** Analise o trade-off usando @tbl-tradeoffs1:
+a) Por que verificações de segurança introduzem *overhead*?
+b) Qual o custo típico da criptografia AES-256?
+c) Em que cenário priorizar desempenho sobre segurança?
+
+### 13. trade-off: Simplicidade vs. Funcionalidade
+
+**Enunciado:** Explique o paradoxo usando exemplos do texto:
+a) Como interfaces simples limitam funcionalidades?
+b) Qual o dilema da configuração automática?
+c) Proponha uma interface híbrida para balancear shells e GUIs.
+
+### 14. trade-off: Portabilidade vs. Otimização
+
+**Enunciado:** Analise o conflito usando exemplos:
+a) Como otimizações específicas sacrificam universalidade?
+b) Qual o custo das abstrações genéricas?
+c) Como o **Linux** lida com o dilema das `APIs`POSIX?
+
+### 15. Evolução e Adaptação
+
+**Enunciado:** Por que modularidade é fundamental? Use o exemplo de drivers da @fig-modular1 e explique como ela suporta novos dispositivos.
+
+### 16. Confiabilidade e Tolerância a Falhas
+
+**Enunciado:** Explique os 3 aspectos de lidar com erros graciosamente, com um exemplo prático para cada.
+
+### 17. Checksums e Integridade
+
+**Enunciado:** Explique *checksums* no contexto TCP e compare com CRC.
+
+### 18. Complexidade Emergente
+
+**Enunciado:** Liste as 4 técnicas avançadas para sistemas modernos e dê um exemplo de aprendizado de máquina em Linux.
+
+### 19. Impacto da IA nas Interfaces
+
+**Enunciado:** Analise os 3 pilares de impacto da IA e discuta um risco de privacidade no Windows Copilot.
+
+### 20. Princípio da transparência Progressiva
+
+**Enunciado:** Explique o princípio e a relação $E = \frac{F_{\text{funcionalidade}}}{C_{\text{overhead}}} \times T_{\text{transparência}}$. Dê um exemplo numérico.
+
+### 21. Operação de Socket Complexa
+
+**Enunciado:** Identifique as 3 camadas principais de `write(socket, data, length)` na @fig-rede1 e explique seu impacto na latência.
+
+### 22. Metáfora dos Apartamentos para Sockets
+
+**Enunciado:** Explique a metáfora dos apartamentos para sockets e aplique a um servidor web.
+
+### 23. Custo Computacional da Pilha TCP/IP
+
+**Enunciado:** Considerando a análise da operação <code>write(socket, data, length)</code> e a decomposição do custo computacional ($C_{total}$) apresentadas no texto, identifique em qual camada da pilha de protocolos as seguintes atividades são executadas:
+a) Segmentação dos dados em unidades apropriadas e cálculo de checksums para detecção de erros.
+b) Resolução de endereço IP para endereço MAC (através do protocolo ARP) e encapsulamento do pacote em um frame.
+c) Consulta à tabela de roteamento para determinar o próximo salto (next hop) e construção do cabeçalho com os endereços de origem e destino.
+
+### 24. Sabedoria do Equilíbrio
+
+**Enunciado:** Explique como sistemas modernos gerenciam trade-offs, com um exemplo do Linux.
+
+### 25. Síntese das Perspectivas Fundamentais
+
+**Enunciado:** Integre as duas perspectivas:
+a) Como se complementam?
+b) Por que nenhuma é suficiente?
+c) Qual o impacto no usuário em um SO como o Windows?

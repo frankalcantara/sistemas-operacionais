@@ -1,0 +1,37 @@
+---
+title: "Gestão de Memória"
+---
+## Gerenciamento de Memória: Otimizando o Uso de `RAM` {#sec-germen1}
+
+A memória principal, também conhecida como `RAM` (Random Access Memory), representa um dos recursos mais importantes e voláteis que devem ser gerenciados cuidadosamente em qualquer **Sistema Operacional** moderno. Diferentemente do armazenamento permanente, a `RAM` perde todo seu conteúdo quando a energia é removida, tornando seu gerenciamento uma tarefa que exige precisão e eficiência constantes.
+
+_O controle de alocação de processos em memória envolve manter um registro detalhado e atualizado de quais partes da memória estão em uso por processos ativos e quais permanecem disponíveis_. A alocação dinâmica aumenta a complexidade desta tarefa ao exigir que o sistema constantemente atribua e libere espaço conforme processos são criados e terminados, criando um ambiente dinâmico de constante mudança. Além disso, o sistema deve lidar com a fragmentação da memória, que ocorre quando blocos de memória livre são divididos em pedaços pequenos e não contíguos, dificultando a alocação eficiente de novos processos.
+
+::: callout-note
+**Hierarquia de Memória**
+A hierarquia de memória é um conceito que representa a organização dos sistemas de armazenamento em um computador, organizados por velocidade, capacidade e custo. No topo desta hierarquia estão as unidades de armazenamento mais rápidas e caras, registradores da `CPU` e cache, enquanto na base estão os dispositivos de armazenamento mais lentos, mas de maior capacidade, discos rígidos e armazenamento óptico. Este conceito hierárquico existe por motivos econômicos. Porém, serve como base para a criação de rotinas para o uso eficiente de memória. Dois pontos desta hierarquia são importantes para esta introdução aos Sistemas Operacionais:
+
+A **memória cache** serve como um buffer de alta velocidade entre a `CPU` e a memória principal, tipicamente implementada usando SRAM, em inglês Static `RAM`. Processadores modernos incluem múltiplos níveis de cache: cache L1, mais próximo aos núcleos da `CPU`, ~32KB-64KB, cache L2, ~256KB-1MB, e frequentemente cache L3, ~8MB-32MB,  compartilhado entre núcleos. O cache opera no princípio da localidade temporal. Ou seja, considera que dados acessados recentemente provavelmente serão acessados novamente e localidade espacial, dados próximos provavelmente serão acessados em breve. Quando a `CPU` solicita dados, primeiro verifica sua existência no cache; um cache hit, o dado está no cache, fornece dados em 1-3 ciclos de clock, enquanto um cache miss, o dado não está no cache, requer acessar níveis de memória mais lentos.
+
+A **memória principal (`RAM`)** consiste em um conjunto de chips DRAM volátil, em inglês Dynamic `RAM`, que armazena programas em execução e seus dados. Embora significativamente mais lenta que o cache, com latência típica de 100-300 ciclos de clock, a `RAM` fornece capacidade muito maior, alguma coisa entre 8GB e 64GB em sistemas modernos, a um custo razoável. O **Sistema Operacional** gerencia a alocação de `RAM`, mapeamento de memória virtual e o movimento de dados entre níveis de armazenamento. A `RAM` serve como o espaço de trabalho primário para processos ativos, com o **Sistema Operacional**tratando page faults, erros que ocorrem quando dados solicitados não estão presentes na memória física.
+:::
+
+A **proteção de memória** garante que processos não acessem memória de outros processos, prevenindo interferências maliciosas ou acidentais que possam comprometer a estabilidade do sistema. _O gerenciamento de memória virtual complementa essas responsabilidades ao criar a ilusão de o processo tem mais memória disponível que a memória fisicamente disponível_, permitindo que múltiplos programas executem simultaneamente mesmo em sistemas com `RAM` limitada. À esta memória virtual damos o nome de **espaço de endereçamento**. Para implementar essas responsabilidades, os **Sistemas Operacionais** empregam técnicas como o **particionamento fixo** que divide a memória em partições de tamanho fixo predeterminado, oferecendo previsibilidade. Esta técnica relativamente simples corre o risco de ser ineficiente quando os tamanhos dos processos não correspondem aos tamanhos das partições fixamente definidas. Uma técnica mais complexa, o **particionamento dinâmico**, oferece maior flexibilidade ao criar partições conforme necessário. Neste caso, quando um novo processo solicita memória, o sistema cria uma partição exatamente do tamanho necessário, maximizando a utilização da memória disponível e eliminando o desperdício interno das partições fixas.
+
+Uma técnica conhecida como paginação revoluciona o gerenciamento de memória ao dividir tanto a memória física quanto o espaço de endereçamento dos processos em páginas de tamanho fixo. Esta técnica permite que processos sejam carregados de forma não-contígua na memória física, resolvendo problemas de fragmentação externa. Nesta técnica o cálculo do endereço físico segue a fórmula:
+
+$$\text{Endereço Físico} = \text{Número da Página} \times \text{Tamanho da Página} + \text{Offset}$$
+
+A segmentação oferece uma alternativa ao dividir a memória em segmentos de tamanho variável que correspondem mais naturalmente à estrutura lógica dos programas, com diferentes segmentos contendo código, dados, pilha ou heap.
+
+![Diagrama mostrando particionamento fixo e dinâmico e memória virtual e o particionamento todos os diagramas em blocos ](/assets/images/memory_management_figure1.webp)
+_Figura 9: Diagrama ilustrativo de paginação e segmentação na memória, mostrando como processos são divididos em páginas e segmentos, com endereços físicos correspondentes._{: class=`legend`}
+
+### Memória Virtual
+
+O conceito de memória virtual representa uma das inovações mais impactantes no gerenciamento de memória. Esta técnica permite, como vimos antes, que programas maiores que a memória física sejam executados, criando  transparentemente a ilusão de abundância de memória por meio de duas estratégias principais. O primeiro é o **swapping**, que envolve mover processos inteiros entre a memória física e o disco rígido quando necessário. Embora eficaz, o **swapping** pode introduzir latências significativas durante as transferências, especialmente se os processos forem grandes ou se houver muitos processos ativos simultaneamente.
+
+O segundo é a **paginação sob demanda**, que refina o conceito de **swapping** ao carregar apenas as páginas necessárias de um processo na memória física quando elas são realmente requisitadas. Isso minimiza tanto o uso da memória física quanto o tempo de carregamento inicial dos programas, permitindo que sistemas modernos executem dezenas de processos simultaneamente mesmo com quantidades modestas de `RAM` física.
+
+![](/assets/images/memory_management_figure2.webp)
+_Figura 10: Diagrama ilustrativo de paginação e segmentação na memória, mostrando como processos são divididos em páginas e segmentos, com endereços físicos correspondentes._{: class=`legend`}

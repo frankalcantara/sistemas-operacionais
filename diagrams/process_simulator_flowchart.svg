@@ -1,0 +1,1290 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1000 800"
+   version="1.1"
+   id="svg84"
+   sodipodi:docname="process_simulator_flowchart.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="..\images\process_simulator_flowchart.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview84"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.1945016"
+     inkscape:cx="500.6272"
+     inkscape:cy="363.75003"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg84" />
+  <defs
+     id="defs8">
+    <marker
+       style="overflow:visible"
+       id="marker87"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path87" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker86"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path86" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker85"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path85" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <linearGradient
+       id="createGradient"
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#60a5fa;stop-opacity:1"
+         id="stop1" />
+      <stop
+         offset="100%"
+         style="stop-color:#2563eb;stop-opacity:1"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       id="schedGradient"
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#4ade80;stop-opacity:1"
+         id="stop3" />
+      <stop
+         offset="100%"
+         style="stop-color:#16a34a;stop-opacity:1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="kernelGradient"
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#a78bfa;stop-opacity:1"
+         id="stop5" />
+      <stop
+         offset="100%"
+         style="stop-color:#7c3aed;stop-opacity:1"
+         id="stop6" />
+    </linearGradient>
+    <marker
+       id="arrowhead"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#374151"
+         id="polygon6" />
+    </marker>
+    <marker
+       id="arrowheadBlue"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#2563eb"
+         id="polygon7" />
+    </marker>
+    <marker
+       id="arrowheadGreen"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#16a34a"
+         id="polygon8" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#kernelGradient"
+       id="linearGradient85"
+       x1="213.34436"
+       y1="1254.9711"
+       x2="213.34436"
+       y2="1337.4574"
+       gradientTransform="matrix(1.963961,0,0,0.50917508,329.84321,-169.10214)"
+       gradientUnits="userSpaceOnUse" />
+    <marker
+       style="overflow:visible"
+       id="Triangle-0"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-9" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#schedGradient"
+       id="linearGradient87"
+       x1="316.70577"
+       y1="563.04942"
+       x2="316.70577"
+       y2="654.83178"
+       gradientTransform="matrix(1.7650452,0,0,0.56655772,18.257369,-101.80224)"
+       gradientUnits="userSpaceOnUse" />
+    <marker
+       style="overflow:visible"
+       id="Triangle-0-8"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-9-8" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#schedGradient"
+       id="linearGradient88"
+       x1="378.00742"
+       y1="366.08012"
+       x2="378.00742"
+       y2="445.72935"
+       gradientTransform="matrix(1.531716,0,0,0.65286255,17.777778,-102.92398)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#createGradient"
+       id="linearGradient89"
+       x1="208.26315"
+       y1="366.08012"
+       x2="208.26315"
+       y2="445.72935"
+       gradientTransform="matrix(1.531716,0,0,0.65286255,117.89474,-21.520468)"
+       gradientUnits="userSpaceOnUse" />
+    <marker
+       style="overflow:visible"
+       id="marker85-4"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path85-5" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#createGradient"
+       id="linearGradient90"
+       x1="116.8624"
+       y1="366.08012"
+       x2="116.8624"
+       y2="445.72935"
+       gradientTransform="matrix(1.531716,0,0,0.65286255,99.181282,-103.85965)"
+       gradientUnits="userSpaceOnUse" />
+    <marker
+       style="overflow:visible"
+       id="marker85-4-1"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path85-5-7" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker85-4-15"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path85-5-2" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker85-6"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path85-1" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker85-6-2"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path85-1-3" />
+    </marker>
+  </defs>
+  <!-- Title -->
+  <text
+     x="500"
+     y="30"
+     font-family="Arial"
+     font-size="20"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#1f2937"
+     id="text8">
+    Simulador de Processos - Criação, Escalonamento e Gerenciamento
+  </text>
+  <!-- Start Node -->
+  <ellipse
+     cx="500"
+     cy="80"
+     rx="80"
+     ry="25"
+     fill="url(#kernelGradient)"
+     stroke="#6d28d9"
+     stroke-width="2"
+     id="ellipse8" />
+  <text
+     x="500"
+     y="87"
+     font-family="Arial"
+     font-size="12"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="white"
+     id="text9">KERNEL INIT</text>
+  <line
+     x1="559.74127"
+     y1="160.01883"
+     x2="589.05835"
+     y2="160.98328"
+     stroke="#16a34a"
+     stroke-width="2.15834"
+     marker-end="url(#arrowheadGreen)"
+     id="line44"
+     style="stroke-width:2.23356;stroke-dasharray:none;marker-end:url(#marker85)" />
+  <line
+     x1="500.17825"
+     y1="175.01328"
+     x2="500.28537"
+     y2="209.96634"
+     stroke="#2563eb"
+     stroke-width="0.840659"
+     marker-end="url(#arrowheadBlue)"
+     id="line41"
+     style="stroke-width:2.241;stroke-dasharray:none;marker-end:url(#marker85)" />
+  <line
+     x1="501.79459"
+     y1="269.97626"
+     x2="501.9017"
+     y2="304.92932"
+     stroke="#2563eb"
+     stroke-width="0.840659"
+     marker-end="url(#arrowheadBlue)"
+     id="line41-5"
+     style="stroke-width:2.241;stroke-dasharray:none;marker-end:url(#marker85-4)" />
+  <line
+     x1="419.51196"
+     y1="349.36288"
+     x2="419.5639"
+     y2="448.39133"
+     stroke="#2563eb"
+     stroke-width="0.840659"
+     marker-end="url(#arrowheadBlue)"
+     id="line41-5-7"
+     style="stroke-width:2.227;stroke-dasharray:none;marker-end:url(#marker85-4-15)" />
+  <line
+     x1="339.62717"
+     y1="182.04755"
+     x2="339.67123"
+     y2="304.11539"
+     stroke="#2563eb"
+     stroke-width="0.840659"
+     marker-end="url(#arrowheadBlue)"
+     id="line41-5-1"
+     style="stroke-width:2.281;stroke-dasharray:none;marker-end:url(#marker85-4-1)" />
+  <line
+     x1="449.64157"
+     y1="160.20288"
+     x2="408.1619"
+     y2="159.32196"
+     stroke="#2563eb"
+     stroke-width="1.84002"
+     marker-end="url(#arrowheadBlue)"
+     id="line40"
+     style="stroke-width:2.24;stroke-dasharray:none;marker-end:url(#marker85)" />
+  <!-- System Call Decision -->
+  <polygon
+     points="500,130 560,160 500,190 440,160"
+     fill="#fbbf24"
+     stroke="#d97706"
+     stroke-width="2"
+     id="polygon9" />
+  <text
+     x="500"
+     y="157"
+     font-family="Arial"
+     font-size="10"
+     text-anchor="middle"
+     fill="#92400e"
+     id="text10">System Call</text>
+  <text
+     x="500"
+     y="170"
+     font-family="Arial"
+     font-size="10"
+     text-anchor="middle"
+     fill="#92400e"
+     id="text11">Type?</text>
+  <!-- Fork Path (Blue) -->
+  <rect
+     x="279.18127"
+     y="136.14035"
+     width="120"
+     height="50"
+     rx="8"
+     fill="url(#createGradient)"
+     stroke="#2563eb"
+     stroke-width="2"
+     id="rect11"
+     style="fill:url(#linearGradient90)" />
+  <text
+     x="339.18127"
+     y="156.14035"
+     font-family="Arial"
+     font-size="12px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text12">fork()</text>
+  <text
+     x="339.18127"
+     y="171.14035"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text13">Novo Processo</text>
+  <!-- Clone Path (Blue) -->
+  <rect
+     x="437.89474"
+     y="218.47954"
+     width="120"
+     height="50"
+     rx="8"
+     fill="url(#createGradient)"
+     stroke="#2563eb"
+     stroke-width="2"
+     id="rect13"
+     style="fill:url(#linearGradient89)" />
+  <text
+     x="497.89474"
+     y="238.47954"
+     font-family="Arial"
+     font-size="12px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text14">clone()</text>
+  <text
+     x="497.89474"
+     y="253.47954"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text15">Nova Thread</text>
+  <!-- Schedule Path (Green) -->
+  <rect
+     x="597.77777"
+     y="137.07602"
+     width="120"
+     height="50"
+     rx="8"
+     fill="url(#schedGradient)"
+     stroke="#16a34a"
+     stroke-width="2"
+     id="rect15"
+     style="fill:url(#linearGradient88)" />
+  <text
+     x="657.77777"
+     y="157.07602"
+     font-family="Arial"
+     font-size="12px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text16">schedule()</text>
+  <text
+     x="657.77777"
+     y="172.07602"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text17">Escalonador</text>
+  <!-- Create task_struct -->
+  <rect
+     x="275.50052"
+     y="313.51224"
+     width="294.11511"
+     height="39.876129"
+     rx="6.787272"
+     fill="#dbeafe"
+     stroke="#3b82f6"
+     stroke-width="2.12387"
+     id="rect17" />
+  <text
+     x="423.21637"
+     y="328.57895"
+     font-family="Arial"
+     font-size="11px"
+     text-anchor="middle"
+     fill="#1e40af"
+     id="text18">Criar task_struct</text>
+  <text
+     x="423.21637"
+     y="343.57895"
+     font-family="Arial"
+     font-size="11px"
+     text-anchor="middle"
+     fill="#1e40af"
+     id="text19">Alocar PID, definir hierarquia</text>
+  <line
+     x1="468.8172"
+     y1="487.57919"
+     x2="572.21545"
+     y2="487.47635"
+     stroke="#4338ca"
+     stroke-width="2.18244"
+     marker-end="url(#arrowhead)"
+     id="line51-4"
+     style="fill:#ffd42a;stroke:#c8ab37;stroke-width:2.19178;stroke-dasharray:none;marker-end:url(#marker85-6)" />
+  <line
+     x1="419.90652"
+     y1="518.13245"
+     x2="419.97513"
+     y2="547.98871"
+     stroke="#4338ca"
+     stroke-width="2.18244"
+     marker-end="url(#arrowhead)"
+     id="line51-4-2"
+     style="fill:#ffd42a;stroke:#c8ab37;stroke-width:2.274;stroke-dasharray:none;marker-end:url(#marker85-6-2)" />
+  <line
+     x1="370.14505"
+     y1="487.69861"
+     x2="322.22382"
+     y2="487.07733"
+     stroke="#dc2626"
+     stroke-width="1.68787"
+     id="line48"
+     style="fill:#ff6600;stroke:#ff8080;stroke-width:2.288;stroke-dasharray:none;marker-end:url(#marker85)" />
+  <!-- CLONE Flags Decision -->
+  <polygon
+     points="310,440 260,410 310,380 360,410 "
+     fill="#f59e0b"
+     stroke="#d97706"
+     stroke-width="2"
+     id="polygon19"
+     transform="translate(109.61909,77.552171)" />
+  <text
+     x="420.2807"
+     y="483.72516"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#92400e"
+     id="text20">CLONE_*</text>
+  <text
+     x="420.2807"
+     y="496.72516"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#92400e"
+     id="text21">Flags?</text>
+  <!-- Resource Sharing -->
+  <rect
+     x="213.62888"
+     y="469.18301"
+     width="100"
+     height="35"
+     rx="4"
+     fill="#fecaca"
+     stroke="#dc2626"
+     stroke-width="1"
+     id="rect21" />
+  <text
+     x="263.62888"
+     y="484.18301"
+     font-family="Arial"
+     font-size="9px"
+     text-anchor="middle"
+     fill="#7f1d1d"
+     id="text22">CLONE_VM</text>
+  <text
+     x="263.62888"
+     y="496.18301"
+     font-family="Arial"
+     font-size="9px"
+     text-anchor="middle"
+     fill="#7f1d1d"
+     id="text23">Compartilhar mm</text>
+  <rect
+     x="367.7193"
+     y="556.25732"
+     width="100"
+     height="35"
+     rx="4"
+     fill="#fed7aa"
+     stroke="#ea580c"
+     stroke-width="1"
+     id="rect23" />
+  <text
+     x="417.7193"
+     y="571.25732"
+     font-family="Arial"
+     font-size="9px"
+     text-anchor="middle"
+     fill="#9a3412"
+     id="text24">CLONE_FILES</text>
+  <text
+     x="417.7193"
+     y="583.25732"
+     font-family="Arial"
+     font-size="9px"
+     text-anchor="middle"
+     fill="#9a3412"
+     id="text25">Compartilhar FDs</text>
+  <!-- EEVDF Scheduler -->
+  <rect
+     x="578.25739"
+     y="218.19777"
+     width="160"
+     height="50"
+     rx="8"
+     fill="url(#schedGradient)"
+     stroke="#16a34a"
+     stroke-width="2"
+     id="rect27"
+     style="fill:url(#linearGradient87)" />
+  <text
+     x="658.25739"
+     y="238.19777"
+     font-family="Arial"
+     font-size="11px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text28">Escalonador EEVDF</text>
+  <text
+     x="658.25739"
+     y="253.19777"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text29">Calcular Virtual Deadline</text>
+  <!-- Eligibility Check -->
+  <polygon
+     points="640,450 600,420 640,390 680,420 "
+     fill="#34d399"
+     stroke="#059669"
+     stroke-width="2"
+     id="polygon29"
+     transform="translate(19.928044,-87.962946)" />
+  <text
+     x="659.92804"
+     y="329.03705"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#065f46"
+     id="text30"
+     style="fill:#ffffff">vlag ≥ 0?</text>
+  <text
+     x="659.92804"
+     y="342.03705"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#065f46"
+     id="text31"
+     style="fill:#ffffff">Elegível?</text>
+  <!-- Task Selection -->
+  <rect
+     x="769.92804"
+     y="312.03705"
+     width="120"
+     height="40"
+     rx="6"
+     fill="#86efac"
+     stroke="#16a34a"
+     stroke-width="2"
+     id="rect31" />
+  <text
+     x="829.92804"
+     y="329.03705"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#14532d"
+     id="text32">Selecionar task</text>
+  <text
+     x="829.92804"
+     y="344.03705"
+     font-family="Arial"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#14532d"
+     id="text33">menor deadline</text>
+  <line
+     x1="704.33923"
+     y1="409.09299"
+     x2="738.4397"
+     y2="409.09299"
+     stroke="#374151"
+     stroke-width="1.84663"
+     marker-end="url(#arrowhead)"
+     id="line54"
+     style="fill:#8d5fd3;stroke:#8d5fd3;stroke-width:2.247;stroke-dasharray:none;marker-end:url(#marker87)" />
+  <!-- Execute Task -->
+  <rect
+     x="547.64734"
+     y="388.76218"
+     width="160"
+     height="40"
+     rx="6"
+     fill="#e0e7ff"
+     stroke="#4338ca"
+     stroke-width="2"
+     id="rect33" />
+  <text
+     x="627.64734"
+     y="405.76218"
+     font-family="Arial"
+     font-size="11px"
+     text-anchor="middle"
+     fill="#3730a3"
+     id="text34">Executar Task</text>
+  <text
+     x="627.64734"
+     y="420.76218"
+     font-family="Arial"
+     font-size="11px"
+     text-anchor="middle"
+     fill="#3730a3"
+     id="text35">Atualizar vruntime</text>
+  <path
+     d="m 907.7028,408.40527 c 42.02344,-9.65792 33.92215,-28.98614 33.49701,-46.62567 -0.56559,-23.46784 -15.81925,-28.30615 -44.04653,-28.50258"
+     stroke="#059669"
+     stroke-width="1.82746"
+     fill="none"
+     marker-end="url(#arrowheadGreen)"
+     id="path55"
+     style="fill:none;stroke:#8d5fd3;marker-end:url(#marker86)"
+     sodipodi:nodetypes="csc" />
+  <!-- Update Metrics -->
+  <rect
+     x="747.64734"
+     y="388.76218"
+     width="160"
+     height="40"
+     rx="6"
+     fill="#f3e8ff"
+     stroke="#7c3aed"
+     stroke-width="2"
+     id="rect35" />
+  <text
+     x="827.64734"
+     y="405.76218"
+     font-family="Arial"
+     font-size="11px"
+     text-anchor="middle"
+     fill="#5b21b6"
+     id="text36">Atualizar Métricas</text>
+  <text
+     x="827.64734"
+     y="420.76218"
+     font-family="Arial"
+     font-size="11px"
+     text-anchor="middle"
+     fill="#5b21b6"
+     id="text37">deadline, lag, slice</text>
+  <!-- Analysis -->
+  <rect
+     x="749.8432"
+     y="470.89786"
+     width="160"
+     height="40"
+     rx="8"
+     fill="url(#kernelGradient)"
+     stroke="#6d28d9"
+     stroke-width="2"
+     id="rect37"
+     style="fill:url(#linearGradient85)" />
+  <text
+     x="829.8432"
+     y="487.89789"
+     font-family="Arial"
+     font-size="11px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text38">Análise do Sistema</text>
+  <text
+     x="829.8432"
+     y="502.89789"
+     font-family="Arial"
+     font-size="11px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text39">Validar conceitos</text>
+  <!-- Main Flow Arrows -->
+  <line
+     x1="500"
+     y1="105"
+     x2="500"
+     y2="130"
+     stroke="#374151"
+     stroke-width="2"
+     marker-end="url(#arrowhead)"
+     id="line39" />
+  <!-- Process Creation Arrows (Blue) -->
+  <!-- Scheduling Arrows (Green) -->
+  <line
+     x1="699.92804"
+     y1="332.03705"
+     x2="761.05688"
+     y2="332.03705"
+     stroke="#16a34a"
+     stroke-width="2.75631"
+     marker-end="url(#arrowheadGreen)"
+     id="line47"
+     style="stroke-width:2.2946;stroke-dasharray:none;marker-end:url(#Triangle)" />
+  <line
+     x1="659.67694"
+     y1="269.05957"
+     x2="659.87451"
+     y2="292.62799"
+     stroke="#16a34a"
+     stroke-width="2.75631"
+     marker-end="url(#arrowheadGreen)"
+     id="line47-4"
+     style="stroke-width:2.286;stroke-dasharray:none;marker-end:url(#Triangle-0)" />
+  <line
+     x1="658.14319"
+     y1="185.92696"
+     x2="658.34277"
+     y2="209.04135"
+     stroke="#16a34a"
+     stroke-width="2.75631"
+     marker-end="url(#arrowheadGreen)"
+     id="line47-4-2"
+     style="stroke-width:2.276;stroke-dasharray:none;marker-end:url(#Triangle-0-8)" />
+  <!-- Resource sharing arrows -->
+  <!-- Execution flow -->
+  <line
+     x1="632.04681"
+     y1="476.38596"
+     x2="632.04681"
+     y2="436.13373"
+     stroke="#4338ca"
+     stroke-width="1.89155"
+     marker-end="url(#arrowhead)"
+     id="line51"
+     style="marker-end:url(#marker85)" />
+  <rect
+     x="581.4035"
+     y="470.29242"
+     width="100"
+     height="35"
+     rx="4"
+     fill="#fde68a"
+     stroke="#f59e0b"
+     stroke-width="1"
+     id="rect25" />
+  <text
+     x="631.4035"
+     y="485.29242"
+     font-family="Arial"
+     font-size="9px"
+     text-anchor="middle"
+     fill="#92400e"
+     id="text26">CLONE_SIGHAND</text>
+  <text
+     x="631.4035"
+     y="497.29242"
+     font-family="Arial"
+     font-size="9px"
+     text-anchor="middle"
+     fill="#92400e"
+     id="text27">Compartilhar sinais</text>
+  <line
+     x1="832.60291"
+     y1="352.79419"
+     x2="832.44995"
+     y2="381.68478"
+     stroke="#16a34a"
+     stroke-width="1.1255"
+     marker-end="url(#arrowheadGreen)"
+     id="line53"
+     style="stroke-width:2.16765;stroke-dasharray:none;marker-end:url(#marker85)" />
+  <line
+     x1="833.84943"
+     y1="429.30331"
+     x2="833.74866"
+     y2="462.50784"
+     stroke="#374151"
+     stroke-width="1.28216"
+     marker-end="url(#arrowhead)"
+     id="line55"
+     style="fill:#7137c8;stroke:#7137c8;stroke-width:2.13397;stroke-dasharray:none;marker-end:url(#Triangle)" />
+  <!-- Loop back to scheduler -->
+  <text
+     x="947.01727"
+     y="360.31525"
+     font-family="Arial"
+     font-size="10px"
+     fill="#059669"
+     id="text55"
+     style="fill:#8d5fd3">Loop</text>
+  <text
+     x="946.02484"
+     y="371.34552"
+     font-family="Arial"
+     font-size="10px"
+     fill="#059669"
+     id="text56"
+     style="fill:#8d5fd3">Contínuo</text>
+  <!-- Side Information Boxes -->
+  <!-- Process Hierarchy -->
+  <rect
+     x="35.339417"
+     y="120.93567"
+     width="150"
+     height="100"
+     rx="6"
+     fill="#f0f9ff"
+     stroke="#0284c7"
+     stroke-width="1"
+     id="rect56" />
+  <text
+     x="110.12189"
+     y="141.59729"
+     font-family="Arial"
+     font-size="11px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#0c4a6e"
+     id="text57">Hierarquia</text>
+  <text
+     x="56.049755"
+     y="159.61243"
+     font-family="Arial"
+     font-size="9px"
+     fill="#0c4a6e"
+     id="text58">• PID: Process ID</text>
+  <text
+     x="56.049755"
+     y="174.61243"
+     font-family="Arial"
+     font-size="9px"
+     fill="#0c4a6e"
+     id="text59">• TGID: Thread Group ID</text>
+  <text
+     x="56.049755"
+     y="189.61243"
+     font-family="Arial"
+     font-size="9px"
+     fill="#0c4a6e"
+     id="text60">• PPID: Parent PID</text>
+  <text
+     x="56.049755"
+     y="204.61243"
+     font-family="Arial"
+     font-size="9px"
+     fill="#0c4a6e"
+     id="text61">• Árvore de processos</text>
+  <!-- EEVDF Formula -->
+  <g
+     id="g90"
+     transform="translate(608.62203,-138.13292)">
+    <rect
+       x="20.110041"
+       y="673.60791"
+       width="352.30353"
+       height="57.276875"
+       rx="14.092139"
+       fill="#f8fafc"
+       stroke="#334155"
+       stroke-width="1.88948"
+       id="rect61"
+       style="stroke:#999999;stroke-width:0.66873;stroke-dasharray:none" />
+    <text
+       x="74.854439"
+       y="690.0722"
+       font-family="Arial"
+       font-size="12px"
+       font-weight="bold"
+       text-anchor="middle"
+       fill="#0f172a"
+       id="text62">Fórmula EEVDF</text>
+    <text
+       x="30.17544"
+       y="701.14032"
+       font-family="monospace"
+       font-size="10px"
+       fill="#334155"
+       id="text63">Virtual Deadline =</text>
+    <text
+       x="141.65848"
+       y="700.92303"
+       font-family="monospace"
+       font-size="10px"
+       fill="#334155"
+       id="text64">Eligible Time +</text>
+    <text
+       x="232.63129"
+       y="700.37494"
+       font-family="monospace"
+       font-size="10px"
+       fill="#334155"
+       id="text65">(Time Slice / Weight)</text>
+    <rect
+       x="29.844629"
+       y="708.39014"
+       width="333.49594"
+       height="1"
+       fill="#e2e8f0"
+       id="rect65"
+       style="stroke-width:1.36116" />
+    <text
+       x="27.528959"
+       y="720.9646"
+       font-family="Arial"
+       font-size="10px"
+       fill="#16a34a"
+       id="text66">✓ Menor deadline executa</text>
+    <text
+       x="153.89845"
+       y="720.89624"
+       font-family="Arial"
+       font-size="10px"
+       fill="#dc2626"
+       id="text67">✗ vlag &lt; 0 não elegível</text>
+  </g>
+  <!-- Task States -->
+  <rect
+     x="34.073563"
+     y="234.56947"
+     width="151.20847"
+     height="109.96092"
+     rx="6.4803629"
+     fill="#fef3c7"
+     stroke="#d97706"
+     stroke-width="1.03908"
+     id="rect67" />
+  <text
+     x="109.54352"
+     y="252.56506"
+     font-family="Arial"
+     font-size="11px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#92400e"
+     id="text68">Estados</text>
+  <text
+     x="49.981655"
+     y="272.56506"
+     font-family="Arial"
+     font-size="9px"
+     fill="#92400e"
+     id="text69">• TASK_RUNNING</text>
+  <text
+     x="49.981655"
+     y="287.56506"
+     font-family="Arial"
+     font-size="9px"
+     fill="#92400e"
+     id="text70">• TASK_INTERRUPTIBLE</text>
+  <text
+     x="49.981655"
+     y="302.56506"
+     font-family="Arial"
+     font-size="9px"
+     fill="#92400e"
+     id="text71">• TASK_UNINTERRUPTIBLE</text>
+  <text
+     x="49.981655"
+     y="317.56506"
+     font-family="Arial"
+     font-size="9px"
+     fill="#92400e"
+     id="text72">• TASK_ZOMBIE</text>
+  <text
+     x="49.981655"
+     y="332.56506"
+     font-family="Arial"
+     font-size="9px"
+     fill="#92400e"
+     id="text73">• TASK_STOPPED</text>
+  <!-- Memory Management -->
+  <rect
+     x="33.688637"
+     y="359.85651"
+     width="151.97832"
+     height="89.993462"
+     rx="6.079133"
+     fill="#fdf2f8"
+     stroke="#ec4899"
+     stroke-width="1.00654"
+     id="rect73" />
+  <text
+     x="109.54352"
+     y="378.53"
+     font-family="Arial"
+     font-size="11px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#be185d"
+     id="text74">Estruturas</text>
+  <text
+     x="50.507969"
+     y="398.53"
+     font-family="Arial"
+     font-size="9px"
+     fill="#be185d"
+     id="text75">• mm_struct: Memória</text>
+  <text
+     x="50.507969"
+     y="413.53"
+     font-family="Arial"
+     font-size="9px"
+     fill="#be185d"
+     id="text76">• files_struct: FDs</text>
+  <text
+     x="50.507969"
+     y="428.53"
+     font-family="Arial"
+     font-size="9px"
+     fill="#be185d"
+     id="text77">• signal_struct: Sinais</text>
+  <text
+     x="50.507969"
+     y="443.53"
+     font-family="Arial"
+     font-size="9px"
+     fill="#be185d"
+     id="text78">• thread_struct: CPU</text>
+  <!-- Path Labels -->
+  <text
+     x="264.09357"
+     y="123.62574"
+     font-family="Arial"
+     font-size="12px"
+     font-weight="bold"
+     fill="#2563eb"
+     id="text79">🔵 Criação de Processos</text>
+  <text
+     x="572.86548"
+     y="126.43275"
+     font-family="Arial"
+     font-size="12px"
+     font-weight="bold"
+     fill="#16a34a"
+     id="text80">🟢 Decisão de Escalonamento</text>
+  <!-- Performance Metrics -->
+  <rect
+     x="784.3548"
+     y="142.69006"
+     width="200"
+     height="80"
+     rx="6"
+     fill="#ecfdf5"
+     stroke="#10b981"
+     stroke-width="1"
+     id="rect80" />
+  <text
+     x="884.3548"
+     y="162.69006"
+     font-family="Arial"
+     font-size="11px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#047857"
+     id="text81">Métricas Coletadas</text>
+  <text
+     x="794.3548"
+     y="182.69006"
+     font-family="Arial"
+     font-size="9px"
+     fill="#047857"
+     id="text82">• Context switches realizados</text>
+  <text
+     x="794.3548"
+     y="197.69006"
+     font-family="Arial"
+     font-size="9px"
+     fill="#047857"
+     id="text83">• Tempo médio de resposta</text>
+  <text
+     x="794.3548"
+     y="212.69006"
+     font-family="Arial"
+     font-size="9px"
+     fill="#047857"
+     id="text84">• Fairness do escalonador</text>
+</svg>

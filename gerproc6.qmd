@@ -1,0 +1,344 @@
+# Referências
+
+AGHA, G. **Actors: a model of concurrent computation in distributed systems**. Cambridge: MIT Press, 1986. 144 p.
+
+AGHA, G.; MASON, I. A.; SMITH, S. F.; TALCOTT, C. L. **A foundation for actor computation**. **Journal of Functional Programming**, Cambridge, v. 7, n. 1, p. 1-72, jan. 1997.
+
+ARMSTRONG, J. **Programming Erlang: software for a concurrent world**. 2. ed. Raleigh: Pragmatic Bookshelf, 2013. 548 p.
+
+BELL, John. **Operating Systems: `CPU` Scheduling**. Chicago: University of Illinois at Chicago, Department of Computer Science, 2024. Disponível em: <https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/5_CPU_Scheduling.html>. Acesso em: 29 jun. 2025.
+
+BELL, John. **Operating Systems: Deadlocks**. Chicago: University of Illinois at Chicago, Department of Computer Science, 2024. Disponível em: <https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/7_Deadlocks.html>. Acesso em: 29 jun. 2025.
+
+BELL, John. **Operating Systems: Process Synchronization**. Chicago: University of Illinois at Chicago, Department of Computer Science, 2024. Disponível em: <https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/5_Synchronization.html>. Acesso em: 29 jun. 2025.
+
+BELL, John. **Operating Systems: Processes**. Chicago: University of Illinois at Chicago, Department of Computer Science, 2024. Disponível em: <https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/3_Processes.html>. Acesso em: 29 jun. 2025.
+
+BELL, John. **Operating Systems: Threads**. Chicago: University of Illinois at Chicago, Department of Computer Science, 2024. Disponível em: <https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html>. Acesso em: 29 jun. 2025.
+
+BENDERSKY, Eli. **Launching **Linux** threads and processes with clone**. 2018. Disponível em: <https://eli.thegreenplace.net/2018/launching-linux-threads-and-processes-with-clone/>. Acesso em: 29 jun. 2025.
+
+BITS'N'BITES. **Benchmarking OS primitives**. Disponível em: <https://www.bitsnbites.eu/benchmarking-os-primitives/>. Acesso em: 29 jun. 2025.
+
+BLANTON, Ethan. **CSE 220: Systems Programming - 20: Process Memory Layout**. Buffalo: University at Buffalo, 2022. Disponível em: <https://cse.buffalo.edu/~eblanton/course/cse220-2022-2f/materials/20-layout.pdf>. Acesso em: 30 jun. 2025.
+
+BLUMOFE, R. D.; LEISERSON, C. E. **Scheduling multithreaded computations by work stealing**. **Journal of the ACM**, New York, v. 46, n. 5, p. 720-748, set. 1999.
+
+CAMBRIDGE UNIVERSITY. Computer Laboratory. **Threading models and performance analysis**. Cambridge, 2023. Disponível em: <https://www.cl.cam.ac.uk/research/srg/netos/papers/>. Acesso em: 25 jun. 2025.
+
+CARDIFF UNIVERSITY. **Interprocess Communication (IPC), Pipes**. Cardiff, 2024. Disponível em: <https://users.cs.cf.ac.uk/dave/C/node23.html>. Acesso em: 29 jun. 2025.
+
+CARDIFF UNIVERSITY. **IPC: Message Queues**. Cardiff, 2024. Disponível em: <https://users.cs.cf.ac.uk/Dave.Marshall/C/node25.html>. Acesso em: 29 jun. 2025.
+
+CARDIFF UNIVERSITY. **IPC: Shared Memory**. Cardiff, 2024. Disponível em: <https://users.cs.cf.ac.uk/Dave.Marshall/C/node27.html>. Acesso em: 29 jun. 2025.
+
+CARDIFF UNIVERSITY. **IPC: Sockets**. Cardiff, 2024. Disponível em: <https://users.cs.cf.ac.uk/Dave.Marshall/C/node28.html>. Acesso em: 29 jun. 2025.
+
+CARNEGIE MELLON UNIVERSITY. **Lecture 5: Scheduling**. Pittsburgh, 2017. Disponível em: <https://www.andrew.cmu.edu/user/gkesden/olducsdstuff/classes/sp17/cse120-a/applications/ln/lecture5.html>. Acesso em: 29 jun. 2025.
+
+COLORADO STATE UNIVERSITY. **CS 551 Distributed Operating Systems: Banker's Algorithm**. Fort Collins, 2024. Disponível em: <https://www.cs.colostate.edu/~cs551/CourseNotes/Bankers.html>. Acesso em: 29 jun. 2025.
+
+CONWAY, M. E. **Design of a separable transition-diagram compiler**. **Communications of the ACM**, New York, v. 6, n. 7, p. 396-408, jul. 1963.
+
+CORNELL UNIVERSITY. **OS Processes - CS 3410**. Ithaca, 2024. Disponível em: <https://www.cs.cornell.edu/courses/cs3410/2024fa/notes/process.html>. Acesso em: 29 jun. 2025.
+
+DEAN, J.; GHEMAWAT, S. **MapReduce: simplified data processing on large clusters**. **Communications of the ACM**, New York, v. 51, n. 1, p. 107-113, jan. 2008.
+
+DONOVAN, A. A.; KERNIGHAN, B. W. **The Go programming language**. Boston: Addison-Wesley, 2015. 380 p.
+
+ECMA INTERNATIONAL. **ECMAScript 2023 language specification**. Geneva: Ecma International, 2023. (ECMA-262, 14th edition).
+
+FLANAGAN, D. **JavaScript: the definitive guide**. 7. ed. Sebastopol: O'Reilly Media, 2020. 1096 p.
+
+GORDON COLLEGE. **CS322: Deadlock**. Wenham, 2024. Disponível em: <https://cs.gordon.edu/courses/cs322/lectures/deadlock.html>. Acesso em: 29 jun. 2025.
+
+GOOGLE INC. **V8 JavaScript engine design document**. m ntain View, 2023. Disponível em: <https://v8.dev/docs/>. Acesso em: 25 jun. 2025.
+
+HART, T.J.; ANANTH, Tom; BIEDL, T. **Executable and Linkable Format (ELF)**. Pittsburgh: Carnegie Mellon University, 2000. Disponível em: <https://www.cs.cmu.edu/afs/cs/academic/class/15213-f00/docs/elf.pdf>. Acesso em: 30 jun. 2025.
+
+HARVARD UNIVERSITY. School of Engineering and Applied Sciences. **CS 61: Systems Programming and Machine Organization - Process**. Cambridge: Harvard University, 2024. Disponível em: <https://cs61.seas.harvard.edu/site/2024/Process/>. Acesso em: 30 jun. 2025.
+
+HARVARD UNIVERSITY. School of Engineering and Applied Sciences. **CS161: x86-64 memory layout**. Cambridge: Harvard University, 2018. Disponível em: <https://read.seas.harvard.edu/cs161/2018/doc/memory-layout/>. Acesso em: 30 jun. 2025.
+
+HEWITT, C.; BISHOP, P.; STEIGER, R. **A universal modular ACTOR formalism for artificial intelligence**. In: INTERNATIONAL JOINT CONFERENCE ON ARTIFICIAL INTELLIGENCE, 3., 1973, Stanford. **Anais...** Stanford: IJCAI, 1973. p. 235-245.
+
+IBM. **fork() — Create a new process**. IBM Documentation, 2023. Disponível em: <https://www.ibm.com/docs/en/zos/2.?topic=functions-fork-create-new-process>. Acesso em: 30 jun. 2025.
+
+IMPERIAL COLLEGE LONDON. Department of Computing. **Cache performance in multithreaded systems**. London, 2023. Disponível em: <https://www.imperial.ac.uk/computing/research/>. Acesso em: 25 jun. 2025.
+
+INSTITUTE OF ELECTRICAL AND ELECTRONICS ENGINEERS. **IEEE Std 1003.1-2017: portable operating system interface (POSIX)**. New York: IEEE, 2018.
+
+JAMES MADISON UNIVERSITY. **Computer Systems Fundamentals: IPC Models**. Harrisonburg, 2024. Disponível em: <https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/IPCModels.html>. Acesso em: 29 jun. 2025.
+
+JAMES MADISON UNIVERSITY. **Computer Systems Fundamentals: Message Passing With Message Queues**. Harrisonburg, 2024. Disponível em: <https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/MQueues.html>. Acesso em: 29 jun. 2025.
+
+JAMES MADISON UNIVERSITY. **Computer Systems Fundamentals: Pipes and FIFOs**. Harrisonburg, 2024. Disponível em: <https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/Pipes.html>. Acesso em: 29 jun. 2025.
+
+JAMES MADISON UNIVERSITY. **Computer Systems Fundamentals: Processes vs. Threads**. Harrisonburg, 2024. Disponível em: <https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/ProcVThreads.html>. Acesso em: 29 jun. 2025.
+
+JAMES MADISON UNIVERSITY. **Computer Systems Fundamentals: Producer-Consumer Problem**. Harrisonburg, 2024. Disponível em: <https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/ProdCons.html>. Acesso em: 29 jun. 2025.
+
+JAMES MADISON UNIVERSITY. **Computer Systems Fundamentals: Race Conditions and Critical Sections**. Harrisonburg, 2024. Disponível em: <https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/RaceConditions.html>. Acesso em: 29 jun. 2025.
+
+JAMES MADISON UNIVERSITY. **Computer Systems Fundamentals: Semaphores**. Harrisonburg, 2024. Disponível em: <https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/IPCSems.html>. Acesso em: 29 jun. 2025.
+
+JOHNS HOPKINS UNIVERSITY. **Recovery from Deadlock**. Baltimore, 2024. Disponível em: <https://www.cs.jhu.edu/~yairamir/cs418/os4/tsld032.htm>. Acesso em: 29 jun. 2025.
+
+JUNIATA COLLEGE. **Process Description and Control**. Huntingdon, 2024. Disponível em: <https://jcsites.juniata.edu/faculty/rhodes/os/ch3b.htm>. Acesso em: 29 jun. 2025.
+
+KENT STATE UNIVERSITY. **Operating Systems Notes**. Kent, 2024. Disponível em: <http://personal.kent.edu/~rmuhamma/OpSystems/Myos/processOperate.htm>. Acesso em: 29 jun. 2025.
+
+KENT STATE UNIVERSITY. **Operating Systems Notes: Multilevel Feedback Queue**. Kent, 2024. Disponível em: <http://personal.kent.edu/~rmuhamma/OpSystems/Myos/multiFeedQue.htm>. Acesso em: 29 jun. 2025.
+
+KENT STATE UNIVERSITY. **Operating Systems Notes: Priority Scheduling**. Kent, 2024. Disponível em: <http://personal.kent.edu/~rmuhamma/OpSystems/Myos/prioritySchedule.htm>. Acesso em: 29 jun. 2025.
+
+KENT STATE UNIVERSITY. **Shortest-Job-First (SJF) Scheduling**. Kent, 2024. Disponível em: <http://personal.kent.edu/~rmuhamma/OpSystems/Myos/sjfSchedule.htm>. Acesso em: 29 jun. 2025.
+
+KNUTH, D. E. **The art of computer programming: fundamental algorithms**. 3. ed. Boston: Addison-Wesley, 1997. v. 1. 650 p.
+
+LEE, E. A. **The problem with threads**. **Computer**, Los Alamitos, v. 39, n. 5, p. 33-42, maio 2006.
+
+LOYOLA MARYm NT UNIVERSITY. **Windows Concurrent and Distributed Programming**. Los Angeles, 2024. Disponível em: <https://cs.lmu.edu/~ray/notes/win32prth/>. Acesso em: 29 jun. 2025.
+
+LOYOLA UNIVERSITY CHICAGO. **Process/Thread Scheduling**. Chicago, 2024. Disponível em: <https://os.cs.luc.edu/scheduling.html>. Acesso em: 29 jun. 2025.
+
+MARLOW, S. **Parallel and concurrent programming in Haskell**. Sebastopol: O'Reilly Media, 2013. 322 p.
+
+MASSACHUSETTS INSTITUTE OF TECHNOLOGY. **Computer Science and Artificial Intelligence Laboratory. Coroutines and cooperative multitasking**. Cambridge, 2023. Disponível em: <https://www.csail.mit.edu/research/>. Acesso em: 25 jun. 2025.
+
+MASSACHUSETTS INSTITUTE OF TECHNOLOGY. **Operating Systems Lecture Notes Lecture 6 `CPU` Scheduling**. Cambridge, 2024. Disponível em: <https://people.csail.mit.edu/rinard/teaching/osnotes/h6.html>. Acesso em: 29 jun. 2025.
+
+MICROSOFT. **Creating Processes**. Microsoft Learn, 2023. Disponível em: <https://learn.microsoft.com/en-us/windows/win32/procthread/creating-processes>. Acesso em: 30 jun. 2025.
+
+MICROSOFT. **PE Format**. Microsoft Learn, 2024. Disponível em: <https://learn.microsoft.com/en-us/windows/win32/debug/pe-format>. Acesso em: 30 jun. 2025.
+
+MICROSOFT. **Virtual address space**. Microsoft Learn, 2023. Disponível em: <https://learn.microsoft.com/en-us/windows/win32/memory/virtual-address-space>. Acesso em: 30 jun. 2025.
+
+MILLER, Barton P. **Processes and Threads**. Madison: University of Wisconsin-Madison, [s.d.]. Disponível em: <https://pages.cs.wisc.edu/~bart/537/lecturenotes/processes-threads.html>. Acesso em: 30 jun. 2025.
+
+m RA, A. L.; IERUSALIMSCHY, R. **Revisiting coroutines**. **ACm transactions on Programming Languages and Systems**, New York, v. 31, n. 2, p. 1-31, fev. 2009.
+
+NEW YORK UNIVERSITY. **Class Notes for Operating Systems: Lecture 5**. New York, 2002. Disponível em: <https://cs.nyu.edu/courses/spring02/V22.0202-002/lecture-05.html>. Acesso em: 29 jun. 2025.
+
+NEW YORK UNIVERSITY. **OS Lecture #4**. New York, 2006. Disponível em: <https://cs.nyu.edu/~gottlieb/courses/2000s/2006-07-fall/os2250/lectures/lecture-04.html>. Acesso em: 29 jun. 2025.
+
+NEW YORK UNIVERSITY. **OS Lecture #6**. New York, 2010. Disponível em: <https://cs.nyu.edu/~gottlieb/courses/2010s/2010-11-fall/os2250/lectures/lecture-06.html>. Acesso em: 29 jun. 2025.
+
+OLD DOMINION UNIVERSITY. **Deadlocks**. Norfolk, 2010. Disponível em: <https://www.cs.odu.edu/~cs471w/spring10/lectures/Deadlocks.htm>. Acesso em: 29 jun. 2025.
+
+OUSTERHOUT, J. **Why threads are a bad idea (for most purposes)**. In: USENIX ANNUAL TECHNICAL CONFERENCE, 1996, San Diego. **Anais...** Berkeley: USENIX Association, 1996. p. 1-12.
+
+PRINCETON UNIVERSITY. **COS 318 Project 4: Inter-Process Communication and Process Management**. Princeton, 2008. Disponível em: <https://www.cs.princeton.edu/courses/archive/fall08/cos318/projects/4.html>. Acesso em: 29 jun. 2025.
+
+PURDUE UNIVERSITY. **Lab 3: Monitoring Process BehaviorCase 1:17-cv-00635-RDM Document 124-2 Filed 10/04/18 Page 73 of 74
+and Dynamic Priority Scheduling**. West Lafayette, 2024. Disponível em: <https://www.cs.purdue.edu/homes/cs354/lab3/lab3.html>. Acesso em: 29 jun. 2025.
+
+PURDUE UNIVERSITY. **Operating Systems: Course Website**. West Lafayette, 2024. Disponível em: <https://www.cs.purdue.edu/homes/cs354/>. Acesso em: 29 jun. 2025.
+
+RAMIREZ, A.; VALERO, M. **Exploring cache performance in multithreaded processors**. **IEEe transactions on Computers**, Los Alamitos, v. 47, n. 2, p. 192-205, fev. 1998.
+
+RENSSELAER POLYTECHNIC INSTITUTE. **Deadlock**. Troy, 2004. Disponível em: <https://www.cs.rpi.edu/academics/courses/fall04/os/c10/>. Acesso em: 29 jun. 2025.
+
+RENSSELAER POLYTECHNIC INSTITUTE. **Process Scheduling**. Troy, 2004. Disponível em: <http://www.cs.rpi.edu/academics/courses/fall04/os/c8/>. Acesso em: 29 jun. 2025.
+
+ROCHESTER INSTITUTE OF TECHNOLOGY. **Inter-Process Communication - SWEN 331: Engineering Secure Software**. Rochester, 2024. Disponível em: <https://www.se.rit.edu/~swen-331/projects/ipc/>. Acesso em: 29 jun. 2025.
+
+RUTGERS UNIVERSITY. **Process Scheduling**. New Brunswick, 2024. Disponível em: <https://www.cs.rutgers.edu/~pxk/416/notes/07-scheduling.html>. Acesso em: 29 jun. 2025.
+
+SAN JOSÉ STATE UNIVERSITY. **Inter Process Communication (IPC)**. San José, 2024. Disponível em: <http://www.cs.sjsu.edu/faculty/pearce/modules/lectures/oop/ipc/ipc2.htm>. Acesso em: 29 jun. 2025.
+
+SIMONIS, Volker. **Linux Memory Layout**. Simonis's Blog, [s.d.]. Disponível em: <https://simonis.github.io/Memory/>. Acesso em: 30 jun. 2025.
+
+STANFORD UNIVERSITY. **Processes and Threads**. Stanford, 2013. Disponível em: <https://web.stanford.edu/~ouster/cgi-bin/cs140-winter13/lecture.php?topic=process>. Acesso em: 29 jun. 2025.
+
+STANFORD UNIVERSITY. **Scheduling**. Stanford, 2014. Disponível em: <http://web.stanford.edu/~ouster/cgi-bin/cs140-spring14/lecture.php?topic=scheduling>. Acesso em: 29 jun. 2025.
+
+STANFORD UNIVERSITY. Computer Systems Laboratory. **Green threads and user-level scheduling**. Stanford, 2023. Disponível em: <https://csl.stanford.edu/research/>. Acesso em: 25 jun. 2025.
+
+STEVENS, W. R.; RAGO, S. A. **Advanced programming in the UNIX environment**. 3. ed. Boston: Addison-Wesley, 2013. 1032 p.
+
+SWARTHMORE COLLEGE. **Fork and Exec**. Swarthmore, 2015. Disponível em: <https://www.cs.swarthmore.edu/~kwebb/cs31/s15/bucs/fork_and_exec.html>. Acesso em: 29 jun. 2025.
+
+TANENBAUM, A. S.; BOS, H. **Modern operating systems**. 4. ed. Boston: Pearson, 2015. 1136 p.
+
+THE GO TEAM. **The Go memory model**. m ntain View: Google, 2023. Disponível em: <https://go.dev/ref/mem>. Acesso em: 25 jun. 2025.
+
+THE **Linux** `kernel` PROJECT. **The x86_64 **Linux** Memory Map**. The **Linux** `kernel` Archives, 2020. Disponível em: <https://www.kernel.org/doc/html/v5.0/x86/x86_64/mm.html>. Acesso em: 30 jun. 2025.
+
+UNIVERSITY COLLEGE LONDON. **Synchronization mechanisms**. London, 2024. Disponível em: <http://mtweb.cs.ucl.ac.uk/mus/arabidopsis/xiang/software/boost_1_47_0/doc/html/interprocess/synchronization_mechanisms.html>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF CALIFORNIA, BERKELEY. Computer Science Division. **Scalable threading architectures**. Berkeley, 2023. Disponível em: <https://www.eecs.berkeley.edu/research/>. Acesso em: 25 jun. 2025.
+
+UNIVERSITY OF CALIFORNIA, LOS ANGELES. **Inter-Process Communication**. Los Angeles, 2016. Disponível em: <https://lasr.cs.ucla.edu/classes/111_fall16/readings/Interprocess_Communication.html>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF CALIFORNIA, SAN DIEGO. **Lecture 4: Threads**. San Diego, 2016. Disponível em: <https://cseweb.ucsd.edu/classes/sp16/cse120-a/applications/ln/lecture4.html>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF CALIFORNIA, SAN DIEGO. **Monitors and Condition Variables**. San Diego, 2016. Disponível em: <https://cseweb.ucsd.edu/classes/sp16/cse120-a/applications/ln/lecture9.html>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF CAMBRIDGE. Computer Laboratory. **Course pages 2024–25: Operating Systems**. Cambridge, 2024. Disponível em: <https://www.cl.cam.ac.uk/teaching/2425/OpSystems/>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF CAMBRIDGE. Computer Laboratory. **Scheduling Algorithms**. Cambridge, 2019. Disponível em: <https://www.cl.cam.ac.uk/teaching/1920/OpSystems/pdf/05-Scheduling-Algorithms.pdf>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF IOWA. **22C:116, Lecture 8, Fall 2001**. Iowa City, 2001. Disponível em: <http://homepage.cs.uiowa.edu/~jones/opsys/fall01/notes/08.html>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF ILLINOIS. **CS 241 · Scheduling**. Champaign, 2024. Disponível em: <http://cs241.cs.illinois.edu/coursebook/Scheduling>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF ILLINOIS. **CS 341 · Scheduling**. Champaign, 2024. Disponível em: <http://cs341.cs.illinois.edu/coursebook/Scheduling>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF MANCHESTER. **Deadlock - COMP15212 Wiki**. Manchester, 2024. Disponível em: <https://wiki.cs.manchester.ac.uk/COMP15212/index.php/Deadlock>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF MANCHESTER. **Process Control Block (PCB) - COMP15212 Wiki**. Manchester, 2024. Disponível em: <https://wiki.cs.manchester.ac.uk/COMP15212/index.php/Process_Control_Block_(PCB)>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF MANCHESTER. **Process States - COMP15212 Wiki**. Manchester, 2024. Disponível em: <https://wiki.cs.manchester.ac.uk/COMP15212/index.php/Process_States>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF MASSACHUSETTS LOWELL. **Named and Unnamed Pipes: Clearing the Confusion**. Lowell, 2024. Disponível em: <http://www.cs.uml.edu/~fredm/courses/91.308/files/pipes.html>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF NOTTINGHAM. **G52CON 2008-2009: Solution to Exercise 2, Semaphores**. Nottingham, 2009. Disponível em: <http://www.cs.nott.ac.uk/~psznza/G52CON/solution-2.html>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF SOUTHERN CALIFORNIA. **Mastering Resource Allocation: Unleashing the Power of Banker's Algorithm**. Los Angeles, 2024. Disponível em: <https://trajdash.usc.edu/bankers-algorithm>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF TENNESSEE, KNOXVILLE. **Processes**. Knoxville, 2024. Disponível em: <https://web.eecs.utk.edu/~smarz1/courses/cosc361/notes/processes/>. Acesso em: 29 jun. 2025.
+
+UNIVERSITY OF WASHINGTON. **CSE451 Section Notes: Fork**. Seattle, 2002. Disponível em: <https://courses.cs.washington.edu/courses/cse451/02sp/section/notes/fork/>. Acesso em: 29 jun. 2025.
+
+VON BEHREN, R.; CONDIT, J.; ZHOU, F.; NECULA, G. C.; BREWER, E. **Capriccio: scalable threads for internet services**. **ACM SIGOPS Operating Systems Review**, New York, v. 37, n. 5, p. 268-281, t. 2003.
+
+WEATHERSPOON, Hakim. **Processes and Threads**. Ithaca: Cornell University, 2014. Disponível em: <https://www.cs.cornell.edu/courses/cs4410/2014fa/slides/03-processes-threads-v2.ppt>. Acesso em: 30 jun. 2025.
+
+WORCESTER POLYTECHNIC INSTITUTE. **Linux PCB Implementation**. Worcester, 2003. Disponível em: <https://web.cs.wpi.edu/~claypool/courses/3013-A03/samples/linux-pcb.c>. Acesso em: 29 jun. 2025.
+
+YALE UNIVERSITY. **InterProcessCommunication**. New Haven, 2024. Disponível em: <https://www.cs.yale.edu/homes/aspnes/pinewiki/InterProcessCommunication.html>. Acesso em: 29 jun. 2025.
+
+**A complete guide to **Linux** process scheduling**. Dispon Amendado em: 30 jun. 2025. Disponível em: <https://trepo.tuni.fi/bitstream/handle/10024/96864/GRADU-1428493916.pdf>.
+
+**Chapter 3 Memory Management**. Disponível em: <https://www.tldp.org/LDP/tlk/mm/memory.html>. Acesso em: 30 jun. 2025.
+
+**Chapter 3: Process**. Tallahassee: Florida State University, 2016. Disponível em: <https://www.cs.fsu.edu/~zwang/files/cop4610/Fall2016/chapter3.pdf>. Acesso em: 30 jun. 2025.
+
+**Chapter 4 – Processes**. The **Linux** Documentation Project. Disponível em: <https://tldp.org/LDP/tlk/kernel/processes.html>. Acesso em: 30 jun. 2025.
+
+**Comparison of executable file formats**. Wikipedia. Disponível em: <https://en.wikipedia.org/wiki/Comparison_of_executable_file_formats>. Acesso em: 30 jun. 2025.
+
+**Complete Tour of PE and ELF: Structure**. Infosec Institute. Disponível em: <https://www.infosecinstitute.com/resources/penetration-testing/complete-tour-of-pe-and-elf-structure/>. Acesso em: 30 jun. 2025.
+
+**Complete virtual memory map with 4-level page tables**. The **Linux** `kernel` Archives. Disponível em: <https://www.kernel.org/doc/Documentation/x86/x86_64/mm.txt>. Acesso em: 30 jun. 2025.
+
+**CreateProcessA function (processthreadsapi.h)**. Microsoft Learn. Disponível em: <https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa>. Acesso em: 30 jun. 2025.
+
+**CS 21: Introduction to Processes (C)**. Medford: Tufts University, 2025. Disponível em: <https://www.cs.tufts.edu/comp/21/notes/processes/processes_c.html>. Acesso em: 30 jun. 2025.
+
+**CS 225 | Stack and Heap Memory**. Urbana: University of Illinois, 2022. Disponível em: <https://courses.grainger.illinois.edu/cs225/fa2022/resources/stack-heap/>. Acesso em: 30 jun. 2025.
+
+**CS 31: Introduction to Computer Systems 24 Virtual Memory**. Swarthmore: Swarthmore College, 2025. Disponível em: <https://www.cs.swarthmore.edu/~chaganti/cs31/s25/Lecs/L24-Virtual-Memory.pdf>. Acesso em: 30 jun. 2025.
+
+**CS 537 Notes, Section #3A: Processes and Threads**. Madison: University of Wisconsin, [s.d.]. Disponível em: <https://pages.cs.wisc.edu/~bart/537/lecturenotes/processes-threads.html>. Acesso em: 30 jun. 2025.
+
+**CS3130: Processes and threads**. Charlottesville: University of Virginia, 2024. Disponível em: <https://www.cs.virginia.edu/~cr4bd/3130/F2024/readings/thread.html>. Acesso em: 30 jun. 2025.
+
+**CS370 Operating Systems**. Fort Collins: Colorado State University, 2021. Disponível em: <https://www.cs.colostate.edu/~cs370/Fall21/lectures/3ProcessesL5.pdf>. Acesso em: 30 jun. 2025.
+
+**CS697B-f07 Class Notes**. Boston: University of Massachusetts Boston, 2007. Disponível em: <https://www.cs.umb.edu/~srevilak/cs697b-notes.pdf>. Acesso em: 30 jun. 2025.
+
+**C Tutorial: Playing with processes**. New Brunswick: Rutgers University, [s.d.]. Disponível em: <https://people.cs.rutgers.edu/~pxk/416/notes/c-tutorials/wait.html>. Acesso em: 30 jun. 2025.
+
+**ELF**. Swarthmore: Swarthmore College, 2015. Disponível em: <https://www.cs.swarthmore.edu/~kwebb/cs31/s15/bucs/elf.html>. Acesso em: 30 jun. 2025.
+
+**fork() in C**. GeeksforGeeks. Disponível em: <https://www.geeksforgeeks.org/fork-system-call/>. Acesso em: 30 jun. 2025.
+
+**Introduction to CreateProcess()**. CPlusPlus.com. Disponível em: <https://cplusplus.com/forum/beginner/48283/>. Acesso em: 30 jun. 2025.
+
+**Introduction to Processes**. Chicago: Loyola University Chicago, 2024. Disponível em: <https://os.cs.luc.edu/processes.html>. Acesso em: 30 jun. 2025.
+
+**Kernel-Mode Driver Architecture Design Guide**. Microsoft Learn. Disponível em: <https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/>. Acesso em: 30 jun. 2025.
+
+**Lab 03 - Executables. Static Analysis [CS Open CourseWare]**. Bayamón: University of Puerto Rico, [s.d.]. Disponível em: <https://ccom.uprrp.edu/~rarce/ccom4995/ref/buc/Lab%2003%20-%20Executables.%20Static%20Analysis%20[CS%20Open%20CourseWare].html>. Acesso em: 30 jun. 2025.
+
+**Lecture 4: September 13 4. Process State**. Amherst: University of Massachusetts, 2012. Disponível em: <https://lass.cs.umass.edu/~shenoy/courses/fall12/lectures/notes/Lec04_notes.pdf>. Acesso em: 30 jun. 2025.
+
+**Mastering PE Structure for Malware Analysis: A Layman's Guide**. Tech Zealots. Disponível em: <https://tech-zealots.com/malware-analysis/pe-portable-executable-structure-malware-analysis-part-2/>. Acesso em: 30 jun. 2025.
+
+**MIPS Assembler Programming**. Ithaca: Cornell University, 2014. Disponível em: <https://www.cs.cornell.edu/courses/cs4410/2014fa/slides/03-processes-threads-v2.ppt>. Acesso em: 30 jun. 2025.
+
+**Notes on Operating Systems**. CiteSeerX. Disponível em: <https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=6c5e0e198c959359f2bb8dccb378a6ec3206e9ee>. Acesso em: 30 jun. 2025.
+
+**Operating System Components and Services**. Baltimore: Goucher College, [s.d.]. Disponível em: <https://phoenix.goucher.edu/~kelliher/cs42/sep11.html>. Acesso em: 30 jun. 2025.
+
+**Operating System Processes**. Claremont: Pomona College, 2022. Disponível em: <https://cs.pomona.edu/classes/cs105/archive/2022fa/lectures/08-Processes/Processes.pdf>. Acesso em: 30 jun. 2025.
+
+**Operating Systems: Processes**. Chicago: University of Illinois at Chicago, 2025. Disponível em: <https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/3_Processes.html>. Acesso em: 30 jun. 2025.
+
+**Operating Systems: Virtual Memory**. Chicago: University of Illinois at Chicago, 2025. Disponível em: <https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/9_VirtualMemory.html>. Acesso em: 30 jun. 2025.
+
+**OS Lecture #2**. New York: New York University, 2008. Disponível em: <https://cs.nyu.edu/~gottlieb/courses/2000s/2007-08-spring/os/lectures/lecture-02.html>. Acesso em: 30 jun. 2025.
+
+**Portable Executable**. Wikipedia. Disponível em: <https://en.wikipedia.org/wiki/Portable_Executable>. Acesso em: 30 jun. 2025.
+
+**Portable Executable File Format**. Disponível em: <https://blog.kowalczyk.info/articles/pefileformat.html>. Acesso em: 30 jun. 2025.
+
+**Process control**. Cambridge: Harvard University, 2024. Disponível em: <https://cs61.seas.harvard.edu/site/2024/Process/>. Acesso em: 30 jun. 2025.
+
+**Process Creation**. Providence: Brown University, 2022. Disponível em: <https://cs.brown.edu/courses/csci0300/2022/notes/l17.html>. Acesso em: 30 jun. 2025.
+
+**Process creation via fork() (recap)**. Providence: Brown University, 2020. Disponível em: <https://cs.brown.edu/courses/csci1310/2020/notes/l15.html>. Acesso em: 30 jun. 2025.
+
+**Process description and control**. Buffalo: University at Buffalo, 2000. Disponível em: <https://cse.buffalo.edu/~bina/cse421/spring00/lec3/lec3.PPT>. Acesso em: 30 jun. 2025.
+
+**Process Layout**. Buffalo: University at Buffalo, 2019. Disponível em: <https://cse.buffalo.edu/~eblanton/course/cse220-2019-2f/materials/16-process.pdf>. Acesso em: 30 jun. 2025.
+
+**Process Major Requirements of an OS**. Lincoln: University of Nebraska-Lincoln, [s.d.]. Disponível em: <http://cse.unl.edu/~witty/class/csce351/material/lecture/pdf/lecture3.pdf>. Acesso em: 30 jun. 2025.
+
+**Processes**. New Brunswick: Rutgers University, 2025. Disponível em: <https://people.cs.rutgers.edu/~pxk/416/notes/04-processes.html>. Acesso em: 30 jun. 2025.
+
+**Processes and Threads**. Duluth: University of Minnesota Duluth, [s.d.]. Disponível em: <https://www.d.umn.edu/~gshute/os/processes-and-threads.html>. Acesso em: 30 jun. 2025.
+
+**Processes Process creation and states**. New Brunswick: Rutgers University, 2025. Disponível em: <https://www.cs.rutgers.edu/~pxk/416/notes/04-processes.pdf>. Acesso em: 30 jun. 2025.
+
+**Process Scheduling in the Kernel**. Northampton: Smith College, [s.d.]. Disponível em: <https://www.science.smith.edu/~nhowe/262/oldlabs/sched.html>. Acesso em: 30 jun. 2025.
+
+**Python is OOP language Python and concurrency Multiprocessing**. Boulder: University of Colorado, 2011. Disponível em: <https://home.cs.colorado.edu/~kena/classes/5448/s11/presentations/alzabarah_oop.pdf>. Acesso em: 30 jun. 2025.
+
+**Study Guide to Accompany Operating Systems Concepts 10th Ed by Silberschatz, Galvin and Gagne Ch.**. Disponível em: <https://os-book.com/OS10/study-guide/Study-Guide.pdf>. Acesso em: 30 jun. 2025.
+
+**The ELF Format**. Irvine: University of California, Irvine, [s.d.]. Disponível em: <https://ics.uci.edu/~aburtsev/238P/hw/hw3-elf/hw3-elf.html>. Acesso em: 30 jun. 2025.
+
+**The Environment of a UNIX Process**. Boca Raton: Florida Atlantic University, [s.d.]. Disponível em: <https://www.cse.fau.edu/~roy/cop4604.s/notes/process.html>. Acesso em: 30 jun. 2025.
+
+**The **Linux** ELF HOWTO: What is ELF? An introduction**. Disponível em: <https://grumbeer.dyndns.org/ftp/cdroms/molinux/1996/molinux9612/docs/HOWTO-untarred/ELF-HOWTO-1.html>. Acesso em: 30 jun. 2025.
+
+**The **Linux** Kernel: Signals & Interrupts**. Boston: Boston University, [s.d.]. Disponível em: <https://www.cs.bu.edu/fac/richwest/cs591_w1/notes/wk3_pt2.PDF>. Acesso em: 30 jun. 2025.
+
+**The Memory Layout of a 64-bit **Linux** Process**. Simonis's Blog. Disponível em: <https://simonis.github.io/Memory/>. Acesso em: 30 jun. 2025.
+
+**Virtual Address Space (Memory Management)**. Microsoft Learn. Disponível em: <https://learn.microsoft.com/en-us/windows/win32/memory/virtual-address-space>. Acesso em: 30 jun. 2025.
+
+**Virtual Address Spaces - Windows drivers**. Microsoft Learn. Disponível em: <https://learn.microsoft.com/en-us/windows-hardware/drivers/gettingstarted/virtual-address-spaces>. Acesso em: 30 jun. 2025.
+
+**Virtual Memory**. Tallahassee: Florida State University, [s.d.]. Disponível em: <https://www.cs.fsu.edu/~baker/opsys/notes/virtualmemory.html>. Acesso em: 30 jun. 2025.
+
+**Virtual Memory - CS 3410 - Cornell CS**. Ithaca: Cornell University, 2025. Disponível em: <https://www.cs.cornell.edu/courses/cs3410/2025sp/notes/vm.html>. Acesso em: 30 jun. 2025.
+
+**W4118 Operating Systems**. New York: Columbia University, 2010. Disponível em: <https://www.cs.columbia.edu/~junfeng/10sp-w4118/lectures/l07-proc-linux.pdf>. Acesso em: 30 jun. 2025.
+
+**Windows Kernel-Mode Process and Thread Manager**. Microsoft Learn. Disponível em: <https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/windows-kernel-mode-process-and-thread-manager>. Acesso em: 30 jun. 2025.
+
+**9.CreateProcess Function - Windows System Programming in C/C++**. YouTube. Disponível em: <https://www.youtube.com/watch?v=KKYU5baDjI4>. Acesso em: 30 jun. 2025.
+
+**153: lab4**. Riverside: University of California, Riverside, [s.d.]. Disponível em: <http://alumni.cs.ucr.edu/~lgao/cs153/lab4.html>. Acesso em: 30 jun. 2025.
+
+**A Five-State Process Model (Review) The not-running state in the two-state model has now been split into a ready state and a**. Kent: Kent State University, 2003. Disponível em: <https://www.cs.kent.edu/~farrell/osf03/oldnotes/L06>. Acesso em: 30 jun. 2025.
+
+**Chapter 03 — Processes**. Kent: Kent State University, 2007. Disponível em: <https://www.cs.kent.edu/~walker/classes/os.f07/lectures/Walker-03.pdf>. Acesso em: 30 jun. 2025.
+
+**COS 318: Operating Systems Processes and Threads**. Princeton: Princeton University, 2011. Disponível em: <https://www.cs.princeton.edu/courses/archive/fall11/cos318/lectures/L4_ProcessesThreads.pdf>. Acesso em: 30 jun. 2025.
+
+**CSC 553 Operating Systems - Lecture 3- Process Description and Control**. Garden City: Adelphi University, [s.d.]. Disponível em: <https://home.adelphi.edu/~siegfried/cs553/553l3.pdf>. Acesso em: 30 jun. 2025.
+
+**elf - What is the difference between executable formats?**. Stack Overflow. Disponível em: <https://stackoverflow.com/questions/36293052/what-is-the-difference-between-executable-formats>. Acesso em: 30 jun. 2025.
+
+**PE vs ELF**. OSDev.org. Disponível em: <https://forum.osdev.org/viewtopic.php?t=17686>. Acesso em: 30 jun. 2025.
+
+**Process Life Cycle**. Miami: University of Miami, [s.d.]. Disponível em: <https://www.cs.miami.edu/~burt/learning/Csc521.141/notes/process-life-cycle.html>. Acesso em: 30 jun. 2025.
+
+**Process Description and Control**. Blacksburg: Virginia Tech, 2005. Disponível em: <https://courses.cs.vt.edu/~cs3204/fall2005/arthur/slides/Chapter03a_1up.pdf>. Acesso em: 30 jun. 2025.
+
+**PowerPoint Presentation**. Lewisburg: Bucknell University, 2020. Disponível em: <https://www.eg.bucknell.edu/~cs315/F2020/meng/lecture-notes/06-process-life-cycle.pptx>. Acesso em: 30 jun. 2025.

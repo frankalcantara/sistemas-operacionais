@@ -1,0 +1,36 @@
+---
+title: "Gestão de Arquivos"
+---
+
+## Gerenciamento do Sistema de Arquivos: Organizando Dados Persistentes
+
+Se a compassiva leitora permitir eu vou me referir ao sistema de arquivos como uma das partes mais importantes de um **Sistema Operacional**, responsável por organizar, armazenar e recuperar dados persistentes em dispositivos de armazenamento. O gerenciamento do sistemas de arquivos atua como uma ponte entre o hardware de armazenamento e os usuários ou aplicações. Neste contexto, podemos destacar as seguintes funções:
+
+1. **Interface de Operações com Arquivos e Diretórios**: o sistema de arquivos oferece uma API, Interface de Programação de Aplicações, consistente que permite aos usuários e programas realizarem operações fundamentais. Isso inclui a capacidade de `write`, `read` e `delete` tanto arquivos quanto diretórios, abstraindo os comandos complexos do hardware de armazenamento em ações simples e padronizadas.
+
+2. **Organização e Navegação Hierárquica**: para organizar os dados de forma intuitiva, os sistemas de arquivos implementam uma estrutura de diretórios em árvore. Nessa estrutura, um diretório raiz contém arquivos e outros subdiretórios, que por sua vez podem conter mais arquivos e subdiretórios. Esse modelo permite que cada arquivo no sistema seja unicamente identificado por seu caminho, path, em inglês, que é a sequência de diretórios desde a raiz até o arquivo.
+
+3. **Mapeamento Lógico para Físico**: uma das funções centrais do sistema de arquivos é atuar como uma camada de abstração entre a visão lógica de um arquivo, uma sequência contígua de bytes, e sua representação física fragmentada no dispositivo de armazenamento. O sistema de arquivos traduz os nomes e os deslocamentos lógicos de um arquivo para os endereços exatos dos blocos físicos, no inglês:blocks. Em um disco rígido ou SSD, ocultando a complexidade da localização física dos dados.
+
+    ![Diagrama mostrando como funciona o mapeamento de arquivos](/assets/images/filesystem_mapping_figure.webp)
+    _Figura 11: Diagrama mostrando como funciona o mapeamento de arquivos, com blocos lógicos e físicos representados._{: class=`legend`}
+
+4. **Gerenciamento de Espaço em Disco**: o sistema de arquivos monitora e gerencia todo o espaço de armazenamento disponível. Ele mantém o controle de quais blocos estão em uso, a quais arquivos eles pertencem e quais estão livres para serem alocados. Quando novos dados precisam ser gravados, é o sistema de arquivos que decide quais blocos livres utilizar, otimizando o uso do espaço e, em alguns casos, o desempenho de futuras leituras.
+
+5. **Segurança e Controle de Acesso**: para garantir a integridade e a confidencialidade dos dados, o sistema de arquivos implementa mecanismos de controle de acesso. Ele associa permissões, como leitura, escrita e execução, a cada arquivo e diretório, verificando a identidade do usuário ou do grupo que tenta realizar uma operação. Dessa forma, ele reforça as políticas de segurança, permitindo ou negando o acesso aos recursos conforme as regras definidas.
+
+### Estruturas de Dados Fundamentais
+
+Para implementar essas funções, os sistemas de arquivos utilizam várias estruturas de dados fundamentais:
+
+1. **Blocos de Dados**: a unidade básica de armazenamento em um sistema de arquivos. Os dados são armazenados em blocos, que são sequências contíguas de bytes. O tamanho do bloco pode variar, mas é geralmente fixo para um determinado sistema de arquivos. Cada bloco é endereçado fisicamente no dispositivo de armazenamento.
+
+2. **Metadados do Arquivo**: cada arquivo no sistema é acompanhado por um conjunto de informações descritivas, conhecido como metadados. Esses dados, frequentemente armazenados em estruturas como **inodes**, em sistemas Unix-like, incluem atributos vitais como o tamanho do arquivo, as datas de criação, modificação e último acesso, o proprietário, usuário e grupo, e, fundamentalmente, os ponteiros para os blocos de dados que contêm o conteúdo real do arquivo. As permissões de acesso também são parte dos metadados.
+
+    ![](/assets/images/filesystem_structures_figure.webp)
+    _Figura 12: Diagrama mostrando as estruturas de dados fundamentais de um sistema de arquivos, incluindo blocos de dados, metadados e diretórios._{: class=`legend`}
+
+3. **Estrutura de Diretórios**: um diretório é, em si, um tipo especial de arquivo cujo conteúdo consiste em uma lista de nomes de arquivos e referências para os metadados desses arquivos. Quando um programa acessa um arquivo pelo nome, o sistema de arquivos pesquisa nas estruturas de diretório correspondentes para encontrar a entrada daquele nome e, a partir dela, obter a localização dos metadados e, consequentemente, dos dados do arquivo.
+
+4. **Tabela de Arquivos Abertos**: Para gerenciar os arquivos que estão sendo acessados ativamente, o **Sistema Operacional** mantém uma tabela em memória, chamada de tabela de arquivos abertos. Quando um processo abre um arquivo, uma entrada é criada nesta tabela, que armazena informações temporárias como o ponteiro de leitura/escrita, o **cursor** que indica a posição atual no arquivo, e referências às estruturas de metadados. Isso otimiza o acesso, evitando buscas repetidas no disco para operações subsequentes no mesmo arquivo.
+

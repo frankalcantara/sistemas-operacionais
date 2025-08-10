@@ -1,0 +1,130 @@
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+## Capítulo 1: Desvendando o Invisível: Uma Introdução aos Sistemas Operacionais
+
+ACM. **The development of the C programming language**. Disponível em: https://dl.acm.org/doi/10.1145/234286.1057834. Acesso em: 7 jun. 2025.
+
+AMD. **Computação quântica**. Disponível em: https://www.amd.com/pt/solutions/quantum-computing.html. Acesso em: 15 out. 2024.
+
+AMNIC. **Cloud Computing Elasticity: A Game Changer for Modern Businesses**. Amnic, [s.d.]. Disponível em: https://amnic.com/blogs/cloud-computing-elasticity. Acesso em: 15 out. 2024.
+
+ANDRADE, W. L.; SANTOS, G. L.; MACEDO, R. J. A. de. **ANÁLISE E AVALIAÇÃO FUNCIONAL DE **Sistemas Operacionais** M: VANTAGENS E DESVANTAGENS**. Revista de Sistemas de Informação da UNIFACS – RSI, Salvador, n. 3, p. 3-13, jan./jun. 2013. Disponível em: https://revistas.unifacs.br/index.php/rsc/article/download/2581/1950. Acesso em: 15 out. 2024.
+
+APPLEINSIDER. **Apple turns to AI for battery management in **Sistemas Operacionais** M 19**. AppleInsider, 12 may 2025. Disponível em: https://appleinsider.com/articles/25/05/12/apple-turns-to-ai-for-battery-management-in-Sistemas Operacionais Móveis-19. Acesso em: 15 out. 2024.
+
+ARUTE, F. *et al*. **Quantum supremacy using a programmable superconducting processor**. Nature, v. 574, n. 7779, p. 505-510, Oct. 2019.
+
+AZURE. **Introdução à computação quântica híbrida - Azure Quantum**. Microsoft Learn, 07 ago. 2024. Disponível em: https://learn.microsoft.com/pt-br/azure/quantum/hybrid-computing-overview. Acesso em: 15 out. 2024.
+
+BELL, J. **Operating Systems: Introduction**. Computer Science, University of Illinois at Chicago. Disponível em: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/1_Introduction.html. Acesso em: 6 jun. 2025.
+
+BERTRAND, E. D. **Introduction to Operating Systems**. School of Electrical and Computer Engineering, Purdue University. Disponível em: https://engineering.purdue.edu/~ebertd/469/notes/EE469-ch1.pdf. Acesso em: 6 jun. 2025.
+
+BRITANNICA. **Dennis M. Ritchie | Biography & Facts**. Disponível em: https://www.britannica.com/biography/Dennis-M-Ritchie. Acesso em: 7 jun. 2025.
+
+CARVALHO, C. A. G. F. **Características de Sistemas Distribuídos**. Universidade Federal de Pernambuco, Centro de Informática. Disponível em: https://www.cin.ufpe.br/~cagf/sdgrad/aulas/Caracteristicas.pdf. Acesso em: 15 out. 2024.
+
+CLOUDFLARE. **O que é multilocação? | Arquitetura multi-inquilinos**. Cloudflare. Disponível em: https://www.cloudflare.com/pt-br/learning/cloud/what-is-multitenancy/. Acesso em: 15 out. 2024.
+
+CLOUDZERO. **What Is Cloud Elasticity? (+How Does It Affect Cloud Spend?)**. CloudZero. Disponível em: https://www.cloudzero.com/blog/cloud-elasticity/. Acesso em: 15 out. 2024.
+
+COMPUTER HISTORY MUSEUM. **Dennis Ritchie - CHM**. Disponível em: https://computerhistory.org/profile/dennis-ritchie/. Acesso em: 7 jun. 2025.
+
+CORE. **Operating systems for computer networks**. Academic Repository. Disponível em: https://core.ac.uk/download/pdf/228680543.pdf. Acesso em: 6 jun. 2025.
+
+DEITEL, H. M.; DEITEL, P. J.; CHOFFNES, D. R. **Operating Systems**. 3. ed. Boston: Pearson, 2004.
+
+**DENNIS Ritchie and Ken Thompson on the history of UNIX**. Disponível em: <https://my3.my.umbc.edu/groups/csee/media/1799>. Acesso em: 7 jun. 2025.
+
+**EARLY **UNIX** history and evolution**. Nokia Bell Labs. Disponível em: <https://www.nokia.com/bell-labs/about/dennis-m-ritchie/hist.html>. Acesso em: 7 jun. 2025.
+
+FREERTOS. **FreeRTOS - Market leading RTOS for embedded systems**. Disponível em: <https://www.freertos.org/>. Acesso em: 22 jun. 2025.
+
+FERRIOLS, F. **iPhone 17 AI Battery Improvements in **Sistemas Operacionais** M 19: More Than Just a Nice-to-Have**. Thinborne, 23 May 2025. Disponível em: https://thinborne.com/blogs/news/iphone-17-ai-battery-improvements-in-Sistemas Operacionais Móveis-19-more-than-just-a-nice-to-have. Acesso em: 15 out. 2024.
+
+FOSSCOMICS. **The Origins of **UNIX** and the C Language**. Disponível em: https://fosscomics.com/8.%20The%20Origins%20of%20Unix%20and%20the%20C%20Language/. Acesso em: 7 jun. 2025.
+
+GIORTAMIS, E. et al. **QOS: A Quantum Operating System**. arXiv:2406.19120v2, 28 Jun. 2024. Disponível em: https://arxiv.org/html/2406.19120v2. Acesso em: 15 out. 2024.
+
+HONEYWELL. **How Quantum Will transform the Future of 5 Industries**. Honeywell, Jul. 2020. Disponível em: https://www.honeywell.com/br/pt/news/2020/07/how-quantum-will-transform-the-future-of-5-industries. Acesso em: 15 out. 2024.
+
+IBM QUANTUM. **Qiskit Runtime Overview**. Disponível em: <https://quantum-computing.ibm.com/services/runtime>. Acesso em: 22 jun. 2025.
+
+IT BRIEFCASE. **New Trends Increase the Effectiveness of Distributed Computing**. IT Briefcase, 17 Dec. 2024. Disponível em: https://itbriefcase.net/new-trends-increase-the-effectiveness-of-distributed-computing/. Acesso em: 15 out. 2024.
+
+JONES, P. J. **Operating Systems**. Department of Computer Science, University of Manchester. Disponível em: https://www.cs.man.ac.uk/~pjj/cs1011/filestore/node2.html. Acesso em: 6 jun. 2025.
+
+KERNIGHAN, Brian. **Computer Hope**. Disponível em: <https://www.computerhope.com/people/brian_kernighan.htm>. Acesso em: 7 jun. 2025.
+
+KLABUNDE, R. et al. **Hybrid Quantum-Classical Computing Systems: Architectures, Interfaces, and Applications**. arXiv:2503.18868v1, 27 Mar. 2025. Disponível em: https://arxiv.org/html/2503.18868v1. Acesso em: 15 out. 2024.
+
+KNOTT, W. J. **UNIX and Operating Systems Fundamentals**. Department of Computing, Imperial College London. Disponível em: http://www.doc.ic.ac.uk/~wjk/UNIX/Lecture1.html. Acesso em: 6 jun. 2025.
+
+**LESSONS Learned from 30 Years of MINIX**. Communications of the ACM. Disponível em: <https://cacm.acm.org/research/lessons-learned-from-30-years-of-minix/>. Acesso em: 7 jun. 2025.
+
+LIBERTY UNIVERSITY. **Operating Systems – CSIS 443**. Liberty University Online. Disponível em: https://www.liberty.edu/online/courses/csis443/. Acesso em: 6 jun. 2025.
+
+LIVINGINTERNET. **History of C Programming Language**. Disponível em: https://www.livinginternet.com/i/iw_unix_c.htm. Acesso em: 7 jun. 2025.
+
+MELL, P.; GRANCE, T. **The NIST Definition of Cloud Computing**. National Institute of Standards and Technology, Special Publication 800-145, Sep. 2011. Disponível em: https://peasoup.cloud/nist-definition-of-cloud-computing/ e https://cic.gsa.gov/basics/cloud-basics. Acesso em: 15 out. 2024.
+
+MICROSOFT AZURE. **O que é computação elástica?**. Dicionário de Computação em Nuvem do Azure. Disponível em: https://azure.microsoft.com/pt-br/resources/cloud-computing-dictionary/what-is-elastic-computing. Acesso em: 15 out. 2024.
+
+MIT OPENCOURSEWARE. **6.828 Operating System Engineering**. Electrical Engineering and Computer Science Department. Disponível em: https://ocw.mit.edu/courses/6-828-operating-system-engineering-fall-2012/. Acesso em: 6 jun. 2025.
+
+MOBILE OPERATING SYSTEM. **The Flying Theatre Company**. Disponível em: https://theflyingtheatre.com/UserFiles/images/files/punel.pdf. Acesso em: 15 out. 2024.
+
+NORTHWESTERN UNIVERSITY. **COMP_SCI 343: Operating Systems**. Computer Science Department, McCormick School of Engineering. Disponível em: https://www.mccormick.northwestern.edu/computer-science/academics/courses/descriptions/343.html. Acesso em: 6 jun. 2025.
+
+NUTT, G. **Operating Systems: A Modern Perspective**. 3. ed. Boston: Addison-Wesley, 2004.
+
+ORACLE. **O que é computação em nuvem?**. Oracle Brasil. Disponível em: https://www.oracle.com/br/cloud/what-is-cloud-computing/. Acesso em: 15 out. 2024.
+
+ORGANICK, E. I. **The Multics System: An Examination of its Structure**. Cambridge: MIT Press, 1972.
+
+**POWER MANAGEMENT TECHNIQUES IN SMARTPHONES OPERATING SYSTEMS**. IJCSI International Journal of Computer Science Issues, v. 9, i. 3, n. 3, May 2012. Disponível em: https://www.researchgate.net/publication/268409514_Power_Management_Techniques_in_Smartphones_Operating_Systems. Acesso em: 15 out. 2024.
+
+**QUANTUM COMPUTING: AN EMERGING ECOSYSTEM AND INDUSTRY USE CASES**. McKinsey & Company, Dec. 2021. Disponível em: https://www.westconference.org/WEST25/Custom/Handout/Speaker0_Session11706_1.pdf. Acesso em: 15 out. 2024.
+
+REPOSITÓRIO UNIFESSPA. **Os desafios da computação em nuvem**. Universidade Federal do Sul e Sudeste do Pará. Disponível em: https://repositorio.unifesspa.edu.br/bitstream/123456789/228/1/TCC_%20Os%20desafios%20da%20computa%C3%A7%C3%A3o%20em%20nuvem.pdf. Acesso em: 15 out. 2024.
+
+RIOT-OS. **RIOT: The friendly operating system for IoT**. Disponível em: <https://www.riot-os.org/>. Acesso em: 22 jun. 2025.
+
+RITCHIE, D. M.; THOMPSON, K. **The **UNIX** _time-sharing_ System**. Communications of the ACM, v. 17, n. 7, p. 365-375, 1974.
+
+SALTZER, J. H.; SCHROEDER, M. D. **The protection of information in computer systems**. Proceedings of the IEEE, v. 63, n. 9, p. 1278-1308, 1975.
+
+SHARMA, A. **One UI 7 could bring even smarter power-saving options to Galaxy phones**. **Android** Authority, 15 May 2025. Disponível em: https://www.androidauthority.com/one-ui-7-power-saving-options-3558362/. Acesso em: 15 out. 2024.
+
+SIEGFRIED, S. **CSC 553 Operating Systems - Lecture 2**. Computer Science Department, Adelphi University. Disponível em: https://home.adelphi.edu/~siegfried/cs553/553l2.pdf. Acesso em: 6 jun. 2025.
+
+SILBERSCHATZ, A.; GALVIN, P. B.; GAGNE, G. **Operating System Concepts**. 10. ed. Hoboken: John Wiley & Sons, 2018.
+
+SPINQ. **Quantum Computer Operating System: The Key to Quantum Power**. SpinQ Technology, 16 Jan. 2025. Disponível em: https://www.spinquanta.com/news-detail/quantum-computer-operating-system-the-key-to-quantum-power20250116104617. Acesso em: 15 out. 2024.
+
+STALLINGS, W. **Operating Systems: Internals and Design Principles**. 9. ed. Boston: Pearson, 2018.
+
+SWEISS, W. **Chapter 1: Introduction to Operating Systems**. Computer Science Department, Hunter College, CUNY. Disponível em: https://www.cs.hunter.cuny.edu/~sweiss/course_materials/csci340/slides/chapter01.pdf. Acesso em: 6 jun. 2025.
+
+TANENBAUM, A. S.; BOS, H. **Modern Operating Systems**. 4. ed. Boston: Pearson, 2015.
+
+THE MOONLIGHT. **QOS: A Quantum Operating System**. The Moonlight Review. Disponível em: https://www.themoonlight.io/en/review/qos-a-quantum-operating-system. Acesso em: 15 out. 2024.
+
+TOPTAL. **Why the C Programming Language Still Runs the World**. Disponível em: https://www.toptal.com/c/after-all-these-years-the-world-is-still-powered-by-c-programming. Acesso em: 7 jun. 2025.
+
+UNIVERSITY OF COLORADO. **CSCI 3753 Operating Systems Syllabus**. Computer Science Department. Disponível em: https://home.cs. Acesso em: 6 jun. 2025.
+
+**UNIX and Multics**. Disponível em: <https://multicians.org/UNIX.html>. Acesso em: 7 jun. 2025.
+
+**UNIX | Definition, Meaning, History, & Facts**. Britannica. Disponível em: <https://www.britannica.com/technology/UNIX>. Acesso em: 7 jun. 2025.
+
+**UNIX - Wikipedia**. Wikipedia. Disponível em: <https://en.wikipedia.org/wiki/UNIX>. Acesso em: 7 jun. 2025.
+
+VON KYPKE, L.; WACK, A. **How an Operating System for Quantum Computers Should Be Architected**. arXiv:2410.13482v1, 21 Oct. 2024. Disponível em: https://arxiv.org/html/2410.13482v1. Acesso em: 15 out. 2024.
+
+ZDNET. **I changed 12 settings on my **Android** phone to give it an instant battery boost**. ZDNet. Disponível em: https://www.zdnet.com/article/i-changed-12-settings-on-my-android-phone-to-give-it-an-instant-battery-boost/. Acesso em: 15 out. 2024.
+
+ZEPHYR PROJECT. **Zephyr RTOS Documentation**. Disponível em: <https://docs.zephyrproject.org/>. Acesso em: 22 jun. 2025.

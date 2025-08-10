@@ -1,0 +1,35 @@
+---
+title: "Segurança"
+---
+
+## Segurança e Proteção: A Dupla Guarda da Integridade do Sistema
+
+Para garantir a confiabilidade e a estabilidade de um sistema computacional, é indispensável distinguir e implementar dois conceitos interligados, mas distintos: **proteção** e **segurança**. A atenta leitora deve perceber que, embora frequentemente usados como sinônimos, estes conceitos abordam facetas diferentes do mesmo objetivo geral: resguardar os recursos do sistema.
+
+### Proteção: O Controle Interno de Acessos
+
+A **proteção** refere-se aos mecanismos internos do **Sistema Operacional** que controlam o acesso de programas e processos aos recursos do sistema. O objetivo desta estrutura de controle é evitar que um processo interfira indevidamente com outro processo,  com o próprio **Sistema Operacional**, seja por erro ou por intenção maliciosa. A proteção é a muralha que garante a ordem dentro do castelo.
+
+Os mecanismos fundamentais de proteção incluem:
+
+1. **Modos de Operação (Dual-Mode Operation)**: uma das barreiras de proteção mais fundamentais é a distinção entre `user mode` e ``Kernel` mode`. O código do **Sistema Operacional** executa no ``Kernel` mode`, também conhecido como modo supervisor ou modo privilegiado, com acesso irrestrito a todo o hardware. As aplicações do usuário, por sua vez, rodam no `user mode`, um estado com privilégios limitados. Qualquer operação sensível, como o acesso direto a um dispositivo de hardware, exige uma transição controlada para o ``Kernel` mode` por meio de uma chamada de funções específicas de sistema.
+
+2. **Proteção de Memória**: o **Sistema Operacional** deve garantir que cada processo acesse apenas seu próprio espaço de endereçamento. _Espaço de endereçamento é o nome que damos a quantidade de memória virtual que foi alocada para um determinado processo_. Isso cria uma camada isolamento que impede um processo de ler ou modificar os dados de outro processo ou do próprio `Kernel`, prevenindo corrupção de dados e falhas em cascata. Seja esta leitura feita por erro ou maldade.
+
+3. **Proteção de E/S**: O acesso a dispositivos de Entrada/Saída é uma operação privilegiada. O **Sistema Operacional** gerencia todas as requisições de`E/S`, impedindo que processos de usuário acessem diretamente o hardware, o que poderia levar a conflitos e instabilidade no sistema.
+
+### Segurança: A Defesa Contra Ameaças Externas e Internas
+
+A **segurança**, por outro lado, lida com a defesa do sistema contra ameaças, tanto externas, como ataques de rede, quanto internas, como usuários mal-intencionados. Enquanto a proteção fornece os mecanismos, a segurança estabelece as políticas para usar esses mecanismos e defender o sistema contra tentativas de burlar as regras do sistema. A segurança é a política que define quem pode entrar no navio e o que pode fazer lá dentro.
+
+As políticas de segurança são implementadas por meio de várias camadas de defesa:
+
+1. **Autenticação**: o primeiro passo para a segurança é verificar a identidade de um usuário, `authentication`. É o processo de responder à pergunta Quem é você?. Isso é comumente realizado por meio de senhas, biometria, **tokens de segurança** ou outros fatores que comprovem que o usuário é quem ele alega ser.
+
+2. **Autorização**: uma vez que um usuário é autenticado, a autorização, `authorization`, determina quais recursos ele pode acessar e que operações pode realizar. É o processo de responder à pergunta O que você pode fazer?. Isso é gerenciado por meio de listas de controle de acesso (ACLs), permissões de arquivo (`read`, `write`, `execute`) e scripts de definição de permissão para usuários e grupos.
+
+3. **Auditoria**: para detectar violações de segurança e analisar incidentes, os sistemas mantêm registros, em inglês `logs`, de atividades importantes. A auditoria, em inglês `auditing`, envolve a análise desses registros para identificar padrões suspeitos, tentativas de acesso não autorizado ou atividades maliciosas, permitindo uma resposta adequada e o fortalecimento das defesas.
+
+![](/assets/images/security_layers_svg.webp)
+_Figura 15: Diagrama mostrando o funcionamento de buffering e caching na`E/S`, destacando como os dados são armazenados temporariamente para otimizar  transferências._{: class=`legend`}
+

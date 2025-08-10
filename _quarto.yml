@@ -1,0 +1,103 @@
+project:
+  type: book
+  resources:
+    - "images/"
+    - "styles/"
+    - "latex-setup.tex"
+  output-dir: _output
+
+book:
+  title: "Sistemas Operacionais"
+  subtitle: "Uma abordagem profunda"
+  author: "Frank Coelho de Alcantara"
+  date: "06/20/2025"
+  chapters:
+    - index.qmd
+    - part: Introdução
+      chapters:
+        - intro.qmd
+        - intro1.qmd
+        - intro2.qmd
+        - intro3.qmd
+    - part: Gestão de Projetos
+      chapters: 
+        - gerproc.qmd
+        - gerproc1.qmd
+        - gerproc2.qmd
+        - gerproc3.qmd
+        - gerproc4.qmd
+        - gerproc5.qmd
+        - gerproc6.qmd 
+    - 12germem.qmd
+    - 13gerfiles.qmd
+    - 14geres.qmd
+    - 15gerredes.qmd
+    - 16gerseg.qmd    
+    - 2arqui.qmd
+    - 3heterox.qmd
+    - 18glossa.qmd
+    - 19exerc.qmd
+    - references.qmd
+  page-footer: "Copyright © 2025 Frank de Alcantara"
+  site-url: https://frankalcantara.com
+  repo-url: https://github.com/frankalcantara/linefollower
+  repo-actions: [edit, issue]
+  
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    code-background: true
+    code-copy: true
+    css: styles\styles.css
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    highlight-style: github
+    navigation:
+      type: tabs
+    mathjax:
+      config:
+        tex:
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+          processEscapes: true
+          processEnvironments: true
+          packages: ['base', 'ams']
+        chtml:
+          scale: 0.8
+        loader:
+          load: ['[tex]/ams']
+    metadata:
+      twitter-card: true
+      open-graph: true
+      reader-mode: true
+    navbar:
+      background: primary
+      left:
+        - href: index.qmd
+          text: Home
+        - about.qmd
+      right:
+        - icon: github
+          href: https://github.com/frankalcantara/quantico
+        - text: Download PDF
+          href: _output/RobotZero.pdf  
+  pdf:
+    documentclass: scrreprt
+    papersize: a4paper
+    geometry:
+      - top=2.5cm
+      - bottom=2.5cm
+      - left=3cm
+      - right=2.5cm
+    fontsize: 11pt
+    number-sections: true
+    colorlinks: true
+    latex-auto-install: true
+    toc-title: "Contents"
+    language: _language.yml
+    include-in-header: 
+      file: latex-setup.tex

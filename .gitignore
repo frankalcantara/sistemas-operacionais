@@ -1,0 +1,59 @@
+# Quarto
+/.quarto/
+_output/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.sln.docstates
+*.vcxproj.user
+Debug/
+Release/
+x64/
+*.exe
+*.pdb
+*.ilk
+*.obj
+*.tlog
+*.idb
+*.log
+*.recipe
+*.ipch
+*.db
+*.db-shm
+*.db-wal
+
+# Executáveis
+*.exe
+*.dll
+*.so
+*.dylib
+
+# PDFs grandes
+*.pdf
+*.crdownload
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.bak
+*~
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+
+# Pastas específicas
+Referência/
+code/*/x64/
+code/*/.vs/
+code/*/Debug/
+code/*/Release/
+
+# Arquivos de cache
+*.cache

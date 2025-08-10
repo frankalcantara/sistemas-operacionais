@@ -1,0 +1,1254 @@
+---
+title: "Projetos"
+---
+
+## Capítulo: Gestão de Processos
+
+### Projeto 2: Monitor de Hierarquia de Processos e Análise de Memória
+
+#### Compilação **Linux** (GCC/Clang com C++23)
+
+```bash
+# Ubuntu/Debian
+sudo apt update && sudo apt install build-essential
+
+# Compilação
+g++ -std=c++23 -O2 -Wall -Wextra \
+    -o system_monitor system_process_monitor.cpp
+
+# Ou com Clang
+clang++ -std=c++23 -O2 -Wall -Wextra \
+    -o system_monitor system_process_monitor.cpp
+```
+
+#### Compilação Windows (Visual Studio 2022)
+
+```cmd
+# Visual Studio Developer Command Prompt
+cl /std:c++23 /EHsc /O2 system_process_monitor.cpp /Fe:system_monitor.exe
+
+# Ou com MinGW-w64
+g++ -std=c++23 -O2 -Wall -Wextra \
+    -o system_monitor.exe system_process_monitor.cpp
+```    
+
+### Execução
+
+```bash
+# Linux
+sudo ./system_monitor  # Requer privilégios para acessar alguns processos
+
+# Windows
+# Executar como Administrador para acesso completo
+system_monitor.exe
+```
+
+#### Código
+
+```cpp
+/**
+ * @file system_process_monitor.cpp
+ * @brief Monitor Avançado de Hierarquia de Processos + Análise de Memória
+ * @author Livro de **Sistemas Operacionais** 
+ * @version 1.0
+ * @date 2025
+ * 
+ * Sistema cross-platform que demonstra as diferenças fundamentais
+ * entre arquiteturas de processo **Linux** e Windows, combinando análise de
+ * hierarquia, memory layout e interações kernel-user.
+ */
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <memory>
+#include <unordered_map>
+#include <variant>
+#include <optional>
+#include <chrono>
+#include <format>
+#include <ranges>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <thread>
+#include <random>
+
+#ifdef _WIN32
+    #include <windows.h>
+    #include <psapi.h>
+    #include <tlhelp32.h>
+    #include <winternl.h>
+#else
+    #include <unistd.h>
+    #include <sys/types.h>
+    #include <sys/stat.h>
+    #include <dirent.h>
+    #include <filesystem>
+    #include <cctype>
+#endif
+
+/**
+ * @brief Enumerações e tipos fundamentais
+ */
+enum class Platform { **Linux**, Windows, Unknown };
+enum class ProcessType { 
+    User, KernelThread, SystemProcess, Driver, Service, Unknown 
+};
+enum class PrivilegeLevel { 
+    System, Administrator, User, Low, Unknown 
+};
+enum class AddressingMode { 
+    Bit32, Bit48, Bit64 
+};
+
+using pid_t = uint32_t;
+
+/**
+ * @brief Estruturas de dados específicas por plataforma
+ */
+struct LinuxSpecific {
+    bool is_kthread{false};
+    std::string cgroup_path;
+    uid_t effective_uid{0};
+    std::vector<std::string> capabilities;
+    bool has_vdso_mapping{false};
+    std::string kernel_function;  // Para kthreads
+};
+
+struct WindowsSpecific {
+    uint32_t session_id{0};
+    std::string elevation_type;
+    std::vector<std::string> privileges;
+    bool is_protected_process{false};
+    uint32_t integrity_level{0};
+    std::string image_path;
+};
+
+/**
+ * @brief Informações de região de memória
+ */
+struct MemoryRegion {
+    uintptr_t start_address{0};
+    uintptr_t end_address{0};
+    std::string permissions;
+    std::string region_type;
+    bool is_kernel_accessible{false};
+    std::optional<std::string> backing_file;
+    size_t size_kb{0};
+    
+    /**
+     * @brief Calcula o tamanho da região
+     */
+    size_t getSize() const {
+        return end_address - start_address;
+    }
+};
+
+/**
+ * @brief Informações do espaço de endereçamento virtual
+ */
+struct VirtualAddressSpace {
+    uintptr_t user_space_start{0};
+    uintptr_t user_space_end{0};
+    uintptr_t kernel_space_start{0};
+    uintptr_t kernel_space_end{0};
+    bool kaslr_enabled{false};
+    bool kpti_enabled{false};
+    size_t page_size{4096};
+    AddressingMode mode{AddressingMode::Bit64};
+    
+    /**
+     * @brief Verifica se um endereço está no espaço do usuário
+     */
+    bool isUserSpace(uintptr_t address) const {
+        return address >= user_space_start && address <= user_space_end;
+    }
+    
+    /**
+     * @brief Verifica se um endereço está no espaço do kernel
+     */
+    bool isKernelSpace(uintptr_t address) const {
+        return address >= kernel_space_start && address <= kernel_space_end;
+    }
+};
+
+/**
+ * @brief Layout completo de memória
+ */
+struct MemoryLayout {
+    std::vector<MemoryRegion> regions;
+    VirtualAddressSpace vas_info;
+    size_t total_virtual_memory{0};
+    size_t total_resident_memory{0};
+    size_t kernel_accessible_memory{0};
+};
+
+/**
+ * @brief Informações completas de um processo
+ */
+struct ProcessInfo {
+    pid_t pid{0};
+    pid_t parent_pid{0};
+    std::string name;
+    std::string command_line;
+    ProcessType type{ProcessType::Unknown};
+    PrivilegeLevel privilege{PrivilegeLevel::Unknown};
+    
+    // Memory specifics
+    uintptr_t virtual_base{0};
+    size_t virtual_size{0};
+    size_t resident_memory{0};
+    bool is_kernel_space_accessible{false};
+    
+    // Platform-specific data
+    std::variant<LinuxSpecific, WindowsSpecific> platform_data;
+    
+    // Timing and resource usage
+    std::chrono::milliseconds cpu_time{0};
+    size_t syscall_count{0};
+    double kernel_time_percentage{0.0};
+    
+    /**
+     * @brief Obtém dados específicos do Linux
+     */
+    const LinuxSpecific* getLinuxData() const {
+        return std::get_if<LinuxSpecific>(&platform_data);
+    }
+    
+    /**
+     * @brief Obtém dados específicos do Windows
+     */
+    const WindowsSpecific* getWindowsData() const {
+        return std::get_if<WindowsSpecific>(&platform_data);
+    }
+};
+
+/**
+ * @brief Interface abstrata para operações específicas da plataforma
+ */
+class PlatformInterface {
+public:
+    virtual ~PlatformInterface() = default;
+    virtual std::vector<ProcessInfo> enumerateProcesses() = 0;
+    virtual MemoryLayout analyzeMemoryLayout(pid_t pid) = 0;
+    virtual VirtualAddressSpace getVirtualAddressSpace() = 0;
+    virtual ProcessType determineProcessType(const ProcessInfo& info) = 0;
+    virtual std::string getPlatformName() const = 0;
+};
+
+/**
+ * @brief Implementação específica para Linux
+ */
+class LinuxPlatform : public PlatformInterface {
+private:
+    /**
+     * @brief Verifica se uma string é numérica (PID)
+     */
+    bool isNumeric(const std::string& str) const {
+        return !str.empty() && std::ranges::all_of(str, ::isdigit);
+    }
+    
+    /**
+     * @brief Lê informações de status do processo
+     */
+    ProcessInfo readProcessStatus(pid_t pid) const {
+        ProcessInfo info;
+        info.pid = pid;
+        
+        // Lê nome do processo
+        std::ifstream comm_file(std::format("/proc/{}/comm", pid));
+        if (comm_file.is_open()) {
+            std::getline(comm_file, info.name);
+            if (!info.name.empty() && info.name.back() == '\n') {
+                info.name.pop_back();
+            }
+        }
+        
+        // Lê linha de comando
+        std::ifstream cmdline_file(std::format("/proc/{}/cmdline", pid));
+        if (cmdline_file.is_open()) {
+            std::string cmdline;
+            std::getline(cmdline_file, cmdline, '\0');
+            info.command_line = cmdline.empty() ? "<não disponível>" : cmdline;
+        }
+        
+        // Lê informações detalhadas do status
+        std::ifstream status_file(std::format("/proc/{}/status", pid));
+        std::string line;
+        LinuxSpecific linux_data;
+        
+        while (status_file.is_open() && std::getline(status_file, line)) {
+            std::istringstream iss(line);
+            std::string key;
+            iss >> key;
+            
+            if (key == "PPid:") {
+                iss >> info.parent_pid;
+            } else if (key == "Uid:") {
+                iss >> linux_data.effective_uid;
+            } else if (key == "VmSize:") {
+                iss >> info.virtual_size;
+            } else if (key == "VmRSS:") {
+                iss >> info.resident_memory;
+            }
+        }
+        
+        // Detecta se é kthread
+        linux_data.is_kthread = (info.name.front() == '[' && info.name.back() == ']');
+        if (linux_data.is_kthread) {
+            linux_data.kernel_function = info.name.substr(1, info.name.length() - 2);
+        }
+        
+        info.platform_data = linux_data;
+        return info;
+    }
+    
+public:
+    std::vector<ProcessInfo> enumerateProcesses() override {
+        std::vector<ProcessInfo> processes;
+        
+        try {
+            for (const auto& entry : std::filesystem::directory_iterator("/proc")) {
+                if (entry.is_directory()) {
+                    std::string dirname = entry.path().filename().string();
+                    
+                    if (isNumeric(dirname)) {
+                        pid_t pid = std::stoi(dirname);
+                        auto info = readProcessStatus(pid);
+                        if (!info.name.empty()) {
+                            processes.push_back(std::move(info));
+                        }
+                    }
+                }
+            }
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::cerr << "Erro ao acessar /proc: " << e.what() << std::endl;
+        }
+        
+        return processes;
+    }
+    
+    MemoryLayout analyzeMemoryLayout(pid_t pid) override {
+        MemoryLayout layout;
+        
+        // Lê /proc/[pid]/maps
+        std::ifstream maps_file(std::format("/proc/{}/maps", pid));
+        std::string line;
+        
+        while (std::getline(maps_file, line)) {
+            std::istringstream iss(line);
+            std::string address_range, permissions, offset, device, inode, pathname;
+            
+            iss >> address_range >> permissions >> offset >> device >> inode;
+            std::getline(iss, pathname);
+            
+            // Parse address range
+            size_t dash_pos = address_range.find('-');
+            if (dash_pos != std::string::npos) {
+                MemoryRegion region;
+                region.start_address = std::stoull(address_range.substr(0, dash_pos), nullptr, 16);
+                region.end_address = std::stoull(address_range.substr(dash_pos + 1), nullptr, 16);
+                region.permissions = permissions;
+                region.size_kb = region.getSize() / 1024;
+                
+                // Determina tipo da região
+                if (!pathname.empty()) {
+                    pathname.erase(0, pathname.find_first_not_of(" \t"));
+                    if (pathname == "[heap]") {
+                        region.region_type = "Heap";
+                    } else if (pathname == "[stack]") {
+                        region.region_type = "Stack";
+                    } else if (pathname == "[vdso]") {
+                        region.region_type = "vDSO";
+                        // Detecta vDSO para análise **Linux** específica
+                    } else if (pathname.starts_with("/")) {
+                        region.region_type = "Mapped File";
+                        region.backing_file = pathname;
+                    } else {
+                        region.region_type = "Special";
+                        region.backing_file = pathname;
+                    }
+                } else {
+                    region.region_type = "Anonym s";
+                }
+                
+                layout.regions.push_back(region);
+                layout.total_virtual_memory += region.size_kb;
+                
+                if (permissions.contains('r') || permissions.contains('w')) {
+                    layout.total_resident_memory += region.size_kb;
+                }
+            }
+        }
+        
+        layout.vas_info = getVirtualAddressSpace();
+        return layout;
+    }
+    
+    VirtualAddressSpace getVirtualAddressSpace() override {
+        VirtualAddressSpace vas;
+        
+        // Configuração padrão para **Linux** x86_64
+        vas.user_space_start = 0x0000000000000000ULL;
+        vas.user_space_end = 0x00007FFFFFFFFFFFULL;
+        vas.kernel_space_start = 0xFFFF800000000000ULL;
+        vas.kernel_space_end = 0xFFFFFFFFFFFFFFFFULL;
+        vas.page_size = 4096;
+        vas.mode = AddressingMode::Bit48;
+        
+        // Detecta KASLR
+        std::ifstream cmdline("/proc/cmdline");
+        std::string kernel_cmdline;
+        if (cmdline.is_open()) {
+            std::getline(cmdline, kernel_cmdline);
+            vas.kaslr_enabled = kernel_cmdline.find("nokaslr") == std::string::npos;
+        }
+        
+        // Detecta KPTI (Meltdown mitigation)
+        std::ifstream cpuinfo("/proc/cpuinfo");
+        std::string line;
+        while (std::getline(cpuinfo, line)) {
+            if (line.find("pti") != std::string::npos || 
+                line.find("kaiser") != std::string::npos) {
+                vas.kpti_enabled = true;
+                break;
+            }
+        }
+        
+        return vas;
+    }
+    
+    ProcessType determineProcessType(const ProcessInfo& info) override {
+        const auto* linux_data = info.getLinuxData();
+        if (!linux_data) return ProcessType::Unknown;
+        
+        if (linux_data->is_kthread) {
+            return ProcessType::KernelThread;
+        }
+        
+        if (linux_data->effective_uid == 0) {
+            return ProcessType::SystemProcess;
+        }
+        
+        return ProcessType::User;
+    }
+    
+    std::string getPlatformName() const override {
+        return "Linux";
+    }
+};
+
+#ifdef _WIN32
+/**
+ * @brief Implementação específica para Windows
+ */
+class WindowsPlatform : public PlatformInterface {
+private:
+    /**
+     * @brief Obtém informações detalhadas de um processo Windows
+     */
+    ProcessInfo getWindowsProcessInfo(DWORD pid) const {
+        ProcessInfo info;
+        info.pid = pid;
+        
+        HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, 
+                                    FALSE, pid);
+        if (!hProcess) {
+            return info;
+        }
+        
+        // Nome do processo
+        wchar_t processName[MAX_PATH];
+        if (GetModuleBaseNameW(hProcess, nullptr, processName, MAX_PATH)) {
+            int size = WideCharToMultiByte(CP_UTF8, 0, processName, -1, 
+                                         nullptr, 0, nullptr, nullptr);
+            std::string name(size - 1, '\0');
+            WideCharToMultiByte(CP_UTF8, 0, processName, -1, 
+                              name.data(), size, nullptr, nullptr);
+            info.name = name;
+        }
+        
+        // Caminho completo
+        WindowsSpecific win_data;
+        wchar_t processPath[MAX_PATH];
+        DWORD pathLength = MAX_PATH;
+        if (QueryFullProcessImageNameW(hProcess, 0, processPath, &pathLength)) {
+            int size = WideCharToMultiByte(CP_UTF8, 0, processPath, -1, 
+                                         nullptr, 0, nullptr, nullptr);
+            std::string path(size - 1, '\0');
+            WideCharToMultiByte(CP_UTF8, 0, processPath, -1, 
+                              path.data(), size, nullptr, nullptr);
+            win_data.image_path = path;
+            info.command_line = path;
+        }
+        
+        // Informações de memória
+        PROCESS_MEMORY_COUNTERS pmc;
+        if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc))) {
+            info.resident_memory = pmc.WorkingSetSize / 1024; // KB
+            info.virtual_size = pmc.PagefileUsage / 1024; // KB
+        }
+        
+        // Session ID
+        if (!ProcessIdToSessionId(pid, &win_data.session_id)) {
+            win_data.session_id = 0;
+        }
+        
+        info.platform_data = win_data;
+        CloseHandle(hProcess);
+        return info;
+    }
+    
+public:
+    std::vector<ProcessInfo> enumerateProcesses() override {
+        std::vector<ProcessInfo> processes;
+        
+        HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+        if (hSnapshot == INVALID_HANDLE_VALUE) {
+            return processes;
+        }
+        
+        PROCESSENTRY32W pe32;
+        pe32.dwSize = sizeof(PROCESSENTRY32W);
+        
+        if (Process32FirstW(hSnapshot, &pe32)) {
+            do {
+                auto info = getWindowsProcessInfo(pe32.th32ProcessID);
+                info.parent_pid = pe32.th32ParentProcessID;
+                
+                if (!info.name.empty()) {
+                    processes.push_back(std::move(info));
+                }
+            } while (Process32NextW(hSnapshot, &pe32));
+        }
+        
+        CloseHandle(hSnapshot);
+        return processes;
+    }
+    
+    MemoryLayout analyzeMemoryLayout(pid_t pid) override {
+        MemoryLayout layout;
+        
+        HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, 
+                                    FALSE, pid);
+        if (!hProcess) {
+            return layout;
+        }
+        
+        MEMORY_BASIC_INFORMATION mbi;
+        uintptr_t address = 0;
+        
+        while (VirtualQueryEx(hProcess, reinterpret_cast<LPCVOID>(address), 
+                            &mbi, sizeof(mbi)) == sizeof(mbi)) {
+            if (mbi.State == MEM_COMMIT) {
+                MemoryRegion region;
+                region.start_address = reinterpret_cast<uintptr_t>(mbi.BaseAddress);
+                region.end_address = region.start_address + mbi.RegionSize;
+                region.size_kb = mbi.RegionSize / 1024;
+                
+                // Determina permissões
+                std::string perms;
+                if (mbi.Protect & PAGE_EXECUTE) perms += "x";
+                if (mbi.Protect & PAGE_READWRITE) perms += "rw";
+                else if (mbi.Protect & PAGE_READONLY) perms += "r";
+                region.permissions = perms;
+                
+                // Determina tipo
+                if (mbi.Type == MEM_IMAGE) {
+                    region.region_type = "Image";
+                } else if (mbi.Type == MEM_MAPPED) {
+                    region.region_type = "Mapped";
+                } else {
+                    region.region_type = "Private";
+                }
+                
+                layout.regions.push_back(region);
+                layout.total_virtual_memory += region.size_kb;
+            }
+            
+            address = reinterpret_cast<uintptr_t>(mbi.BaseAddress) + mbi.RegionSize;
+        }
+        
+        layout.vas_info = getVirtualAddressSpace();
+        CloseHandle(hProcess);
+        return layout;
+    }
+    
+    VirtualAddressSpace getVirtualAddressSpace() override {
+        VirtualAddressSpace vas;
+        
+        SYSTEM_INFO si;
+        GetSystemInfo(&si);
+        
+        if (sizeof(void*) == 8) { // 64-bit
+            vas.user_space_start = 0x0000000000000000ULL;
+            vas.user_space_end = 0x00007FFFFFFFFFFFULL;
+            vas.kernel_space_start = 0xFFFF800000000000ULL;
+            vas.kernel_space_end = 0xFFFFFFFFFFFFFFFFULL;
+            vas.mode = AddressingMode::Bit48;
+        } else { // 32-bit
+            vas.user_space_start = 0x00000000;
+            vas.user_space_end = 0x7FFFFFFF;
+            vas.kernel_space_start = 0x80000000;
+            vas.kernel_space_end = 0xFFFFFFFF;
+            vas.mode = AddressingMode::Bit32;
+        }
+        
+        vas.page_size = si.dwPageSize;
+        vas.kpti_enabled = true; // Assumimos KPTI ativo em Windows modernos
+        
+        return vas;
+    }
+    
+    ProcessType determineProcessType(const ProcessInfo& info) override {
+        const auto* win_data = info.getWindowsData();
+        if (!win_data) return ProcessType::Unknown;
+        
+        // Processos de sistema conhecidos
+        if (info.name == "System" || info.name == "Registry" || 
+            info.name == "MemCompression") {
+            return ProcessType::SystemProcess;
+        }
+        
+        if (win_data->session_id == 0) {
+            return ProcessType::Service;
+        }
+        
+        return ProcessType::User;
+    }
+    
+    std::string getPlatformName() const override {
+        return "Windows";
+    }
+};
+#endif
+
+/**
+ * @brief Nó da hierarquia de processos
+ */
+struct ProcessNode {
+    ProcessInfo info;
+    std::shared_ptr<ProcessNode> parent;
+    std::vector<std::shared_ptr<ProcessNode>> children;
+    
+    size_t getDescendantCount() const {
+        size_t count = children.size();
+        for (const auto& child : children) {
+            count += child->getDescendantCount();
+        }
+        return count;
+    }
+};
+
+/**
+ * @brief Hierarquia completa de processos
+ */
+struct ProcessHierarchy {
+    std::shared_ptr<ProcessNode> root;
+    std::unordered_map<pid_t, std::shared_ptr<ProcessNode>> process_map;
+    size_t total_processes{0};
+    size_t kernel_processes{0};
+    size_t user_processes{0};
+    size_t system_processes{0};
+};
+
+/**
+ * @brief Construtor de hierarquia de processos
+ */
+class HierarchyMapper {
+public:
+    ProcessHierarchy buildHierarchy(const std::vector<ProcessInfo>& processes,
+                                  PlatformInterface& platform) {
+        ProcessHierarchy hierarchy;
+        hierarchy.total_processes = processes.size();
+        
+        // Cria nós para todos os processos
+        for (const auto& proc : processes) {
+            auto node = std::make_shared<ProcessNode>();
+            node->info = proc;
+            node->info.type = platform.determineProcessType(proc);
+            
+            hierarchy.process_map[proc.pid] = node;
+            
+            // Contabiliza tipos
+            switch (node->info.type) {
+                case ProcessType::KernelThread:
+                    hierarchy.kernel_processes++;
+                    break;
+                case ProcessType::SystemProcess:
+                case ProcessType::Service:
+                    hierarchy.system_processes++;
+                    break;
+                case ProcessType::User:
+                    hierarchy.user_processes++;
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        // Constrói a árvore
+        std::shared_ptr<ProcessNode> root_candidate;
+        for (auto& [pid, node] : hierarchy.process_map) {
+            if (node->info.parent_pid == 0 || 
+                hierarchy.process_map.find(node->info.parent_pid) == hierarchy.process_map.end()) {
+                // Este é um processo raiz
+                if (!root_candidate || pid < root_candidate->info.pid) {
+                    root_candidate = node;
+                }
+            } else {
+                // Conecta ao pai
+                auto parent = hierarchy.process_map[node->info.parent_pid];
+                node->parent = parent;
+                parent->children.push_back(node);
+            }
+        }
+        
+        hierarchy.root = root_candidate;
+        return hierarchy;
+    }
+};
+
+/**
+ * @brief Visualizador ASCII para demonstrações educativas
+ */
+class ASCIIVisualizer {
+public:
+    std::string createProcessTreeVisualization(const ProcessHierarchy& hierarchy) {
+        if (!hierarchy.root) return "Nenhuma hierarquia disponível\n";
+        
+        std::ostringstream oss;
+        oss << "=== Árvore de Processos ===\n\n";
+        
+        generateTreeVisualization(hierarchy.root, oss, "", true);
+        
+        oss << std::format("\nEstatísticas:\n");
+        oss << std::format("├── Total de processos: {}\n", hierarchy.total_processes);
+        oss << std::format("├── Processos de usuário: {}\n", hierarchy.user_processes);
+        oss << std::format("├── Processos de sistema: {}\n", hierarchy.system_processes);
+        oss << std::format("└── Threads do kernel: {}\n", hierarchy.kernel_processes);
+        
+        return oss.str();
+    }
+    
+    std::string createMemoryLayoutDiagram(const MemoryLayout& layout) {
+        std::ostringstream oss;
+        oss << "=== Layout de Memória Virtual ===\n\n";
+        
+        const auto& vas = layout.vas_info;
+        oss << std::format("Modo de endereçamento: {}\n", 
+                          vas.mode == AddressingMode::Bit48 ? "48-bit" : 
+                          vas.mode == AddressingMode::Bit64 ? "64-bit" : "32-bit");
+        oss << std::format("KASLR: {} | KPTI: {}\n", 
+                          vas.kaslr_enabled ? "ATIVO" : "INATIVO",
+                          vas.kpti_enabled ? "ATIVO" : "INATIVO");
+        oss << std::format("Tamanho da página: {} bytes\n\n", vas.page_size);
+        
+        oss << "Espaços de endereçamento:\n";
+        oss << std::format("├── User Space:   0x{:016X} - 0x{:016X}\n", 
+                          vas.user_space_start, vas.user_space_end);
+        oss << std::format("└── `kernel` Space: 0x{:016X} - 0x{:016X}\n\n", 
+                          vas.kernel_space_start, vas.kernel_space_end);
+        
+        oss << "Regiões de memória mapeadas:\n";
+        for (const auto& region : layout.regions | std::views::take(10)) {
+            oss << std::format("├── [0x{:012X}-0x{:012X}] {:4} {:12} {:8} KB\n",
+                              region.start_address, region.end_address,
+                              region.permissions, region.region_type, region.size_kb);
+        }
+        
+        if (layout.regions.size() > 10) {
+            oss << std::format("└── ... e mais {} regiões\n", layout.regions.size() - 10);
+        }
+        
+        oss << std::format("\n Uso de memória:\n");
+        oss << std::format("├── Virtual total: {:.2f} MB\n", layout.total_virtual_memory / 1024.0);
+        oss << std::format("└── Residente: {:.2f} MB\n", layout.total_resident_memory / 1024.0);
+        
+        return oss.str();
+    }
+    
+private:
+    void generateTreeVisualization(std::shared_ptr<ProcessNode> node, 
+                                 std::ostringstream& oss,
+                                 const std::string& prefix, 
+                                 bool is_last) {
+        if (!node) return;
+        
+        // Símbolos da árvore
+        std::string connector = is_last ? "└── " : "├── ";
+        std::string type_symbol = getProcessTypeSymbol(node->info.type);
+        
+        oss << prefix << connector << type_symbol 
+            << std::format("{} (PID: {}, Children: {})\n", 
+                          node->info.name, node->info.pid, node->children.size());
+        
+        // Prefixo para os filhos
+        std::string child_prefix = prefix + (is_last ? "    " : "│   ");
+        
+        // Processa filhos
+        for (size_t i = 0; i < node->children.size(); ++i) {
+            bool child_is_last = (i == node->children.size() - 1);
+            generateTreeVisualization(node->children[i], oss, child_prefix, child_is_last);
+        }
+    }
+    
+    std::string getProcessTypeSymbol(ProcessType type) {
+        switch (type) {
+            case ProcessType::KernelThread: return " ";
+            case ProcessType::SystemProcess: return " ";
+            case ProcessType::Service: return " ";
+            case ProcessType::User: return " ";
+            default: return " ";
+        }
+    }
+};
+
+/**
+ * @brief Simulador TLB integrado (da implementação anterior)
+ */
+class TLBSimulator {
+private:
+    size_t tlb_size_;
+    std::unordered_map<uint64_t, bool> tlb_cache_;
+    struct {
+        double tlb_hit_time;
+        double page_table_access_time;
+        size_t total_accesses;
+        size_t tlb_hits;
+        size_t tlb_misses;
+    } metrics_;
+    
+public:
+    TLBSimulator(size_t tlb_size, double hit_time, double pt_time) 
+        : tlb_size_(tlb_size) {
+        metrics_.tlb_hit_time = hit_time;
+        metrics_.page_table_access_time = pt_time;
+        metrics_.total_accesses = 0;
+        metrics_.tlb_hits = 0;
+        metrics_.tlb_misses = 0;
+    }
+    
+    bool accessMemory(uint64_t virtual_address) {
+        uint64_t page_number = virtual_address >> 12;
+        metrics_.total_accesses++;
+        
+        if (tlb_cache_.contains(page_number)) {
+            metrics_.tlb_hits++;
+            return true;
+        } else {
+            metrics_.tlb_misses++;
+            if (tlb_cache_.size() >= tlb_size_) {
+                tlb_cache_.erase(tlb_cache_.begin());
+            }
+            tlb_cache_[page_number] = true;
+            return false;
+        }
+    }
+    
+    auto getMetrics() const { return metrics_; }
+    double getEffectiveAccessTime() const {
+        double miss_rate = static_cast<double>(metrics_.tlb_misses) / metrics_.total_accesses;
+        return metrics_.tlb_hit_time + (miss_rate * metrics_.page_table_access_time);
+    }
+};
+
+/**
+ * @brief Monitor principal do sistema
+ */
+class SystemProcessMonitor {
+private:
+    Platform platform_;
+    std::unique_ptr<PlatformInterface> platform_impl_;
+    std::unique_ptr<TLBSimulator> tlb_simulator_;
+    
+    Platform detectPlatform() {
+        #ifdef _WIN32
+            return Platform::Windows;
+        #elif defined(__linux__)
+            return Platform::Linux;
+        #else
+            return Platform::Unknown;
+        #endif
+    }
+    
+public:
+    SystemProcessMonitor() : platform_(detectPlatform()) {
+        switch (platform_) {
+            case Platform::Linux:
+                platform_impl_ = std::make_unique<LinuxPlatform>();
+                break;
+            #ifdef _WIN32
+            case Platform::Windows:
+                platform_impl_ = std::make_unique<WindowsPlatform>();
+                break;
+            #endif
+            default:
+                throw std::runtime_error("Plataforma não suportada");
+        }
+        
+        // Inicializa TLB simulator com configuração padrão
+        tlb_simulator_ = std::make_unique<TLBSimulator>(64, 1.0, 100.0);
+    }
+    
+    void runAnalysis() {
+        std::cout << "=== Monitor de Hierarquia + Memory Analysis ===\n";
+        std::cout << std::format("Plataforma: {}\n\n", platform_impl_->getPlatformName());
+        
+        // Enumera processos
+        std::cout << "Enumerando processos...\n";
+        auto processes = platform_impl_->enumerateProcesses();
+        std::cout << std::format("Encontrados {} processos\n\n", processes.size());
+        
+        // Constrói hierarquia
+        std::cout << "Construindo hierarquia...\n";
+        HierarchyMapper mapper;
+        auto hierarchy = mapper.buildHierarchy(processes, *platform_impl_);
+        
+        // Visualiza hierarquia
+        ASCIIVisualizer visualizer;
+        std::cout << visualizer.createProcessTreeVisualization(hierarchy);
+        
+        // Análise de memória de um processo exemplo
+        MemoryLayout memory_layout;
+        if (!processes.empty()) {
+            pid_t example_pid = processes[0].pid;
+            std::cout << std::format("\nAnalisando memória do processo {} (PID: {})...\n", 
+                                   processes[0].name, example_pid);
+            
+            memory_layout = platform_impl_->analyzeMemoryLayout(example_pid);
+            std::cout << visualizer.createMemoryLayoutDiagram(memory_layout);
+            
+            // Integração TLB Simulation
+            runTLBSimulation(memory_layout);
+        }
+        
+        // Demonstrações educacionais específicas da plataforma
+        runEducationalDemos(hierarchy, memory_layout);
+    }
+    
+private:
+    void runTLBSimulation(const MemoryLayout& layout) {
+        std::cout << "\n=== Simulação TLB ===\n";
+        
+        if (!tlb_simulator_) {
+            tlb_simulator_ = std::make_unique<TLBSimulator>(64, 1.0, 100.0);
+        }
+        
+        // Gera padrão de acesso baseado no layout real
+        std::vector<uint64_t> addresses;
+        for (const auto& region : layout.regions | std::views::take(5)) {
+            // Simula acessos sequenciais na região
+            for (size_t i = 0; i < 100; ++i) {
+                uint64_t addr = region.start_address + (i * 4096);
+                if (addr < region.end_address) {
+                    addresses.push_back(addr);
+                }
+            }
+        }
+        
+        // Executa simulação
+        for (auto addr : addresses) {
+            tlb_simulator_->accessMemory(addr);
+        }
+        
+        auto metrics = tlb_simulator_->getMetrics();
+        std::cout << std::format("TLB Hits: {} | Misses: {} | Hit Rate: {:.1f}%\n",
+                                metrics.tlb_hits, metrics.tlb_misses,
+                                (static_cast<double>(metrics.tlb_hits) / metrics.total_accesses) * 100);
+        std::cout << std::format("Tempo efetivo de acesso: {:.2f} ciclos\n", 
+                                tlb_simulator_->getEffectiveAccessTime());
+    }
+    
+    void runEducationalDemos(const ProcessHierarchy& hierarchy, const MemoryLayout& layout) {
+        std::cout << "\n🎓 === Demonstrações Educacionais ===\n";
+        
+        KernelConceptDemo demo;
+        auto vas = platform_impl_->getVirtualAddressSpace();
+        
+        // Demonstração básica independente de plataforma
+        demo.demonstrateAddressSpaceSplit(vas);
+        demo.showKernelVsUserProcesses(hierarchy);
+        demo.explainMMUTranslation(layout);
+        
+        // Demonstrações específicas da plataforma
+        if (platform_ == Platform::Linux) {
+            demo.showKASLR();
+            if (vas.kpti_enabled) {
+                demo.visualizeKPTI();
+            }
+        } else if (platform_ == Platform::Windows) {
+            demo.visualizeKPTI(); // Windows sempre tem KPTI
+        }
+        
+        // Se houver dados de múltiplas plataformas, fazer análise comparativa
+        // (Isso seria expandido em implementação futura com dados persistidos)
+    }
+    
+    void demonstratePlatformConcepts() {
+        auto vas = platform_impl_->getVirtualAddressSpace();
+        
+        if (platform_ == Platform::Linux) {
+            std::cout << "\nConceitos **Linux** específicos detectados:\n";
+            std::cout << "├── `kernel` threads como processos independentes\n";
+            std::cout << "├── Sistema de arquivos /proc para introspecção\n";
+            std::cout << "├── vDSO para system calls otimizadas\n";
+            std::cout << std::format("├── KASLR: {}\n", 
+                                   vas.kaslr_enabled ? "ATIVO" : "INATIVO");
+            std::cout << std::format("└── KPTI: {}\n", 
+                                   vas.kpti_enabled ? "ATIVO" : "INATIVO");
+        } else if (platform_ == Platform::Windows) {
+            std::cout << "\nConceitos Windows específicos detectados:\n";
+            std::cout << "├── Separação por sessões (Session 0 = services)\n";
+            std::cout << "├── Processos System/Registry em `kernel` space\n";
+            std::cout << "├── Threads como unidade de escalonamento\n";
+            std::cout << std::format("├── VAS: User (0x0-0x{:X})\n", vas.user_space_end);
+            std::cout << std::format("└── KPTI: {}\n", 
+                                   vas.kpti_enabled ? "ATIVO" : "INATIVO");
+        }
+    }
+    
+private:
+/**
+ * @brief Demonstrações educacionais de conceitos de kernel
+ */
+class KernelConceptDemo {
+public:
+    struct Demo {
+        std::string concept_name;
+        std::string description;
+        std::function<void()> demonstration;
+        std::vector<std::string> educational_notes;
+    };
+    
+    void demonstrateAddressSpaceSplit(const VirtualAddressSpace& vas) {
+        std::cout << "\n🎓 === Demonstração: Divisão do Espaço de Endereçamento ===\n";
+        std::cout << "┌─────────────────────────────────────────────────────────┐\n";
+        std::cout << "│                ESPAÇO DE ENDEREÇAMENTO VIRTUAL          │\n";
+        std::cout << "├─────────────────────────────────────────────────────────┤\n";
+        std::cout << std::format("│ `kernel` Space: 0x{:016X} - 0x{:016X} │\n", 
+                                vas.kernel_space_start, vas.kernel_space_end);
+        std::cout << "│                    [PROTEGIDO]                          │\n";
+        std::cout << "├─────────────────────────────────────────────────────────┤\n";
+        std::cout << "│                     [BURACO]                            │\n";
+        std::cout << "├─────────────────────────────────────────────────────────┤\n";
+        std::cout << std::format("│ User Space:   0x{:016X} - 0x{:016X} │\n", 
+                                vas.user_space_start, vas.user_space_end);
+        std::cout << "│                   [ACESSÍVEL]                           │\n";
+        std::cout << "└─────────────────────────────────────────────────────────┘\n";
+        
+        std::cout << "\nConceitos importantes:\n";
+        std::cout << "• MMU impede acesso de user-space ao kernel-space\n";
+        std::cout << "• transições user→kernel via system calls ou interrupções\n";
+        std::cout << std::format("• KPTI: {} (proteção adicional)\n", 
+                                vas.kpti_enabled ? "ATIVO" : "INATIVO");
+    }
+    
+    void showKernelVsUserProcesses(const ProcessHierarchy& hierarchy) {
+        std::cout << "\n🎓 === Demonstração: Processos `kernel` vs User ===\n";
+        
+        size_t kernel_count = 0, user_count = 0, system_count = 0;
+        for (const auto& [pid, node] : hierarchy.process_map) {
+            switch (node->info.type) {
+                case ProcessType::KernelThread: kernel_count++; break;
+                case ProcessType::User: user_count++; break;
+                case ProcessType::SystemProcess: 
+                case ProcessType::Service: system_count++; break;
+                default: break;
+            }
+        }
+        
+        std::cout << "┌─────────────────┬───────────┬─────────────────────────┐\n";
+        std::cout << "│ Tipo            │ Quantidade│ Características         │\n";
+        std::cout << "├─────────────────┼───────────┼─────────────────────────┤\n";
+        std::cout << std::format("│ `kernel`       │ {:9} │ Ring 0, sem user space  │\n", kernel_count);
+        std::cout << std::format("│ System       │ {:9} │ Privilégios elevados    │\n", system_count);
+        std::cout << std::format("│ User         │ {:9} │ Ring 3, isolados       │\n", user_count);
+        std::cout << "└─────────────────┴───────────┴─────────────────────────┘\n";
+    }
+    
+    void explainMMUTranslation(const MemoryLayout& layout) {
+        std::cout << "\n🎓 === Demonstração: tradução MMU ===\n";
+        std::cout << "Exemplo de tradução de endereço virtual para físico:\n\n";
+        
+        if (!layout.regions.empty()) {
+            const auto& region = layout.regions[0];
+            uint64_t virtual_addr = region.start_address;
+            
+            std::cout << std::format("Endereço Virtual: 0x{:016X}\n", virtual_addr);
+            std::cout << "┌─────────────────────────────────────────────────────┐\n";
+            std::cout << "│ Bits 47-39 │ Bits 38-30 │ Bits 29-21 │ Bits 20-12 │\n";
+            std::cout << "│   PML4E     │   PDPTE     │    PDE     │    PTE     │\n";
+            std::cout << "├─────────────┼─────────────┼─────────────┼─────────────┤\n";
+            std::cout << std::format("│    {:3}      │    {:3}      │    {:3}      │    {:3}      │\n",
+                                    (virtual_addr >> 39) & 0x1FF,
+                                    (virtual_addr >> 30) & 0x1FF,
+                                    (virtual_addr >> 21) & 0x1FF,
+                                    (virtual_addr >> 12) & 0x1FF);
+            std::cout << "└─────────────┴─────────────┴─────────────┴─────────────┘\n";
+            std::cout << std::format("                     Offset: 0x{:03X} (Bits 11-0)\n", 
+                                    virtual_addr & 0xFFF);
+        }
+    }
+    
+    void visualizeKPTI() {
+        std::cout << "\n🎓 === Demonstração: KPTI (Kernel Page Table Isolation) ===\n";
+        std::cout << "Proteção contra Meltdown:\n\n";
+        
+        std::cout << "SEM KPTI (Vulnerável):\n";
+        std::cout << "┌─────────────────────────────────────┐\n";
+        std::cout << "│        Tabela de Páginas única      │\n";
+        std::cout << "├─────────────────────────────────────┤\n";
+        std::cout << "│ User mappings    [VISÍVEL]          │\n";
+        std::cout << "│ `kernel` mappings  [VISÍVEL]         │\n";
+        std::cout << "└─────────────────────────────────────┘\n\n";
+        
+        std::cout << "COM KPTI (Protegido):\n";
+        std::cout << "┌─────────────────┐  ┌─────────────────┐\n";
+        std::cout << "│ User Page Table │  │Kernel Page Table│\n";
+        std::cout << "├─────────────────┤  ├─────────────────┤\n";
+        std::cout << "│ User mappings   │  │ User mappings   │\n";
+        std::cout << "│ `kernel` stub ✓   │  │ `kernel` full ✓   │\n";
+        std::cout << "└─────────────────┘  └─────────────────┘\n";
+        std::cout << "      User Mode           `kernel` Mode\n";
+    }
+    
+    void showKASLR() {
+        std::cout << "\n🎓 === Demonstração: KASLR (Kernel Address Space Layout Randomization) ===\n";
+        std::cout << "Randomização do layout do kernel:\n\n";
+        
+        std::cout << "SEM KASLR (Previsível):\n";
+        std::cout << "Kernel sempre em: 0xFFFFFFFF80000000\n";
+        std::cout << "┌─────────────────────────────────────┐\n";
+        std::cout << "│ 0xFFFFFFFF80000000: kernel_start    │\n";
+        std::cout << "│ 0xFFFFFFFF80001000: importante_func │\n";
+        std::cout << "│ 0xFFFFFFFF80002000: syscall_table   │\n";
+        std::cout << "└─────────────────────────────────────┘\n\n";
+        
+        std::cout << "COM KASLR (Randomizado):\n";
+        std::cout << "Base aleatória: 0xFFFFFFFF80000000 + RANDOM_OFFSET\n";
+        std::cout << "┌─────────────────────────────────────┐\n";
+        std::cout << "│ 0xFFFFFFFF85A32000: kernel_start    │\n";
+        std::cout << "│ 0xFFFFFFFF85A33000: importante_func │\n";
+        std::cout << "│ 0xFFFFFFFF85A34000: syscall_table   │\n";
+        std::cout << "└─────────────────────────────────────┘\n";
+        std::cout << "Dificulta exploits que dependem de endereços fixos\n";
+    }
+};
+
+/**
+ * @brief Analisador comparativo entre plataformas
+ */
+class ComparativeAnalyzer {
+public:
+    struct Metric {
+        std::string name;
+        std::variant<double, size_t, std::string> linux_value;
+        std::variant<double, size_t, std::string> windows_value;
+        std::string interpretation;
+    };
+    
+    struct PlatformComparison {
+        std::vector<Metric> metrics;
+        std::string summary;
+    };
+    
+    PlatformComparison compareProcessModels(const ProcessHierarchy& linux_hier,
+                                           const ProcessHierarchy& windows_hier) {
+        PlatformComparison comparison;
+        
+        comparison.metrics.push_back({
+            "Total de Processos",
+            linux_hier.total_processes,
+            windows_hier.total_processes,
+            "Windows tipicamente tem mais processos devido à arquitetura de serviços"
+        });
+        
+        comparison.metrics.push_back({
+            "Kernel Threads",
+            linux_hier.kernel_processes,
+            static_cast<size_t>(0), // Windows não expõe `kernel` threads como processos
+            "Linux expõe `kernel` threads como processos independentes [kworker], [ksoftirqd]"
+        });
+        
+        comparison.metrics.push_back({
+            "Processos de Sistema",
+            linux_hier.system_processes,
+            windows_hier.system_processes,
+            "Windows centraliza em poucos processos (System, Registry), **Linux** distribui mais"
+        });
+        
+        comparison.summary = "Linux: Modelo UNIX tradicional com hierarquia clara a partir do init/systemd.\n"
+                           "Windows: Modelo orientado a objetos com separação por sessões e serviços.";
+        
+        return comparison;
+    }
+    
+    void displayComparison(const PlatformComparison& comparison) {
+        std::cout << "\n=== Análise Comparativa: **Linux** vs Windows ===\n";
+        std::cout << "┌──────────────────────┬─────────────┬─────────────┐\n";
+        std::cout << "│ Métrica              │ **Linux**       │ Windows     │\n";
+        std::cout << "├──────────────────────┼─────────────┼─────────────┤\n";
+        
+        for (const auto& metric : comparison.metrics) {
+            std::cout << std::format("│ {:20} │ ", metric.name.substr(0, 20));
+            
+            // **Linux** value
+            std::visit([](const auto& value) {
+                std::cout << std::format("{:11} │ ", value);
+            }, metric.linux_value);
+            
+            // Windows value  
+            std::visit([](const auto& value) {
+                std::cout << std::format("{:11} │\n", value);
+            }, metric.windows_value);
+            
+            if (!metric.interpretation.empty()) {
+                std::cout << std::format("│ └─ {}\n", 
+                                       metric.interpretation.substr(0, 50) + 
+                                       (metric.interpretation.length() > 50 ? "..." : ""));
+            }
+        }
+        
+        std::cout << "└──────────────────────┴─────────────┴─────────────┘\n";
+        std::cout << "\nResumo:\n" << comparison.summary << "\n";
+    }
+};
+};
+
+/**
+ * @brief Função principal
+ */
+int main() {
+    try {
+        SystemProcessMonitor monitor;
+        
+        std::cout << "=== Monitor de Hierarquia + Memory Analysis ===\n";
+        std::cout << "Escolha o modo de operação:\n";
+        std::cout << "1. Análise rápida automática\n";
+        std::cout << "2. Modo interativo educacional\n";
+        std::cout << "Opção: ";
+        
+        int choice;
+        std::cin >> choice;
+        
+        if (choice == 2) {
+            EducationalCLI cli(monitor);
+            cli.runInteractiveMode();
+        } else {
+            monitor.runAnalysis();
+        }
+        
+        std::cout << "\nAnálise concluída com sucesso!\n";
+        std::cout << "Este programa demonstra diferenças fundamentais entre\n";
+        std::cout << "   arquiteturas de processo **Linux** e Windows.\n";
+        
+    } catch (const std::exception& e) {
+        std::cerr << "Erro: " << e.what() << std::endl;
+        return 1;
+    }
+    
+    return 0;
+}
+```

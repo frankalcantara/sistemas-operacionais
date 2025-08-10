@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 800 600"
+   version="1.1"
+   id="svg68"
+   sodipodi:docname="docker_container_diagram.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="..\images\docker_container_diagram.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview68"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.425"
+     inkscape:cx="400"
+     inkscape:cy="300"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg68" />
+  <defs
+     id="defs13">
+    <linearGradient
+       id="linearGradient68"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#002255;stop-opacity:1;"
+         offset="0.09570312"
+         id="stop68" />
+      <stop
+         style="stop-color:#002255;stop-opacity:0;"
+         offset="1"
+         id="stop69" />
+    </linearGradient>
+    <!-- Gradientes para as diferentes camadas -->
+    <linearGradient
+       id="hardwareGrad"
+       x1="16.903085"
+       y1="1419.8591"
+       x2="253.54628"
+       y2="1656.5023"
+       gradientTransform="matrix(2.9580399,0,0,0.3380617,0.70175443,2.8070175)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#34495E;stop-opacity:1"
+         id="stop1" />
+      <stop
+         offset="100%"
+         style="stop-color:#2C3E50;stop-opacity:1"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       id="kernelGrad"
+       x1="14.415347"
+       y1="1121.0753"
+       x2="264.81653"
+       y2="1371.4765"
+       gradientTransform="matrix(2.8650022,0,0,0.34903988,-4.2105263,-21.824561)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#E74C3C;stop-opacity:1"
+         id="stop3" />
+      <stop
+         offset="100%"
+         style="stop-color:#C0392B;stop-opacity:1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="osGrad"
+       x1="14.638501"
+       y1="1127.1646"
+       x2="219.57752"
+       y2="1332.1036"
+       gradientTransform="matrix(3.4156503,0,0,0.29277002,-5.6140351,-31.22807)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#F39C12;stop-opacity:1"
+         id="stop5" />
+      <stop
+         offset="100%"
+         style="stop-color:#E67E22;stop-opacity:1"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       id="dockerGrad"
+       x1="15.811388"
+       y1="790.56942"
+       x2="237.17082"
+       y2="1011.9289"
+       gradientTransform="scale(3.1622777,0.31622777)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#3498DB;stop-opacity:1"
+         id="stop7" />
+      <stop
+         offset="100%"
+         style="stop-color:#2980B9;stop-opacity:1"
+         id="stop8" />
+    </linearGradient>
+    <linearGradient
+       id="containerGrad"
+       x1="0%"
+       y1="0%"
+       x2="100%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#2ECC71;stop-opacity:1"
+         id="stop9" />
+      <stop
+         offset="100%"
+         style="stop-color:#27AE60;stop-opacity:1"
+         id="stop10" />
+    </linearGradient>
+    <linearGradient
+       id="appGrad"
+       x1="0%"
+       y1="0%"
+       x2="100%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#9B59B6;stop-opacity:1"
+         id="stop11" />
+      <stop
+         offset="100%"
+         style="stop-color:#8E44AD;stop-opacity:1"
+         id="stop12" />
+    </linearGradient>
+    <!-- Sombras -->
+    <filter
+       id="shadow"
+       x="-0.0027777778"
+       y="-0.0041666667"
+       width="1.0055556"
+       height="1.0083333">
+      <feDropShadow
+         dx="2"
+         dy="2"
+         stdDeviation="2"
+         flood-color="rgba(0,0,0,0.3)" />
+    </filter>
+    <filter
+       id="glow"
+       x="-0.012428571"
+       y="-0.12428571"
+       width="1.0248571"
+       height="1.2485714">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur12" />
+      <feMerge
+         id="feMerge13">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode12" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13" />
+      </feMerge>
+    </filter>
+    <filter
+       id="glow-6"
+       x="-0.012428571"
+       y="-0.12428571"
+       width="1.0248571"
+       height="1.2485714">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur12-8" />
+      <feMerge
+         id="feMerge13-5">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode12-7" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13-6" />
+      </feMerge>
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient68"
+       id="linearGradient69"
+       x1="400.99823"
+       y1="174.08775"
+       x2="400.99823"
+       y2="891.48767"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-4.2105263,-25.824561)" />
+    <filter
+       id="glow-6-3"
+       x="-0.011342017"
+       y="-0.10994057"
+       width="1.022684"
+       height="1.2198811">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur12-8-1" />
+      <feMerge
+         id="feMerge13-5-9">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode12-7-8" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13-6-6" />
+      </feMerge>
+    </filter>
+    <filter
+       id="glow-6-3-0"
+       x="-0.011342017"
+       y="-0.10994057"
+       width="1.022684"
+       height="1.2198811">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur12-8-1-2" />
+      <feMerge
+         id="feMerge13-5-9-8">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode12-7-8-6" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13-6-6-0" />
+      </feMerge>
+    </filter>
+    <filter
+       id="glow-6-3-4"
+       x="-0.011342017"
+       y="-0.10994057"
+       width="1.022684"
+       height="1.2198811">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur12-8-1-8" />
+      <feMerge
+         id="feMerge13-5-9-6">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode12-7-8-5" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13-6-6-09" />
+      </feMerge>
+    </filter>
+    <filter
+       id="glow-1"
+       x="-0.011428571"
+       y="-0.11428571"
+       width="1.0228571"
+       height="1.2285714">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur12-3" />
+      <feMerge
+         id="feMerge13-8">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode12-9" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13-3" />
+      </feMerge>
+    </filter>
+    <filter
+       id="glow-3"
+       x="-0.012428571"
+       y="-0.12428571"
+       width="1.0248571"
+       height="1.2485714">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur12-5" />
+      <feMerge
+         id="feMerge13-9">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode12-8" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13-4" />
+      </feMerge>
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#appGrad"
+       id="linearGradient70"
+       x1="42.093646"
+       y1="331.40394"
+       x2="116.92679"
+       y2="406.23709"
+       gradientTransform="matrix(2.1380899,0,0,0.46770717,7.7894737,-39.824561)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#appGrad"
+       id="linearGradient72"
+       x1="144.98922"
+       y1="331.40394"
+       x2="219.82237"
+       y2="406.23709"
+       gradientTransform="matrix(2.1380899,0,0,0.46770717,7.7894737,-39.824561)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#appGrad"
+       id="linearGradient74"
+       x1="247.8848"
+       y1="331.40394"
+       x2="322.71795"
+       y2="406.23709"
+       gradientTransform="matrix(2.1380899,0,0,0.46770717,7.7894737,-39.824561)"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       id="glow-6-3-7"
+       x="-0.011342017"
+       y="-0.10994057"
+       width="1.022684"
+       height="1.2198811">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur12-8-1-6" />
+      <feMerge
+         id="feMerge13-5-9-3">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode12-7-8-61" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13-6-6-5" />
+      </feMerge>
+    </filter>
+    <filter
+       id="glow-6-3-2"
+       x="-0.011342017"
+       y="-0.10994057"
+       width="1.022684"
+       height="1.2198811">
+      <feGaussianBlur
+         stdDeviation="3"
+         result="coloredBlur"
+         id="feGaussianBlur12-8-1-0" />
+      <feMerge
+         id="feMerge13-5-9-9">
+        <feMergeNode
+           in="coloredBlur"
+           id="feMergeNode12-7-8-7" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13-6-6-3" />
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <!-- Título -->
+  <text
+     x="400"
+     y="30"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="20"
+     font-weight="bold"
+     fill="#2C3E50"
+     id="text13">
+    Arquitetura de Container Docker sobre **Sistema Operacional** Ubuntu
+  </text>
+  <rect
+     x="46.787731"
+     y="471.9632"
+     width="700"
+     height="70"
+     rx="10"
+     ry="10"
+     fill="url(#kernelGrad)"
+     filter="url(#glow)"
+     stroke="#c0392b"
+     stroke-width="3"
+     id="rect24-1"
+     style="fill:url(#linearGradient69);stroke:#003380;filter:url(#glow-6)" />
+  <rect
+     x="63.111404"
+     y="123.72589"
+     width="707.69379"
+     height="73.009216"
+     rx="68.986107"
+     ry="10"
+     fill="url(#kernelGrad)"
+     filter="url(#glow)"
+     stroke="#c0392b"
+     stroke-width="3"
+     id="rect24-1-5"
+     style="fill:#00d455;stroke:#afe9af;stroke-width:1.65335;stroke-dasharray:none;filter:url(#glow-6-3)"
+     transform="matrix(0.26200563,0,0,1.4677761,67.758053,-97.953827)" />
+  <rect
+     x="63.111404"
+     y="123.72589"
+     width="707.69379"
+     height="73.009216"
+     rx="68.986107"
+     ry="10"
+     fill="url(#kernelGrad)"
+     filter="url(#glow)"
+     stroke="#c0392b"
+     stroke-width="3"
+     id="rect24-1-5-4"
+     style="fill:#00d455;stroke:#afe9af;stroke-width:1.65335;stroke-dasharray:none;filter:url(#glow-6-3-7)"
+     transform="matrix(0.26200563,0,0,1.4677761,286.17619,-96.842332)" />
+  <rect
+     x="63.111404"
+     y="123.72589"
+     width="707.69379"
+     height="73.009216"
+     rx="68.986107"
+     ry="10"
+     fill="url(#kernelGrad)"
+     filter="url(#glow)"
+     stroke="#c0392b"
+     stroke-width="3"
+     id="rect24-1-5-7"
+     style="fill:#00d455;stroke:#afe9af;stroke-width:1.65335;stroke-dasharray:none;filter:url(#glow-6-3-2)"
+     transform="matrix(0.26200563,0,0,1.4677761,505.78498,-96.366514)" />
+  <!-- Camada 1: Hardware -->
+  <text
+     x="397.89471"
+     y="492.08774"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text14">CAMADA DE HARDWARE</text>
+  <rect
+     x="77.894737"
+     y="500.08774"
+     width="120"
+     height="35"
+     rx="5"
+     ry="5"
+     fill="#2c3e50"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect15" />
+  <text
+     x="137.89474"
+     y="515.08777"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text15">CPU</text>
+  <text
+     x="137.89474"
+     y="527.08771"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#ffffff"
+     id="text16">Multi-core</text>
+  <rect
+     x="217.89474"
+     y="500.08774"
+     width="120"
+     height="35"
+     rx="5"
+     ry="5"
+     fill="#2c3e50"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect16" />
+  <text
+     x="277.89471"
+     y="515.08777"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text17">MEMÓRIA RAM</text>
+  <text
+     x="277.89471"
+     y="527.08771"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#ffffff"
+     id="text18">Física</text>
+  <rect
+     x="357.89471"
+     y="500.08774"
+     width="120"
+     height="35"
+     rx="5"
+     ry="5"
+     fill="#2c3e50"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect18" />
+  <text
+     x="417.89471"
+     y="515.08777"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text19">ARMAZENAMENTO</text>
+  <text
+     x="417.89471"
+     y="527.08771"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#ffffff"
+     id="text20">SSD/HDD</text>
+  <rect
+     x="497.89471"
+     y="500.08774"
+     width="120"
+     height="35"
+     rx="5"
+     ry="5"
+     fill="#2c3e50"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect20" />
+  <text
+     x="557.89478"
+     y="515.08777"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text21">REDE</text>
+  <text
+     x="557.89478"
+     y="527.08771"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#ffffff"
+     id="text22">Ethernet/WiFi</text>
+  <rect
+     x="637.89478"
+     y="500.08774"
+     width="80"
+     height="35"
+     rx="5"
+     ry="5"
+     fill="#2c3e50"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect22" />
+  <text
+     x="677.89478"
+     y="515.08777"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text23">I/O</text>
+  <text
+     x="677.89478"
+     y="527.08771"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#ffffff"
+     id="text24">Dispositivos</text>
+  <!-- Camada 2: `kernel` **Linux** (Destacado) -->
+  <rect
+     x="45.789474"
+     y="378.17545"
+     width="700"
+     height="70"
+     rx="10"
+     ry="10"
+     fill="url(#kernelGrad)"
+     filter="url(#glow)"
+     stroke="#c0392b"
+     stroke-width="3"
+     id="rect24"
+     style="fill:url(#kernelGrad)" />
+  <rect
+     x="47.033344"
+     y="338.40176"
+     width="700"
+     height="70"
+     rx="10"
+     ry="10"
+     fill="url(#kernelGrad)"
+     filter="url(#glow)"
+     stroke="#c0392b"
+     stroke-width="3"
+     id="rect24-0"
+     style="fill:#ff6600;stroke:#ff7f2a;filter:url(#glow-3)"
+     transform="matrix(0.99286598,0,0,0.69738299,1.4289224,68.190705)" />
+  <rect
+     x="43.419312"
+     y="211.59476"
+     width="700"
+     height="70"
+     rx="10"
+     ry="10"
+     fill="url(#kernelGrad)"
+     filter="url(#glow)"
+     stroke="#c0392b"
+     stroke-width="3"
+     id="rect24-4"
+     style="fill:#5599ff;stroke:#aaccff;stroke-width:1.6;stroke-dasharray:none;filter:url(#glow-1)"
+     transform="matrix(0.9941126,0,0,1.0000666,4.4214809,-0.01642932)" />
+  <text
+     x="395.78946"
+     y="403.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="18px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text25">KERNEL LINUX</text>
+  <text
+     x="395.78946"
+     y="423.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#ffffff"
+     id="text26">Gerenciamento de Processos • Memória Virtual • Sistema de Arquivos • Drivers</text>
+  <rect
+     x="75.789474"
+     y="428.17545"
+     width="100"
+     height="15"
+     rx="7"
+     ry="7"
+     fill="#a93226"
+     id="rect26" />
+  <text
+     x="125.78947"
+     y="439.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text27">Namespaces</text>
+  <rect
+     x="195.78947"
+     y="428.17545"
+     width="100"
+     height="15"
+     rx="7"
+     ry="7"
+     fill="#a93226"
+     id="rect27" />
+  <text
+     x="245.78947"
+     y="439.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text28">Cgroups</text>
+  <rect
+     x="315.78946"
+     y="428.17545"
+     width="100"
+     height="15"
+     rx="7"
+     ry="7"
+     fill="#a93226"
+     id="rect28" />
+  <text
+     x="365.78946"
+     y="439.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text29">SELinux</text>
+  <rect
+     x="435.78946"
+     y="428.17545"
+     width="100"
+     height="15"
+     rx="7"
+     ry="7"
+     fill="#a93226"
+     id="rect29" />
+  <text
+     x="485.78946"
+     y="439.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text30">UnionFS</text>
+  <rect
+     x="555.78949"
+     y="428.17545"
+     width="100"
+     height="15"
+     rx="7"
+     ry="7"
+     fill="#a93226"
+     id="rect30" />
+  <text
+     x="605.78949"
+     y="439.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text31">Netfilter</text>
+  <!-- Camada 3: **Sistema Operacional** Ubuntu -->
+  <text
+     x="394.38596"
+     y="323.77194"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text32">SISTEMA OPERACIONAL UBUNTU</text>
+  <text
+     x="394.38596"
+     y="343.77194"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#ffffff"
+     id="text33">Bibliotecas do Sistema • Shell • Utilitários • Serviços do Sistema</text>
+  <!-- Camada 4: Docker Engine -->
+  <text
+     x="400.44638"
+     y="227.7209"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16.1596px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text34"
+     transform="scale(0.99012318,1.0099753)"
+     style="stroke-width:1.00998">DOCKER ENGINE</text>
+  <text
+     x="400.44638"
+     y="247.92041"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12.1197px"
+     fill="#ffffff"
+     id="text35"
+     transform="scale(0.99012318,1.0099753)"
+     style="stroke-width:1.00998">Docker Daemon • Container Runtime • Gerenciamento de Imagens • API REST</text>
+  <rect
+     x="76.491226"
+     y="260.59399"
+     width="120"
+     height="12.240602"
+     rx="6"
+     ry="6.1203012"
+     fill="#2980b9"
+     id="rect35"
+     style="stroke-width:1.00998" />
+  <text
+     x="137.85277"
+     y="266.09998"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8.0798px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text36"
+     transform="scale(0.99012318,1.0099753)"
+     style="stroke-width:1.00998">containerd</text>
+  <rect
+     x="216.49123"
+     y="260.59399"
+     width="120"
+     height="12.240602"
+     rx="6"
+     ry="6.1203012"
+     fill="#2980b9"
+     id="rect36"
+     style="stroke-width:1.00998" />
+  <text
+     x="279.24933"
+     y="266.09998"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8.0798px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text37"
+     transform="scale(0.99012318,1.0099753)"
+     style="stroke-width:1.00998">runc</text>
+  <rect
+     x="356.49124"
+     y="260.59399"
+     width="120"
+     height="12.240602"
+     rx="6"
+     ry="6.1203012"
+     fill="#2980b9"
+     id="rect37"
+     style="stroke-width:1.00998" />
+  <text
+     x="420.64587"
+     y="266.09998"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8.0798px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text38"
+     transform="scale(0.99012318,1.0099753)"
+     style="stroke-width:1.00998">Docker CLI</text>
+  <rect
+     x="496.49124"
+     y="260.59399"
+     width="180"
+     height="12.240602"
+     rx="6"
+     ry="6.1203012"
+     fill="#2980b9"
+     id="rect38"
+     style="stroke-width:1.00998" />
+  <text
+     x="592.34167"
+     y="266.09998"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8.0798px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text39"
+     transform="scale(0.99012318,1.0099753)"
+     style="stroke-width:1.00998">Gerenciador de Rede</text>
+  <!-- Camada 5: Containers -->
+  <text
+     x="177.78947"
+     y="105.17544"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text40">CONTAINER 1</text>
+  <rect
+     x="97.789474"
+     y="115.17544"
+     width="160"
+     height="35"
+     rx="5"
+     ry="5"
+     fill="url(#appGrad)"
+     id="rect40"
+     style="fill:url(#linearGradient70)" />
+  <text
+     x="177.78947"
+     y="130.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text41">APLICAÇÃO WEB</text>
+  <text
+     x="177.78947"
+     y="142.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#ffffff"
+     id="text42">Node.js + Express</text>
+  <rect
+     x="97.789474"
+     y="154.17545"
+     width="75"
+     height="25"
+     rx="3"
+     ry="3"
+     fill="#27ae60"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect42" />
+  <text
+     x="134.78947"
+     y="164.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text43">Bibliotecas</text>
+  <text
+     x="134.78947"
+     y="174.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     fill="#ffffff"
+     id="text44">npm packages</text>
+  <rect
+     x="182.78947"
+     y="154.17545"
+     width="75"
+     height="25"
+     rx="3"
+     ry="3"
+     fill="#27ae60"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect44" />
+  <text
+     x="219.78947"
+     y="164.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text45">Runtime</text>
+  <text
+     x="219.78947"
+     y="174.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     fill="#ffffff"
+     id="text46">Node.js v18</text>
+  <text
+     x="397.78946"
+     y="105.17544"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text47">CONTAINER 2</text>
+  <rect
+     x="317.78946"
+     y="115.17544"
+     width="160"
+     height="35"
+     rx="5"
+     ry="5"
+     fill="url(#appGrad)"
+     id="rect47"
+     style="fill:url(#linearGradient72)" />
+  <text
+     x="397.78946"
+     y="130.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text48">BANCO DE DADOS</text>
+  <text
+     x="397.78946"
+     y="142.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#ffffff"
+     id="text49">PostgreSQL</text>
+  <rect
+     x="317.78946"
+     y="154.17545"
+     width="75"
+     height="25"
+     rx="3"
+     ry="3"
+     fill="#27ae60"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect49" />
+  <text
+     x="354.78946"
+     y="164.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text50">Dados</text>
+  <text
+     x="354.78946"
+     y="174.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     fill="#ffffff"
+     id="text51">Volume</text>
+  <rect
+     x="402.78946"
+     y="154.17545"
+     width="75"
+     height="25"
+     rx="3"
+     ry="3"
+     fill="#27ae60"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect51" />
+  <text
+     x="439.78946"
+     y="164.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text52">Config</text>
+  <text
+     x="439.78946"
+     y="174.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     fill="#ffffff"
+     id="text53">postgresql.conf</text>
+  <text
+     x="617.78949"
+     y="105.17544"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text54">CONTAINER 3</text>
+  <rect
+     x="537.78949"
+     y="115.17544"
+     width="160"
+     height="35"
+     rx="5"
+     ry="5"
+     fill="url(#appGrad)"
+     id="rect54"
+     style="fill:url(#linearGradient74)" />
+  <text
+     x="617.78949"
+     y="130.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text55">CACHE REDIS</text>
+  <text
+     x="617.78949"
+     y="142.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#ffffff"
+     id="text56">In-Memory Cache</text>
+  <rect
+     x="537.78949"
+     y="154.17545"
+     width="75"
+     height="25"
+     rx="3"
+     ry="3"
+     fill="#27ae60"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect56" />
+  <text
+     x="574.78949"
+     y="164.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text57">Memória</text>
+  <text
+     x="574.78949"
+     y="174.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     fill="#ffffff"
+     id="text58">RAM Alocada</text>
+  <rect
+     x="622.78949"
+     y="154.17545"
+     width="75"
+     height="25"
+     rx="3"
+     ry="3"
+     fill="#27ae60"
+     stroke="#ffffff"
+     stroke-width="1"
+     id="rect58" />
+  <text
+     x="659.78949"
+     y="164.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text59">Rede</text>
+  <text
+     x="659.78949"
+     y="174.17545"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="7px"
+     fill="#ffffff"
+     id="text60">Bridge</text>
+  <!-- Título da seção de containers -->
+  <text
+     x="394.38596"
+     y="60"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text61">CONTAINERS DOCKER</text>
+  <text
+     x="407.08771"
+     y="74.298248"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#7f8c8d"
+     id="text62">Isolamento por Namespaces • Limitação por Cgroups • Compartilhamento do Kernel</text>
+  <!-- Setas conectando as camadas -->
+  <path
+     d="m 395.08772,461.57895 v -10"
+     stroke="#7f8c8d"
+     stroke-width="2"
+     marker-end="url(#arrowhead)"
+     id="path62" />
+  <path
+     d="m 395.08772,367.57895 v -10"
+     stroke="#7f8c8d"
+     stroke-width="2"
+     marker-end="url(#arrowhead)"
+     id="path63" />
+  <path
+     d="m 395.08772,293.57895 v -10"
+     stroke="#7f8c8d"
+     stroke-width="2"
+     marker-end="url(#arrowhead)"
+     id="path64" />
+  <path
+     d="m 395.08772,201.57895 v -10"
+     stroke="#7f8c8d"
+     stroke-width="2"
+     marker-end="url(#arrowhead)"
+     id="path65" />
+  <!-- Definir marcador de seta -->
+  <defs
+     id="defs65">
+    <marker
+       id="arrowhead"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#7F8C8D"
+         id="polygon65" />
+    </marker>
+  </defs>
+  <!-- Legenda lateral -->
+  <text
+     x="51.403503"
+     y="564.5614"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text65">Características dos Containers:</text>
+  <circle
+     cx="58.596485"
+     cy="576.69537"
+     r="5"
+     fill="#2ecc71"
+     id="circle65" />
+  <text
+     x="68.596489"
+     y="579.28082"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text66">Isolamento de processos via Namespaces</text>
+  <circle
+     cx="278.94739"
+     cy="576.69537"
+     r="5"
+     fill="#e74c3c"
+     id="circle66" />
+  <text
+     x="288.94739"
+     y="579.28326"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text67">Limitação de recursos via Cgroups</text>
+  <circle
+     cx="466.3158"
+     cy="576.69537"
+     r="5"
+     fill="#3498db"
+     id="circle67" />
+  <text
+     x="476.3158"
+     y="579.34186"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text68">Compartilhamento do mesmo `kernel` Linux</text>
+</svg>

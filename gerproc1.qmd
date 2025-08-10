@@ -1,0 +1,1232 @@
+---
+title: "Criando Processos de Forma Programática: O Modelo Linux"
+---
+
+Até a esforçada leitora estudou a anatomia de um processo, seu ciclo de vida, e viu como podemos listar os processos existentes em um **Sistema Operacional**. Vimos que um clique duplo em um ícone ou a execução de um comando em um terminal são ações de alto nível que resultam na criação de um novo processo. Mas como o **Sistema Operacional** realmente executa essa mágica? Como ele pode criar processos? A resposta, como a perspicaz leitora já deve suspeitar, reside em um conjunto de chamadas de sistema, as interfaces programáticas que o `Kernel` oferece aos programas de usuário. Nesta seção, vamos explorar como criar processos de forma programática, tanto no **Linux** quanto no Windows, e entender as diferenças fundamentais entre esses dois mundos.
+
+Criar um processo de forma programática é uma das tarefas mais fundamentais em programação de sistemas. É o que permite que um servidor web inicie processos de trabalho para lidar com requisições, que um compilador chame o `linker`,  que um `shell` execute os comandos que você digita. No entanto, os conceitos e as filosofias por trás dessa criação diferem drasticamente entre os mundos **Linux** e Windows, refletindo seus legados e suas prioridades de design.
+
+### Filosofias de Design: Dois Paradigmas, Duas Visões
+
+A diferença entre os modelos de criação de processos do **Linux** e **Windows** transcende aspectos meramente técnicos, refletindo filosofias fundamentalmente distintas de design de **Sistemas Operacionais**. Estas filosofias, forjadas por contextos históricos e objetivos diferentes, moldam não apenas como processos são criados, mas como desenvolvedores pensam sobre abstrações de sistema.
+
+#### A Herança UNIX: Simplicidade, Ortogonalidade e Composição
+
+O modelo **fork()/exec()** do **Linux** herda diretamente a filosofia **UNIX**, articulada na década de 1970 por [Ken Thompson](https://en.wikipedia.org/wiki/Ken_Thompson), [Dennis Ritchie](https://en.wikipedia.org/wiki/Dennis_Ritchie) e seus colegas nos Bell Labs. O modelo `fork()/exec()` emergiu em um contexto de recursos limitados, PDP-11 com 64KB de memória, mas com necessidades de multitarefa. A separação conceitual permitiu que fosse atingido um grau significativo, para época, de eficiência de memória, graças ao **CoW** que minimiza uso de memória. Também existiram ganhos de flexibilidade nos processos de `E/S` e, finalmente, uma simplicidade de implementação que favoreceu a manutenção e evolução do `kernel`.
+
+A filosofia que suporta o modelo `fork()/exec()` pode ser resumida em três princípios fundamentais:
+
+1. **Princípio da Responsabilidade Única**: cada ferramenta deve fazer uma coisa e fazê-la bem. No contexto de processos, `fork()` tem uma única responsabilidade: criar uma cópia do processo atual. `exec()` tem outra responsabilidade distinta: substituir a imagem do processo por um novo programa.
+
+2. **Princípio da Ortogonalidade**: funcionalidades independentes devem ser implementadas de forma independente. `fork()` e `exec()` são operações ortogonais que podem ser combinadas de maneiras imprevistas pelos criadores originais. Esta separação permite, por exemplo, que um processo filho modifique seus descritores de arquivo antes de executar `exec()`, possibilitando redirecionamento de `E/S`.
+
+3. **Princípio da Composição**: ferramentas simples devem poder ser combinadas para criar funcionalidades complexas. O modelo `fork()/exec()` permite composições sofisticadas como pipelines, onde múltiplos processos são criados e conectados através de pipes.
+
+#### A Visão Windows: Configuração, Completude e Determinismo
+
+O modelo `CreateProcess` do **Windows** reflete uma filosofia diferente, moldada pelas necessidades de um **Sistema Operacional** comercial projetado para facilidade de uso e robustez. A atenta leitora não pode esquecer que o **Windows** NT foi projetado para ser comercialmente robusto e atrativo. O modelo `CreateProcess` também pode ser resumido em três princípios:
+
+1. **Princípio da Configuração Determinística**: O estado inicial de um processo deve ser completamente especificável no momento da criação. `CreateProcess` permite que o processo pai defina precisamente como o filho deve iniciar, incluindo visibilidade de janela, prioridade, ambiente, e redirecionamentos de `E/S`.
+
+2. **Princípio da Atomicidade**: Operações críticas devem ser atômicas para evitar estados inconsistentes. A criação de processo é uma operação única que ou sucede completamente ou falha, sem deixar o sistema em um estado intermediário.
+
+3. **Princípio da Completude**: `APIs`devem fornecer controle completo sobre os recursos que gerenciam. `CreateProcess` oferece controle granular sobre quase todos os aspectos da criação de processo através de suas estruturas de parâmetros.
+
+#### Implicações Práticas das Filosofias
+
+A diferença filosófica se manifesta claramente na implementação de `shell`s de comando. Enquanto **Shells UNIX/Linux** podem implementar pipelines e redirecionamento de forma natural:
+
+```pseudocode
+// Pseudocódigo para "cmd1 | cmd2 > output.txt"
+pipe(fd);
+if (fork() == 0) {
+    // Filho 1: cmd1
+    close(fd[0]);
+    dup2(fd[1], STDOUT_FILENO);
+    close(fd[1]);
+    exec("cmd1");
+}
+if (fork() == 0) {
+    // Filho 2: cmd2
+    close(fd[1]);
+    dup2(fd[0], STDIN_FILENO);
+    close(fd[0]);
+    int outfd = open("output.txt", O_WRONLY|O_CREAT);
+    dup2(outfd, STDOUT_FILENO);
+    exec("cmd2");
+}
+```
+
+Os **Shells Windows** requerem configuração prévia mais complexa através de `STARTUPINFO`:
+
+```pseudocode
+// Configuração mais verbosa necessária
+STARTUPINFO si1, si2;
+// ... configuração detalhada de pipes e redirecionamentos
+// em estruturas antes da criação dos processos
+CreateProcess(..., &si1, ...);
+CreateProcess(..., &si2, ...);
+```
+
+As diferenças filosóficas também terão impacto no desenvolvimento de servidores. Enquanto o **Modelo Linux** favorece servidores que fazem fork por requisição:
+
+```pseudocode
+while (true) {
+    int client = accept(server_socket);
+    if (fork() == 0) {
+        // Processo filho específico para este cliente
+        close(server_socket);
+        handle_client(client);
+        exit(0);
+    }
+    close(client);
+}
+```
+
+O **Modelo Windows** favorece arquiteturas baseadas em `threads` ou `E/s` assíncrono:
+
+```pseudocode
+// Criar novo processo por requisição
+// Preferência por thread pools ou completion ports
+HANDLE completionPort = CreateIoCompletionPort(...);
+while (true) {
+    OVERLAPPED* overlapped;
+    GetQueuedCompletionStatus(completionPort, &overlapped, ...);
+    // Processa requisição em thread pool
+}
+```
+
+#### Síntese e Filosofias de Design: Convergência e Divergência
+
+Ao longo desta seção, a arguta leitora pode ter tido a impressão de que os mundos **Linux** e **Windows** são universos paralelos, destinados a nunca se encontrar. Contudo, o cenário da computação moderna é mais fluido, e nos últimos anos temos observado uma fascinante convergência em certas áreas. As tecnologias de contêineres no **Linux**, por exemplo, embora baseadas em primitivas do `Kernel` como `namespaces` e `cgroups`, são frequentemente gerenciadas por ferramentas com uma abordagem mais voltada a facilidade de configuração e adaptação, como os manifestos declarativos. Do outro lado do espectro, o **W**indows **S**ubsystem for **L**inux, **WSL**, representa um passo monumental da Microsoft em direção à interoperabilidade, integrando um ambiente **UNIX** quase completo dentro do **Windows**. Até mesmo no coração do **Linux**, a ascensão do `systemd` como gerenciador de serviços e inicialização introduziu um modelo de gerenciamento mais centralizado e determinístico, afastando-se da simplicidade dos scripts `shell` tradicionais do [System V](https://en.wikipedia.org/wiki/UNIX_System_V).
+
+Apesar dessa aproximação, seria um engano declarar o fim das diferenças. As divergências fundamentais persistem, pois estão enraizadas em filosofias de design profundamente distintas. A começar pela filosofia de tratamento de erros: o **Linux**, herdeiro da tradição **UNIX**, geralmente favorece o `fail-fast`, no qual um componente falha de forma rápida e visível. O **Windows**, por outro lado, muitas vezes se esforça para conseguir uma `degradação graciosa`, tentando manter a aplicação ou o sistema em funcionamento, mesmo que em um estado limitado. A modularidade é outro ponto de contraste: o ecossistema **Linux** preza por processos pequenos e especializados, enquanto aplicações **Windows** tendem a ser mais monolíticas, utilizando `threads` para concorrência interna. Por fim, a abordagem de configuração permanece um divisor de águas: o **Linux** confia em arquivos de texto simples e legíveis por humanos, enquanto o **Windows** centraliza a configuração em bancos de dados como o **Registry** e a expõe através de **API**s complexas.
+
+Essas divergências são a manifestação de duas visões de mundo distintas. A essência do modelo **UNIX** reside em seus três pilares: **ortogonalidade**, **simplicidade** e **composição**. As primitivas, como `fork()`, `exec()` e `pipes`, são simples e independentes umas das outras. Essa simplicidade facilita o raciocínio sobre o comportamento do sistema. E é a capacidade de compor essas ferramentas ortogonais que gera uma funcionalidade emergente e poderosa, permitindo usos que seus criadores originais talvez nem tivessem previsto.
+
+Em contrapartida, o modelo do **Windows** é construído sobre os pilares do **determinismo**, da **configuração rica** e da **atomicidade**. A `atomicidade` de chamadas como `CreateProcess` garante que a criação de um processo seja uma operação de tudo ou nada, o que simplifica o tratamento de erros e aumenta a previsibilidade. Esse é o **determinismo** do sistema. A **API** oferece uma **configuração rica** e explícita, que, embora complexa, reduz a quantidade de código repetitivo `boilerplate`, que o desenvolvedor precisa escrever para configurar o ambiente de um novo processo. A escolha entre os dois modelos, portanto, não é uma questão de superioridade, mas sim um reflexo de qual conjunto de compromissos, flexibilidade composicional ou robustez configuracional, é mais valorizado.
+
+A @tbl-linux-windows-summary resume as principais diferenças entre os dois modelos.
+
+| Dimensão | **Linux** (fork/exec) | **Windows** (CreateProcess) |
+|----------|-------------------|-------------------------|
+| **Filosofia de Design** | Composicional, minimalista | Configuracional, abrangente |
+| **Unidades de Abstração** | Operações ortogonais separadas | Operação monolítica configurável |
+| **Flexibilidade Temporal** | Janela entre fork/exec para customização | Configuração prévia à criação |
+| **Modelo Mental** | Clonagem + substituição | Instanciação configurada |
+| **Tratamento de Erro** | Falhas em pontos distintos | Falha ou sucesso atômico |
+| **Overhead Conceitual** | Baixo (2 conceitos simples) | Alto (estruturas complexas) |
+| **Poder Expressivo** | Alto através de composição | Alto através de configuração |
+| **Previsibilidade** | Comportamento emergente | Comportamento determinístico |
+| **Curva de Aprendizado** | Íngreme inicialmente, platô baixo | Gradual, platô alto |
+| **Debugging** | Pontos de falha isolados | Diagnóstico de configuração complexa |
+
+: Filosofias de criação de processos entre Linux e Windows {#tbl-linux-windows-summary}
+
+Ambas as abordagens são válidas e refletem os contextos históricos, técnicos e comerciais em que evoluíram. A compreensão profunda dessas filosofias permite que desenvolvedores não apenas utilizem as APIs, mas pensem de forma nativa sobre problemas em cada plataforma, aproveitando as forças inerentes de cada modelo para criar software mais elegante e eficiente.
+
+### O Modelo Linux: A Composição de `fork()` e `exec()`
+
+O universo **UNIX**, e por herança **Linux**, adota um modelo elegante para a criação de processos, baseado na composição de duas ações ortogonais: clonar e substituir. Este paradigma é realizado através de duas famílias de chamadas de sistema: `fork()` e `exec()`.
+
+1. **`fork()`: A Clonagem do Processo**: a chamada de sistema `fork()` é o único método para criar um novo processo no Linux. Esta chamada cria um processo filho que será uma cópia quase exata do processo pai que a invocou. O filho herda o espaço de endereçamento do pai (código, dados, pilha), descritores de arquivos abertos, e outras informações de contexto. Para tornar esta operação eficiente, os sistemas modernos implementam `fork()` usando a técnica **C**opy-**o**n-**W**rite, **COW**, o inglês para copiar ao escrever. Com **COW**, o espaço de endereçamento não é fisicamente duplicado. Em vez disso, pai e filho compartilham as mesmas páginas de memória, que são marcadas como somente leitura. Uma cópia física da página só é criada quando um dos processos tenta escrever nela, tornando a chamada `fork()` extremamente rápida.
+
+    A genialidade do `fork()` está em seu valor de retorno:
+
+    - no processo **pai**, `fork()` retorna o **PID** (ID do Processo) do filho recém-criado;
+    - no processo **filho**, `fork()` retorna **0**;
+    - se a criação falhar, `fork()` retorna **-1**.
+
+    Essa diferença no valor de retorno permite que o programa, após a chamada, siga caminhos de execução diferentes dependendo se ele é o pai ou o filho.
+
+2. **`exec()`: A Substituição da Imagem do Processo**: após o `fork()`, o processo filho geralmente precisa executar um programa diferente. A família de chamadas de sistema `exec` (como `execvp`, `execl`, `execve`) serve a este propósito. Uma chamada `exec` substitui completamente a imagem de memória do processo atual pelo novo programa especificado, carregando seus segmentos de texto, dados e `BSS` do arquivo executável. O **PID** do processo não muda, pois nenhum novo processo é criado; o processo existente é simplesmente transformado. Se a chamada `exec` for bem-sucedida, ela **nunca retorna** ao código que a cham , pois esse código foi substituído.
+
+A separação entre `fork()` e `exec()` é a base da flexibilidade do `shell` **UNIX**. Essa separação cria uma janela de oportunidade na qual o processo filho, antes de se transformar no novo programa com `exec()`, pode manipular seu próprio ambiente, como redirecionar a entrada e saída padrão (`stdin`, `stdout`) para implementar `pipes` e redirecionamentos de arquivo.
+
+Para garantir a sincronia, o processo pai geralmente usa chamadas como `wait()` ou `waitpid()` para aguardar a terminação do filho. Isso não só permite a sincronização, mas também é o mecanismo pelo qual o pai recupera o status de saída do filho, evitando que este se torne um processo zumbi.
+
+Vai ficar mais claro se a esforçada leitora tentar um exemplo em C++23. O @lst-cpplinux-create demonstra o ciclo completo `fork-exec-wait`.
+
+::: {#lst-cpplinux-create}
+
+```cpp
+/**
+ * @file process_linux_create.cpp
+ * @brief Demonstração da criação de processos no **Linux** com fork() e execvp().
+ * @author Livro de Sistemas Operacionais
+ * @version 1.0
+ * @date 2025
+ *
+ * Este programa demonstra o paradigma fork-exec-wait. O processo pai
+ * cria um filho, que por sua vez se substitui pelo comando 'ls -l /tmp'.
+ * O pai espera a conclusão do filho e imprime seu status de saída.
+ */
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unistd.h>      // Para fork(), execvp(), getpid()
+#include <sys/wait.h>    // Para waitpid()
+#include <system_error>  // Para std::error_code
+#include <cstring>       // Para strerror
+#include <format>        // Para std::format
+
+/**
+ * @brief Ponto de entrada principal do programa.
+ */
+int main() {
+    std::cout << std::format("Processo pai (PID: {}) iniciando...\n", getpid());
+
+    // A chamada de sistema fork() cria um novo processo.
+    pid_t **PID** = fork();
+
+    if (pid < 0) {
+        // **PID** < 0: Ocorreu um erro ao criar o processo filho.
+        std::cerr << std::format("Falha no fork: {}\n", std::strerror(errno));
+        return 1;
+    }
+
+    if (pid == 0) {
+        // --- CÓDIGO DO PROCESSO FILHO ---
+        // **PID** == 0: Este bloco de código é executado apenas pelo processo filho.
+        std::cout << std::format("Processo filho (PID: {}) executando.\n", getpid());
+        std::cout << "Filho irá executar 'ls -l /tmp'...\n";
+
+        // Prepara os argumentos para execvp.
+        // O primeiro argumento é o nome do programa a ser executado.
+        // A lista de argumentos deve ser terminada com um ponteiro nulo.
+        std::vector<char*> args;
+        args.push_back(const_cast<char*>("ls"));
+        args.push_back(const_cast<char*>("-l"));
+        args.push_back(const_cast<char*>("/tmp"));
+        args.push_back(nullptr);
+
+        // execvp substitui a imagem do processo atual pelo novo programa.
+        // Se for bem-sucedido, esta função NUNCA retorna.
+        execvp(args[0], args.data());
+
+        // Este código só é executado se execvp falhar.
+        std::cerr << std::format("Falha no execvp no processo filho: {}\n", std::strerror(errno));
+        // É fundamental sair em caso de falha para não continuar executando o código do pai.
+        _exit(1);
+
+    } else {
+        // --- CÓDIGO DO PROCESSO PAI ---
+        // **PID** > 0: Este bloco é executado pelo pai, e 'pid' contém o **PID** do filho.
+        std::cout << std::format("Pai (PID: {}) criou o filho com PID: {}\n", getpid(), pid);
+        std::cout << "Pai esperando o filho terminar...\n";
+
+        int status;
+        // waitpid espera por uma mudança de estado no filho especificado.
+        // O ponteiro para 'status' receberá informações sobre a terminação.
+        if (waitpid(pid, &status, 0) == -1) {
+            std::cerr << std::format("Falha no waitpid: {}\n", std::strerror(errno));
+            return 1;
+        }
+
+        // Analisa o status de saída do filho.
+        if (WIFEXITED(status)) {
+            // O filho terminou normalmente via exit() ou _exit().
+            int exit_code = WEXITSTATUS(status);
+            std::cout << std::format("\nPai: Filho terminou com o código de saída: {}\n", exit_code);
+        } else if (WIFSIGNALED(status)) {
+            // O filho foi terminado por um sinal.
+            int term_signal = WTERMSIG(status);
+            std::cout << std::format("\nPai: Filho foi terminado pelo sinal: {}\n", term_signal);
+        } else {
+            std::cout << "\nPai: Filho terminou de forma anormal.\n";
+        }
+    }
+
+    return 0;
+}
+```
+
+:::
+
+O código em @lst-cpplinux-create encapsula o ciclo de vida da criação de processos no Linux. A chamada fork() divide o fluxo de execução em dois. O processo filho, identificado por **PID** == 0, prepara um std::vector de ponteiros para char para os argumentos do comando ls e chama execvp(). Esta função procura pelo executável ls no PATH do sistema e, se encontrar, sobrepõe o processo filho com ele. O processo pai, por sua vez, entra no bloco else, onde usa waitpid(pid, &status, 0) para se suspender até que o processo filho (cujo **PID** ele conhece) termine. Uma vez que o filho termina, o pai acorda e usa as macros WIFEXITED e WEXITSTATUS para inspecionar a variável status e determinar se o filho concluiu com sucesso.
+
+#### Hierarquia de Processos e Controle de Ambiente no Linux
+
+O modelo de processos do **Linux** oferece mecanismos sofisticados para organização hierárquica e controle de ambiente que vão além da simples relação pai-filho. Dois conceitos fundamentais emergem: **Process Groups** e **Sessions**, que formam a base do controle de tarefas (`job control`) implementado pelos shells modernos.
+
+##### Process Groups: Agrupamento Lógico de Processos
+
+Um **Process Group** é uma coleção de processos relacionados que podem ser tratados como uma unidade para propósitos de sinalização. Todo processo pertence exatamente a um group, identificado por um **Process Group ID (PGID)**. O processo cujo **PID** é igual ao **PGID** é denominado **process group leader**.
+
+Process groups são fundamentais para implementar pipelines de comandos. Quando um shell executa `ls | grep txt | sort`, os três processos são colocados no mesmo process group, permitindo que sinais como `SIGINT` (Ctrl+C) sejam enviados para todos simultaneamente.
+
+::: callout-note
+**Sinais?**
+Pense nos sinais como um sistema de **notificações de emergência** para processos. Os sinais são uma forma de comunicação assíncrona, o que significa que um processo pode ser interrompido a qualquer momento para ser notificado de um evento importante. É como o alarme de incêndio de um prédio: não importa o que você esteja fazendo, quando ele toca, você precisa reagir imediatamente.
+
+Formalmente, **um sinal é uma notificação de software enviada a um processo pelo `kernel` para informá-lo de que um evento ocorreu**. Esses eventos podem ser gerados por um usuário ao pressionar combinações de teclas no terminal, como `Ctrl+C` ou `Ctrl+Z`. Os sinais também podem ser emitidos pelo próprio `Kernel` para notificar o processo de um erro grave, como uma divisão por zero ou um acesso a uma área de memória inválida, o que gera uma **Segmentation Fault**. Além disso, Um processo pode enviar um sinal para outro (se tiver permissão) usando a chamada de sistema `kill()`.
+
+Quando um processo recebe um sinal, ele precisa tomar uma atitude chamada de disposição, em inglês _disposition_, e há três opções:
+
+1. **Executar a Ação Padrão**: cada sinal tem uma ação padrão definida pelo `Kernel`. Para muitos sinais, a ação padrão é simplesmente terminar o processo. Para outros, pode ser ignorar o sinal ou suspender o processo.
+
+2. **Ignorar o Sinal**: o processo pode explicitamente instruir o `Kernel` a ignorar o sinal. A notificação é recebida e descartada, e o processo continua sua execução como se nada tivesse acontecido.
+
+3. **Capturar o Sinal**: esta é a opção mais poderosa. O processo pode registrar uma função especial, chamada de manipulador de sinal, em inglês _signal handler_, que será executada quando o sinal for recebido. Isso permite que o programa intercepte o evento e execute uma lógica customizada.
+:::
+
+As funções principais para manipulação de _process groups_ são:
+
+- `setpgid(pid, pgid)`: move o processo `pid` para o process group `pgid`
+- `getpgid(pid)`: retorna o **PGID** do processo `pid`
+- `getpgrp()`: retorna o **PGID** do processo atual
+
+##### Sessions: Isolamento e Controle de Terminal
+
+Uma **Session** é uma coleção de process groups, tipicamente associada a um terminal de controle. Sessions proporcionam isolamento entre diferentes contextos de execução. O processo que cria uma nova session torna-se o **session leader**.
+
+A função `setsid()` cria uma nova session, remove o processo de seu terminal de controle atual, e o torna session leader. Esta operação é fundamental na criação de daemons, processos que executam em background sem associação a terminal.
+
+##### Exemplo Prático: Implementando Job Control
+
+O @lst-linux-job-control demonstra uma implementação simplificada de job control, mostrando como _process groups_ e sessions podem ser utilizados para gerenciar tarefas em background e foreground.
+
+::: {#lst-linux-job-control}
+
+```cpp
+/**
+ * @file linux_job_control.cpp
+ * @brief Demonstração de process groups, sessions e job control no Linux.
+ * @author Livro de Sistemas Operacionais
+ * @version 1.0
+ * @date 2025
+ *
+ * Este programa ilustra o uso de _process groups_ e sessions para implementar
+ * um controle básico de tarefas, similar ao que shells modernos fazem.
+ * Demonstra execução em foreground/background e manipulação de sinais.
+ */
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <termios.h>
+#include <fcntl.h>
+#include <format>
+
+/**
+ * @brief Estrutura para representar uma tarefa (job).
+ */
+struct Job {
+    pid_t pgid;                    ///< Process Group ID da tarefa
+    std::string command;           ///< Comando executado
+    bool is_background;            ///< true se executando em background
+    bool is_completed;             ///< true se tarefa foi concluída
+    
+    Job(pid_t pg, const std::string& cmd, bool bg) 
+        : pgid(pg), command(cmd), is_background(bg), is_completed(false) {}
+};
+
+/**
+ * @brief Classe para gerenciar jobs (controle de tarefas).
+ */
+class JobManager {
+private:
+    std::vector<Job> jobs;                    ///< Lista de jobs ativos
+    pid_t shell_pgid;                         ///< PGID do shell
+    struct termios shell_tmodes;              ///< Modos do terminal do shell
+    
+public:
+    /**
+     * @brief Construtor - inicializa o job manager.
+     */
+    JobManager() {
+        // Obtém o PGID do shell
+        shell_pgid = getpid();
+        
+        // Se executando interativamente, toma controle do terminal
+        if (isatty(STDIN_FILENO)) {
+            // Move o shell para seu próprio process group
+            if (setpgid(shell_pgid, shell_pgid) < 0) {
+                perror("setpgid");
+                exit(1);
+            }
+            
+            // Toma controle do terminal
+            tcsetpgrp(STDIN_FILENO, shell_pgid);
+            
+            // Salva atributos do terminal
+            tcgetattr(STDIN_FILENO, &shell_tmodes);
+        }
+    }
+    
+    /**
+     * @brief Executa um comando, opcionalmente em background.
+     * @param args Argumentos do comando
+     * @param background true para executar em background
+     */
+    void execute_command(const std::vector<std::string>& args, bool background) {
+        if (args.empty()) return;
+        
+        // Converte argumentos para formato execvp
+        std::vector<char*> argv;
+        for (const auto& arg : args) {
+            argv.push_back(const_cast<char*>(arg.c_str()));
+        }
+        argv.push_back(nullptr);
+        
+        pid_t **PID** = fork();
+        
+        if (pid < 0) {
+            perror("fork");
+            return;
+        }
+        
+        if (pid == 0) {
+            // *** PROCESSO FILHO ***
+            
+            // Cria novo process group para o comando
+            setpgid(0, 0);  // Define PGID como próprio PID
+            
+            // Se foreground, dá controle do terminal ao novo process group
+            if (!background && isatty(STDIN_FILENO)) {
+                tcsetpgrp(STDIN_FILENO, getpid());
+            }
+            
+            // Restaura handlers de sinal padrão
+            signal(SIGINT, SIG_DFL);
+            signal(SIGQUIT, SIG_DFL);
+            signal(SIGTSTP, SIG_DFL);
+            signal(SIGTTIN, SIG_DFL);
+            signal(SIGTTOU, SIG_DFL);
+            
+            // Executa o comando
+            execvp(argv[0], argv.data());
+            perror("execvp");
+            _exit(1);
+            
+        } else {
+            // *** PROCESSO PAI (SHELL) ***
+            
+            // Define o process group do filho
+            setpgid(pid, pid);
+            
+            // Cria registro do job
+            std::string cmd_str = args[0];
+            for (size_t i = 1; i < args.size(); ++i) {
+                cmd_str += " " + args[i];
+            }
+            
+            jobs.emplace_back(pid, cmd_str, background);
+            
+            if (background) {
+                std::cout << std::format("[{}] {} (PID: {}, PGID: {})\n", 
+                                       jobs.size(), cmd_str, pid, pid);
+            } else {
+                // Foreground: espera conclusão e retorna controle do terminal ao shell
+                wait_for_job(pid);
+                if (isatty(STDIN_FILENO)) {
+                    tcsetpgrp(STDIN_FILENO, shell_pgid);
+                    tcsetattr(STDIN_FILENO, TCSADRAIN, &shell_tmodes);
+                }
+            }
+        }
+    }
+    
+    /**
+     * @brief Espera por um job específico terminar.
+     * @param pgid Process Group ID do job
+     */
+    void wait_for_job(pid_t pgid) {
+        int status;
+        pid_t pid;
+        
+        do {
+            **PID** = waitpid(-pgid, &status, WUNTRACED);
+            if (pid > 0) {
+                mark_job_completed(pgid);
+            }
+        } while (pid > 0 && !WIFEXITED(status) && !WIFSIGNALED(status));
+    }
+    
+    /**
+     * @brief Marca um job como concluído.
+     * @param pgid Process Group ID do job
+     */
+    void mark_job_completed(pid_t pgid) {
+        for (auto& job : jobs) {
+            if (job.pgid == pgid) {
+                job.is_completed = true;
+                break;
+            }
+        }
+    }
+    
+    /**
+     * @brief Lista jobs ativos.
+     */
+    void list_jobs() {
+        std::cout << "Jobs ativos:\n";
+        for (size_t i = 0; i < jobs.size(); ++i) {
+            const auto& job = jobs[i];
+            if (!job.is_completed) {
+                std::cout << std::format("[{}] {} {} (PGID: {})\n", 
+                                       i + 1, 
+                                       job.is_background ? "Background" : "Foreground",
+                                       job.command,
+                                       job.pgid);
+            }
+        }
+    }
+};
+
+/**
+ * @brief Demonstra criação de uma nova session (daemon-like).
+ */
+void demonstrate_session_creation() {
+    std::cout << "Demonstrando criação de nova session:\n";
+    std::cout << std::format("PID atual: {}, PGID: {}, SID: {}\n", 
+                             getpid(), getpgrp(), getsid(0));
+    
+    pid_t **PID** = fork();
+    
+    if (pid < 0) {
+        perror("fork");
+        return;
+    }
+    
+    if (pid == 0) {
+        // Processo filho: cria nova session
+        pid_t new_sid = setsid();
+        if (new_sid < 0) {
+            perror("setsid");
+            _exit(1);
+        }
+        
+        std::cout << std::format("Filho - Nova session criada!\n");
+        std::cout << std::format("PID: {}, PGID: {}, SID: {}\n", 
+                                 getpid(), getpgrp(), getsid(0));
+        std::cout << "Filho executando como session leader...\n";
+        
+        // Simula trabalho do daemon
+        sleep(2);
+        std::cout << "Filho finalizando.\n";
+        _exit(0);
+        
+    } else {
+        // Processo pai: espera o filho
+        int status;
+        waitpid(pid, &status, 0);
+        std::cout << "Demonstração de session concluída.\n";
+    }
+}
+
+/**
+ * @brief Função principal - demonstra job control.
+ */
+int main() {
+    std::cout << "=== Demonstração de Job Control no **Linux** ===\n\n";
+    
+    // Ignora sinais de controle de terminal no shell principal
+    signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
+    signal(SIGTTIN, SIG_IGN);
+    signal(SIGTTOU, SIG_IGN);
+    
+    JobManager manager;
+    
+    // Demonstra execução em foreground
+    std::cout << "1. Executando 'sleep 2' em foreground:\n";
+    manager.execute_command({"sleep", "2"}, false);
+    std::cout << "Comando foreground concluído.\n\n";
+    
+    // Demonstra execução em background
+    std::cout << "2. Executando 'sleep 5' em background:\n";
+    manager.execute_command({"sleep", "5"}, true);
+    
+    std::cout << "3. Executando 'echo Hello World' em background:\n";
+    manager.execute_command({"echo", "Hello", "World"}, true);
+    
+    // Lista jobs
+    std::cout << "\n";
+    manager.list_jobs();
+    
+    // Demonstra sessions
+    std::cout << "\n4. Demonstração de Sessions:\n";
+    demonstrate_session_creation();
+    
+    std::cout << "\nAguardando jobs background terminarem...\n";
+    sleep(6);  // Aguarda jobs background
+    
+    return 0;
+}
+```
+
+:::
+
+#### Variáveis de Ambiente: Herança e Customização
+
+Todo processo no **Linux** herda uma cópia das variáveis de ambiente de seu processo pai. O ambiente é representado como um array de strings no formato `"NOME=valor"`, terminado por um ponteiro `NULL`.
+
+Para controle preciso sobre o ambiente de um processo filho, a família `exec` oferece `execve()`, que aceita um array de ambiente customizado. O @lst-linux-environment demonstra manipulação avançada de variáveis de ambiente.
+
+::: {#lst-linux-environment}
+
+```cpp
+/**
+ * @file linux_environment.cpp
+ * @brief Demonstração de manipulação de variáveis de ambiente no Linux.
+ * @author Livro de Sistemas Operacionais
+ * @version 1.0
+ * @date 2025
+ *
+ * Este programa demonstra como processos podem herdar, modificar e 
+ * customizar completamente o ambiente de processos filhos usando execve.
+ */
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <cstdlib>
+#include <format>
+
+/**
+ * @brief Classe para gerenciar ambientes de processo customizados.
+ */
+class EnvironmentManager {
+private:
+    std::vector<std::string> env_vars; ///< Variáveis de ambiente
+    
+public:
+    /**
+     * @brief Adiciona uma variável de ambiente.
+     * @param name Nome da variável
+     * @param value Valor da variável
+     */
+    void set_variable(const std::string& name, const std::string& value) {
+        // Remove variável existente se houver
+        remove_variable(name);
+        
+        // Adiciona nova variável
+        env_vars.push_back(name + "=" + value);
+    }
+    
+    /**
+     * @brief Remove uma variável de ambiente.
+     * @param name Nome da variável a remover
+     */
+    void remove_variable(const std::string& name) {
+        auto it = std::remove_if(env_vars.begin(), env_vars.end(),
+            [&name](const std::string& var) {
+                return var.substr(0, var.find('=')) == name;
+            });
+        env_vars.erase(it, env_vars.end());
+    }
+    
+    /**
+     * @brief Carrega ambiente atual do processo.
+     */
+    void load_current_environment() {
+        extern char** environ;  // Variável global do ambiente
+        
+        env_vars.clear();
+        for (char** env = environ; *env != nullptr; ++env) {
+            env_vars.emplace_back(*env);
+        }
+    }
+    
+    /**
+     * @brief Converte para formato execve (array de char*).
+     * @return Array de ponteiros para char, terminado com nullptr
+     */
+    std::vector<char*> to_execve_format() const {
+        std::vector<char*> envp;
+        for (const auto& var : env_vars) {
+            envp.push_back(const_cast<char*>(var.c_str()));
+        }
+        envp.push_back(nullptr);
+        return envp;
+    }
+    
+    /**
+     * @brief Imprime todas as variáveis de ambiente.
+     */
+    void print_environment() const {
+        std::cout << "Variáveis de ambiente definidas:\n";
+        for (const auto& var : env_vars) {
+            std::cout << "  " << var << "\n";
+        }
+        std::cout << std::format("Total: {} variáveis\n", env_vars.size());
+    }
+};
+
+/**
+ * @brief Demonstra execução com ambiente herdado.
+ */
+void demonstrate_inherited_environment() {
+    std::cout << "=== Demonstração: Ambiente Herdado ===\n";
+    
+    pid_t **PID** = fork();
+    
+    if (pid < 0) {
+        perror("fork");
+        return;
+    }
+    
+    if (pid == 0) {
+        // Filho: executa 'env' para mostrar ambiente herdado
+        std::cout << "Filho executando 'env' com ambiente herdado:\n";
+        
+        std::vector<char*> args = {
+            const_cast<char*>("env"),
+            nullptr
+        };
+        
+        execvp(args[0], args.data());
+        perror("execvp");
+        _exit(1);
+        
+    } else {
+        // Pai: espera o filho terminar
+        int status;
+        waitpid(pid, &status, 0);
+        std::cout << "Demonstração de ambiente herdado concluída.\n\n";
+    }
+}
+
+/**
+ * @brief Demonstra execução com ambiente customizado.
+ */
+void demonstrate_custom_environment() {
+    std::cout << "=== Demonstração: Ambiente Customizado ===\n";
+    
+    // Cria ambiente minimalista customizado
+    EnvironmentManager env_manager;
+    env_manager.set_variable("PATH", "/usr/bin:/bin");
+    env_manager.set_variable("HOME", "/tmp");
+    env_manager.set_variable("USER", "processo_filho");
+    env_manager.set_variable("SHELL", "/bin/bash");
+    env_manager.set_variable("CUSTOM_VAR", "Valor personalizado!");
+    
+    std::cout << "Ambiente customizado criado:\n";
+    env_manager.print_environment();
+    std::cout << "\n";
+    
+    pid_t **PID** = fork();
+    
+    if (pid < 0) {
+        perror("fork");
+        return;
+    }
+    
+    if (pid == 0) {
+        // Filho: executa com ambiente customizado
+        std::cout << "Filho executando com ambiente customizado:\n";
+        
+        std::vector<char*> args = {
+            const_cast<char*>("env"),
+            nullptr
+        };
+        
+        auto envp = env_manager.to_execve_format();
+        
+        // Usa execve para ambiente customizado
+        execve("/usr/bin/env", args.data(), envp.data());
+        perror("execve");
+        _exit(1);
+        
+    } else {
+        // Pai: espera o filho terminar
+        int status;
+        waitpid(pid, &status, 0);
+        std::cout << "Demonstração de ambiente customizado concluída.\n\n";
+    }
+}
+
+/**
+ * @brief Demonstra modificação seletiva do ambiente.
+ */
+void demonstrate_selective_environment() {
+    std::cout << "=== Demonstração: Modificação Seletiva ===\n";
+    
+    // Carrega ambiente atual e faz modificações seletivas
+    EnvironmentManager env_manager;
+    env_manager.load_current_environment();
+    
+    // Modifica variáveis específicas
+    env_manager.set_variable("PATH", "/usr/local/bin:/usr/bin:/bin");
+    env_manager.set_variable("LANG", "pt_BR.UTF-8");
+    env_manager.set_variable("EDITOR", "nano");
+    env_manager.remove_variable("DISPLAY");  // Remove se existir
+    
+    std::cout << "Ambiente modificado seletivamente. Executando comando...\n\n";
+    
+    pid_t **PID** = fork();
+    
+    if (pid < 0) {
+        perror("fork");
+        return;
+    }
+    
+    if (pid == 0) {
+        // Filho: executa comando que usa variáveis específicas
+        std::vector<char*> args = {
+            const_cast<char*>("sh"),
+            const_cast<char*>("-c"),
+            const_cast<char*>("echo \"PATH: $PATH\"; echo \"LANG: $LANG\"; echo \"EDITOR: $EDITOR\""),
+            nullptr
+        };
+        
+        auto envp = env_manager.to_execve_format();
+        execve("/bin/sh", args.data(), envp.data());
+        perror("execve");
+        _exit(1);
+        
+    } else {
+        // Pai: espera o filho terminar
+        int status;
+        waitpid(pid, &status, 0);
+        std::cout << "Demonstração de modificação seletiva concluída.\n\n";
+    }
+}
+
+/**
+ * @brief Função principal.
+ */
+int main() {
+    std::cout << "=== Demonstração de Variáveis de Ambiente - **Linux** ===\n\n";
+    
+    // Demonstra diferentes cenários de ambiente
+    demonstrate_inherited_environment();
+    demonstrate_custom_environment();
+    demonstrate_selective_environment();
+    
+    std::cout << "Todas as demonstrações concluídas.\n";
+    return 0;
+}
+```
+
+:::
+
+### O Modelo Windows: A Configuração com CreateProcess
+
+O **Windows** adota uma abordagem fundamentalmente diferente. Em vez de um modelo composicional, ele oferece uma API monolítica e altamente configurável: `CreateProcess`. Este método é responsável por criar um novo processo e carregar a imagem do programa inicial em uma única operação atômica. Não há um estado intermediário onde o processo filho executa o código do pai.
+
+Este é um modelo configuracional: o processo pai especifica o estado inicial completo do novo processo através de um conjunto abrangente de parâmetros. A chamada à função `CreateProcessW`, a versão Unicode, que é a preferida, aceita dez parâmetros, mas os mais importantes são:
+
+- `lpCommandLine`: uma string contendo o programa a ser executado e seus argumentos.
+
+- `bInheritHandles`: um valor booleano que controla se o processo filho herda os `handles`, identificadores de recursos como arquivos, do pai.
+
+- `dwCreationFlags`: `Flags` que controlam aspectos como prioridade e visibilidade da janela.
+
+- `lpStartupInfo`: um ponteiro para uma estrutura `STARTUPINFOW` que o pai preenche para especificar como a janela principal do novo processo deve aparecer e quais são seus `handles` de entrada/saída padrão.
+
+- `lpProcessInformation`: um ponteiro para uma estrutura `PROCESS_INFORMATION` que a função preenche com informações sobre o novo processo, mais importante, os `handles` para o novo processo (`hProcess`) e seu thread primário (`hThread`).
+
+Após uma chamada bem-sucedida, o pai usa o `handle` do processo retornado para interagir com o filho. A função `WaitForSingleObject` é usada para esperar que o processo filho termine. Uma etapa final, e de extrema importância, é que o pai deve chamar `CloseHandle()` nos handles do processo e do `thread` (`hProcess` e `hThread`) quando não precisar mais deles. Falhar em fechar esses `handles` resulta em um vazamento de recursos, pois o **Sistema Operacional** não liberará completamente as estruturas de dados do processo até que todos os `handles` abertos para ele sejam fechados.
+
+Voltando a ideia de sedimentar por exemplos, o exemplo a seguir em C++23 demonstra a criação de um processo `notepad.exe`.
+
+::: {#lst-cppwindows-create}
+
+```C++
+
+/**
+ * @file process_windows_create.cpp
+ * @brief Demonstração da criação de processos no **Windows** com CreateProcessW.
+ * @author Livro de Sistemas Operacionais
+ * @version 1.0
+ * @date 2025
+ *
+ * Este programa demonstra como usar a API CreateProcessW para iniciar uma
+ * nova instância do Bloco de Notas (notepad.exe). O processo pai então
+ * espera que o Bloco de Notas seja fechado e, em seguida, limpa os
+ * handles de recursos corretamente.
+ */
+
+#include <iostream>
+#include <string>
+#include <windows.h> // Cabeçalho principal da API do Windows
+#include <format>    // Para std::format
+
+/**
+ * @brief Imprime a mensagem de erro formatada para a última falha da API do Windows.
+ * @param functionName O nome da função que falhou.
+ */
+void PrintError(const std::wstring& functionName) {
+    DWORD errorCode = GetLastError();
+    LPWSTR messageBuffer = nullptr;
+    size_t size = FormatMessageW(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL,
+        errorCode,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+        (LPWSTR)&messageBuffer,
+        0,
+        NULL);
+
+    std::wcerr << std::format(L"Falha em {} com o erro {}: {}\n", functionName, errorCode, messageBuffer);
+    LocalFree(messageBuffer); // Libera o buffer alocado por FormatMessageW.
+}
+
+/**
+ * @brief Ponto de entrada principal do programa.
+ */
+int main() {
+    // Define o locale para a saída, permitindo caracteres Unicode.
+    std::wcout.imbue(std::locale(""));
+    std::wcerr.imbue(std::locale(""));
+
+    std::wcout << std::format(L"Processo pai (PID: {}) iniciando...\n", GetCurrentProcessId());
+
+    // Estruturas para CreateProcess. É necessário inicializá-las com zeros.
+    STARTUPINFOW si;
+    PROCESS_INFORMATION pi;
+
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si); // O tamanho da estrutura deve ser definido.
+    ZeroMemory(&pi, sizeof(pi));
+
+    // Linha de comando para o novo processo.
+    // Para CreateProcessW, a string deve ser mutável, então criamos um buffer.
+    std::wstring commandLine = L"notepad.exe";
+
+    std::wcout << L"Pai tentando iniciar 'notepad.exe'...\n";
+
+    // Cria o processo filho.
+    if (!CreateProcessW(
+            NULL,                  // lpApplicationName - Usa a linha de comando.
+            &commandLine[0],       // lpCommandLine - Deve ser um ponteiro para um buffer de escrita.
+            NULL,                  // lpProcessAttributes - Segurança padrão para o processo.
+            NULL,                  // lpThreadAttributes - Segurança padrão para o thread.
+            FALSE,                 // bInheritHandles - Não herda handles.
+            0,                     // dwCreationFlags - Sem flags especiais.
+            NULL,                  // lpEnvironment - Usa o ambiente do pai.
+            NULL,                  // lpCurrentDirectory - Usa o diretório do pai.
+            &si,                   // lpStartupInfo - Ponteiro para a estrutura STARTUPINFO.
+            &pi                    // lpProcessInformation - Ponteiro para a estrutura PROCESS_INFORMATION.
+        ))
+    {
+        PrintError(L"CreateProcessW");
+        return 1;
+    }
+
+    std::wcout << std::format(L"Pai criou o filho 'notepad.exe' com PID: {}\n", pi.dwProcessId);
+    std::wcout << L"Pai esperando o filho terminar (feche a janela do Bloco de Notas)...\n";
+
+    // Espera indefinidamente até que o objeto do processo filho seja sinalizado (termine).
+    WaitForSingleObject(pi.hProcess, INFINITE);
+
+    std::wcout << L"Pai detectou que o processo filho terminou.\n";
+
+    // É ESSENCIAL fechar os handles do processo e do thread para evitar vazamentos de recursos.
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
+
+    std::wcout << L"Handles do processo e do thread foram fechados. Encerrando.\n";
+    return 0;
+}
+```
+
+:::
+
+O código em @lst-cppwindows-create ilustra a abordagem do Windows. Primeiro, as estruturas `STARTUPINFOW` e `PROCESS_INFORMATION` são inicializadas com zeros usando `ZeroMemory`. A chamada a `CreateProcessW` é então feita, passando um ponteiro para a string da linha de comando. Se a chamada for bem-sucedida, a estrutura `pi` será preenchida com os handles e **ID**s do novo processo. O pai então chama `WaitForSingleObject` no `handle` do processo (`pi.hProcess`), bloqueando sua própria execução até que o usuário feche a janela do Bloco de Notas. Finalmente, e de forma indispensável, `CloseHandle` é chamado em `pi.hProcess` e `pi.hThread` para liberar os recursos associados a eles no `Kernel`.
+
+#### Controle de Ambiente de Processos no Windows
+
+No Windows, a manipulação de variáveis de ambiente segue uma abordagem diferente, mas igualmente poderosa. O sistema oferece controle granular sobre o ambiente através dos parâmetros de `CreateProcess`, permitindo herança seletiva ou definição completa de um ambiente customizado.
+
+##### Herança e Customização de Ambiente
+
+Por padrão, no Windows, processos filhos herdam todas as variáveis de ambiente do processo pai. Para controle preciso, `CreateProcess` aceita o parâmetro `lpEnvironment`, que pode conter um bloco de ambiente completamente novo. Este bloco deve ser formatado como uma sequência de strings terminadas em nulo, cada uma no formato `"NOME=valor"`, com o bloco inteiro terminado por um nulo adicional.
+
+O @lst-windows-environment demonstra as técnicas de manipulação de ambiente no Windows.
+
+::: {#lst-windows-environment}
+
+```cpp
+/**
+ * @file windows_environment.cpp
+ * @brief Demonstração de manipulação de variáveis de ambiente no Windows.
+ * @author Livro de Sistemas Operacionais
+ * @version 1.0
+ * @date 2025
+ *
+ * Este programa demonstra como processos no **Windows** podem herdar e
+ * customizar ambientes usando CreateProcess com lpEnvironment.
+ */
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+#include <windows.h>
+#include <format>
+
+/**
+ * @brief Classe para gerenciar ambientes de processo no Windows.
+ */
+class WindowsEnvironmentManager {
+private:
+    std::map<std::wstring, std::wstring> env_vars; ///< Variáveis de ambiente
+    
+    /**
+     * @brief Imprime erro formatado da API do Windows.
+     * @param functionName Nome da função que falhou
+     */
+    void print_error(const std::wstring& functionName) {
+        DWORD errorCode = GetLastError();
+        LPWSTR messageBuffer = nullptr;
+        
+        FormatMessageW(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+            NULL, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+            (LPWSTR)&messageBuffer, 0, NULL);
+        
+        std::wcerr << std::format(L"Falha em {}: {}\n", functionName, messageBuffer);
+        LocalFree(messageBuffer);
+    }
+    
+public:
+    /**
+     * @brief Define uma variável de ambiente.
+     * @param name Nome da variável
+     * @param value Valor da variável
+     */
+    void set_variable(const std::wstring& name, const std::wstring& value) {
+        env_vars[name] = value;
+    }
+    
+    /**
+     * @brief Remove uma variável de ambiente.
+     * @param name Nome da variável
+     */
+    void remove_variable(const std::wstring& name) {
+        env_vars.erase(name);
+    }
+    
+    /**
+     * @brief Carrega ambiente atual do processo.
+     */
+    void load_current_environment() {
+        env_vars.clear();
+        
+        LPWCH envStrings = GetEnvironmentStringsW();
+        if (envStrings == nullptr) {
+            print_error(L"GetEnvironmentStringsW");
+            return;
+        }
+        
+        LPWCH current = envStrings;
+        while (*current != L'\0') {
+            std::wstring envVar(current);
+            size_t equalPos = envVar.find(L'=');
+            
+            if (equalPos != std::wstring::npos && equalPos > 0) {
+                std::wstring name = envVar.substr(0, equalPos);
+                std::wstring value = envVar.substr(equalPos + 1);
+                env_vars[name] = value;
+            }
+            
+            current += envVar.length() + 1;
+        }
+        
+        FreeEnvironmentStringsW(envStrings);
+    }
+    
+    /**
+     * @brief Cria bloco de ambiente para CreateProcess.
+     * @return Ponteiro para bloco de ambiente (deve ser liberado com delete[])
+     */
+    LPWCH create_environment_block() const {
+        if (env_vars.empty()) {
+            return nullptr;
+        }
+        
+        // Calcula tamanho necessário
+        size_t totalSize = 0;
+        for (const auto& [name, value] : env_vars) {
+            totalSize += name.length() + 1 + value.length() + 1; // "NAME=value\0"
+        }
+        totalSize += 1; // Terminador final
+        
+        // Aloca e constrói o bloco
+        LPWCH envBlock = new WCHAR[totalSize];
+        LPWCH current = envBlock;
+        
+        for (const auto& [name, value] : env_vars) {
+            std::wstring envString = name + L"=" + value;
+            wcscpy_s(current, envString.length() + 1, envString.c_str());
+            current += envString.length() + 1;
+        }
+        *current = L'\0'; // Terminador final
+        
+        return envBlock;
+    }
+    
+    /**
+     * @brief Imprime todas as variáveis de ambiente.
+     */
+    void print_environment() const {
+        std::wcout << L"Variáveis de ambiente definidas:\n";
+        for (const auto& [name, value] : env_vars) {
+            std::wcout << std::format(L"  {}={}\n", name, value);
+        }
+        std::wcout << std::format(L"Total: {} variáveis\n", env_vars.size());
+    }
+    
+    /**
+     * @brief Executa processo com ambiente customizado.
+     * @param commandLine Linha de comando do processo
+     * @param useCustomEnv true para usar ambiente customizado
+     * @return true se processo foi criado com sucesso
+     */
+    bool execute_with_environment(const std::wstring& commandLine, bool useCustomEnv) {
+        STARTUPINFOW si;
+        PROCESS_INFORMATION pi;
+        
+        ZeroMemory(&si, sizeof(si));
+        si.cb = sizeof(si);
+        ZeroMemory(&pi, sizeof(pi));
+        
+        // Cria bloco de ambiente se necessário
+        LPWCH envBlock = useCustomEnv ? create_environment_block() : nullptr;
+        
+        std::wstring mutableCmdLine = commandLine;
+        
+        BOOL success = CreateProcessW(
+            NULL,                    // lpApplicationName
+            &mutableCmdLine[0],      // lpCommandLine
+            NULL,                    // lpProcessAttributes
+            NULL,                    // lpThreadAttributes
+            FALSE,                   // bInheritHandles
+            useCustomEnv ? CREATE_UNICODE_ENVIRONMENT : 0, // dwCreationFlags
+            envBlock,                // lpEnvironment
+            NULL,                    // lpCurrentDirectory
+            &si,                     // lpStartupInfo
+            &pi                      // lpProcessInformation
+        );
+        
+        if (!success) {
+            print_error(L"CreateProcessW");
+            if (envBlock) delete[] envBlock;
+            return false;
+        }
+        
+        std::wcout << std::format(L"Processo criado com PID: {}\n", pi.dwProcessId);
+        std::wcout << L"Aguardando conclusão...\n";
+        
+        // Espera o processo terminar
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        
+        // Obtém código de saída
+        DWORD exitCode;
+        GetExitCodeProcess(pi.hProcess, &exitCode);
+        std::wcout << std::format(L"Processo terminou com código: {}\n", exitCode);
+        
+        // Limpa recursos
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        if (envBlock) delete[] envBlock;
+        
+        return true;
+    }
+};
+
+/**
+ * @brief Demonstra herança de ambiente padrão.
+ */
+void demonstrate_inherited_environment() {
+    std::wcout << L"=== Demonstração: Ambiente Herdado ===\n";
+    
+    WindowsEnvironmentManager manager;
+    std::wcout << L"Executando 'cmd /c set' com ambiente herdado:\n";
+    
+    if (!manager.execute_with_environment(L"cmd /c set", false)) {
+        std::wcerr << L"Falha ao executar comando.\n";
+    }
+    
+    std::wcout << L"Demonstração de ambiente herdado concluída.\n\n";
+}
+
+/**
+ * @brief Demonstra ambiente completamente customizado.
+ */
+void demonstrate_custom_environment() {
+    std::wcout << L"=== Demonstração: Ambiente Customizado ===\n";
+    
+    WindowsEnvironmentManager manager;
+    
+    // Define ambiente minimalista
+    manager.set_variable(L"PATH", L"C:\\Windows\\System32;C:\\Windows");
+    manager.set_variable(L"TEMP", L"C:\\Temp");
+    manager.set_variable(L"TMP", L"C:\\Temp");
+    manager.set_variable(L"USERNAME", L"ProcessoCustomizado");
+    manager.set_variable(L"COMPUTERNAME", L"AMBIENTE-TESTE");
+    manager.set_variable(L"CUSTOM_VAR", L"Valor Personalizado Windows!");
+    
+    std::wcout << L"Ambiente customizado criado:\n";
+    manager.print_environment();
+    std::wcout << L"\n";
+    
+    std::wcout << L"Executando 'cmd /c set' com ambiente customizado:\n";
+    if (!manager.execute_with_environment(L"cmd /c set", true)) {
+        std::wcerr << L"Falha ao executar comando.\n";
+    }
+    
+    std::wcout << L"Demonstração de ambiente customizado concluída.\n\n";
+}
+
+/**
+ * @brief Demonstra modificação seletiva do ambiente.
+ */
+void demonstrate_selective_environment() {
+    std::wcout << L"=== Demonstração: Modificação Seletiva ===\n";
+    
+    WindowsEnvironmentManager manager;
+    
+    // Carrega ambiente atual
+    manager.load_current_environment();
+    
+    // Faz modificações seletivas
+    manager.set_variable(L"PATH", L"C:\\CustomTools;C:\\Windows\\System32;C:\\Windows");
+    manager.set_variable(L"EDITOR", L"notepad.exe");
+    manager.set_variable(L"CUSTOM_MSG", L"Ambiente modificado seletivamente");
+    manager.remove_variable(L"OneDrive"); // Remove se existir
+    
+    std::wcout << L"Executando comando que usa variáveis específicas:\n";
+    
+    std::wstring command = L"cmd /c \"echo PATH: %PATH% & echo EDITOR: %EDITOR% & echo MSG: %CUSTOM_MSG%\"";
+    
+    if (!manager.execute_with_environment(command, true)) {
+        std::wcerr << L"Falha ao executar comando.\n";
+    }
+    
+    std::wcout << L"Demonstração de modificação seletiva concluída.\n\n";
+}
+
+/**
+ * @brief Função principal.
+ */
+int main() {
+    // Configura locale para Unicode
+    std::wcout.imbue(std::locale(""));
+    std::wcerr.imbue(std::locale(""));
+    
+    std::wcout << L"=== Demonstração de Variáveis de Ambiente - **Windows** ===\n\n";
+    
+    // Demonstra diferentes cenários
+    demonstrate_inherited_environment();
+    demonstrate_custom_environment();
+    demonstrate_selective_environment();
+    
+    std::wcout << L"Todas as demonstrações concluídas.\n";
+    return 0;
+}
+```
+
+:::
+
+A implementação **Windows** demonstra três padrões fundamentais: herança completa do ambiente (passando `nullptr` para `lpEnvironment`), criação de ambiente completamente customizado (construindo um bloco de ambiente próprio), e modificação seletiva (carregando o ambiente atual e fazendo alterações específicas). A flag `CREATE_UNICODE_ENVIRONMENT` deve ser usada quando o bloco de ambiente contém strings Unicode, garantindo interpretação correta das variáveis pelo processo filho.

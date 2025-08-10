@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 800 500"
+   version="1.1"
+   id="svg34"
+   sodipodi:docname="double_slit_experiment.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="..\images\double_slit_experiment.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview34"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.71"
+     inkscape:cx="399.7076"
+     inkscape:cy="250"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg34" />
+  <!-- Background -->
+  <rect
+     width="800"
+     height="500"
+     fill="#f8f9fa"
+     id="rect1" />
+  <!-- Title -->
+  <text
+     x="400"
+     y="30"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="18"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text1">
+    Experimento da Dupla Fenda
+  </text>
+  <!-- Particle/Wave Source -->
+  <circle
+     cx="112.74854"
+     cy="227.77777"
+     r="15"
+     fill="#e74c3c"
+     stroke="#c0392b"
+     stroke-width="2"
+     id="circle1" />
+  <text
+     x="112.74854"
+     y="257.77777"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text2">Fonte</text>
+  <!-- Particle beam representation -->
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient36"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#a69598;stop-opacity:1;"
+         offset="0"
+         id="stop36" />
+      <stop
+         style="stop-color:#df87ee;stop-opacity:0;"
+         offset="1"
+         id="stop37" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient34"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#34495e;stop-opacity:1;"
+         offset="0"
+         id="stop34" />
+      <stop
+         style="stop-color:#8474c4;stop-opacity:0;"
+         offset="1"
+         id="stop35" />
+    </linearGradient>
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <marker
+       id="arrowhead"
+       markerWidth="10"
+       markerHeight="7"
+       refX="10"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#e74c3c"
+         id="polygon2" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient34"
+       id="linearGradient35"
+       x1="231.74854"
+       y1="227.77778"
+       x2="253.74854"
+       y2="227.77778"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient36"
+       id="linearGradient37"
+       x1="555.72516"
+       y1="237.13451"
+       x2="572.72516"
+       y2="237.13451"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <!-- Arrows showing particle direction -->
+  <line
+     x1="132.74854"
+     y1="227.77777"
+     x2="196.32237"
+     y2="227.77777"
+     stroke="#e74c3c"
+     stroke-width="1.78289"
+     marker-end="url(#arrowhead)"
+     id="line2"
+     style="marker-end:url(#Triangle)" />
+  <!-- Small particles in beam -->
+  <circle
+     cx="150.74854"
+     cy="231.29263"
+     r="2"
+     fill="#e74c3c"
+     id="circle2" />
+  <circle
+     cx="167.78638"
+     cy="224.02034"
+     r="2"
+     fill="#e74c3c"
+     id="circle3" />
+  <circle
+     cx="184.44246"
+     cy="231.12169"
+     r="2"
+     fill="#e74c3c"
+     id="circle4" />
+  <!-- Double slit barrier -->
+  <rect
+     x="232.74854"
+     y="77.777779"
+     width="20"
+     height="300"
+     fill="#34495e"
+     stroke="#2c3e50"
+     stroke-width="2"
+     id="rect4"
+     style="fill:url(#linearGradient35);stroke-width:1.5;stroke-dasharray:none" />
+  <!-- Upper slit -->
+  <rect
+     x="232.74854"
+     y="157.77777"
+     width="20"
+     height="15"
+     fill="#f8f9fa"
+     id="rect5" />
+  <text
+     x="267.74854"
+     y="167.77777"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#2c3e50"
+     id="text5">Fenda 1</text>
+  <!-- Lower slit -->
+  <rect
+     x="232.74854"
+     y="282.77777"
+     width="20"
+     height="15"
+     fill="#f8f9fa"
+     id="rect6" />
+  <text
+     x="267.74854"
+     y="292.77777"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#2c3e50"
+     id="text6">Fenda 2</text>
+  <!-- Wave interference patterns -->
+  <g
+     stroke="#3498db"
+     stroke-width="1.5"
+     fill="none"
+     opacity="0.7"
+     id="g13"
+     transform="translate(32.748538,-22.222222)">
+    <!-- Waves from upper slit -->
+    <path
+       d="m 220,187.5 q 50,-17.5 100,0 50,17.5 100,0 50,-17.5 100,0"
+       id="path6" />
+    <path
+       d="m 220,187.5 q 50,17.5 100,0 50,-17.5 100,0 50,17.5 100,0"
+       id="path7" />
+    <path
+       d="m 220,187.5 q 50,-37.5 100,0 50,37.5 100,0 50,-37.5 100,0"
+       id="path8" />
+    <path
+       d="m 220,187.5 q 50,37.5 100,0 50,-37.5 100,0 50,37.5 100,0"
+       id="path9" />
+    <!-- Waves from lower slit -->
+    <path
+       d="m 220,312.5 q 50,-17.5 100,0 50,17.5 100,0 50,-17.5 100,0"
+       id="path10" />
+    <path
+       d="m 220,312.5 q 50,17.5 100,0 50,-17.5 100,0 50,17.5 100,0"
+       id="path11" />
+    <path
+       d="m 220,312.5 q 50,-37.5 100,0 50,37.5 100,0 50,-37.5 100,0"
+       id="path12" />
+    <path
+       d="m 220,312.5 q 50,37.5 100,0 50,-37.5 100,0 50,37.5 100,0"
+       id="path13" />
+  </g>
+  <!-- Detection screen -->
+  <rect
+     x="556.72516"
+     y="87.134506"
+     width="15"
+     height="300"
+     fill="#95a5a6"
+     stroke="#7f8c8d"
+     stroke-width="2"
+     id="rect13"
+     style="fill:url(#linearGradient37)" />
+  <text
+     x="520.90643"
+     y="74.795326"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text13">Tela Detectora</text>
+  <!-- Interference pattern on screen -->
+  <g
+     fill="#2c3e50"
+     opacity="0.8"
+     id="g22"
+     transform="translate(-43.274854,-28.654971)"
+     style="fill:#2d54d4;fill-opacity:1">
+    <!-- Main central maximum -->
+    <rect
+       x="615"
+       y="240"
+       width="8"
+       height="20"
+       fill="#2c3e50"
+       id="rect14"
+       style="fill:#2d54d4;fill-opacity:1" />
+    <!-- Secondary maxima -->
+    <rect
+       x="615"
+       y="220"
+       width="6"
+       height="12"
+       fill="#2c3e50"
+       opacity="0.7"
+       id="rect15"
+       style="fill:#2d54d4;fill-opacity:1" />
+    <rect
+       x="615"
+       y="268"
+       width="6"
+       height="12"
+       fill="#2c3e50"
+       opacity="0.7"
+       id="rect16"
+       style="fill:#2d54d4;fill-opacity:1" />
+    <!-- Tertiary maxima -->
+    <rect
+       x="615"
+       y="200"
+       width="4"
+       height="8"
+       fill="#2c3e50"
+       opacity="0.5"
+       id="rect17"
+       style="fill:#2d54d4;fill-opacity:1" />
+    <rect
+       x="615"
+       y="292"
+       width="4"
+       height="8"
+       fill="#2c3e50"
+       opacity="0.5"
+       id="rect18"
+       style="fill:#2d54d4;fill-opacity:1" />
+    <!-- Quaternary maxima -->
+    <rect
+       x="615"
+       y="180"
+       width="3"
+       height="6"
+       fill="#2c3e50"
+       opacity="0.3"
+       id="rect19"
+       style="fill:#2d54d4;fill-opacity:1" />
+    <rect
+       x="615"
+       y="314"
+       width="3"
+       height="6"
+       fill="#2c3e50"
+       opacity="0.3"
+       id="rect20"
+       style="fill:#2d54d4;fill-opacity:1" />
+    <!-- Very weak maxima -->
+    <rect
+       x="615"
+       y="160"
+       width="2"
+       height="4"
+       fill="#2c3e50"
+       opacity="0.2"
+       id="rect21"
+       style="fill:#2d54d4;fill-opacity:1" />
+    <rect
+       x="615"
+       y="336"
+       width="2"
+       height="4"
+       fill="#2c3e50"
+       opacity="0.2"
+       id="rect22"
+       style="fill:#2d54d4;fill-opacity:1" />
+  </g>
+  <!-- Labels for the pattern -->
+  <text
+     x="607.89478"
+     y="226.02339"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text22">Máximo central</text>
+  <text
+     x="606.72516"
+     y="197.34502"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#2c3e50"
+     id="text23">Máximos secundários</text>
+  <text
+     x="606.72516"
+     y="269.34503"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#2c3e50"
+     id="text24">Mínimos (interferência destrutiva)</text>
+  <!-- Explanation boxes -->
+  <rect
+     x="137.13451"
+     y="333.04092"
+     width="200"
+     height="80"
+     fill="#ecf0f1"
+     stroke="#bdc3c7"
+     stroke-width="1"
+     rx="5"
+     id="rect24" />
+  <text
+     x="147.13451"
+     y="353.04092"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text25">Comportamento Quântico:</text>
+  <text
+     x="147.13451"
+     y="368.04092"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text26">• Partículas individuais</text>
+  <text
+     x="139.80814"
+     y="220.24559"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text26-0">• Partículas</text>
+  <text
+     x="147.13451"
+     y="381.04092"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text27">• Padrão de interferência</text>
+  <text
+     x="147.13451"
+     y="394.04092"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text28">• Dualidade onda-partícula</text>
+  <rect
+     x="506.72513"
+     y="337.13449"
+     width="200"
+     height="80"
+     fill="#ecf0f1"
+     stroke="#bdc3c7"
+     stroke-width="1"
+     rx="5"
+     id="rect28" />
+  <text
+     x="516.72516"
+     y="357.13449"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text29">Padrão Observado:</text>
+  <text
+     x="516.72516"
+     y="372.13449"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text30">• Franjas de interferência</text>
+  <text
+     x="516.72516"
+     y="385.13449"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text31">• Intensidade variável</text>
+  <text
+     x="516.72516"
+     y="398.13449"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#2c3e50"
+     id="text32">• Máximos e mínimos</text>
+  <!-- Distance indicators -->
+  <line
+     x1="242.74854"
+     y1="427.48538"
+     x2="560.23389"
+     y2="427.48538"
+     stroke="#7f8c8d"
+     stroke-width="0.902256"
+     stroke-dasharray="5, 5"
+     id="line32" />
+  <text
+     x="414.35672"
+     y="445.4386"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#7f8c8d"
+     id="text33">Distância L</text>
+  <!-- Slit separation indicator -->
+  <line
+     x1="202.74854"
+     y1="165.27777"
+     x2="202.74854"
+     y2="290.27777"
+     stroke="#7f8c8d"
+     stroke-width="1"
+     id="line33" />
+</svg>

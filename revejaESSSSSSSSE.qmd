@@ -1,0 +1,217 @@
+---
+title: "Untitled"
+format: html
+---
+
+### O Modelo Linux: Orquestração com `fork()`, `exec()` e Sinais {#sec-linux-orchestration}
+
+Como vimos, a elegância do modelo **Linux** reside na composição de `fork()` e `exec()`. Essa separação nos dá uma janela de oportunidade crucial para manipular o ambiente do processo filho antes que ele se transforme em um novo programa. É nesta janela que a verdadeira mágica do `shell` **UNIX** acontece. Para construir um `shell` interativo, que gerencia tarefas e responde a interrupções, precisamos dominar três conceitos avançados que se constroem sobre o `fork/exec`: grupos de processos,tratamento de sinais e `pipes`.
+
+#### Grupos de Processos e Controle de Terminal (Job Control) {#sec-linux-job-control}
+
+Em um `shell` interativo, raramente lidamos com um único processo. Um simples comando como `ls -l | grep .md` envolve dois processos que formam uma única "tarefa". Para gerenciar essas tarefas, o **Linux** utiliza o conceito de **Grupo de Processos** (_Process Group_). Um grupo é simplesmente uma coleção de processos relacionados, todos compartilhando um mesmo **ID de Grupo de Processo** (**PGID**).
+
+O `shell` associa cada tarefa que executa (seja um único comando ou um pipeline) a um novo grupo de processos. A genialidade disso é que permite ao `shell` e ao `Kernel`tratar a tarefa como uma unidade. Sinais, como o `SIGINT` gerado por um `Ctrl+C`, podem ser enviados para o grupo de processos inteiro, garantindo que todos os componentes do pipeline terminem juntos.
+
+Além disso, o `Kernel` mantém a noção de qual grupo de processos está em "primeiro plano" (_foreground_). Apenas o grupo em primeiro plano tem o direito de ler do teclado e, por padrão, escrever na tela. Este mecanismo é o **controle de terminal**. As chamadas de sistema chave para esta dança são:
+
+-   `setpgid(pid, pgid)`: Usada pelo `shell` para criar um novo grupo ou adicionar um processo a um grupo existente. Em um `shell`, é comum que o primeiro processo de uma nova tarefa se torne o "líder do grupo", com seu `PGID` sendo igual ao seu `PID`.
+-   `tcsetpgrp(fd, pgid)`: Usada pelo `shell` para dar o controle do terminal (identificado por seu descritor de arquivo, `fd`, tipicamente `STDIN_FILENO`) a um grupo de processos específico, movendo-o para o primeiro plano.
+
+Quando a atenta leitora pressiona `Ctrl+Z`, o driver do terminal envia o sinal `SIGTSTP` para todos os processos no grupo de primeiro plano, suspendendo-os. O `shell`, que está em seu próprio grupo em segundo plano, percebe essa mudança, retoma o controle do terminal usando `tcsetpgrp` e pode então gerenciar a tarefa suspensa, permitindo que ela seja reiniciada em primeiro plano (com o comando `fg`) ou em segundo plano (`bg`). Esta é a essência do **Job Control**.
+
+####tratamento de Sinais: A Espinha Dorsal da Interatividade {#sec-linux-signals}
+
+Um `shell` que morre quando o usuário pressiona `Ctrl+C` é um `shell` inútil. Para ser robusto, nosso `shell` deve interceptar e tratar sinais, agindo como um escudo para si mesmo enquanto direciona os sinais para as tarefas que ele gerencia. Um `shell` bem-comportado precisa dar atenção especial a três sinais:
+
+-   **`SIGINT` e `SIGTSTP`**: Gerados por `Ctrl+C` e `Ctrl+Z`, respectivamente. O `shell` interativo deve, em sua inicialização, configurar-se para **ignorar** estes sinais. Quando ele lança uma tarefa em primeiro plano, os processos filhos dessa tarefa devem redefinir o tratamento para o comportamento padrão (terminar ou suspender). Dessa forma, a interrupção do usuário afeta apenas a tarefa em execução, e não o `shell` que a lançou.
+-   **`SIGCHLD`**: Este sinal é uma notificação enviada por um processo filho ao seu processo pai sempre que seu estado muda (ele termina, é suspenso ou continuado). O `shell` deve, obrigatoriamente, capturar este sinal. Por quê? Primariamente, para evitar **processos zumbis**. O manipulador de `SIGCHLD` é o local ideal para chamar `waitpid()` em um loop com a opção `WNOHANG`, "colhendo" os status de todos os filhos que terminaram e liberando suas entradas na tabela de processos do sistema. Isso é especialmente importante para tarefas que rodam em segundo plano e terminam de forma assíncrona.
+
+#### Construindo Pipelines com `pipe()` e `dup2()` {#sec-linux-pipelines}
+
+O pipeline, simbolizado pelo `|`, é a manifestação mais pura da filosofia **UNIX** de "fazer uma coisa e fazê-la bem". Ele permite que a saída padrão de um programa seja conectada diretamente à entrada padrão de outro, criando fluxos de dados complexos sem a necessidade de arquivos temporários. A mágica por trás do pipeline é realizada por duas chamadas de sistema que trabalham em harmonia:
+
+1.  **`pipe(fd)`**: Esta chamada cria um canal de comunicação unidirecional. Ela preenche um array de dois inteiros (`int fd[2]`) com descritores de arquivo: `fd[0]` é aberto para leitura, e `fd[1]` é aberto para escrita. Tudo que for escrito em `fd[1]` fica disponível para ser lido de `fd[0]`.
+2.  **`dup2(oldfd, newfd)`**: Esta é a chamada que "religa a fiação" de um processo. Ela duplica um descritor de arquivo. Mais especificamente, ela faz com que `newfd` (um descritor de arquivo conhecido, como `STDOUT_FILENO`, que tem o valor `1`) passe a se referir ao mesmo arquivo ou pipe que `oldfd`. Qualquer operação de escrita anterior em `newfd` é fechada.
+
+Para executar o pipeline `cmd1 | cmd2`, o `shell` orquestra os seguintes passos:
+
+1.  Chama `pipe(fd)` para criar o canal de comunicação.
+2.  Chama `fork()` para criar um processo filho para `cmd1`.
+    -   **No filho de `cmd1`**: Ele não precisará ler do pipe, então fecha a ponta de leitura (`close(fd[0])`). Em seguida, religa sua saída padrão (`STDOUT_FILENO`) para a ponta de escrita do pipe com `dup2(fd[1], STDOUT_FILENO)`. Agora, tudo que `cmd1` imprimir na "tela" será, na verdade, escrito no pipe. Por fim, ele chama `exec()` para carregar o programa `cmd1`.
+3.  Chama `fork()` novamente para criar o processo filho para `cmd2`.
+    -   **No filho de `cmd2`**: Ele não precisará escrever no pipe, então fecha a ponta de escrita (`close(fd[1])`). Ele religa sua entrada padrão (`STDIN_FILENO`) para a ponta de leitura do pipe com `dup2(fd[0], STDIN_FILENO)`. Agora, quando `cmd2` tentar ler do "teclado", ele estará, na verdade, lendo os dados que saíram de `cmd1`. Finalmente, chama `exec()` para carregar o programa `cmd2`.
+4.  **No `shell` (pai)**: Após criar os dois filhos, ele não precisa de nenhuma das pontas do pipe, então fecha ambas (`close(fd[0])` e `close(fd[1])`). Isso é de suma importância; se o pai não fechar a ponta de escrita, `cmd2` nunca receberá um `EOF` e poderá ficar bloqueado para sempre. O `shell` então aguarda a conclusão de ambas as tarefas.
+
+O código a seguir, em @lst-cpplinux-shell-base, demonstra uma estrutura básica que incorpora esses três conceitos para um mini-shell em **Linux**, mostrando como as peças se encaixam para criar um ambiente interativo e controlado.
+
+::: {#lst-cpplinux-shell-base}
+```cpp
+/**
+ * @file mini_shell_linux.cpp
+ * @brief Demonstração de job control, sinais e pipelines em um mini-shell Linux.
+ * @author Livro de Sistemas Operacionais
+ * @version 1.0
+ * @date 2025
+ *
+ * Este programa é um esqueleto de um shell que demonstra os conceitos essenciais:
+ * - Criação de grupos de processos para tarefas.
+ * -tratamento de SIGCHLD para limpar processos zumbis.
+ * - Lançamento de um processo em primeiro plano com controle do terminal.
+ * - (A implementação de parsing completo, pipelines, etc. é deixada como exercício.)
+ */
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <csignal>
+#include <termios.h>
+#include <format>
+#include <cstring> // Para strerror
+
+// Variáveis globais para o shell
+static pid_t g_shell_pgid;
+static struct termios g_shell_tmodes;
+static int g_shell_terminal_fd = STDIN_FILENO;
+
+/**
+ * @brief Manipulador de sinal para SIGCHLD.
+ *
+ * Limpa processos filhos que terminaram para evitar zumbis.
+ */
+void handle_sigchld(int signum) {
+    int saved_errno = errno;
+    // WNOHANG garante que a chamada não bloqueie.
+    // O loop garante que todos os filhos terminados sejam limpos.
+    while (waitpid((pid_t)(-1), NULL, WNOHANG) > 0) {}
+    errno = saved_errno;
+}
+
+/**
+ * @brief Inicializa o shell, tomando controle do terminal.
+ */
+void init_shell() {
+    // Verifica se o shell é interativo
+    if (!isatty(g_shell_terminal_fd)) {
+        std::cerr << "Erro: Shell não interativo.\n";
+        exit(1);
+    }
+
+    // Garante que o shell esteja no foreground antes de continuar
+    while (tcgetpgrp(g_shell_terminal_fd) != (g_shell_pgid = getpgrp())) {
+        kill(-g_shell_pgid, SIGTTIN);
+    }
+
+    // Coloca o shell em seu próprio grupo de processos.
+    // Isso é essencial para o controle de jobs.
+    g_shell_pgid = getpid();
+    if (setpgid(g_shell_pgid, g_shell_pgid) < 0) {
+        perror("Não foi possível colocar o shell em seu próprio grupo de processos");
+        exit(1);
+    }
+
+    // Toma o controle do terminal para o shell
+    tcsetpgrp(g_shell_terminal_fd, g_shell_pgid);
+
+    // Salva os atributos do terminal para restaurá-los mais tarde
+    tcgetattr(g_shell_terminal_fd, &g_shell_tmodes);
+
+    // Configura o manipulador para SIGCHLD para evitar zumbis
+    struct sigaction sa;
+    sa.sa_handler = &handle_sigchld;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+    if (sigaction(SIGCHLD, &sa, 0) == -1) {
+        perror("sigaction");
+    }
+
+    // Ignora outros sinais de job control no próprio shell
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
+}
+
+/**
+ * @brief Lança um processo em primeiro plano.
+ * @param args Argumentos para o novo processo.
+ */
+void launch_process_foreground(const std::vector<char*>& args) {
+    pid_t pid = fork();
+
+    if (pid < 0) {
+        perror("fork");
+        return;
+    }
+
+    if (pid == 0) {
+        // --- CÓDIGO DO PROCESSO FILHO ---
+        // O filho deve tratar os sinais de forma padrão
+        signal(SIGINT, SIG_DFL);
+        signal(SIGTSTP, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
+
+        pid_t child_pid = getpid();
+        // Coloca o filho em seu próprio novo grupo de processos
+        if (setpgid(child_pid, child_pid) < 0) {
+           perror("setpgid (filho)");
+           _exit(1);
+        }
+
+        // Dá controle do terminal ao novo grupo de processos do filho
+        tcsetpgrp(g_shell_terminal_fd, child_pid);
+
+        execvp(args[0], args.data());
+        // Se execvp retornar, um erro ocorreu
+        std::cerr << std::format("Erro ao executar '{}': {}\n", args[0], strerror(errno));
+        _exit(127);
+    } else {
+        // --- CÓDIGO DO PROCESSO PAI (SHELL) ---
+        // Adiciona o filho ao seu novo grupo de processos.
+        // É importante que o pai faça isso também para evitar race conditions.
+        setpgid(pid, pid);
+
+        // Espera pelo processo que está em primeiro plano
+        int status;
+        waitpid(pid, &status, WUNTRACED);
+
+        // O shell retoma o controle do terminal
+        tcsetpgrp(g_shell_terminal_fd, g_shell_pgid);
+        
+        // Restaura os modos do terminal do shell, pois o processo filho pode tê-los alterado
+        tcsetattr(g_shell_terminal_fd, TCSADRAIN, &g_shell_tmodes);
+    }
+}
+
+int main() {
+    init_shell();
+
+    std::cout << "Mini-Shell Linux. Digite 'sleep 5' ou 'exit'.\n";
+
+    std::string line;
+    while (true) {
+        std::cout << "> ";
+        if (!std::getline(std::cin, line) || line == "exit") {
+            break;
+        }
+
+        // Um parser real seria muito mais complexo, lidando com quotes, etc.
+        if (line.rfind("sleep", 0) == 0) {
+            std::vector<char*> args;
+            args.push_back(const_cast<char*>("sleep"));
+            args.push_back(const_cast<char*>("5"));
+            args.push_back(nullptr);
+            
+            std::cout << "Lançando 'sleep 5' em primeiro plano...\n";
+            launch_process_foreground(args);
+            std::cout << "Tarefa em primeiro plano concluída.\n";
+        } else if (!line.empty()) {
+            std::cout << "Comando não reconhecido.\n";
+        }
+    }
+
+    std::cout << "Saindo do shell.\n";
+    return 0;
+}
+```

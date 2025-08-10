@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1100 850"
+   version="1.1"
+   id="svg63"
+   sodipodi:docname="memory_process_comparison.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="..\images\memory_process_comparison.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview63"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.49747993"
+     inkscape:cx="468.36061"
+     inkscape:cy="600.02421"
+     inkscape:window-width="1147"
+     inkscape:window-height="1041"
+     inkscape:window-x="104"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg63"
+     showguides="true">
+    <sodipodi:guide
+       position="1349.7056,-151.03163"
+       orientation="0,-1"
+       id="guide63"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <!-- Background -->
+  <!-- Title -->
+  <text
+     x="550"
+     y="40"
+     text-anchor="middle"
+     font-size="24"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text1">
+    Estrutura de Processos em Memória: Espaço de Endereçamento
+  </text>
+  <!-- Left side: Modern OS Memory Layout -->
+  <rect
+     x="50"
+     y="70"
+     width="450"
+     height="40"
+     rx="20"
+     fill="#8BC34A"
+     id="rect2" />
+  <text
+     x="275"
+     y="95"
+     text-anchor="middle"
+     font-size="18"
+     font-weight="bold"
+     fill="white"
+     id="text2">
+    Sistema Moderno (Linux/UNIX) - 64-bit
+  </text>
+  <!-- Memory address scale -->
+  <text
+     x="18.011696"
+     y="135"
+     font-size="12px"
+     fill="#7f8c8d"
+     id="text3">0xFFFFFFFF</text>
+  <text
+     x="18.011696"
+     y="250"
+     font-size="12px"
+     fill="#7f8c8d"
+     id="text4">0xC0000000</text>
+  <text
+     x="18.011696"
+     y="324.15204"
+     font-size="12px"
+     fill="#7f8c8d"
+     id="text5">0x80000000</text>
+  <text
+     x="18.011696"
+     y="447.01755"
+     font-size="12px"
+     fill="#7f8c8d"
+     id="text6">0x40000000</text>
+  <text
+     x="18.011696"
+     y="544"
+     font-size="12px"
+     fill="#7f8c8d"
+     id="text7">0x00400000</text>
+  <!-- Stack (High addresses) -->
+  <rect
+     x="100"
+     y="127.76316"
+     width="350"
+     height="52.236843"
+     rx="8"
+     fill="#f44336"
+     id="rect8"
+     style="stroke-width:1.02212" />
+  <text
+     x="274.75146"
+     y="146.02339"
+     text-anchor="middle"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text9">Stack</text>
+  <text
+     x="274.75146"
+     y="161.02339"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#ffffff"
+     id="text10">Cresce para baixo • Variáveis locais • Frames de função</text>
+  <!-- Growing direction arrow -->
+  <path
+     d="m 266.5497,175.55556 v 21.24269"
+     stroke="#f44336"
+     stroke-width="3"
+     marker-end="url(#arrowdown)"
+     id="path10"
+     sodipodi:nodetypes="cc"
+     style="marker-end:url(#Triangle)" />
+  <!-- Memory gap -->
+  <rect
+     x="100"
+     y="210"
+     width="350"
+     height="30"
+     rx="8"
+     fill="#ecf0f1"
+     stroke="#bdc3c7"
+     stroke-dasharray="5,5"
+     id="rect10" />
+  <text
+     x="275"
+     y="230"
+     text-anchor="middle"
+     font-size="11"
+     fill="#7f8c8d"
+     id="text11">Espaço não mapeado</text>
+  <!-- Heap -->
+  <rect
+     x="99.502922"
+     y="316.60818"
+     width="350"
+     height="50"
+     rx="8"
+     fill="#2196f3"
+     id="rect11" />
+  <text
+     x="274.50293"
+     y="336.60818"
+     text-anchor="middle"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text12">Heap</text>
+  <text
+     x="274.50293"
+     y="351.60818"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#ffffff"
+     id="text13">Alocação dinâmica • malloc() • Cresce para cima</text>
+  <rect
+     x="100.23431"
+     y="242.75961"
+     width="349.50797"
+     height="66.789413"
+     rx="7.9887538"
+     fill="#ecf0f1"
+     stroke="#bdc3c7"
+     stroke-dasharray="7.45517, 7.45517"
+     id="rect13"
+     style="stroke-width:1.49104" />
+  <!-- Growing direction arrow -->
+  <path
+     d="m 267.54386,319.00118 v -20"
+     stroke="#2196f3"
+     stroke-width="3"
+     marker-end="url(#arrowup)"
+     id="path13"
+     style="marker-end:url(#marker63)" />
+  <!-- Memory gap -->
+  <text
+     x="271.02338"
+     y="269.47369"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#7f8c8d"
+     id="text14">Espaço livre para crescimento</text>
+  <!-- BSS Segment -->
+  <rect
+     x="100"
+     y="370"
+     width="350"
+     height="35"
+     rx="8"
+     fill="#FF9800"
+     id="rect14" />
+  <text
+     x="275"
+     y="385"
+     text-anchor="middle"
+     font-size="14"
+     font-weight="bold"
+     fill="white"
+     id="text15">BSS</text>
+  <text
+     x="275"
+     y="398"
+     text-anchor="middle"
+     font-size="11"
+     fill="white"
+     id="text16">Variáveis não inicializadas</text>
+  <!-- Data Segment -->
+  <rect
+     x="100"
+     y="410"
+     width="350"
+     height="35"
+     rx="8"
+     fill="#FF5722"
+     id="rect16" />
+  <text
+     x="275"
+     y="425"
+     text-anchor="middle"
+     font-size="14"
+     font-weight="bold"
+     fill="white"
+     id="text17">Data</text>
+  <text
+     x="275"
+     y="438"
+     text-anchor="middle"
+     font-size="11"
+     fill="white"
+     id="text18">Variáveis globais inicializadas</text>
+  <!-- Text Segment -->
+  <rect
+     x="100"
+     y="450"
+     width="350"
+     height="50"
+     rx="8"
+     fill="#9C27B0"
+     id="rect18" />
+  <text
+     x="276.49124"
+     y="470.99414"
+     text-anchor="middle"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text19">Text (Code)</text>
+  <text
+     x="276.49124"
+     y="485.99414"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#ffffff"
+     id="text20">Código executável • Read-only</text>
+  <!-- Reserved/Kernel space -->
+  <rect
+     x="100"
+     y="504"
+     width="350"
+     height="40"
+     rx="8"
+     fill="#607d8b"
+     id="rect20" />
+  <text
+     x="275"
+     y="522.72809"
+     text-anchor="middle"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text21">Área Reservada</text>
+  <text
+     x="275"
+     y="537.72809"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#ffffff"
+     id="text22">NULL pointers • `kernel` space</text>
+  <!-- Right side: Embedded/RTOS Memory Layout -->
+  <rect
+     x="600"
+     y="70"
+     width="450"
+     height="40"
+     rx="20"
+     fill="#2196F3"
+     id="rect22" />
+  <text
+     x="825"
+     y="95"
+     text-anchor="middle"
+     font-size="18"
+     font-weight="bold"
+     fill="white"
+     id="text23">
+    Sistema Embarcado (FreeRTOS) - 32-bit
+  </text>
+  <!-- Memory address scale for embedded -->
+  <text
+     x="570"
+     y="135"
+     font-size="12"
+     fill="#7f8c8d"
+     id="text24">0xFFFFFFFF</text>
+  <text
+     x="570"
+     y="200"
+     font-size="12"
+     fill="#7f8c8d"
+     id="text25">0xE0000000</text>
+  <text
+     x="570"
+     y="280"
+     font-size="12"
+     fill="#7f8c8d"
+     id="text26">0x20000000</text>
+  <text
+     x="570"
+     y="380"
+     font-size="12"
+     fill="#7f8c8d"
+     id="text27">0x08000000</text>
+  <text
+     x="570"
+     y="480"
+     font-size="12"
+     fill="#7f8c8d"
+     id="text28">0x00000000</text>
+  <!-- Peripheral registers -->
+  <rect
+     x="650"
+     y="127.01755"
+     width="350"
+     height="37.982456"
+     rx="8"
+     fill="#795548"
+     id="rect28"
+     style="stroke-width:1.04174" />
+  <text
+     x="825"
+     y="143.26024"
+     text-anchor="middle"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text29">Registradores de Periféricos</text>
+  <text
+     x="825"
+     y="156.26024"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#ffffff"
+     id="text30">Memory-mapped I/O</text>
+  <!-- External RAM/Flash -->
+  <rect
+     x="650"
+     y="170"
+     width="350"
+     height="35"
+     rx="8"
+     fill="#9E9E9E"
+     id="rect30" />
+  <text
+     x="825"
+     y="185"
+     text-anchor="middle"
+     font-size="14"
+     font-weight="bold"
+     fill="white"
+     id="text31">Memória Externa</text>
+  <text
+     x="825"
+     y="198"
+     text-anchor="middle"
+     font-size="11"
+     fill="white"
+     id="text32">SDRAM • External Flash</text>
+  <!-- Internal SRAM -->
+  <rect
+     x="650"
+     y="210"
+     width="350"
+     height="60"
+     rx="8"
+     fill="#4CAF50"
+     id="rect32" />
+  <text
+     x="825"
+     y="230"
+     text-anchor="middle"
+     font-size="14"
+     font-weight="bold"
+     fill="white"
+     id="text33">SRAM Interna</text>
+  <text
+     x="825"
+     y="245"
+     text-anchor="middle"
+     font-size="11"
+     fill="white"
+     id="text34">Stack de tarefas • Heap • Variáveis globais</text>
+  <text
+     x="825"
+     y="258"
+     text-anchor="middle"
+     font-size="11"
+     fill="white"
+     id="text35">Dados unificados</text>
+  <!-- Task stacks area -->
+  <rect
+     x="650"
+     y="280"
+     width="350"
+     height="45"
+     rx="8"
+     fill="#E91E63"
+     id="rect35" />
+  <text
+     x="825.24854"
+     y="300.98245"
+     text-anchor="middle"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text36">Stacks de Tarefas</text>
+  <text
+     x="825.24854"
+     y="313.98245"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#ffffff"
+     id="text37">Task1 Stack • Task2 Stack • Idle Stack</text>
+  <!-- RTOS `kernel` -->
+  <rect
+     x="650"
+     y="330"
+     width="350"
+     height="40"
+     rx="8"
+     fill="#FF5722"
+     id="rect37" />
+  <text
+     x="825"
+     y="348"
+     text-anchor="middle"
+     font-size="14"
+     font-weight="bold"
+     fill="white"
+     id="text38">Kernel RTOS</text>
+  <text
+     x="825"
+     y="361"
+     text-anchor="middle"
+     font-size="11"
+     fill="white"
+     id="text39">TCBs • Scheduler • Timers</text>
+  <!-- Flash Memory (Code) -->
+  <rect
+     x="650"
+     y="380"
+     width="350"
+     height="50"
+     rx="8"
+     fill="#3F51B5"
+     id="rect39" />
+  <text
+     x="824.75146"
+     y="401.73978"
+     text-anchor="middle"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text40">Flash (Code)</text>
+  <text
+     x="824.75146"
+     y="416.73978"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#ffffff"
+     id="text41">Código da aplicação • Firmware • Constantes</text>
+  <!-- Interrupt vectors -->
+  <rect
+     x="650"
+     y="440"
+     width="350"
+     height="38.976608"
+     rx="8"
+     fill="#673ab7"
+     id="rect41"
+     style="stroke-width:1.05528" />
+  <text
+     x="826.24268"
+     y="458.97659"
+     text-anchor="middle"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text42">Vetores de Interrupção</text>
+  <text
+     x="826.24268"
+     y="471.97659"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#ffffff"
+     id="text43">Reset • IRQ handlers</text>
+  <!-- Bottom comparison -->
+  <rect
+     x="103.68422"
+     y="569.18127"
+     width="899.59064"
+     height="220"
+     rx="13.493859"
+     fill="#ecf0f1"
+     id="rect43"
+     style="stroke-width:0.948467" />
+  <text
+     x="550.99414"
+     y="599.18127"
+     text-anchor="middle"
+     font-size="18px"
+     font-weight="bold"
+     fill="#2c3e50"
+     id="text44">Principais Diferenças no Layout de Memória</text>
+  <!-- Left column -->
+  <text
+     x="185.32162"
+     y="638.12866"
+     font-size="14px"
+     font-weight="bold"
+     fill="#27ae60"
+     id="text45">Sistema Moderno:</text>
+  <text
+     x="185.32162"
+     y="658.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text46">• Espaço de endereçamento virtual (64-bit)</text>
+  <text
+     x="185.32162"
+     y="673.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text47">• Segmentos bem definidos e protegidos</text>
+  <text
+     x="185.32162"
+     y="688.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text48">• Stack e heap podem crescer dinamicamente</text>
+  <text
+     x="185.32162"
+     y="703.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text49">• MMU fornece isolamento e proteção</text>
+  <text
+     x="185.32162"
+     y="718.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text50">• Paginação e swapping suportados</text>
+  <text
+     x="185.32162"
+     y="733.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text51">• Grandes espaços para crescimento</text>
+  <text
+     x="185.32162"
+     y="748.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text52">• Gerenciamento complexo de memória virtual</text>
+  <text
+     x="185.32162"
+     y="763.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text53">• Proteção entre user/kernel space</text>
+  <!-- Right column -->
+  <text
+     x="685.32166"
+     y="638.12866"
+     font-size="14px"
+     font-weight="bold"
+     fill="#2980b9"
+     id="text54">Sistema Embarcado:</text>
+  <text
+     x="685.32166"
+     y="658.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text55">• Espaço de endereçamento físico direto</text>
+  <text
+     x="685.32166"
+     y="673.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text56">• Layout determinado pelo hardware (MCU)</text>
+  <text
+     x="685.32166"
+     y="688.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text57">• Stacks de tarefas com tamanho fixo</text>
+  <text
+     x="685.32166"
+     y="703.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text58">• Sem MMU - acesso direto à memória</text>
+  <text
+     x="685.32166"
+     y="718.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text59">• Memória estática - sem paginação</text>
+  <text
+     x="685.32166"
+     y="733.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text60">• Recursos limitados - otimização crítica</text>
+  <text
+     x="685.32166"
+     y="748.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text61">• Memory-mapped `E/S` integrado</text>
+  <text
+     x="685.32166"
+     y="763.12866"
+     font-size="12px"
+     fill="#2c3e50"
+     id="text62">• Tudo em privileged mode</text>
+  <!-- Arrow markers -->
+  <defs
+     id="defs63">
+    <marker
+       style="overflow:visible"
+       id="marker63"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path63" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <marker
+       id="arrowdown"
+       markerWidth="10"
+       markerHeight="7"
+       refX="5"
+       refY="7"
+       orient="auto">
+      <polygon
+         points="0 0, 10 0, 5 7"
+         fill="#F44336"
+         id="polygon62" />
+    </marker>
+    <marker
+       id="arrowup"
+       markerWidth="10"
+       markerHeight="7"
+       refX="5"
+       refY="0"
+       orient="auto">
+      <polygon
+         points="0 7, 10 7, 5 0"
+         fill="#2196F3"
+         id="polygon63" />
+    </marker>
+  </defs>
+</svg>

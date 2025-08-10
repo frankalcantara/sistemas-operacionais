@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 800 600"
+   version="1.1"
+   id="svg74"
+   sodipodi:docname="complete_memory_layout_detailed.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview74"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.425"
+     inkscape:cx="487.01754"
+     inkscape:cy="297.89474"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg74" />
+  <defs
+     id="defs4">
+    <linearGradient
+       id="kernelGradient"
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#ff5252;stop-opacity:1"
+         id="stop1" />
+      <stop
+         offset="100%"
+         style="stop-color:#c62828;stop-opacity:1"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       id="userGradient"
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#66bb6a;stop-opacity:1"
+         id="stop3" />
+      <stop
+         offset="100%"
+         style="stop-color:#2e7d32;stop-opacity:1"
+         id="stop4" />
+    </linearGradient>
+  </defs>
+  <!-- Title -->
+  <text
+     x="400"
+     y="20"
+     font-family="Arial"
+     font-size="14"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#333"
+     id="text4">
+    Layout Detalhado de Memória Virtual com Estruturas dos Segmentos
+  </text>
+  <!-- Main Memory Layout Container -->
+  <rect
+     x="20"
+     y="30"
+     width="260"
+     height="520"
+     fill="#f8f9fa"
+     stroke="#333"
+     stroke-width="2"
+     rx="8"
+     id="rect4" />
+  <!-- `kernel` Space -->
+  <rect
+     x="30"
+     y="40"
+     width="240"
+     height="100"
+     fill="url(#kernelGradient)"
+     stroke="#333"
+     stroke-width="1"
+     rx="4"
+     id="rect5" />
+  <text
+     x="150"
+     y="60"
+     font-family="Arial"
+     font-size="12"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="white"
+     id="text5">Kernel Space</text>
+  <text
+     x="40"
+     y="80"
+     font-family="mono"
+     font-size="10"
+     fill="white"
+     id="text6">0xffff800000000000</text>
+  <text
+     x="40"
+     y="95"
+     font-family="mono"
+     font-size="10"
+     fill="white"
+     id="text7">0xffffffffffffffff</text>
+  <text
+     x="40"
+     y="115"
+     font-family="Arial"
+     font-size="9"
+     fill="white"
+     id="text8">• Direct mapping</text>
+  <text
+     x="40"
+     y="128"
+     font-family="Arial"
+     font-size="9"
+     fill="white"
+     id="text9">• vmalloc, `kernel` text</text>
+  <!-- Non-canonical gap -->
+  <rect
+     x="30"
+     y="145"
+     width="240"
+     height="25"
+     fill="#6c757d"
+     stroke="#333"
+     stroke-width="1"
+     rx="4"
+     id="rect9" />
+  <text
+     x="150"
+     y="160"
+     font-family="Arial"
+     font-size="11"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="white"
+     id="text10">Non-canonical</text>
+  <text
+     x="40"
+     y="165"
+     font-family="mono"
+     font-size="8"
+     fill="white"
+     id="text11">0x0000800000000000 - 0xffff7fffffffffff</text>
+  <!-- User Space Container -->
+  <rect
+     x="30"
+     y="175"
+     width="240"
+     height="320"
+     fill="url(#userGradient)"
+     stroke="#333"
+     stroke-width="1"
+     rx="4"
+     id="rect11" />
+  <text
+     x="150"
+     y="195"
+     font-family="Arial"
+     font-size="12"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="white"
+     id="text12">User Space</text>
+  <text
+     x="40"
+     y="210"
+     font-family="mono"
+     font-size="10"
+     fill="white"
+     id="text13">0x0000000000000000</text>
+  <text
+     x="40"
+     y="225"
+     font-family="mono"
+     font-size="10"
+     fill="white"
+     id="text14">0x00007fffffffffff</text>
+  <!-- STACK SECTION -->
+  <rect
+     x="40"
+     y="235"
+     width="220"
+     height="35"
+     fill="#9c27b0"
+     stroke="#4a148c"
+     stroke-width="2"
+     rx="3"
+     id="rect14" />
+  <text
+     x="49.638672"
+     y="245.78947"
+     font-family="Arial"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text15">Stack (top)</text>
+  <text
+     x="49.105469"
+     y="256.8421"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text16">0x00007fffffffffff</text>
+  <text
+     x="50"
+     y="267"
+     font-family="Arial"
+     font-size="8"
+     fill="white"
+     id="text17">/* Cresce para baixo */</text>
+  <!-- Memory mappings section -->
+  <rect
+     x="40"
+     y="275"
+     width="220"
+     height="30"
+     fill="#43a047"
+     stroke="#2e7d32"
+     stroke-width="1"
+     rx="3"
+     id="rect17" />
+  <text
+     x="50"
+     y="286.49124"
+     font-family="Arial"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text18">Memory mappings</text>
+  <text
+     x="49.105469"
+     y="300"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text19">0x00007f0000000000</text>
+  <!-- HEAP SECTION -->
+  <rect
+     x="40"
+     y="310"
+     width="220"
+     height="35"
+     fill="#00bcd4"
+     stroke="#006064"
+     stroke-width="2"
+     rx="3"
+     id="rect19" />
+  <text
+     x="49.267578"
+     y="322.19299"
+     font-family="Arial"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text20">Heap</text>
+  <text
+     x="48.947369"
+     y="332.19299"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text21">~0x0000000000602000</text>
+  <text
+     x="50"
+     y="341.29825"
+     font-family="Arial"
+     font-size="8px"
+     fill="#ffffff"
+     id="text22">/* malloc, new, crescimento ↑ */</text>
+  <!-- BSS section -->
+  <rect
+     x="40"
+     y="350"
+     width="220"
+     height="25"
+     fill="#2e7d32"
+     stroke="#2e7d32"
+     stroke-width="1"
+     rx="3"
+     id="rect22" />
+  <text
+     x="49.267578"
+     y="361.49124"
+     font-family="Arial"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text23">BSS</text>
+  <text
+     x="50"
+     y="372"
+     font-family="mono"
+     font-size="8"
+     fill="white"
+     id="text24">~0x0000000000601000</text>
+  <!-- DATA SECTION -->
+  <rect
+     x="40"
+     y="380"
+     width="220"
+     height="25"
+     fill="#ff9800"
+     stroke="#e65100"
+     stroke-width="2"
+     rx="3"
+     id="rect24" />
+  <text
+     x="49.277344"
+     y="392.19299"
+     font-family="Arial"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text25">Data</text>
+  <text
+     x="50"
+     y="400.94736"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text26">~0x0000000000600000</text>
+  <!-- TEXT SECTION -->
+  <rect
+     x="40"
+     y="410"
+     width="220"
+     height="35"
+     fill="#2196f3"
+     stroke="#0d47a1"
+     stroke-width="2"
+     rx="3"
+     id="rect26" />
+  <text
+     x="49.785156"
+     y="421.49124"
+     font-family="Arial"
+     font-size="10px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text27">Text (code)</text>
+  <text
+     x="52.105263"
+     y="431.14035"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text28">0x0000000000400000</text>
+  <text
+     x="50"
+     y="440.5965"
+     font-family="Arial"
+     font-size="8px"
+     fill="#ffffff"
+     id="text29">/* Código executável */</text>
+  <!-- Reserved/NULL section -->
+  <rect
+     x="40"
+     y="450"
+     width="220"
+     height="20"
+     fill="#263238"
+     stroke="#2e7d32"
+     stroke-width="1"
+     rx="3"
+     id="rect29" />
+  <text
+     x="49.332031"
+     y="462"
+     font-family="Arial"
+     font-size="9px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text30">NULL/Reserved</text>
+  <text
+     x="150"
+     y="462"
+     font-family="mono"
+     font-size="8"
+     fill="white"
+     id="text31">0x0000000000000000</text>
+  <!-- ASLR note -->
+  <rect
+     x="30"
+     y="500"
+     width="240"
+     height="40"
+     fill="#ffc107"
+     stroke="#333"
+     stroke-width="1"
+     rx="4"
+     id="rect31" />
+  <text
+     x="149.29825"
+     y="512.78949"
+     font-family="Arial"
+     font-size="11px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#333333"
+     id="text32">KASLR/ASLR</text>
+  <text
+     x="149.29825"
+     y="524.78949"
+     font-family="Arial"
+     font-size="9px"
+     text-anchor="middle"
+     fill="#333333"
+     id="text33">Randomização de layout</text>
+  <text
+     x="149.29825"
+     y="534.78949"
+     font-family="Arial"
+     font-size="9px"
+     text-anchor="middle"
+     fill="#333333"
+     id="text34">para segurança</text>
+  <!-- DETAILED STACK STRUCTURE -->
+  <rect
+     x="300"
+     y="40"
+     width="220"
+     height="140"
+     fill="#f3e5f5"
+     stroke="#9c27b0"
+     stroke-width="2"
+     rx="4"
+     id="rect34" />
+  <text
+     x="410"
+     y="60"
+     font-family="Arial"
+     font-size="12"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#4a148c"
+     id="text35">
+    Estrutura do Stack
+  </text>
+  <!-- Stack Frame Detail -->
+  <rect
+     x="310"
+     y="70"
+     width="200"
+     height="20"
+     fill="#8e24aa"
+     stroke="#4a148c"
+     stroke-width="1"
+     rx="2"
+     id="rect35" />
+  <text
+     x="315"
+     y="82"
+     font-family="Arial"
+     font-size="8"
+     font-weight="bold"
+     fill="white"
+     id="text36">factorial(1) [TOPO]</text>
+  <rect
+     x="310"
+     y="95"
+     width="200"
+     height="20"
+     fill="#9c27b0"
+     stroke="#4a148c"
+     stroke-width="1"
+     rx="2"
+     id="rect36" />
+  <text
+     x="315"
+     y="107"
+     font-family="Arial"
+     font-size="8"
+     font-weight="bold"
+     fill="white"
+     id="text37">factorial(2)</text>
+  <rect
+     x="310"
+     y="120"
+     width="200"
+     height="25"
+     fill="#7b1fa2"
+     stroke="#4a148c"
+     stroke-width="1"
+     rx="2"
+     id="rect37" />
+  <text
+     x="315"
+     y="129.76703"
+     font-family="Arial"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text38">demonstrate_stack_frame()</text>
+  <text
+     x="315"
+     y="140"
+     font-family="mono"
+     font-size="7"
+     fill="white"
+     id="text39">param1=42, local_array[256]</text>
+  <rect
+     x="310"
+     y="150"
+     width="200"
+     height="25"
+     fill="#4a148c"
+     stroke="#4a148c"
+     stroke-width="1"
+     rx="2"
+     id="rect39" />
+  <text
+     x="315.24811"
+     y="159.27081"
+     font-family="Arial"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text40">main() [BASE]</text>
+  <text
+     x="315"
+     y="170"
+     font-family="mono"
+     font-size="7"
+     fill="white"
+     id="text41">local_main_var=100, argc, argv</text>
+  <!-- DETAILED STACK FRAME -->
+  <rect
+     x="544.91229"
+     y="138.24562"
+     width="240"
+     height="140"
+     fill="#e1bee7"
+     stroke="#7b1fa2"
+     stroke-width="2"
+     rx="4"
+     id="rect41" />
+  <g
+     id="g78"
+     transform="translate(4.9122807,98.245614)">
+    <text
+       x="660"
+       y="60"
+       font-family="Arial"
+       font-size="12px"
+       font-weight="bold"
+       text-anchor="middle"
+       fill="#4a148c"
+       id="text42">Stack Frame: factorial(3)</text>
+  </g>
+  <rect
+     x="554.91229"
+     y="168.24562"
+     width="220"
+     height="15"
+     fill="#9c27b0"
+     stroke="#4a148c"
+     stroke-width="1"
+     rx="2"
+     id="rect42" />
+  <text
+     x="559.91229"
+     y="178.24562"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text43">0x7ffffffffe20: return addr → factorial(4)</text>
+  <rect
+     x="554.91229"
+     y="188.24562"
+     width="220"
+     height="15"
+     fill="#8e24aa"
+     stroke="#4a148c"
+     stroke-width="1"
+     rx="2"
+     id="rect43" />
+  <text
+     x="559.91229"
+     y="198.24562"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text44">0x7ffffffffe18: saved %rbp</text>
+  <rect
+     x="554.91229"
+     y="208.24562"
+     width="220"
+     height="15"
+     fill="#7b1fa2"
+     stroke="#4a148c"
+     stroke-width="1"
+     rx="2"
+     id="rect44" />
+  <text
+     x="559.91229"
+     y="218.24562"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text45">0x7ffffffffe10: n=3 (parameter)</text>
+  <rect
+     x="554.91229"
+     y="228.24562"
+     width="220"
+     height="15"
+     fill="#6a1b9a"
+     stroke="#4a148c"
+     stroke-width="1"
+     rx="2"
+     id="rect45" />
+  <text
+     x="559.91229"
+     y="238.24562"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text46">0x7ffffffffe08: local_temp=3, result=6</text>
+  <rect
+     x="554.91229"
+     y="248.24562"
+     width="220"
+     height="25"
+     fill="#4a148c"
+     stroke="#4a148c"
+     stroke-width="1"
+     rx="2"
+     id="rect46" />
+  <text
+     x="559.66418"
+     y="258.26074"
+     font-family="Arial"
+     font-size="8px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text47">Registradores:</text>
+  <text
+     x="559.91229"
+     y="268.24561"
+     font-family="mono"
+     font-size="7px"
+     fill="#ffffff"
+     id="text48">%rsp→frame, %rbp→base, %rdi→param</text>
+  <!-- DETAILED HEAP STRUCTURE -->
+  <rect
+     x="300.70175"
+     y="223.85965"
+     width="220"
+     height="120"
+     fill="#e0f7fa"
+     stroke="#00bcd4"
+     stroke-width="2"
+     rx="4"
+     id="rect48" />
+  <text
+     x="410.70175"
+     y="243.85965"
+     font-family="Arial"
+     font-size="12px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#006064"
+     id="text49">Estrutura do Heap</text>
+  <rect
+     x="310.70175"
+     y="253.85965"
+     width="200"
+     height="15"
+     fill="#26c6da"
+     stroke="#006064"
+     stroke-width="1"
+     rx="2"
+     id="rect49" />
+  <text
+     x="315.70175"
+     y="263.85965"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text50">0x602010: heap_single = 999</text>
+  <rect
+     x="310.70175"
+     y="273.85965"
+     width="200"
+     height="15"
+     fill="#00acc1"
+     stroke="#006064"
+     stroke-width="1"
+     rx="2"
+     id="rect50" />
+  <text
+     x="315.70175"
+     y="283.85965"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text51">0x602020: heap_array[100]</text>
+  <rect
+     x="310.70175"
+     y="293.85965"
+     width="200"
+     height="20"
+     fill="#0097a7"
+     stroke="#006064"
+     stroke-width="1"
+     rx="2"
+     id="rect51" />
+  <text
+     x="315.70175"
+     y="302.88235"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text52">0x602360: MemoryDemo[5]</text>
+  <text
+     x="315.70175"
+     y="311.85965"
+     font-family="mono"
+     font-size="7px"
+     fill="#ffffff"
+     id="text53">objects + std::string buffers</text>
+  <rect
+     x="310.70175"
+     y="318.85965"
+     width="200"
+     height="20"
+     fill="#00838f"
+     stroke="#006064"
+     stroke-width="1"
+     rx="2"
+     id="rect53" />
+  <text
+     x="316.44608"
+     y="328.37857"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text54">0x603000: smart_demo</text>
+  <text
+     x="315.70175"
+     y="336.85965"
+     font-family="mono"
+     font-size="7px"
+     fill="#ffffff"
+     id="text55">+ vector&lt;double&gt; buffers</text>
+  <!-- DETAILED DATA STRUCTURE -->
+  <rect
+     x="545.61407"
+     y="291.22806"
+     width="240"
+     height="120"
+     fill="#fff3e0"
+     stroke="#ff9800"
+     stroke-width="2"
+     rx="4"
+     id="rect55" />
+  <text
+     x="665.61407"
+     y="311.22806"
+     font-family="Arial"
+     font-size="12px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#e65100"
+     id="text56">Segmento .data</text>
+  <rect
+     x="555.61407"
+     y="321.22806"
+     width="220"
+     height="15"
+     fill="#fb8c00"
+     stroke="#e65100"
+     stroke-width="1"
+     rx="2"
+     id="rect56" />
+  <text
+     x="560.61407"
+     y="331.22806"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text57">0x600040: global_counter = 42</text>
+  <rect
+     x="555.61407"
+     y="341.22806"
+     width="220"
+     height="15"
+     fill="#ff9800"
+     stroke="#e65100"
+     stroke-width="1"
+     rx="2"
+     id="rect57" />
+  <text
+     x="560.61407"
+     y="351.22806"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text58">0x600048: global_pi = 3.14159</text>
+  <rect
+     x="555.61407"
+     y="361.22806"
+     width="220"
+     height="15"
+     fill="#f57c00"
+     stroke="#e65100"
+     stroke-width="1"
+     rx="2"
+     id="rect58" />
+  <text
+     x="560.61407"
+     y="371.22806"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text59">0x600050: global_message = ptr</text>
+  <rect
+     x="555.61407"
+     y="381.22806"
+     width="220"
+     height="25"
+     fill="#ef6c00"
+     stroke="#e65100"
+     stroke-width="1"
+     rx="2"
+     id="rect59" />
+  <text
+     x="560.61407"
+     y="390.74698"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text60">0x600078: global_array[10]</text>
+  <text
+     x="560.61407"
+     y="401.22806"
+     font-family="mono"
+     font-size="7px"
+     fill="#ffffff"
+     id="text61">{1,2,3,4,5,6,7,8,9,10}</text>
+  <!-- DETAILED TEXT STRUCTURE -->
+  <rect
+     x="565.26318"
+     y="431.92981"
+     width="220"
+     height="120"
+     fill="#e3f2fd"
+     stroke="#2196f3"
+     stroke-width="2"
+     rx="4"
+     id="rect61" />
+  <text
+     x="675.26318"
+     y="451.92981"
+     font-family="Arial"
+     font-size="12px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#0d47a1"
+     id="text62">Segmento .text</text>
+  <rect
+     x="575.26318"
+     y="461.92981"
+     width="200"
+     height="15"
+     fill="#1976d2"
+     stroke="#0d47a1"
+     stroke-width="1"
+     rx="2"
+     id="rect62" />
+  <text
+     x="580.26318"
+     y="471.92981"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text63">0x400800: main()</text>
+  <rect
+     x="575.26318"
+     y="481.92981"
+     width="200"
+     height="15"
+     fill="#1e88e5"
+     stroke="#0d47a1"
+     stroke-width="1"
+     rx="2"
+     id="rect63" />
+  <text
+     x="580.26318"
+     y="491.92981"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text64">0x400650: simple_addition()</text>
+  <rect
+     x="575.26318"
+     y="501.92981"
+     width="200"
+     height="15"
+     fill="#42a5f5"
+     stroke="#0d47a1"
+     stroke-width="1"
+     rx="2"
+     id="rect64" />
+  <text
+     x="580.26318"
+     y="511.92981"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text65">0x400680: factorial()</text>
+  <rect
+     x="575.26318"
+     y="521.92981"
+     width="200"
+     height="25"
+     fill="#64b5f6"
+     stroke="#0d47a1"
+     stroke-width="1"
+     rx="2"
+     id="rect65" />
+  <text
+     x="580.01508"
+     y="531.44873"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text66">0x4006B0: demonstrate_stack()</text>
+  <text
+     x="580.26318"
+     y="541.92981"
+     font-family="mono"
+     font-size="7px"
+     fill="#ffffff"
+     id="text67">+ STL functions</text>
+  <!-- BSS DETAIL -->
+  <rect
+     x="293.6842"
+     y="403.15787"
+     width="240"
+     height="80"
+     fill="#e8f5e8"
+     stroke="#2e7d32"
+     stroke-width="2"
+     rx="4"
+     id="rect67" />
+  <text
+     x="412.98245"
+     y="419.64911"
+     font-family="Arial"
+     font-size="12px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#1b5e20"
+     id="text68">Segmento .bss</text>
+  <rect
+     x="302.98245"
+     y="429.64911"
+     width="220"
+     height="15"
+     fill="#4caf50"
+     stroke="#2e7d32"
+     stroke-width="1"
+     rx="2"
+     id="rect68" />
+  <text
+     x="307.98245"
+     y="439.64911"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text69">0x601000: uninitialized_global = 0</text>
+  <rect
+     x="302.98245"
+     y="449.64911"
+     width="220"
+     height="25"
+     fill="#388e3c"
+     stroke="#2e7d32"
+     stroke-width="1"
+     rx="2"
+     id="rect69" />
+  <text
+     x="308.97488"
+     y="458.1756"
+     font-family="mono"
+     font-size="8px"
+     fill="#ffffff"
+     id="text70">0x601004: large_buffer[4096]</text>
+  <text
+     x="307.98245"
+     y="469.64911"
+     font-family="mono"
+     font-size="7px"
+     fill="#ffffff"
+     id="text71">/* Automaticamente zerado */</text>
+  <!-- Connection lines -->
+  <path
+     d="m 259.64912,259.01754 c 39.00608,-62.292 30.27924,-88.39407 98.92275,-55.68918 16.29075,7.76165 50.71941,1.24522 45.98953,-21.57397"
+     stroke="#9c27b0"
+     stroke-width="2"
+     fill="none"
+     stroke-dasharray="5, 5"
+     id="path71"
+     sodipodi:nodetypes="csc" />
+  <path
+     d="M 520.42295,102.12235 C 559.03085,70.521489 676.4424,60.245011 676.5633,138.54341"
+     stroke="#9c27b0"
+     stroke-width="2"
+     fill="none"
+     stroke-dasharray="5, 5"
+     id="path71-0"
+     sodipodi:nodetypes="cc" />
+  <path
+     d="m 258.94737,329.80702 c 22.77621,38.0302 52.91375,17.57031 92.74274,31.57924 15.87314,5.58301 44.0258,14.68028 51.46778,-16.47398"
+     stroke="#00bcd4"
+     stroke-width="2"
+     fill="none"
+     stroke-dasharray="5, 5"
+     id="path72"
+     sodipodi:nodetypes="csc" />
+  <path
+     d="m 256.0209,392.671 c 114.31515,1.41563 216.07817,-11.3285 290.47028,-54.94913"
+     stroke="#ff9800"
+     stroke-width="1.12819"
+     fill="none"
+     stroke-dasharray="5, 5"
+     id="path73"
+     sodipodi:nodetypes="cc"
+     style="stroke-width:2.028;stroke-dasharray:8.98784631,8.98784631;stroke-dashoffset:0" />
+  <path
+     d="m 257.74295,433.04551 c 35.35508,60.53057 43.6384,136.01309 307.38636,70.40059"
+     stroke="#2196f3"
+     stroke-width="2.9652"
+     fill="none"
+     stroke-dasharray="5, 5"
+     id="path74"
+     sodipodi:nodetypes="cc" />
+  <!-- Architecture note -->
+  <text
+     x="400"
+     y="580"
+     font-family="Arial"
+     font-size="10"
+     text-anchor="middle"
+     fill="#666"
+     id="text74">
+    x86_64 - Layout detalhado com estruturas internas dos segmentos de memória
+  </text>
+</svg>

@@ -1,0 +1,892 @@
+---
+title: "Simuladores e Projetos"
+
+---
+
+## Projeto 3: Shell Interativo Minimalista Cross-Platform
+
+Este projeto tem como objetivo implementar um shell de comando funcional que demonstre os conceitos fundamentais de criação de processos, job control e comunicação inter-processo. Implementado em C++23, o sistema consolida o paradigma `fork()/exec()` do **Linux** e `CreateProcess` do **Windows**, permitindo que a esforçada leitora experimente diretamente os mecanismos de controle de processos abordados teoricamente.
+
+### Aspectos Técnicos
+
+Um sistema em **C++23** que utilize `std::variant` para abstrair diferenças entre plataformas, `std::unique_ptr` para gerenciamento seguro de recursos de processo e `std::ranges` para parsing eficiente de comandos. O sistema deve integrar **API**s específicas para **Linux**, como `fork()`, `execvp()`, `pipe()`, `setpgid()` e `tcsetpgrp()` para implementar um sistema _job control_ completo, e para **Windows**, utilizando `CreateProcess`, `CreatePipe` e `Job Objects` para funcionalidades equivalentes. Implemente tratamento robusto de sinais no **Linux** (`SIGINT`, `SIGTSTP`, `SIGCHLD`) e eventos no **Windows** para controle adequado de sessão. Além disso, adote um design extensível que permita adicionar comandos internos e funcionalidades de scripting no futuro. Pense grande!
+
+### Objetivos
+
+Consolidar os conceitos de criação de processos através de implementação prática de um `shell` funcional. Demonstrar diferenças entre paradigmas `fork()/exec()` e `CreateProcess` em contexto real. Implementar _job control_ completo incluindo execução em _background_, suspensão e resumo de processos. Fornecer _parsing_ robusto de linha de comando com suporte a _pipes_, redirecionamento e expansão de variáveis. Em uma ferramenta que seja educativa e demonstre conceitos avançados como _process groups_ e _sessions_.
+
+A esperança é que a amável leitora consiga: experiência prática com **API**s de sistema para criação e controle de processos; compreensão profunda dos mecanismos de _job control_ utilizados por `shells` modernos; e habilidade para implementar _pipelines_ complexos e redirecionamento de `E/S` programaticamente.
+
+O programa deverá ser capaz de executar comandos externos, gerenciar _jobs_ em _foreground_ e _background_, e implementar comandos internos essenciais. As principais funcionalidades incluem:
+
+**Linux**:
+
+- **Process Groups**: controle completo com `setpgid()` e `tcsetpgrp()`;
+- **Signal Handling**:tratamento adequado de `SIGINT`, `SIGTSTP`, `SIGCHLD`;
+- **Pipeline Support**: implementação nativa usando `pipe()` e `dup2()`;
+- **Job Control**: suspensão (`Ctrl+Z`) e resumo (`fg`, `bg`) de processos.
+
+**Windows**:
+
+- **Job Objects**: agrupamento de processos para controle unitário;
+- **Pipe Redirection**: redirecionamento usando `CreatePipe` e `SetStdHandle`;
+- **Process Termination**: controle graceful via `TerminateProcess` e `WaitForSingleObject`;
+- **Console Control**: manipulação de console para simulação de job control.
+
+Além disso, o programa deve demonstrar:
+
+- **Parsing avançado** de linha de comando com suporte a quotes e escape;
+- **Expansão de variáveis** de ambiente e substituição de comandos;
+- **Histórico de comandos** com navegação e busca;
+- **Auto-completion** básico para comandos e arquivos;
+- **Comandos internos** (`cd`, `exit`, `jobs`, `fg`, `bg`, `export`);
+- **Redirecionamento** completo (`>`, `<`, `>>`, `2>`, `|`);
+- **Execução condicional** com operadores `&&` e `||`;
+- **Controle de sessão** e terminal ownership.
+
+### Fases do Projeto
+
+O Projeto está dividido em $4$ fases:
+
+#### Fase 1: Parser de Comandos e Arquitetura Base
+
+**Por que?**
+
+- Estabelecer uma base sólida para parsing de linha de comando que suporte expansões futuras.
+- Criar abstração cross-platform que encapsule diferenças entre **Linux** e **Windows**.
+
+**Como?**
+
+- Desenvolver a classe `CommandParser` para análise lexical e sintática de comandos.
+- Criar interface `ShellPlatform` para abstrair operações específicas de cada sistema.
+- Implementar `CommandExecutor` como núcleo de execução de comandos.
+
+**Definição da Classe**:
+
+```cpp
+class SimpleShell {
+public:
+    enum class Platform { **Linux**, **Windows** };
+    enum class CommandType { 
+        External, Builtin, Pipeline, Redirection, Background 
+    };
+    
+private:
+    Platform current_platform_;
+    std::unique_ptr<CommandParser> parser_;
+    std::unique_ptr<JobManager> job_manager_;
+    std::unique_ptr<EnvironmentManager> env_manager_;
+    std::unique_ptr<ShellPlatform> platform_;
+    
+public:
+    void run();
+    void execute_command(const ParsedCommand& cmd);
+    void handle_signal(int signal);
+};
+
+class CommandParser {
+public:
+    struct Token {
+        enum Type { Word, Pipe, Redirect, Background, And, Or };
+        Type type;
+        std::string value;
+        size_t position;
+    };
+    
+    struct ParsedCommand {
+        std::vector<std::string> args;
+        std::optional<std::string> input_file;
+        std::optional<std::string> output_file;
+        bool append_output = false;
+        bool run_background = false;
+        bool redirect_stderr = false;
+    };
+    
+    std::vector<ParsedCommand> parse(const std::string& input);
+    std::vector<Token> tokenize(const std::string& input);
+};
+```
+
+**Explicação**: A classe `SimpleShell` serve como ponto de entrada principal, coordenando parser, _job manager_ e platform-specific operations. `CommandParser` realiza análise lexical completa, produzindo tokens que são então organizados em `ParsedCommand` structures contendo argumentos, redirecionamentos e modificadores. O design modular permite extensão fácil para novos tipos de comando e operadores.
+
+**Motivação**:
+
+- Parser robusto é fundamental para suportar sintaxe complexa de shell.
+- Abstração de plataforma permite implementação consistente em **Linux** e Windows.
+
+**Entregáveis**:
+
+- Parser completo de linha de comando.
+- Estruturas de dados para representar comandos parsed.
+- Framework básico para execução de comandos.
+
+#### Fase 2: Execução de Comandos e Redirecionamento
+
+**Por que?**
+
+- Implementar funcionalidade core do shell: execução de programas externos.
+- Demonstrar redirecionamento de `E/S` usando `APIs`nativas de cada plataforma.
+
+**Como?**
+
+- Implementar `LinuxExecutor` usando fork/exec pattern com setup de redirecionamento.
+- Implementar `WindowsExecutor` usando CreateProcess com STARTUPINFO configurado.
+- Criar sistema de redirecionamento que funcione consistentemente em ambas plataformas.
+
+**Definição da Classe**:
+
+```cpp
+class ShellPlatform {
+public:
+    virtual ~ShellPlatform() = default;
+    virtual ProcessResult execute_command(const ParsedCommand& cmd) = 0;
+    virtual PipeResult create_pipeline(const std::vector<ParsedCommand>& commands) = 0;
+    virtual bool redirect_io(const IORedirection& redirection) = 0;
+    virtual void setup_signal_handlers() = 0;
+};
+
+class LinuxExecutor : public ShellPlatform {
+public:
+    ProcessResult execute_command(const ParsedCommand& cmd) override {
+        pid_t **PID** = fork();
+        if (pid == 0) {
+            // Setup redirecionamento antes de exec
+            setup_redirections(cmd);
+            setup_process_group(cmd);
+            
+            std::vector<char*> argv = prepare_argv(cmd.args);
+            execvp(argv[0], argv.data());
+            perror("execvp failed");
+            _exit(1);
+        }
+        return ProcessResult{pid, cmd.run_background};
+    }
+    
+private:
+    void setup_redirections(const ParsedCommand& cmd);
+    void setup_process_group(const ParsedCommand& cmd);
+};
+
+class WindowsExecutor : public ShellPlatform {
+public:
+    ProcessResult execute_command(const ParsedCommand& cmd) override {
+        STARTUPINFOW si = {};
+        PROCESS_INFORMATION pi = {};
+        
+        setup_startupinfo(si, cmd);
+        std::wstring cmdline = build_command_line(cmd.args);
+        
+        CreateProcessW(nullptr, &cmdline[0], nullptr, nullptr,
+                      TRUE, 0, nullptr, nullptr, &si, &pi);
+        
+        return ProcessResult{pi.dwProcessId, cmd.run_background};
+    }
+    
+private:
+    void setup_startupinfo(STARTUPINFOW& si, const ParsedCommand& cmd);
+};
+```
+
+**Explicação**: `ShellPlatform` define interface comum para execução de comandos, criação de pipelines e redirecionamento de `E/S`. `LinuxExecutor` implementa padrão fork/exec tradicional, configurando redirecionamentos através de `dup2()` antes do exec. `WindowsExecutor` usa `CreateProcess` com `STARTUPINFO` pré-configurado para redirecionamentos. Ambas implementações garantem isolamento adequado de processos.
+
+**Motivação**:
+
+- Redirecionamento de `E/S` é funcionalidade essencial de qualquer shell.
+- Implementação cross-platform demonstra diferenças fundamentais entre sistemas.
+
+**Entregáveis**:
+
+- Execução de comandos externos em ambas plataformas.
+- Sistema completo de redirecionamento (>, <, >>, 2>).
+-tratamento robusto de erros de execução.
+
+#### Fase 3: Pipeline Implementation e Job Control
+
+**Por que?**
+
+- Pipelines são uma das funcionalidades mais poderosas e complexas de shells **UNIX**.
+- _Job control_ demonstra conceitos avançados de _process groups_ e _sinal handling_.
+
+**Como?**
+
+- Implementar `PipelineManager` para criar e conectar múltiplos processos via pipes.
+- Desenvolver `JobManager` para controle completo de jobs (background, suspend, resume).
+- Adicionar _sinal handling_ robusto para controle de sessão.
+
+**Definição da Classe**:
+
+```cpp
+class PipelineManager {
+public:
+    struct PipelineResult {
+        std::vector<pid_t> process_ids;
+        int pipeline_id;
+        bool is_background;
+        std::string command_line;
+    };
+    
+    PipelineResult execute_pipeline(const std::vector<ParsedCommand>& commands);
+    void wait_for_pipeline(int pipeline_id);
+    
+private:
+    struct PipeDescriptor {
+        int read_fd;
+        int write_fd;
+        bool created;
+    };
+    
+    std::vector<PipeDescriptor> create_pipes(size_t count);
+    void setup_pipeline_process(size_t index, size_t total,
+                               const std::vector<PipeDescriptor>& pipes,
+                               const ParsedCommand& cmd);
+};
+
+class JobManager {
+public:
+    struct Job {
+        int job_id;
+        pid_t pgid;  // Process group ID
+        std::string command;
+        JobStatus status;
+        std::vector<pid_t> processes;
+        bool is_background;
+    };
+    
+    enum class JobStatus { Running, Stopped, Completed };
+    
+    int add_job(const PipelineResult& pipeline);
+    void update_job_status(pid_t pid, int status);
+    void bring_to_foreground(int job_id);
+    void send_to_background(int job_id);
+    void list_jobs() const;
+    void cleanup_completed_jobs();
+    
+private:
+    std::vector<Job> active_jobs_;
+    int next_job_id_ = 1;
+    pid_t shell_pgid_;
+    struct termios shell_tmodes_;
+};
+```
+
+**Explicação**: `PipelineManager` coordena criação de múltiplos pipes e processos, configurando cada processo na pipeline com entrada/saída conectada adequadamente. `JobManager` mantém registro de todos os jobs ativos, implementando controle completo incluindo _process groups_ para job control adequado. No **Linux**, usa `setpgid()` e `tcsetpgrp()` para controle de terminal; no Windows, simula comportamento similar com Job Objects.
+
+**Motivação**:
+
+- Pipelines demonstram composição de processos, conceito fundamental em **UNIX**.
+- _job control_ é funcionalidade avançada que distingue shells interativos.
+
+**Entregáveis**:
+
+- Sistema completo de pipelines com n processos conectados.
+- _job control_ funcional (fg, bg, jobs, Ctrl+Z).
+- Signal handling robusto para controle de sessão.
+
+#### Fase 4: Comandos Internos e Funcionalidades Avançadas
+
+**Por que?**
+
+- Comandos internos demonstram integração entre shell e **Sistema Operacional**.
+- Funcionalidades avançadas tornam o shell verdadeiramente utilizável.
+
+**Como?**
+
+- Implementar `BuiltinCommands` para comandos que devem rodar no processo do shell.
+- Adicionar `HistoryManager` para navegação e busca no histórico.
+- Desenvolver `CompletionEngine` para auto-completion de comandos e arquivos.
+
+**Definição da Classe**:
+
+```cpp
+class BuiltinCommands {
+public:
+    enum class BuiltinType { 
+        CD, EXIT, JOBS, FG, BG, EXPORT, UNSET, PWD, ECHO, HISTORY 
+    };
+    
+    bool is_builtin(const std::string& command);
+    bool execute_builtin(const ParsedCommand& cmd, ShellState& state);
+    
+private:
+    bool cmd_cd(const std::vector<std::string>& args);
+    bool cmd_jobs(const std::vector<std::string>& args, const JobManager& jobs);
+    bool cmd_fg(const std::vector<std::string>& args, JobManager& jobs);
+    bool cmd_export(const std::vector<std::string>& args, EnvironmentManager& env);
+    bool cmd_history(const std::vector<std::string>& args, const HistoryManager& hist);
+};
+
+class HistoryManager {
+public:
+    void add_command(const std::string& command);
+    std::optional<std::string> get_command(int index);
+    std::vector<std::string> search_history(const std::string& pattern);
+    void save_to_file(const std::string& filename);
+    void load_from_file(const std::string& filename);
+    
+    // Navegação estilo readline
+    std::string previous_command();
+    std::string next_command();
+    void reset_navigation();
+    
+private:
+    std::vector<std::string> history_;
+    size_t current_position_ = 0;
+    static constexpr size_t MAX_HISTORY = 1000;
+};
+
+class CompletionEngine {
+public:
+    struct CompletionResult {
+        std::vector<std::string> completions;
+        std::string common_prefix;
+        bool is_unique;
+    };
+    
+    CompletionResult complete_command(const std::string& partial);
+    CompletionResult complete_filename(const std::string& partial);
+    CompletionResult complete_variable(const std::string& partial);
+    
+private:
+    std::vector<std::string> get_executable_commands();
+    std::vector<std::string> get_files_in_directory(const std::string& dir);
+};
+```
+
+**Explicação**: `BuiltinCommands` implementa comandos que devem executar no contexto do shell (cd, export, jobs), diferente de comandos externos. `HistoryManager` mantém histórico persistente com funcionalidades de navegação e busca. `CompletionEngine` oferece auto-completion inteligente baseado em contexto (comandos, arquivos, variáveis). Todas as funcionalidades são implementadas de forma cross-platform.
+
+**Motivação**:
+
+- Comandos internos são essenciais para funcionalidade completa do shell.
+- Funcionalidades modernas (histórico, completion) melhoram experiência do usuário.
+
+**Entregáveis**:
+
+- Conjunto completo de comandos internos.
+- Sistema de histórico com persistência.
+- Auto-completion funcional para comandos e arquivos.
+
+### Exemplo de Saída
+
+#### Execução de Pipeline
+
+```shell
+MyShell> ls -la | grep "\.cpp" | sort | head -5
+-rw-r--r--  1 user  staff   2847 Jan 15 10:30 main.cpp
+-rw-r--r--  1 user  staff   1653 Jan 14 16:45 parser.cpp
+-rw-r--r--  1 user  staff   3421 Jan 15 09:15 shell.cpp
+[Pipeline executado com PIDs: 1234, 1235, 1236, 1237]
+MyShell> 
+```
+
+#### Job Control
+
+```shell
+MyShell> sleep 100 &
+[1] 1245 sleep 100
+MyShell> jobs
+[1]+  Running    sleep 100 &
+MyShell> fg 1
+sleep 100
+^Z
+[1]+  Stopped    sleep 100
+MyShell> bg 1
+[1]+ sleep 100 &
+MyShell> 
+```
+
+## Projeto 4: THREADS THREADS Monitor e Gerenciador de Processos Empresarial
+
+Este projeto tem como objetivo implementar um sistema robusto de monitoramento e gerenciamento de processos adequado para ambientes de produção. Implementado em C++23, o sistema demonstra técnicas avançadas de supervisão de processos, coleta de métricas em tempo real e políticas de restart automático, permitindo que a esforçada leitora compreenda como sistemas de produção gerenciam serviços críticos.
+
+### Aspectos Técnicos
+
+Um sistema em **C++23** que utilize `std::thread` e `std::jthread` para monitoramento assíncrono, `std::chrono` para medições precisas de performance e `std::atomic` para operações thread-safe. O sistema deve integrar **API**s específicas para **Linux**, como `/proc/[pid]/stat`, `/proc/[pid]/status`, `cgroups` e `systemd` para monitoramento detalhado, e para Windows, utilizando `Performance Counters`, `WMI`, `Job Objects` e `Windows Services API` para coleta equivalente de métricas. Implemente sistema de alertas baseado em thresholds configuráveis e logging estruturado para auditoria. Além disso, adote arquitetura orientada a eventos que permita integração com sistemas de monitoring externos como Prometheus e Grafana.
+
+### Objetivos
+
+Consolidar conceitos avançados de gerenciamento de processos através de implementação de um supervisor profissional. Demonstrar coleta e análise de métricas de sistema em tempo real incluindo CPU, memória, `E/S` e network. Implementar políticas sofisticadas de restart com circuit breaker e exponential backoff. Fornecer interface de controle remoto via REST API e WebSocket para monitoramento em tempo real. Em uma ferramenta que seja escalável para ambientes de produção e demonstre best practices de observability.
+
+A esperança é que a amável leitora consiga: experiência com técnicas profissionais de monitoring e alerting; compreensão de políticas de restart e fault tolerance; e habilidade para implementar sistemas robustos de supervisão de serviços.
+
+O programa deverá ser capaz de supervisionar múltiplos serviços simultaneamente, coletar métricas detalhadas e reagir automaticamente a falhas. As principais funcionalidades incluem:
+
+**Linux**:
+
+- **Process Monitoring**: Coleta via `/proc` filesystem e `procfs`
+- **Cgroup Integration**: Monitoring de resource usage via cgroups v2
+- **Systemd Integration**: Interface com systemd para service management
+- **Signal Monitoring**: Captura de sinais para detecção de crashes
+
+**Windows**:
+
+- **Performance Counters**: Coleta nativa de métricas via PDH API
+- **WMI Integration**: Monitoring avançado via Windows Management Instrumentation
+- **Service Control**: Integration com Windows Service Control Manager
+- **Event Log**: Monitoring de Windows Event Log para alertas
+
+Além disso, o programa deve demonstrar:
+
+- **Métricas em tempo real** (CPU, Memory, Disk I/O, Network I/O)
+- **Health checks** customizáveis por serviço
+- **Políticas de restart** configuráveis com rate limiting
+- **Alerting system** com múltiplos channels (email, webhook, Slack)
+- **REST API** para controle e consulta
+- **Dashboard web** para visualização em tempo real
+- **Configuration management** via YAML/JSON
+- **Logging estruturado** com log rotation
+
+### Fases do Projeto
+
+O Projeto está dividido em $4$ fases:
+
+#### Fase 1: Arquitetura Core e Monitoring Básico
+
+**Por que?**
+
+- Estabelecer arquitetura robusta que suporte monitoramento de múltiplos processos.
+- Implementar coleta básica de métricas usando `APIs`nativas de cada plataforma.
+
+**Como?**
+
+- Desenvolver classe `ProcessManager` como núcleo do sistema de supervisão.
+- Criar `MetricsCollector` para coleta padronizada de métricas cross-platform.
+- Implementar `ServiceRegistry` para registro e tracking de serviços.
+
+**Definição da Classe**:
+
+```cpp
+class ProcessManager {
+public:
+    enum class ServiceStatus { 
+        Starting, Running, Stopping, Stopped, Failed, Unknown 
+    };
+    
+    struct ServiceConfig {
+        std::string name;
+        std::string executable;
+        std::vector<std::string> arguments;
+        std::map<std::string, std::string> environment;
+        std::filesystem::path working_directory;
+        
+        // Monitoring configuration
+        std::chrono::seconds health_check_interval{30};
+        std::string health_check_command;
+        
+        // Restart policy
+        bool auto_restart = true;
+        int max_restart_attempts = 5;
+        std::chrono::seconds restart_delay{10};
+        std::chrono::seconds restart_backoff_max{300};
+    };
+    
+private:
+    std::unique_ptr<PlatformMonitor> platform_monitor_;
+    std::unique_ptr<MetricsCollector> metrics_collector_;
+    std::unique_ptr<AlertManager> alert_manager_;
+    std::unordered_map<std::string, ManagedService> services_;
+    std::jthread monitoring_thread_;
+    std::atomic<bool> running_{false};
+    
+public:
+    void start_service(const ServiceConfig& config);
+    void stop_service(const std::string& service_name);
+    void restart_service(const std::string& service_name);
+    ServiceMetrics get_service_metrics(const std::string& service_name);
+    std::vector<ServiceInfo> list_services() const;
+};
+
+class MetricsCollector {
+public:
+    struct ProcessMetrics {
+        // `CPU` metrics
+        double cpu_usage_percent;
+        std::chrono::nanoseconds cpu_time_user;
+        std::chrono::nanoseconds cpu_time_system;
+        
+        // Memory metrics
+        size_t memory_virtual_bytes;
+        size_t memory_resident_bytes;
+        size_t memory_shared_bytes;
+        
+        // `E/S` metrics
+        uint64_t io_read_bytes;
+        uint64_t io_write_bytes;
+        uint64_t io_read_ops;
+        uint64_t io_write_ops;
+        
+        // Network metrics (if available)
+        uint64_t network_rx_bytes;
+        uint64_t network_tx_bytes;
+        
+        std::chrono::system_clock::time_point timestamp;
+    };
+    
+    ProcessMetrics collect_metrics(pid_t pid);
+    SystemMetrics collect_system_metrics();
+    void start_continuous_collection(std::chrono::seconds interval);
+};
+```
+
+**Explicação**: `ProcessManager` serve como núcleo central, coordenando monitoring de múltiplos serviços através de configuration-driven approach. `ServiceConfig` encapsula toda configuração necessária incluindo políticas de restart e health checks. `MetricsCollector` abstrai coleta de métricas entre plataformas, fornecendo interface consistente para CPU, memória, `E/S` e network metrics.
+
+**Motivação**:
+
+- Arquitetura robusta é essencial para sistemas de produção.
+- Coleta padronizada de métricas permite comparação cross-platform.
+
+**Entregáveis**:
+
+- Sistema básico de supervisão de processos.
+- Coleta de métricas em tempo real.
+- Framework para service configuration.
+
+#### Fase 2: Health Checks e Restart Policies
+
+**Por que?**
+
+- Health checks são cruciais para detecção proativa de problemas.
+- Políticas inteligentes de restart previnem restart loops e cascading failures.
+
+**Como?**
+
+- Implementar `HealthCheckManager` para execução de checks customizáveis.
+- Desenvolver `RestartPolicyEngine` com algoritmos sofisticados de backoff.
+- Criar sistema de states para tracking detalhado de service lifecycle.
+
+**Definição da Classe**:
+
+```cpp
+class HealthCheckManager {
+public:
+    enum class CheckType { Process, Command, HTTP, TCP, Custom };
+    
+    struct HealthCheck {
+        CheckType type;
+        std::chrono::seconds interval;
+        std::chrono::seconds time t;
+        int failure_threshold = 3;
+        int success_threshold = 1;
+        
+        // Type-specific configuration
+        std::variant<ProcessCheck, CommandCheck, HTTPCheck, TCPCheck> config;
+    };
+    
+    struct CheckResult {
+        bool is_healthy;
+        std::string message;
+        std::chrono::milliseconds response_time;
+        std::chrono::system_clock::time_point timestamp;
+    };
+    
+    void register_health_check(const std::string& service_name, 
+                              const HealthCheck& check);
+    CheckResult execute_check(const std::string& service_name);
+    void start_continuous_checking();
+    
+private:
+    std::unordered_map<std::string, HealthCheck> health_checks_;
+    std::unordered_map<std::string, std::deque<CheckResult>> check_history_;
+    std::jthread checking_thread_;
+};
+
+class RestartPolicyEngine {
+public:
+    enum class RestartPolicy { Never, Always, OnFailure, UnlessStopped };
+    
+    struct RestartDecision {
+        bool should_restart;
+        std::chrono::seconds delay;
+        std::string reason;
+    };
+    
+    RestartDecision evaluate_restart(const ServiceInfo& service,
+                                   const ServiceMetrics& metrics,
+                                   const HealthCheckHistory& health_history);
+    
+private:
+    // Circuit breaker pattern implementation
+    struct CircuitBreaker {
+        enum State { Closed, Open, HalfOpen };
+        State current_state = Closed;
+        int failure_count = 0;
+        std::chrono::system_clock::time_point last_failure;
+        std::chrono::seconds time t{60};
+    };
+    
+    std::chrono::seconds calculate_backoff_delay(int attempt_count);
+    bool is_circuit_breaker_open(const std::string& service_name);
+    void update_circuit_breaker(const std::string& service_name, bool success);
+};
+```
+
+**Explicação**: `HealthCheckManager` suporta múltiplos tipos de health checks (process existence, command execution, HTTP endpoints, TCP connections) com configuração flexível de thresholds. `RestartPolicyEngine` implementa circuit breaker pattern e exponential backoff para prevenir restart loops, considerando histórico de falhas e métricas atuais do serviço.
+
+**Motivação**:
+
+- Health checks proativos previnem downtime prolongado.
+- Políticas inteligentes de restart são essenciais para sistemas resilientes.
+
+**Entregáveis**:
+
+- Sistema completo de health checking.
+- Engine de restart policies com circuit breaker.
+- Tracking detalhado de service states.
+
+#### Fase 3: Alerting System e External Integration
+
+**Por que?**
+
+- Alerting automatizado é fundamental para resposta rápida a incidentes.
+- Integração com sistemas externos permite observability completa.
+
+**Como?**
+
+- Implementar `AlertManager` com múltiplos channels de notificação.
+- Desenvolver `MetricsExporter` para integração com Prometheus/Grafana.
+- Criar `APIServer` para controle remoto via REST API.
+
+**Definição da Classe**:
+
+```cpp
+class AlertManager {
+public:
+    enum class AlertSeverity { Info, Warning, Error, Critical };
+    enum class AlertChannel { Email, Webhook, Slack, SMS, PagerDuty };
+    
+    struct Alert {
+        std::string service_name;
+        AlertSeverity severity;
+        std::string title;
+        std::string description;
+        std::map<std::string, std::string> labels;
+        std::chrono::system_clock::time_point timestamp;
+        bool is_resolved = false;
+    };
+    
+    struct AlertRule {
+        std::string name;
+        std::string metric_query;  // e.g., "cpu_usage > 80"
+        AlertSeverity severity;
+        std::chrono::seconds evaluation_interval{60};
+        std::chrono::seconds for_duration{300};  // Alert fires after 5min
+        std::vector<AlertChannel> channels;
+    };
+    
+    void register_alert_rule(const AlertRule& rule);
+    void send_alert(const Alert& alert);
+    void resolve_alert(const std::string& alert_id);
+    std::vector<Alert> get_active_alerts() const;
+    
+private:
+    std::vector<AlertRule> alert_rules_;
+    std::unordered_map<std::string, Alert> active_alerts_;
+    std::unique_ptr<NotificationSender> notification_sender_;
+    std::jthread evaluation_thread_;
+};
+
+class MetricsExporter {
+public:
+    // Prometheus-compatible metrics export
+    std::string export_prometheus_format() const;
+    void start_metrics_server(uint16_t port);
+    
+    // Push metrics to external systems
+    void push_to_graphite(const std::string& endpoint);
+    void push_to_influxdb(const std::string& endpoint);
+    
+    struct MetricFamily {
+        std::string name;
+        std::string help;
+        std::string type;  // counter, gauge, histogram
+        std::vector<Metric> metrics;
+    };
+    
+private:
+    std::vector<MetricFamily> metric_families_;
+    std::unique_ptr<HttpServer> metrics_server_;
+};
+
+class APIServer {
+public:
+    void start_server(uint16_t port);
+    void stop_server();
+    
+    // REST API endpoints
+    void setup_routes();
+    
+private:
+    std::unique_ptr<HttpServer> server_;
+    
+    // Route handlers
+    Response handle_list_services(const Request& req);
+    Response handle_start_service(const Request& req);
+    Response handle_stop_service(const Request& req);
+    Response handle_get_metrics(const Request& req);
+    Response handle_get_logs(const Request& req);
+};
+```
+
+**Explicação**: `AlertManager` implementa sistema completo de alerting com regras configuráveis, múltiplos channels de notificação e deduplication de alerts. `MetricsExporter` fornece integração com ecosistema de monitoring (Prometheus, Grafana, InfluxDB) através de formatos padronizados. `APIServer` expõe REST API para controle remoto e integração com outros sistemas.
+
+**Motivação**:
+
+- Alerting automatizado reduz tempo de resposta a incidentes.
+- Integração externa permite observability em escala empresarial.
+
+**Entregáveis**:
+
+- Sistema completo de alerting multi-channel.
+- Exporters para sistemas de monitoring populares.
+- REST API para controle remoto.
+
+#### Fase 4: Dashboard Web e Advanced Features
+
+**Por que?**
+
+- Interface visual facilita monitoring e troubleshooting.
+- Funcionalidades avançadas tornam o sistema adequado para produção.
+
+**Como?**
+
+- Implementar `WebDashboard` com real-time updates via WebSocket.
+- Desenvolver `LogManager` para logging estruturado e rotation.
+- Adicionar `ConfigurationManager` para hot-reload de configurações.
+
+**Definição da Classe**:
+
+```cpp
+class WebDashboard {
+public:
+    void start_dashboard(uint16_t port);
+    void stop_dashboard();
+    
+    struct DashboardData {
+        std::vector<ServiceInfo> services;
+        SystemMetrics system_metrics;
+        std::vector<Alert> active_alerts;
+        std::map<std::string, std::vector<MetricPoint>> metric_series;
+    };
+    
+    void broadcast_update(const DashboardData& data);
+    
+private:
+    std::unique_ptr<WebServer> web_server_;
+    std::vector<WebSocketConnection> clients_;
+    std::jthread update_thread_;
+    
+    void handle_websocket_connection(WebSocketConnection conn);
+    void send_periodic_updates();
+};
+
+class LogManager {
+public:
+    enum class LogLevel { Debug, Info, Warning, Error, Critical };
+    
+    struct LogEntry {
+        std::chrono::system_clock::time_point timestamp;
+        LogLevel level;
+        std::string service_name;
+        std::string message;
+        std::map<std::string, std::string> fields;
+    };
+    
+    void log(LogLevel level, const std::string& service,
+             const std::string& message,
+             const std::map<std::string, std::string>& fields = {});
+    
+    void configure_rotation(size_t max_file_size, int max_files);
+    void set_output_format(const std::string& format);  // JSON, plain, structured
+    
+private:
+    std::unique_ptr<LogWriter> writer_;
+    LogLevel minimum_level_ = LogLevel::Info;
+    std::mutex log_mutex_;
+};
+
+class ConfigurationManager {
+public:
+    void load_configuration(const std::filesystem::path& config_file);
+    void watch_configuration_changes();
+    void reload_configuration();
+    
+    template<typename T>
+    T get_value(const std::string& key) const;
+    
+    void set_value(const std::string& key, const std::any& value);
+    
+private:
+    std::map<std::string, std::any> configuration_;
+    std::filesystem::path config_file_path_;
+    std::unique_ptr<FileWatcher> file_watcher_;
+    std::function<void()> reload_callback_;
+};
+```
+
+**Explicação**: `WebDashboard` fornece interface web moderna com real-time updates via WebSocket, permitindo monitoring visual e controle através de browser. `LogManager` implementa logging estruturado com rotation automática e múltiplos formatos de output. `ConfigurationManager` permite hot-reload de configurações sem restart, essencial para ambientes de produção.
+
+**Motivação**:
+
+- Interface visual melhora significativamente experience de monitoring.
+- Funcionalidades enterprise são necessárias para adoção em produção.
+
+**Entregáveis**:
+
+- Dashboard web com real-time monitoring.
+- Sistema robusto de logging estruturado.
+- Configuration management com hot-reload.
+
+### Exemplo de Saída
+
+#### Dashboard de Monitoramento
+
+```shell
+=== Process Manager Dashboard ===
+Status: Running | Uptime: 2d 14h 32m | Services: 12
+
+Active Services:
+┌─────────────────┬─────────┬──────────┬─────────┬──────────┬─────────┐
+│ Service         │ Status  │ `CPU` %    │ Memory  │ Restarts │ Health  │
+├─────────────────┼─────────┼──────────┼─────────┼──────────┼─────────┤
+│ web-server      │ Running │    15.2% │  256 MB │        0 │ Healthy │
+│ database        │ Running │     8.1% │ 1024 MB │        0 │ Healthy │
+│ message-queue   │ Running │     3.7% │  128 MB │        1 │ Healthy │
+│ worker-1        │ Failed  │     0.0% │    0 MB │        3 │ Failed  │
+│ worker-2        │ Running │    22.4% │  512 MB │        0 │ Healthy │
+└─────────────────┴─────────┴──────────┴─────────┴──────────┴─────────┘
+
+Recent Alerts:
+[CRITICAL] worker-1: Process crashed (exit code: 1) - 2 minutes ago
+[WARNING] web-server: High `CPU` usage (>80%) - 15 minutes ago
+
+System Metrics:
+├── `CPU` Usage: 45.2% (8 cores)
+├── Memory: 12.4 GB / 32 GB (38.7%)
+├── Disk I/O: R:45MB/s W:12MB/s
+└── Network: RX:156MB/s TX:89MB/s
+
+Recent Actions:
+[14:32:15] Restarting service: worker-1 (attempt 3/5)
+[14:31:45] Health check failed: worker-1 (time t)
+[14:30:12] Alert fired: web-server high `CPU` usage
+```
+
+#### Log Output Estruturado
+
+```json
+{
+  "timestamp": "2025-01-15T14:32:15.123Z",
+  "level": "ERROR",
+  "service": "worker-1",
+  "message": "Process crashed during task execution",
+  "fields": {
+    "pid": 12345,
+    "exit_code": 1,
+    "signal": null,
+    "restart_attempt": 3,
+    "last_health_check": "2025-01-15T14:31:45.456Z",
+    "task_id": "task-789",
+    "duration_ms": 15420
+  }
+}
+```
+

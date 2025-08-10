@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 800 600"
+   version="1.1"
+   id="svg52"
+   sodipodi:docname="throughput-comparison.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="..\images\throughput-comparison.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview52"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.425"
+     inkscape:cx="400.35088"
+     inkscape:cy="300"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg52" />
+  <defs
+     id="defs6">
+    <linearGradient
+       id="blueGradient"
+       x1="20.412415"
+       y1="244.94897"
+       x2="142.8869"
+       y2="244.94897"
+       gradientTransform="matrix(2.4494897,0,0,0.40824829,4.9122807,36.491228)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#4285f4;stop-opacity:1"
+         id="stop1" />
+      <stop
+         offset="100%"
+         style="stop-color:#1a73e8;stop-opacity:1"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       id="greenGradient"
+       x1="183.71173"
+       y1="244.94897"
+       x2="306.18622"
+       y2="244.94897"
+       gradientTransform="matrix(2.4494897,0,0,0.40824829,4.9122807,36.491228)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#34a853;stop-opacity:1"
+         id="stop3" />
+      <stop
+         offset="100%"
+         style="stop-color:#137333;stop-opacity:1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="orangeGradient"
+       x1="237.34644"
+       y1="520.33643"
+       x2="346.89095"
+       y2="520.33643"
+       gradientTransform="matrix(1.3693064,0,0,0.73029674,-2.1052632,30.877193)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#ff9800;stop-opacity:1"
+         id="stop5" />
+      <stop
+         offset="100%"
+         style="stop-color:#f57c00;stop-opacity:1"
+         id="stop6" />
+    </linearGradient>
+    <defs
+       id="defs43">
+      <marker
+         id="arrowhead"
+         markerWidth="10"
+         markerHeight="7"
+         refX="9"
+         refY="3.5"
+         orient="auto">
+        <polygon
+           points="0 0, 10 3.5, 0 7"
+           fill="#ff9800"
+           id="polygon43" />
+      </marker>
+    </defs>
+  </defs>
+  <!-- Background -->
+  <!-- Title -->
+  <text
+     x="400"
+     y="40"
+     font-family="Arial, sans-serif"
+     font-size="28"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#1f2937"
+     id="text6">
+    Ganho de Throughput
+  </text>
+  <text
+     x="400"
+     y="65"
+     font-family="Arial, sans-serif"
+     font-size="16"
+     text-anchor="middle"
+     fill="#6b7280"
+     id="text7">
+    Operação Manual vs Sistema Batch
+  </text>
+  <!-- ANTES Section -->
+  <rect
+     x="54.912281"
+     y="136.49123"
+     width="300"
+     height="50"
+     rx="15"
+     fill="url(#blueGradient)"
+     id="rect7"
+     style="fill:url(#blueGradient)" />
+  <text
+     x="204.91228"
+     y="161.49123"
+     font-family="Arial, sans-serif"
+     font-size="18px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text8">ANTES (Operação Manual)</text>
+  <text
+     x="204.91228"
+     y="178.49123"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text9">Execução Sequencial</text>
+  <text
+     x="64.912277"
+     y="216.49123"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#374151"
+     id="text10">Tempo (horas):</text>
+  <g
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#6b7280"
+     id="g19"
+     transform="translate(4.9122807,36.491228)">
+    <text
+       x="60"
+       y="200"
+       id="text11">0</text>
+    <text
+       x="100"
+       y="200"
+       id="text12">2</text>
+    <text
+       x="140"
+       y="200"
+       id="text13">4</text>
+    <text
+       x="180"
+       y="200"
+       id="text14">6</text>
+    <text
+       x="220"
+       y="200"
+       id="text15">8</text>
+    <text
+       x="260"
+       y="200"
+       id="text16">10</text>
+    <text
+       x="300"
+       y="200"
+       id="text17">12</text>
+    <text
+       x="340"
+       y="200"
+       id="text18">14</text>
+    <text
+       x="380"
+       y="200"
+       id="text19">16</text>
+  </g>
+  <text
+     x="64.912277"
+     y="261.49124"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     fill="#374151"
+     id="text20">Job 1:</text>
+  <rect
+     x="104.91228"
+     y="246.49123"
+     width="160"
+     height="20"
+     fill="#dbeafe"
+     stroke="#3b82f6"
+     stroke-width="1"
+     id="rect20" />
+  <rect
+     x="104.91228"
+     y="246.49123"
+     width="40"
+     height="20"
+     fill="#3b82f6"
+     id="rect21" />
+  <text
+     x="200.35088"
+     y="260.89474"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#374151"
+     id="text21">8h total (2h CPU)</text>
+  <text
+     x="64.912277"
+     y="291.49124"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     fill="#374151"
+     id="text22">Job 2:</text>
+  <rect
+     x="264.90585"
+     y="276.4848"
+     width="155.80237"
+     height="20.012886"
+     fill="#dbeafe"
+     stroke="#3b82f6"
+     stroke-width="0.987113"
+     id="rect22" />
+  <rect
+     x="264.91229"
+     y="276.49124"
+     width="40"
+     height="20"
+     fill="#3b82f6"
+     id="rect23" />
+  <text
+     x="365.26318"
+     y="289.49124"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#374151"
+     id="text23">8h total (2h CPU)</text>
+  <rect
+     x="84.912277"
+     y="347.36844"
+     width="240"
+     height="40"
+     rx="10"
+     fill="#fef3c7"
+     stroke="#f59e0b"
+     stroke-width="2"
+     id="rect24" />
+  <text
+     x="204.91228"
+     y="361.85968"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#92400e"
+     id="text24">Throughput: 2 jobs/16h</text>
+  <text
+     x="204.91228"
+     y="381.36844"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#b45309"
+     id="text25">0.125 jobs/hora</text>
+  <!-- DEPOIS Section -->
+  <rect
+     x="454.91229"
+     y="136.49123"
+     width="300"
+     height="50"
+     rx="15"
+     fill="url(#greenGradient)"
+     id="rect25"
+     style="fill:url(#greenGradient)" />
+  <text
+     x="604.91229"
+     y="161.49123"
+     font-family="Arial, sans-serif"
+     font-size="18px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text26">DEPOIS (Sistema Batch)</text>
+  <text
+     x="604.91229"
+     y="178.49123"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text27">Execução Otimizada</text>
+  <text
+     x="464.91229"
+     y="216.49123"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#374151"
+     id="text28">Tempo (horas):</text>
+  <g
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#6b7280"
+     id="g35"
+     transform="translate(4.9122807,36.491228)">
+    <text
+       x="460"
+       y="200"
+       id="text29">0</text>
+    <text
+       x="500"
+       y="200"
+       id="text30">1</text>
+    <text
+       x="540"
+       y="200"
+       id="text31">2</text>
+    <text
+       x="580"
+       y="200"
+       id="text32">3</text>
+    <text
+       x="620"
+       y="200"
+       id="text33">4</text>
+    <text
+       x="660"
+       y="200"
+       id="text34">5</text>
+    <text
+       x="700"
+       y="200"
+       id="text35">6</text>
+  </g>
+  <text
+     x="464.91229"
+     y="261.49124"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     fill="#374151"
+     id="text36">Job 1:</text>
+  <rect
+     x="504.91229"
+     y="246.49123"
+     width="80"
+     height="20"
+     fill="#10b981"
+     id="rect36" />
+  <text
+     x="544.91229"
+     y="259.49124"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text37">2h CPU</text>
+  <text
+     x="464.91229"
+     y="291.49124"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     fill="#374151"
+     id="text38">Job 2:</text>
+  <rect
+     x="570.8772"
+     y="273.68423"
+     width="80"
+     height="20"
+     fill="#10b981"
+     id="rect38" />
+  <text
+     x="610.8772"
+     y="286.68423"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text39">2h CPU</text>
+  <text
+     x="464.91229"
+     y="321.49124"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     fill="#374151"
+     id="text40">Job 3:</text>
+  <rect
+     x="630.52631"
+     y="298.77194"
+     width="80"
+     height="20"
+     fill="#10b981"
+     id="rect40" />
+  <text
+     x="670.52631"
+     y="311.77194"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text41">2h CPU</text>
+  <rect
+     x="484.91229"
+     y="346.49124"
+     width="240"
+     height="40"
+     rx="10"
+     fill="#d1fae5"
+     stroke="#10b981"
+     stroke-width="2"
+     id="rect41" />
+  <text
+     x="604.91229"
+     y="361.68423"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#065f46"
+     id="text42">Throughput: 3 jobs/6h</text>
+  <text
+     x="604.91229"
+     y="380.49124"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#047857"
+     id="text43">0.5 jobs/hora</text>
+  <!-- Comparison Arrow and Improvement -->
+  <path
+     d="m 352.80702,129.29825 q 50,-50.000004 100,0"
+     stroke="#ff9800"
+     stroke-width="3"
+     fill="none"
+     marker-end="url(#arrowhead)"
+     id="path43" />
+  <rect
+     x="322.89474"
+     y="410.8772"
+     width="150"
+     height="80"
+     rx="15"
+     fill="url(#orangeGradient)"
+     id="rect43"
+     style="fill:url(#orangeGradient)" />
+  <text
+     x="400"
+     y="405"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text44">MELHORIA</text>
+  <text
+     x="398.5965"
+     y="443.94736"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text45">4x</text>
+  <text
+     x="398.5965"
+     y="460.94736"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text46">mais rápido</text>
+  <text
+     x="398.5965"
+     y="473.94736"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text47">(0.5 ÷ 0.125)</text>
+  <!-- Legend -->
+  <text
+     x="400.70175"
+     y="527.54388"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#374151"
+     id="text48">Legenda</text>
+  <rect
+     x="158.59648"
+     y="537.63159"
+     width="20"
+     height="15"
+     fill="#3b82f6"
+     id="rect48" />
+  <text
+     x="188.59648"
+     y="549.63159"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#374151"
+     id="text49">Tempo de `CPU` ativo</text>
+  <rect
+     x="316.5965"
+     y="537.63159"
+     width="20"
+     height="15"
+     fill="#dbeafe"
+     stroke="#3b82f6"
+     id="rect49" />
+  <text
+     x="346.5965"
+     y="549.63159"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#374151"
+     id="text50">Tempo de espera/I-O</text>
+  <rect
+     x="478.5965"
+     y="537.63159"
+     width="20"
+     height="15"
+     fill="#10b981"
+     id="rect50" />
+  <text
+     x="508.5965"
+     y="549.63159"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#374151"
+     id="text51">Execução otimizada (batch)</text>
+  <!-- Bottom Note -->
+  <text
+     x="402.80704"
+     y="572.10529"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-style="italic"
+     text-anchor="middle"
+     fill="#6b7280"
+     id="text52">&quot;O sistema batch elimina tempos ociosos e maximiza a utilização de recursos&quot;</text>
+</svg>

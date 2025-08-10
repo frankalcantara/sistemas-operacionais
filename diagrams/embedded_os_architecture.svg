@@ -1,0 +1,1493 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1200 800"
+   version="1.1"
+   id="svg94"
+   sodipodi:docname="embedded_os_architecture.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   inkscape:export-filename="..\images\embedded_os_architecture.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview94"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.5962253"
+     inkscape:cx="494.29112"
+     inkscape:cy="363.67046"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg94" />
+  <defs
+     id="defs10">
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <linearGradient
+       id="cpuGrad"
+       x1="34.544686"
+       y1="1372.7437"
+       x2="384.17878"
+       y2="1722.3778"
+       gradientTransform="matrix(2.8663627,0,0,0.28959676,-4.7850515,23.527319)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#4285f4;stop-opacity:1"
+         id="stop1" />
+      <stop
+         offset="100%"
+         style="stop-color:#1a73e8;stop-opacity:1"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       id="memGrad"
+       x1="210.14847"
+       y1="797.42552"
+       x2="302.89004"
+       y2="890.1671"
+       gradientTransform="matrix(1.520468,0,0,0.56621793,-3.7877803,1.9057653)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#9c27b0;stop-opacity:1"
+         id="stop3" />
+      <stop
+         offset="100%"
+         style="stop-color:#673ab7;stop-opacity:1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="rtosGrad"
+       x1="77.615026"
+       y1="510.22337"
+       x2="390.41528"
+       y2="823.02362"
+       gradientTransform="matrix(2.5642929,0,0,0.34781084,-3.826092,-15.835482)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#ff5722;stop-opacity:1"
+         id="stop5" />
+      <stop
+         offset="100%"
+         style="stop-color:#e64a19;stop-opacity:1"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       id="halGrad"
+       x1="63.631596"
+       y1="1122.7284"
+       x2="320.07652"
+       y2="1379.1733"
+       gradientTransform="matrix(3.1280855,0,0,0.26438332,-2.9429132,14.532626)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#4caf50;stop-opacity:1"
+         id="stop7" />
+      <stop
+         offset="100%"
+         style="stop-color:#388e3c;stop-opacity:1"
+         id="stop8" />
+    </linearGradient>
+    <linearGradient
+       id="appGrad"
+       x1="63.631596"
+       y1="247.06279"
+       x2="320.07652"
+       y2="503.50772"
+       gradientTransform="matrix(3.1280855,0,0,0.26438332,-2.9429132,-13.371207)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#ff9800;stop-opacity:1"
+         id="stop9" />
+      <stop
+         offset="100%"
+         style="stop-color:#f57c00;stop-opacity:1"
+         id="stop10" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter2"
+       x="-0.010134461"
+       y="-0.12259838"
+       width="1.0227684"
+       height="1.2754329">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood1" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="3.000000"
+         id="feGaussianBlur1" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="2.000000"
+         dy="2.000000"
+         id="feOffset1" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite1" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite2" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter4"
+       x="-0.010179085"
+       y="-0.076107504"
+       width="1.0228578"
+       height="1.1709045">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood2" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="3.000000"
+         id="feGaussianBlur2" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="2.000000"
+         dy="2.000000"
+         id="feOffset2" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite3" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite4" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter6"
+       x="-0.010134461"
+       y="-0.12259838"
+       width="1.0227684"
+       height="1.2754329">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood4" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="3.000000"
+         id="feGaussianBlur4" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="2.000000"
+         dy="2.000000"
+         id="feOffset4" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite5" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite6" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter8"
+       x="-0.0081096482"
+       y="-0.081442356"
+       width="1.0182189"
+       height="1.1829664">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood6" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="3.000000"
+         id="feGaussianBlur6" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="2.000000"
+         dy="2.000000"
+         id="feOffset6" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite7" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite8" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter10"
+       x="-0.0073686067"
+       y="-0.082164595"
+       width="1.0165551"
+       height="1.1845996">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood8" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="3.000000"
+         id="feGaussianBlur8" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="2.000000"
+         dy="2.000000"
+         id="feOffset8" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite9" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite10" />
+    </filter>
+    <marker
+       style="overflow:visible"
+       id="Triangle-0"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-9" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-8"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-8" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-0-2"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-9-4" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-1" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-0-1"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-9-5" />
+    </marker>
+  </defs>
+  <!-- Title -->
+  <text
+     x="600"
+     y="30"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="24"
+     font-weight="bold"
+     fill="#333"
+     id="text10">
+    Arquitetura RTOS: Otimização para Recursos Limitados e Tempo Real
+  </text>
+  <!-- Application Layer -->
+  <rect
+     x="197.10239"
+     y="52.774902"
+     width="800.18121"
+     height="66.146103"
+     rx="15.003397"
+     fill="url(#appGrad)"
+     stroke="#f57c00"
+     stroke-width="1.81881"
+     id="rect10"
+     style="fill:url(#appGrad);filter:url(#filter2)" />
+  <text
+     x="597.19299"
+     y="72.865494"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text11">Camada de Aplicação</text>
+  <text
+     x="597.19299"
+     y="92.865494"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#ffffff"
+     id="text12">IoT Applications • TinyML Models • Sensor Control • Real-time Processing</text>
+  <text
+     x="597.19299"
+     y="107.86549"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#ffffff"
+     id="text13">Deterministic Response • Energy-aware Algorithms</text>
+  <!-- RTOS `kernel` -->
+  <rect
+     x="196.20171"
+     y="162.51749"
+     width="800.11121"
+     height="107.01179"
+     rx="15.002085"
+     fill="url(#rtosGrad)"
+     stroke="#e64a19"
+     stroke-width="1.8888"
+     id="rect13"
+     style="fill:url(#rtosGrad);filter:url(#filter4)" />
+  <text
+     x="597.19299"
+     y="186.95906"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="18px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text14">RTOS Kernel</text>
+  <!-- Scheduler -->
+  <rect
+     x="263.009"
+     y="202.86281"
+     width="150.01451"
+     height="52.578461"
+     rx="8.0007734"
+     fill="#ff7043"
+     stroke="#bf360c"
+     stroke-width="0.936158"
+     id="rect14" />
+  <text
+     x="338.04095"
+     y="220.8743"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text15">Scheduler</text>
+  <text
+     x="338.04095"
+     y="235.21637"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text16">Preemptive</text>
+  <text
+     x="338.04095"
+     y="245.21637"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text17">Priority-based</text>
+  <!-- Memory Manager -->
+  <rect
+     x="433.02548"
+     y="202.86281"
+     width="150.01451"
+     height="52.578461"
+     rx="8.0007734"
+     fill="#ff7043"
+     stroke="#bf360c"
+     stroke-width="0.936158"
+     id="rect17" />
+  <text
+     x="508.04095"
+     y="220.8743"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text18">Memory Mgmt</text>
+  <text
+     x="508.04095"
+     y="235.21637"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text19">Static Allocation</text>
+  <text
+     x="508.04095"
+     y="245.21637"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text20">32KB RAM</text>
+  <!-- IPC -->
+  <rect
+     x="603.04193"
+     y="202.86281"
+     width="150.01451"
+     height="52.578461"
+     rx="8.0007734"
+     fill="#ff7043"
+     stroke="#bf360c"
+     stroke-width="0.936158"
+     id="rect20" />
+  <text
+     x="678.04095"
+     y="220.8743"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text21">IPC</text>
+  <text
+     x="678.04095"
+     y="235.21637"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text22">Queues • Semaphores</text>
+  <text
+     x="678.04095"
+     y="245.21637"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text23">Mutexes</text>
+  <!-- Power Management -->
+  <rect
+     x="773.05835"
+     y="202.86281"
+     width="150.01451"
+     height="52.578461"
+     rx="8.0007734"
+     fill="#ff7043"
+     stroke="#bf360c"
+     stroke-width="0.936158"
+     id="rect23" />
+  <text
+     x="848.04095"
+     y="220.8743"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text24">Power Mgmt</text>
+  <text
+     x="848.04095"
+     y="235.21637"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text25">DVFS</text>
+  <text
+     x="848.04095"
+     y="245.21637"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text26">Sleep Modes</text>
+  <!-- Hardware Abstraction Layer -->
+  <rect
+     x="197.10239"
+     y="312.19012"
+     width="800.18121"
+     height="66.146103"
+     rx="15.003397"
+     fill="url(#halGrad)"
+     stroke="#388e3c"
+     stroke-width="1.81881"
+     id="rect26"
+     style="fill:url(#halGrad);filter:url(#filter6)" />
+  <text
+     x="596.25732"
+     y="331.98834"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text27">Hardware Abstraction Layer (HAL)</text>
+  <text
+     x="596.25732"
+     y="351.98834"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#ffffff"
+     id="text28">Device Drivers • GPIO Control • Communication Protocols • Interrupt Handlers</text>
+  <text
+     x="596.25732"
+     y="366.98834"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#ffffff"
+     id="text29">Platform Independence • Modular Architecture</text>
+  <!-- Hardware Layer -->
+  <rect
+     x="95.232742"
+     y="421.89941"
+     width="1000.1778"
+     height="99.593018"
+     rx="15.002667"
+     fill="url(#cpuGrad)"
+     stroke="#1a73e8"
+     stroke-width="1.82218"
+     id="rect29"
+     style="fill:url(#cpuGrad);filter:url(#filter8)" />
+  <text
+     x="595.32166"
+     y="443.56726"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text30">Hardware Platform</text>
+  <!-- MCU -->
+  <rect
+     x="116.22125"
+     y="453.85281"
+     width="180.01353"
+     height="51.651093"
+     rx="8.0006008"
+     fill="#5c6bc0"
+     stroke="#3f51b5"
+     stroke-width="0.927856"
+     id="rect30" />
+  <text
+     x="206.25731"
+     y="469.21048"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text31">Microcontroller</text>
+  <text
+     x="206.25731"
+     y="484.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text32">ARM Cortex-M4</text>
+  <text
+     x="206.25731"
+     y="496.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text33">80MHz • 32KB RAM</text>
+  <!-- Memory -->
+  <rect
+     x="316.23627"
+     y="453.85281"
+     width="140.01053"
+     height="51.651093"
+     rx="8.0006008"
+     fill="url(#memGrad)"
+     stroke="#673ab7"
+     stroke-width="0.927856"
+     id="rect33"
+     style="fill:url(#memGrad)" />
+  <text
+     x="386.25732"
+     y="469.21048"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text34">Memory</text>
+  <text
+     x="386.25732"
+     y="484.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text35">Flash: 256KB</text>
+  <text
+     x="386.25732"
+     y="496.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text36">SRAM: 32KB</text>
+  <!-- Sensors -->
+  <rect
+     x="476.24829"
+     y="453.85281"
+     width="140.01053"
+     height="51.651093"
+     rx="8.0006008"
+     fill="#26a69a"
+     stroke="#00695c"
+     stroke-width="0.927856"
+     id="rect36" />
+  <text
+     x="546.25732"
+     y="469.21048"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text37">Sensors</text>
+  <text
+     x="546.25732"
+     y="484.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text38">IMU 9-axis</text>
+  <text
+     x="546.25732"
+     y="496.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text39">Temperature</text>
+  <!-- Communication -->
+  <rect
+     x="636.26031"
+     y="453.85281"
+     width="140.01053"
+     height="51.651093"
+     rx="8.0006008"
+     fill="#ff7043"
+     stroke="#d84315"
+     stroke-width="0.927856"
+     id="rect39" />
+  <text
+     x="706.25732"
+     y="469.21048"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text40">Comm</text>
+  <text
+     x="706.25732"
+     y="484.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text41">WiFi • BLE</text>
+  <text
+     x="706.25732"
+     y="496.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text42">LoRaWAN</text>
+  <!-- Power -->
+  <rect
+     x="796.27234"
+     y="453.85281"
+     width="140.01053"
+     height="51.651093"
+     rx="8.0006008"
+     fill="#ffa726"
+     stroke="#ef6c00"
+     stroke-width="0.927856"
+     id="rect42" />
+  <text
+     x="866.25732"
+     y="469.21048"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text43">Power</text>
+  <text
+     x="866.25732"
+     y="484.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text44">Battery 3.7V</text>
+  <text
+     x="866.25732"
+     y="496.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text45">Solar Cell</text>
+  <!-- Actuators -->
+  <rect
+     x="956.28436"
+     y="453.85281"
+     width="120.00902"
+     height="51.651093"
+     rx="8.0006008"
+     fill="#ab47bc"
+     stroke="#7b1fa2"
+     stroke-width="0.927856"
+     id="rect45" />
+  <text
+     x="1016.2574"
+     y="469.21048"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-weight="bold"
+     fill="#ffffff"
+     id="text46">Actuators</text>
+  <text
+     x="1016.2574"
+     y="484.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text47">Motors</text>
+  <text
+     x="1016.2574"
+     y="496.21051"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#ffffff"
+     id="text48">LEDs</text>
+  <!-- Arrows -->
+  <defs
+     id="defs48">
+    <marker
+       id="arrowhead"
+       markerWidth="10"
+       markerHeight="7"
+       refX="10"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#666"
+         id="polygon48" />
+    </marker>
+  </defs>
+  <!-- Bidirectional arrows between layers -->
+  <g
+     id="g10">
+    <line
+       x1="595.73285"
+       y1="160.85312"
+       x2="595.59467"
+       y2="130.85344"
+       stroke="#666666"
+       stroke-width="2"
+       marker-end="url(#arrowhead)"
+       id="line48"
+       style="stroke-width:2.6;stroke-dasharray:none;marker-end:url(#Triangle);stroke:#0066ff" />
+    <line
+       x1="608.93243"
+       y1="122.36134"
+       x2="609.10834"
+       y2="152.36082"
+       stroke="#666666"
+       stroke-width="2"
+       marker-end="url(#arrowhead)"
+       id="line48-4"
+       style="stroke-width:2.6;stroke-dasharray:none;marker-end:url(#Triangle-0);stroke:#0066ff" />
+  </g>
+  <!-- Constraints sidebar -->
+  <rect
+     x="44.109207"
+     y="653.29047"
+     width="227.22021"
+     height="110.49506"
+     rx="18.935015"
+     fill="#eceff1"
+     stroke="#90a4ae"
+     stroke-width="1.44644"
+     id="rect53" />
+  <text
+     x="104.38602"
+     y="678.5672"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#37474f"
+     id="text53">Restrições</text>
+  <circle
+     cx="75.000076"
+     cy="693.27478"
+     r="6"
+     fill="#f44336"
+     id="circle53" />
+  <text
+     x="88.128716"
+     y="696.40344"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#37474f"
+     id="text54">Memória: 32KB</text>
+  <circle
+     cx="75.000076"
+     cy="718.27478"
+     r="6"
+     fill="#ff9800"
+     id="circle54" />
+  <text
+     x="88.128716"
+     y="721.40344"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#37474f"
+     id="text55">CPU: 80MHz</text>
+  <circle
+     cx="75.000076"
+     cy="743.27478"
+     r="6"
+     fill="#4caf50"
+     id="circle55" />
+  <text
+     x="88.128716"
+     y="746.40344"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#37474f"
+     id="text56">Tempo Real</text>
+  <circle
+     cx="172.31001"
+     cy="693.42096"
+     r="6"
+     fill="#2196f3"
+     id="circle56" />
+  <text
+     x="185.43866"
+     y="696.48645"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#37474f"
+     id="text57">Baixo Consumo</text>
+  <circle
+     cx="172.31001"
+     cy="718.42096"
+     r="6"
+     fill="#9c27b0"
+     id="circle57" />
+  <text
+     x="185.43866"
+     y="721.54962"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#37474f"
+     id="text58">Determinismo</text>
+  <!-- Real-time metrics -->
+  <rect
+     x="916.85046"
+     y="655.01019"
+     width="230.5209"
+     height="114.20512"
+     rx="16.46578"
+     fill="#e8f5e8"
+     stroke="#4caf50"
+     stroke-width="2.23933"
+     id="rect58"
+     style="stroke-width:1.639;stroke-dasharray:none" />
+  <text
+     x="970.82434"
+     y="680.06134"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#2e7d32"
+     id="text59">Métricas RT</text>
+  <text
+     x="931.40918"
+     y="698.40344"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#2e7d32"
+     id="text60">Response Time:</text>
+  <text
+     x="941.70154"
+     y="713.95483"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#1b5e20"
+     id="text61">• Critical: &lt;1ms</text>
+  <text
+     x="941.70154"
+     y="728.95483"
+     font-family="Arial, sans-serif"
+     font-size="10px"
+     fill="#1b5e20"
+     id="text62">• Normal: &lt;10ms</text>
+  <text
+     x="942.63721"
+     y="744.27649"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#2e7d32"
+     id="text63">Jitter: &lt;50μs</text>
+  <text
+     x="1043.6899"
+     y="697.52209"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#2e7d32"
+     id="text64">CPU Usage: 60%</text>
+  <text
+     x="1043.6899"
+     y="712.52209"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#2e7d32"
+     id="text65">Power: 50mW</text>
+  <text
+     x="1043.6899"
+     y="727.52209"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#2e7d32"
+     id="text66">Uptime: 99.9%</text>
+  <!-- Communication protocols -->
+  <rect
+     x="48.906868"
+     y="541.36884"
+     width="1100.1863"
+     height="98.665855"
+     rx="10.001694"
+     fill="#f3e5f5"
+     stroke="#9c27b0"
+     stroke-width="1.81368"
+     id="rect66"
+     style="filter:url(#filter10)" />
+  <text
+     x="596.25732"
+     y="562.10522"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text67">Protocolos de Comunicação IoT</text>
+  <rect
+     x="71.578949"
+     y="571.81287"
+     width="100"
+     height="50"
+     rx="5"
+     fill="#e1bee7"
+     stroke="#8e24aa"
+     stroke-width="1"
+     id="rect67" />
+  <text
+     x="121.57895"
+     y="585.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text68">MQTT</text>
+  <text
+     x="121.57895"
+     y="600.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text69">Pub/Sub</text>
+  <text
+     x="121.57895"
+     y="610.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text70">QoS 0-2</text>
+  <rect
+     x="191.57895"
+     y="571.81287"
+     width="100"
+     height="50"
+     rx="5"
+     fill="#e1bee7"
+     stroke="#8e24aa"
+     stroke-width="1"
+     id="rect70" />
+  <text
+     x="241.57895"
+     y="585.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text71">CoAP</text>
+  <text
+     x="241.57895"
+     y="600.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text72">REST</text>
+  <text
+     x="241.57895"
+     y="610.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text73">UDP</text>
+  <rect
+     x="311.57895"
+     y="571.81287"
+     width="100"
+     height="50"
+     rx="5"
+     fill="#e1bee7"
+     stroke="#8e24aa"
+     stroke-width="1"
+     id="rect73" />
+  <text
+     x="361.57895"
+     y="585.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text74">LoRaWAN</text>
+  <text
+     x="361.57895"
+     y="600.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text75">Long Range</text>
+  <text
+     x="361.57895"
+     y="610.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text76">Low Power</text>
+  <rect
+     x="431.57895"
+     y="571.81287"
+     width="100"
+     height="50"
+     rx="5"
+     fill="#e1bee7"
+     stroke="#8e24aa"
+     stroke-width="1"
+     id="rect76" />
+  <text
+     x="481.57895"
+     y="585.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text77">BLE</text>
+  <text
+     x="481.57895"
+     y="600.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text78">Bluetooth</text>
+  <text
+     x="481.57895"
+     y="616.81287"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text79">Low Energy</text>
+  <rect
+     x="551.57898"
+     y="571.81287"
+     width="100"
+     height="50"
+     rx="5"
+     fill="#e1bee7"
+     stroke="#8e24aa"
+     stroke-width="1"
+     id="rect79" />
+  <text
+     x="601.57898"
+     y="585.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text80">6LoWPAN</text>
+  <text
+     x="601.57898"
+     y="600.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text81">IPv6</text>
+  <text
+     x="601.57898"
+     y="610.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text82">Mesh</text>
+  <rect
+     x="671.57898"
+     y="571.81287"
+     width="100"
+     height="50"
+     rx="5"
+     fill="#e1bee7"
+     stroke="#8e24aa"
+     stroke-width="1"
+     id="rect82" />
+  <text
+     x="721.57898"
+     y="585.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text83">Thread</text>
+  <text
+     x="721.57898"
+     y="600.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text84">Mesh</text>
+  <text
+     x="721.57898"
+     y="610.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text85">IPv6</text>
+  <rect
+     x="791.57898"
+     y="571.81287"
+     width="100"
+     height="50"
+     rx="5"
+     fill="#e1bee7"
+     stroke="#8e24aa"
+     stroke-width="1"
+     id="rect85" />
+  <text
+     x="841.57898"
+     y="585.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text86">Zigbee</text>
+  <text
+     x="841.57898"
+     y="600.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text87">IEEE 802.15.4</text>
+  <text
+     x="841.57898"
+     y="610.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text88">Mesh</text>
+  <rect
+     x="911.57898"
+     y="571.81287"
+     width="100"
+     height="50"
+     rx="5"
+     fill="#e1bee7"
+     stroke="#8e24aa"
+     stroke-width="1"
+     id="rect88" />
+  <text
+     x="961.57898"
+     y="585.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text89">WiFi</text>
+  <text
+     x="961.57898"
+     y="600.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text90">802.11</text>
+  <text
+     x="961.57898"
+     y="616.81287"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text91">High BW</text>
+  <rect
+     x="1031.579"
+     y="571.81287"
+     width="100"
+     height="50"
+     rx="5"
+     fill="#e1bee7"
+     stroke="#8e24aa"
+     stroke-width="1"
+     id="rect91" />
+  <text
+     x="1081.579"
+     y="585.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     font-weight="bold"
+     fill="#4a148c"
+     id="text92">NB-IoT</text>
+  <text
+     x="1081.579"
+     y="600.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text93">Cellular</text>
+  <text
+     x="1081.579"
+     y="610.26318"
+     text-anchor="middle"
+     font-family="Arial, sans-serif"
+     font-size="9px"
+     fill="#4a148c"
+     id="text94">Wide Area</text>
+  <g
+     id="g10-5"
+     transform="translate(-4.2784702,149.17744)">
+    <line
+       x1="595.73285"
+       y1="160.85312"
+       x2="595.59467"
+       y2="130.85344"
+       stroke="#666666"
+       stroke-width="2"
+       marker-end="url(#arrowhead)"
+       id="line48-5"
+       style="stroke:#0066ff;stroke-width:2.6;stroke-dasharray:none;marker-end:url(#Triangle-8)" />
+    <line
+       x1="608.93243"
+       y1="122.36134"
+       x2="609.10834"
+       y2="152.36082"
+       stroke="#666666"
+       stroke-width="2"
+       marker-end="url(#arrowhead)"
+       id="line48-4-1"
+       style="stroke:#0066ff;stroke-width:2.6;stroke-dasharray:none;marker-end:url(#Triangle-0-2)" />
+  </g>
+  <g
+     id="g10-2"
+     transform="translate(-5.7280164,259.03062)">
+    <line
+       x1="595.73285"
+       y1="160.85312"
+       x2="595.59467"
+       y2="130.85344"
+       stroke="#666666"
+       stroke-width="2"
+       marker-end="url(#arrowhead)"
+       id="line48-7"
+       style="stroke:#0066ff;stroke-width:2.6;stroke-dasharray:none;marker-end:url(#Triangle-7)" />
+    <line
+       x1="608.93243"
+       y1="122.36134"
+       x2="609.10834"
+       y2="152.36082"
+       stroke="#666666"
+       stroke-width="2"
+       marker-end="url(#arrowhead)"
+       id="line48-4-6"
+       style="stroke:#0066ff;stroke-width:2.6;stroke-dasharray:none;marker-end:url(#Triangle-0-1)" />
+  </g>
+</svg>
