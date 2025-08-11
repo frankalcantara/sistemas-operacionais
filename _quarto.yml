@@ -19,7 +19,7 @@ book:
         - intro1.qmd
         - intro2.qmd
         - intro3.qmd
-    - part: Gestão de Projetos
+    - part: Gestão de Processos
       chapters: 
         - gerproc.qmd
         - gerproc1.qmd
