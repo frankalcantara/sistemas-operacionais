@@ -1,9 +1,4 @@
----
-title: "Untitled"
-format: html
----
-
-## Análise e otimização de algoritmos de escalonamento de CPU
+# Agendamento de Tarefas e Escalonamento
 
 O escalonamento First-Come, First-Served (FCFS) demonstra o compromisso fundamental entre simplicidade e otimização de performance. Embora FCFS proporcione justiça e elimine starvation, **o efeito comboio cria degradação severa de performance quando processos longos precedem processos curtos**. Exemplos acadêmicos mostram tempos médios de espera variando de 3,0ms a 17,0ms dependendo apenas da ordem de chegada, ilustrando como a sequência de chegada impacta dramaticamente a responsividade do sistema.
 
