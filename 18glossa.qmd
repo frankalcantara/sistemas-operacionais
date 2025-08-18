@@ -116,7 +116,7 @@ Conjunto de endereços de memória que um processo pode utilizar para armazenar 
 
 ### F
 
-**FCFS (First-Come, First-Served)**
+****FCFS** (First-Come, First-Served)**
 Algoritmo de escalonamento no qual os processos são executados na ordem de chegada.
 
 **File System (Sistema de Arquivos)**
@@ -334,7 +334,7 @@ Linguagem de programação que combina programação orientada a objetos e funci
 **Segmentação**
 Técnica de gerenciamento de memória que divide o espaço de endereçamento em segmentos lógicos.
 
-**SJF (Shortest Job First)**
+****SJF** (Shortest Job First)**
 Algoritmo de escalonamento que prioriza processos com menor tempo de execução estimado.
 
 **SMB/CIFS**

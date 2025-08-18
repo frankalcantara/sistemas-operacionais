@@ -698,14 +698,14 @@ $$
 
 **Utilização da CPU: 60%**: Interpretação: Uma utilização de 60% indica que a `CPU` está ocupada 60% do tempo, sugerindo que o sistema está moderadamente carregado, com espaço para mais processos sem sobrecarga, conforme discutido na seção de escalonamento do texto.
 
-### 2. Tempo Médio de Espera com SJF
+### 2. Tempo Médio de Espera com **SJF**
 
-**Enunciado**: Usando a fórmula do *Shortest Job First* (SJF) mencionada no texto, $\text{Tempo Médio de Espera} = \frac{1}{n} \sum_{i=1}^{n} W_i$, calcule o tempo médio de espera para 4 processos com tempos de execução: 3s, 1s, 4s, 2s. Compare o resultado com o algoritmo *First-Come, First-Served* (FCFS) assumindo a ordem de chegada P1, P2, P3, P4.
+**Enunciado**: Usando a fórmula do *Shortest Job First* (**SJF**) mencionada no texto, $\text{Tempo Médio de Espera} = \frac{1}{n} \sum_{i=1}^{n} W_i$, calcule o tempo médio de espera para 4 processos com tempos de execução: 3s, 1s, 4s, 2s. Compare o resultado com o algoritmo *First-Come, First-Served* (**FCFS**) assumindo a ordem de chegada P1, P2, P3, P4.
 
 **Resposta**:
-**SJF Ordem**: P2(1s) → P4(2s) → P1(3s) → P3(4s)
+****SJF** Ordem**: P2(1s) → P4(2s) → P1(3s) → P3(4s)
 
-**Tempos de espera (SJF)**:
+**Tempos de espera (**SJF**)**:
 
 - P2: $W_2 = 0s$
 - P4: $W_4 = 1s$
@@ -713,12 +713,12 @@ $$
 - P3: $W_3 = 1 + 2 + 3 = 6s$
 
 $$
-\text{Tempo Médio (SJF)} = \frac{0 + 1 + 3 + 6}{4} = 2.5s
+\text{Tempo Médio (**SJF**)} = \frac{0 + 1 + 3 + 6}{4} = 2.5s
 $$
 
-**FCFS Ordem**: P1(3s) → P2(1s) → P3(4s) → P4(2s)
+****FCFS** Ordem**: P1(3s) → P2(1s) → P3(4s) → P4(2s)
 
-**Tempos de espera (FCFS)**:
+**Tempos de espera (**FCFS**)**:
 
 - P1: $W_1 = 0s$
 - P2: $W_2 = 3s$
@@ -726,10 +726,10 @@ $$
 - P4: $W_4 = 3 + 1 + 4 = 8s$
 
 $$
-\text{Tempo Médio (FCFS)} = \frac{0 + 3 + 4 + 8}{4} = 3.75s
+\text{Tempo Médio (**FCFS**)} = \frac{0 + 3 + 4 + 8}{4} = 3.75s
 $$
 
-**Comparação**: O SJF reduz o tempo médio de espera (2.5s vs. 3.75s), pois prioriza processos mais curtos, conforme explicado na seção de políticas de alocação.
+**Comparação**: O **SJF** reduz o tempo médio de espera (2.5s vs. 3.75s), pois prioriza processos mais curtos, conforme explicado na seção de políticas de alocação.
 
 ### 3. As Duas Perspectivas Fundamentais
 

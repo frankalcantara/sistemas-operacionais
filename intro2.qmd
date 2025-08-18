@@ -205,9 +205,9 @@ Para cada paradigma, analise:
 
 **Enunciado:** Usando a fórmula apresentada no texto para calcular a utilização da CPU, $U = \sum_{i=1}^{n} \frac{C_i}{T_i}$, calcule a utilização para um sistema com 3 processos, cada um com tempo de computação $C_i = 2s$ e período total $T_i = 10s$. O que esse valor indica sobre o uso do sistema?
 
-### 2. Tempo Médio de Espera com SJF
+### 2. Tempo Médio de Espera com **SJF**
 
-**Enunciado:** Usando a fórmula do *Shortest Job First* (SJF) mencionada no texto, $\text{Tempo Médio de Espera} = \frac{1}{n} \sum_{i=1}^{n} W_i$, calcule o tempo médio de espera para 4 processos com tempos de execução: 3s, 1s, 4s, 2s. Compare o resultado com o algoritmo *First-Come, First-Served* (FCFS) assumindo a ordem de chegada P1, P2, P3, P4.
+**Enunciado:** Usando a fórmula do *Shortest Job First* (**SJF**) mencionada no texto, $\text{Tempo Médio de Espera} = \frac{1}{n} \sum_{i=1}^{n} W_i$, calcule o tempo médio de espera para 4 processos com tempos de execução: 3s, 1s, 4s, 2s. Compare o resultado com o algoritmo *First-Come, First-Served* (**FCFS**) assumindo a ordem de chegada P1, P2, P3, P4.
 
 ### 3. As Duas Perspectivas Fundamentais
 

@@ -1,7 +1,4 @@
----
-title: "Processos de Sistema: **Linux** vs. Windows"
----
-
+# Processos de Sistema: Linux vs. Windows
 
 Enquanto cada processo de usuário reside em seu próprio Espaço de Endereçamento Virtual (**VAS**) isolado, o `Kernel` do **Sistema Operacional** opera em um contexto de memória privilegiado e fundamentalmente diferente. O espaço de endereçamento do `Kernel` é uma porção do **VAS** que é persistentemente mapeada em todos os processos do sistema. Essa arquitetura permite que o `Kernel` acesse eficientemente suas próprias estruturas de dados e o hardware do sistema, independentemente de qual processo de usuário está atualmente em execução. No entanto, a organização e o gerenciamento desse espaço do `Kernel` diferem significativamente entre sistemas como **Linux** e Windows, refletindo filosofias de design distintas. A @fig-sysproc1 mostra uma visão geral do espaço de endereçamento do `Kernel` em comparação com o modelo de processos de usuários. 
 

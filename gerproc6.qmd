@@ -92,7 +92,7 @@ KENT STATE UNIVERSITY. **Operating Systems Notes: Multilevel Feedback Queue**. K
 
 KENT STATE UNIVERSITY. **Operating Systems Notes: Priority Scheduling**. Kent, 2024. Disponível em: <http://personal.kent.edu/~rmuhamma/OpSystems/Myos/prioritySchedule.htm>. Acesso em: 29 jun. 2025.
 
-KENT STATE UNIVERSITY. **Shortest-Job-First (SJF) Scheduling**. Kent, 2024. Disponível em: <http://personal.kent.edu/~rmuhamma/OpSystems/Myos/sjfSchedule.htm>. Acesso em: 29 jun. 2025.
+KENT STATE UNIVERSITY. **Shortest-Job-First (**SJF**) Scheduling**. Kent, 2024. Disponível em: <http://personal.kent.edu/~rmuhamma/OpSystems/Myos/**SJF**Schedule.htm>. Acesso em: 29 jun. 2025.
 
 KNUTH, D. E. **The art of computer programming: fundamental algorithms**. 3. ed. Boston: Addison-Wesley, 1997. v. 1. 650 p.
 
