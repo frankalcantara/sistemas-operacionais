@@ -1,0 +1,378 @@
+# Guia Completo de _pull request_ em Repositório de Terceiros
+
+## Visão Geral do Processo
+
+O processo de contribuição para um repositório que não é de sua propriedade segue o modelo de _fork_ e _pull request_. Este é o fluxo padrão para contribuições em projetos open source.
+
+**Atenção**: este guia foi gerado pelo assistente de Inteligência Artificial Claude em 26 de agosto de 2025. Este conteúdo ainda não foi revisado. Você precisa verificar as práticas mais recentes na documentação oficial do GitHub ou do repositório específico.
+
+## 1. _fork_ do Repositório Original
+
+### Via Interface Web do GitHub
+
+Acesse o repositório original e clique no botão "_fork_" no canto superior direito. Isso criará uma cópia do repositório em sua conta.
+
+### Via GitHub CLI
+
+```bash
+gh repo _fork_ owner/repository
+```
+
+## 2. Clone do Seu _fork_
+
+Após criar o _fork_, clone-o para sua máquina local:
+
+```bash
+git clone https://github.com/seu-usuario/nome-repositorio.git
+
+cd nome-repositorio
+```
+
+## 3. Configuração dos Remotes
+
+Configure o repositório original como upstream para manter seu _fork_ atualizado:
+
+```bash
+# Verificar remotes atuais
+git remote -v
+
+# Adicionar o repositório original como upstream
+git remote add upstream https://github.com/usuario-original/nome-repositorio.git
+
+# Verificar novamente os remotes
+git remote -v
+```
+
+Você deve ver:
+- `origin` apontando para seu _fork_
+- `upstream` apontando para o repositório original
+
+## 4. Sincronização com o Repositório Original
+
+Antes de começar qualquer trabalho, sincronize seu _fork_:
+
+```bash
+# Buscar atualizações do upstream
+git fetch upstream
+
+# Garantir que está na branch principal (main ou master)
+git checkout main
+
+# Mesclar as alterações do upstream
+git merge upstream/main
+
+# Atualizar seu _fork_ no GitHub
+git push origin main
+```
+
+## 5. Criação de uma Nova Branch
+
+Sempre crie uma branch específica para suas alterações:
+
+```bash
+# Criar e mudar para nova branch
+git checkout -b feature/minha-contribuicao
+
+# Ou separadamente:
+git branch feature/minha-contribuicao
+git checkout feature/minha-contribuicao
+```
+
+### Convenções de Nomenclatura de Branches
+
+- `feature/descricao` - para novas funcionalidades
+- `fix/descricao` - para correções de bugs
+- `docs/descricao` - para documentação
+- `refactor/descricao` - para refatoração de código
+
+## 6. Implementação das Alterações
+
+### Fazer as Modificações Necessárias
+
+Edite os arquivos necessários usando seu editor preferido.
+
+### Adicionar e Commitar Alterações
+
+```bash
+# Ver status das alterações
+git status
+
+# Adicionar arquivos específicos
+git add arquivo1.py arquivo2.cpp
+
+# Ou adicionar todas as alterações
+git add .
+
+# Fazer commit com mensagem descritiva
+git commit -m "feat: adiciona funcionalidade X para resolver issue #123"
+```
+
+### Convenções de Mensagens de Commit
+
+Formato recomendado: `tipo(escopo): descrição`
+
+Tipos comuns:
+- `feat`: nova funcionalidade
+- `fix`: correção de bug
+- `docs`: alterações na documentação
+- `style`: formatação, ponto e vírgula faltando, etc
+- `refactor`: refatoração de código
+- `test`: adição de testes
+- `chore`: tarefas de manutenção
+
+## 7. Push para Seu _fork_
+
+```bash
+# Push da branch para seu _fork_
+git push origin feature/minha-contribuicao
+```
+
+Se a branch não existir no remoto:
+
+```bash
+git push -u origin feature/minha-contribuicao
+```
+
+## 8. Criação do _pull request_
+
+### Via Interface Web
+
+1. Acesse seu _fork_ no GitHub
+2. Você verá um banner "Compare & _pull request_" após o push
+3. Clique nele ou vá para "_pull request_s" → "New _pull request_"
+4. Configure:
+   - Base repository: repositório original
+   - Base branch: branch de destino (geralmente `main`)
+   - Head repository: seu _fork_
+   - Compare branch: sua branch de feature
+
+### Elementos do _pull request_
+
+#### Título
+Seja claro e conciso. Exemplo: "Adiciona validação de entrada para formulário de cadastro"
+
+#### Descrição
+Template recomendado:
+
+```
+## Descrição
+Breve descrição das alterações implementadas.
+
+## Tipo de Alteração
+- [ ] Correção de bug
+- [ ] Nova funcionalidade
+- [ ] Alteração que quebra compatibilidade
+- [ ] Documentação
+
+## Como foi Testado?
+Descreva os testes realizados.
+
+## Checklist
+- [ ] Meu código segue o estilo do projeto
+- [ ] Realizei auto-revisão do código
+- [ ] Comentei o código em áreas complexas
+- [ ] Fiz alterações correspondentes na documentação
+- [ ] Minhas alterações não geram novos warnings
+- [ ] Adicionei testes que provam que a correção/feature funciona
+- [ ] Testes novos e existentes passam localmente
+
+## Issues Relacionadas
+Fixes #123
+```
+
+### Via GitHub CLI
+
+```bash
+gh pr create --title "Título do PR" --body "Descrição detalhada"
+```
+
+## 9. Processo de Revisão
+
+### Respondendo a Feedback
+
+Quando revisores solicitarem alterações:
+
+```bash
+# Fazer alterações necessárias
+git add arquivos-modificados
+git commit -m "fix: corrige problema apontado na revisão"
+
+# Push das alterações
+git push origin feature/minha-contribuicao
+```
+
+### Resolvendo Conflitos
+
+Se houver conflitos com a branch principal:
+
+```bash
+# Atualizar branch principal local
+git checkout main
+git fetch upstream
+git merge upstream/main
+
+# Voltar para sua branch
+git checkout feature/minha-contribuicao
+
+# Rebase ou merge (preferir rebase para histórico limpo)
+git rebase main
+
+# Resolver conflitos manualmente nos arquivos
+# Após resolver:
+git add arquivos-resolvidos
+git rebase --continue
+
+# Force push após rebase
+git push -f origin feature/minha-contribuicao
+```
+
+## 10. Processo de Aceite (Perspectiva do Mantenedor)
+
+### Opções de Merge
+
+#### Merge Commit
+Preserva todo o histórico de commits:
+
+```bash
+git checkout main
+git merge --no-ff pull-request-branch
+```
+
+#### Squash and Merge
+Combina todos os commits em um único:
+
+```bash
+git checkout main
+git merge --squash pull-request-branch
+git commit -m "feat: descrição consolidada das alterações (#PR-number)"
+```
+
+#### Rebase and Merge
+Aplica commits individuais sobre a branch principal:
+
+```bash
+git checkout pull-request-branch
+git rebase main
+git checkout main
+git merge pull-request-branch
+```
+
+### Via Interface Web do GitHub
+
+1. Na página do _pull request_, clique em "Merge _pull request_"
+2. Escolha o método de merge:
+   - Create a merge commit
+   - Squash and merge
+   - Rebase and merge
+3. Confirme o merge
+4. Opcionalmente, delete a branch do _fork_
+
+### Via GitHub CLI
+
+```bash
+# Como mantenedor
+gh pr merge PR-NUMBER --merge    # merge commit
+gh pr merge PR-NUMBER --squash   # squash and merge
+gh pr merge PR-NUMBER --rebase   # rebase and merge
+```
+
+## 11. Limpeza Pós-Merge
+
+### No _fork_ (Contribuidor)
+
+```bash
+# Atualizar main local
+git checkout main
+git fetch upstream
+git merge upstream/main
+
+# Deletar branch local
+git branch -d feature/minha-contribuicao
+
+# Deletar branch remota no _fork_
+git push origin --delete feature/minha-contribuicao
+```
+
+## 12. Boas Práticas
+
+### Para Contribuidores
+
+1. **Mantenha PRs pequenos e focados** - Uma funcionalidade ou correção por PR
+2. **Escreva testes** - Garanta cobertura de testes para novas funcionalidades
+3. **Siga o estilo do projeto** - Use linters e formatadores configurados
+4. **Documente alterações** - Atualize README, comentários e documentação
+5. **Seja responsivo** - Responda rapidamente a feedback dos revisores
+
+### Para Mantenedores
+
+1. **Forneça feedback construtivo** - Seja específico e sugira melhorias
+2. **Considere CI/CD** - Verifique se todos os testes passaram
+3. **Mantenha consistência** - Aplique padrões do projeto uniformemente
+4. **Seja respeitoso com tempo** - Revise PRs em tempo hábil
+5. **Documente decisões** - Explique razões para rejeições ou solicitações de mudança
+
+## Comandos Úteis Adicionais
+
+### Verificar Diferenças
+
+```bash
+# Ver alterações não commitadas
+git diff
+
+# Ver alterações entre branches
+git diff main..feature/minha-contribuicao
+
+# Ver arquivos alterados
+git diff --name-only main..feature/minha-contribuicao
+```
+
+### Atualizar PR Existente
+
+```bash
+# Adicionar mais commits
+git add .
+git commit -m "fix: adiciona melhorias solicitadas"
+git push origin feature/minha-contribuicao
+```
+
+### Cancelar _pull request_
+
+Via interface web: Feche o PR com comentário explicativo
+Via CLI:
+```bash
+gh pr close PR-NUMBER
+```
+
+## Resolução de Problemas Comuns
+
+### PR com Muitos Commits Desnecessários
+
+```bash
+# Fazer squash local antes do push
+git rebase -i HEAD~n  # n = número de commits
+# Marcar commits para squash no editor
+git push -f origin feature/minha-contribuicao
+```
+
+### Branch Desatualizada
+
+```bash
+git fetch upstream
+git rebase upstream/main
+git push -f origin feature/minha-contribuicao
+```
+
+### Commit na Branch Errada
+
+```bash
+# Criar nova branch com o commit
+git branch nova-branch
+
+# Resetar branch atual
+git reset --hard HEAD~1
+
+# Mudar para nova branch
+git checkout nova-branch
+```
+
+Este guia cobre o ciclo completo de contribuição via _pull request_, desde a preparação inicial até o aceite final e limpeza posterior.

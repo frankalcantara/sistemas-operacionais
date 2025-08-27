@@ -1,9 +1,6 @@
----
-title: "Simuladores e Projetos"
+# Atividades Práticas
 
----
-
-## Projeto 3: Shell Interativo Minimalista Cross-Platform
+## Projeto 1: Shell Interativo Minimalista Cross-Platform
 
 Este projeto tem como objetivo implementar um shell de comando funcional que demonstre os conceitos fundamentais de criação de processos, job control e comunicação inter-processo. Implementado em C++23, o sistema consolida o paradigma `fork()/exec()` do **Linux** e `CreateProcess` do **Windows**, permitindo que a esforçada leitora experimente diretamente os mecanismos de controle de processos abordados teoricamente.
 
@@ -371,9 +368,9 @@ private:
 
 ```shell
 MyShell> ls -la | grep "\.cpp" | sort | head -5
--rw-r--r--  1 user  staff   2847 Jan 15 10:30 main.cpp
--rw-r--r--  1 user  staff   1653 Jan 14 16:45 parser.cpp
--rw-r--r--  1 user  staff   3421 Jan 15 09:15 shell.cpp
+-rw-r--r-* 1 user  staff   2847 Jan 15 10:30 main.cpp
+-rw-r--r-* 1 user  staff   1653 Jan 14 16:45 parser.cpp
+-rw-r--r-* 1 user  staff   3421 Jan 15 09:15 shell.cpp
 [Pipeline executado com PIDs: 1234, 1235, 1236, 1237]
 MyShell> 
 ```
@@ -394,7 +391,7 @@ MyShell> bg 1
 MyShell> 
 ```
 
-## Projeto 4: THREADS THREADS Monitor e Gerenciador de Processos Empresarial
+## Projeto 2: _threads_ _threads_ Monitor e Gerenciador de Processos Empresarial
 
 Este projeto tem como objetivo implementar um sistema robusto de monitoramento e gerenciamento de processos adequado para ambientes de produção. Implementado em C++23, o sistema demonstra técnicas avançadas de supervisão de processos, coleta de métricas em tempo real e políticas de restart automático, permitindo que a esforçada leitora compreenda como sistemas de produção gerenciam serviços críticos.
 
@@ -890,3 +887,1396 @@ Recent Actions:
 }
 ```
 
+
+## Projeto 3: Produtores e Consumidores com _threads_ e Sincronização Avançada
+
+Seu objetivo será implementar um sistema multi-threaded usando o padrão Producer-Consumer para calcular números primos em intervalos definidos, demonstrando conceitos de sincronização de __threads__, _buffer_s compartilhados e balanceamento de carga computacional.
+
+**Duração:** 4 horas.  
+**Complexidade:** Intermediária.
+**Linguagem:** C++20 ou superior, ou C, ou Rust, ou Python (Cuidado com a Versão do Python).
+
+### Visão Geral
+
+O sistema será composto por:
+
+- **_threads_ Produtoras**: geram intervalos de números para verificação de _primalidade_ (por falta de palavra melhor);
+- **_threads_ Consumidoras**: testam se os números nos intervalos são primos;
+- **_buffer_ Compartilhado**: fila _thread-safe_ de intervalos de trabalho;
+- **Thread Principal**: coleta resultados e exibe estatísticas.
+
+### Especificações Técnicas
+
+**Nota**: Você deve criar um repositório no GitHub, ou uma pasta em um repositório existente. Armazene todo o desenvolvimento neste repositório.
+
+#### Estrutura de Dados
+
+```cpp
+struct Interval {
+    int start;
+    int end;
+    int id;  // identificador do intervalo
+};
+```
+
+##### Configuração do Sistema
+
+- **Produtores**: 2 _threads_ (configurável);
+- **Consumidores**: 3-4 _threads_ (configurável);
+- **_buffer_ size**: 10 intervalos (configurável);
+- **Intervalo de números**: 0 a 100.000.000 (configurável);
+- **Tamanho do intervalo**: 1000 números por intervalo (configurável).
+
+#### Requisitos Funcionais
+
+##### Thread Produtora
+
+- Dividir o range total (0 - 100.000.000) em intervalos de 1000 números;
+- Inserir intervalos no _buffer_ compartilhado;
+- Implementar _rate limiting_ (pequeno delay entre produções);
+- Parar quando todos os intervalos forem produzidos.
+
+##### Thread Consumidora
+
+- Retirar intervalos do _buffer_;
+- Para cada número no intervalo, verificar se é primo usando _trial division_;
+- Armazenar resultados em estrutura _thread-safe_;
+- Medir tempo de processamento de cada número.
+
+##### Função de Alto Custo Computacional
+
+```cpp
+bool is_prime(int n) {
+    if (n < 2) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+    
+    // Trial division até √n (método custoso intencionalmente)
+    for (int i = 3; i * i <= n; i += 2) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+```
+
+#####  _buffer_ _Thread-Safe_
+
+Você pode usar um fila para _buffer_ de dados. No C++ 20 ou maior, você pode usar `std::queue` com `std::mutex` e `std::condition_variable` para implementar um _buffer_ _thread-safe_.
+
+- Usar `std::queue` com `std::mutex` e `std::condition_variable`;
+- Implementar operações `push()` e `pop()` _thread-safe_;
+- Controlar quando _buffer_ está cheio/vazio.
+
+##### Sistema de Monitoramento
+
+- _Thread_ principal coleta resultados periodicamente;
+- Exibe estatísticas em tempo real:
+  - Intervalos processados;
+  - Números primos encontrados;
+  - Taxa de processamento (números/segundo);
+  - Tempo médio por cálculo;
+  - Status do _buffer_ (ocupação atual).
+
+#### Interface de Saída
+
+O programa deve exibir no console:
+
+```shell
+=== CALCULADORA DE NÚMEROS PRIMOS ===
+Range: 1000 - 100000 | Intervalos: 990 | Produtores: 2 | Consumidores: 4
+
+[14:23:45] _buffer_: [##########] 1000/1000 (100%)
+[14:23:45] Processados: 45 intervalos (4.5%)
+[14:23:45] Primos encontrados: 432
+[14:23:45] Taxa: 1,247 números/segundo
+[14:23:45] Tempo médio: 0.8ms por número
+
+Últimos primos encontrados: 98,689 | 98,711 | 98,713 | 98,717
+
+[14:23:50] PROCESSAMENTO COMPLETO!
+Total de primos no range: 8,685
+Tempo total: 78.3 segundos
+```
+
+#### Requisitos de Implementação
+
+##### Sincronização Obrigatória
+
+- `std::mutex` para proteção do _buffer_;
+- `std::condition_variable` para notificação entre _threads_;
+- `std::atomic` para contadores compartilhados;
+- Evitar _race conditions_ e _deadlocks_.
+
+##### Tratamento de _Shutdown_
+
+- Sinal para parar produtores sem erros;
+- Consumidores processam itens restantes no _buffer_;
+- _Join_ de todas as _threads_ antes de finalizar.
+
+##### Medição de Performance
+
+- Cronometrar tempo total de execução;
+- Medir tempo médio de cálculo por número;
+- Comparar performance com diferentes números de _threads_ consumidoras.
+
+#### Critérios de Avaliação
+
+##### Funcionalidade (40%)
+
+- Sistema produz e consome corretamente;
+- Cálculo de primos está correto;
+- Sincronização funciona sem travamentos;
+- _Output_ apresenta informações corretas.
+
+##### Implementação (30%)
+
+- Uso correto de _threads_ e primitivas de sincronização;
+- Código bem estruturado e legível;
+- Tratamento adequado de condições de corrida;
+- Gerenciamento correto de recursos.
+
+##### Performance (20%)
+
+- Sistema utiliza recursos de forma eficiente;
+- _threads_ trabalham de forma balanceada;
+- _buffer_ não causa gargalos desnecessários.
+
+#### Documentação (10%)
+
+- Comentários explicando partes críticas;
+- README com instruções de compilação e execução;
+- Explicação das decisões de design.
+
+### Cronograma Sugerido (4 horas)
+
+#### Hora 1: Estrutura Básica
+
+- Definir estruturas de dados;
+- Implementar _buffer_ thread-safe básico;
+- Criar função `is_prime()`;
+- Teste unitário da função de _primalidade_.
+
+#### Hora 2: _threads_ Produtoras
+
+- Implementar lógica de produção de intervalos;
+- Adicionar no _buffer_ compartilhado;
+- Testar produção sem consumidores.
+
+#### Hora 3: _threads_ Consumidoras
+
+- Implementar lógica de consumo;
+- Processar intervalos e calcular primos;
+- Armazenar resultados thread-safe.
+
+#### Hora 4: Integração e Monitoramento
+
+- Thread principal para estatísticas;
+- Output formatado em tempo real;
+- Testes finais e ajustes de performance.
+
+### Dicas de Implementação
+
+#### _buffer_ Thread-Safe
+
+```cpp
+class Interval_buffer_ {
+private:
+    std::queue<Interval> _buffer_;
+    std::mutex mtx;
+    std::condition_variable cv_not_full, cv_not_empty;
+    size_t max_size;
+    bool shutdown = false;
+
+public:
+    bool push(const Interval& item);
+    bool pop(Interval& item);
+    void signal_shutdown();
+};
+```
+
+#### Controle de Estatísticas
+
+```cpp
+struct Statistics {
+    std::atomic<int> intervals_processed{0};
+    std::atomic<int> primes_found{0};
+    std::atomic<long long> total_numbers_checked{0};
+    std::chrono::steady_clock::time_point start_time;
+};
+```
+
+#### Compilação
+
+```bash
+g++ -std=c++17 -pthread -O2 -o prime_calculator main.cpp
+```
+
+### Extensões Opcionais (se sobrar tempo)
+
+- Implementar diferentes algoritmos de teste de primalidade;
+- Adicionar opção de configurar range e número de _threads_ via linha de comando;
+- Salvar resultados em arquivo;
+- Comparar performance entre diferentes configurações;
+- Implementar pattern Thread Pool ao invés de _threads_ fixas.
+
+### Entregáveis
+
+1. Código fonte completo (`main.cpp` e headers se necessário);
+2. Makefile ou script de compilação;
+3. README.md com instruções e análise de resultados;
+4. Teste demonstrando o funcionamento com screenshot/log da saída.
+
+## Projeto 3: Análise da Solução
+
+O código implementa um sistema _multi-threaded_ em C++ moderno que emprega o padrão de design _Producer-Consumer_ para calcular números primos em um grande intervalo numérico. O sistema é uma demonstração prática de conceitos de programação concorrente, como sincronização de  _threads_, _buffers_ compartilhados, _thread-safe_ e balanceamento de carga computacional.
+
+```cpp
+/**
+ * @file prime_calculator.cpp
+ * @brief Sistema Producer-Consumer para calculo de numeros primos
+ * @author Sistema Calculadora de Primos
+ * @date 2025
+ * @version 1.0
+ *
+ * Sistema multi-threaded que implementa o padrao Producer-Consumer
+ * para calcular numeros primos em intervalos definidos, demonstrando
+ * conceitos de sincronizacao de threads, buffers compartilhados e
+ * balanceamento de carga computacional.
+ */
+// Configuracoes para Windows
+#ifdef _WIN32
+ // Diretiva de pré-processador que verifica se a macro `_WIN32` está definida 
+ // (padrão em compiladores Windows). O código até `#endif` só será compilado nesse caso.
+#ifndef NOMINMAX
+ // Diretiva que verifica se a macro `NOMINMAX` NÃO está definida.
+#define NOMINMAX
+ // Define a macro `NOMINMAX`. 
+ // Isso impede que os headers do Windows definam as macros `min` e `max`, 
+ // que conflitam com `std::min` e `std::max` da biblioteca padrão do C++.
+#endif
+ // Fecha o bloco `#ifndef NOMINMAX`.
+#ifndef WIN32_LEAN_AND_MEAN
+ // Diretiva que verifica se a macro `WIN32_LEAN_AND_MEAN` NÃO está definida.
+#define WIN32_LEAN_AND_MEAN
+ // Define a macro `WIN32_LEAN_AND_MEAN`. 
+ // Isso exclui APIs raramente usadas dos headers do Windows, 
+ // acelerando o tempo de compilação.
+#endif
+ // Fecha o bloco `#ifndef WIN32_LEAN_AND_MEAN`.
+
+#include <windows.h> // Principal arquivo de cabeçalho da API do Windows, funções de manipulação do console
+#endif  // Fecha o bloco `#ifdef _WIN32`
+#include <iostream> // biblioteca padrão para operações de entrada e saída de dados (como `std::cout` e `std::cerr`).
+#include <thread> // biblioteca de threads do C++
+#include <mutex> // biblioteca para mecanismos de exclusão mútua (`std::mutex`)
+#include <condition_variable> // biblioteca para variáveis de condição (`std::condition_variable`)
+#include <queue> // container `std::queue`, estrutura de dados FIFO (First-In, First-Out)
+#include <vector> // container `std::vector`, array dinâmico
+#include <atomic> // biblioteca para tipos atômicos (`std::atomic`)
+#include <chrono> // biblioteca para medição de tempo e durações com alta precisão
+#include <iomanip> // manipuladores de entrada/saída para formatar a exibição de dados
+#include <cmath> // biblioteca de funções matemáticas padrão do C 
+#include <string> // inclui a classe `std::string` para manipulação de texto
+#include <sstream>  // biblioteca de "string streams" (`std::stringstream`)
+#include <ctime>  // Para localtimes, utilitários de data e hora do estilo C
+
+/**
+ * @struct Interval
+ * @brief Estrutura que representa um intervalo de numeros para processamento
+ *
+ * Esta estrutura define um intervalo de numeros que sera processado
+ * pelas threads consumidoras para verificacao de primalidade.
+ */
+struct Interval {
+    int start; ///< Numero inicial do intervalo (inclusivo)
+    int end; ///< Numero final do intervalo (inclusivo)
+    int id; ///< Identificador unico do intervalo
+    /**
+     * @brief Construtor padrao
+     */
+    Interval() : start(0), end(0), id(0) {}
+    /**
+     * @brief Construtor parametrizado
+     * @param s Numero inicial do intervalo
+     * @param e Numero final do intervalo
+     * @param i Identificador do intervalo
+     */
+    Interval(int s, int e, int i) : start(s), end(e), id(i) {}
+};
+
+/**
+ * @class IntervalBuffer
+ * @brief Buffer thread-safe para armazenar intervalos de processamento
+ *
+ * Implementa um buffer circular thread-safe usando mutex e condition variables
+ * para sincronizar o acesso entre threads produtoras e consumidoras.
+ */
+class IntervalBuffer {
+private:
+    std::queue<Interval> buffer_; ///< Fila de intervalos
+    mutable std::mutex mtx_; ///< Mutex para proteger acesso ao buffer
+    std::condition_variable cv_not_full_; ///< Condition variable para buffer nao cheio
+    std::condition_variable cv_not_empty_; ///< Condition variable para buffer nao vazio
+    size_t max_size_; ///< Tamanho maximo do buffer
+    std::atomic<bool> shutdown_; ///< _flag_ para sinalizar shutdown
+public:
+    /**
+     * @brief Construtor do buffer
+     * @param max_size Tamanho maximo do buffer
+     */
+    explicit IntervalBuffer(size_t max_size)
+        : max_size_(max_size), shutdown_(false) {
+    }
+    /**
+     * @brief Adiciona um intervalo ao buffer
+     * @param item Intervalo a ser adicionado
+     * @return true se o item foi adicionado, false se houve shutdown
+     *
+     * Bloqueia se o buffer estiver cheio ate que haja espaco disponivel
+     * ou ate que seja sinalizado o shutdown.
+     */
+    bool push(const Interval& item) {
+        std::unique_lock<std::mutex> lock(mtx_);
+        // Espera ate que haja espaco ou shutdown seja sinalizado
+        cv_not_full_.wait(lock, [this] {
+            return buffer_.size() < max_size_ || shutdown_.load();
+            });
+        if (shutdown_.load()) {
+            return false;
+        }
+        buffer_.push(item);
+        cv_not_empty_.notify_one();
+        return true;
+    }
+    /**
+     * @brief Remove um intervalo do buffer
+     * @param item Referencia para armazenar o intervalo removido
+     * @return true se um item foi removido, false se buffer vazio e shutdown
+     *
+     * Bloqueia se o buffer estiver vazio ate que haja um item disponivel
+     * ou ate que seja sinalizado o shutdown.
+     */
+    bool pop(Interval& item) {
+        std::unique_lock<std::mutex> lock(mtx_);
+        // Espera ate que haja item disponivel
+        cv_not_empty_.wait(lock, [this] {
+            return !buffer_.empty() || shutdown_.load();
+            });
+        if (buffer_.empty()) {
+            return false;
+        }
+        item = buffer_.front();
+        buffer_.pop();
+        cv_not_full_.notify_one();
+        return true;
+    }
+    /**
+     * @brief Sinaliza o shutdown do buffer
+     *
+     * Acorda todas as threads bloqueadas em operacoes push/pop
+     * para que possam finalizar graciosamente.
+     */
+    void signal_shutdown() {
+        {
+            std::lock_guard<std::mutex> lock(mtx_);
+            shutdown_.store(true);
+        }
+        cv_not_full_.notify_all();
+        cv_not_empty_.notify_all();
+    }
+    /**
+     * @brief Retorna o tamanho atual do buffer
+     * @return Numero de itens no buffer
+     */
+    size_t size() const {
+        std::lock_guard<std::mutex> lock(mtx_);
+        return buffer_.size();
+    }
+    /**
+     * @brief Verifica se o shutdown foi sinalizado
+     * @return true se shutdown foi sinalizado
+     */
+    bool is_shutdown() const {
+        return shutdown_.load();
+    }
+};
+
+/**
+ * @struct Statistics
+ * @brief Estrutura para coletar estatisticas do processamento
+ *
+ * Contem contadores atomicos para acompanhar o progresso do processamento
+ * de forma thread-safe.
+ */
+struct Statistics {
+    std::atomic<int> intervals_processed{ 0 }; ///< Numero de intervalos processados
+    std::atomic<int> primes_found{ 0 }; ///< Numero total de primos encontrados
+    std::atomic<long long> total_numbers_checked{ 0 }; ///< Total de numeros verificados
+    std::chrono::steady_clock::time_point start_time; ///< Tempo de inicio do processamento
+    mutable std::mutex last_primes_mutex; ///< Mutex para proteger last_primes
+    std::vector<int> last_primes; ///< Ultimos primos encontrados (max 10)
+    /**
+     * @brief Construtor que inicializa o tempo de inicio
+     */
+    Statistics() : start_time(std::chrono::steady_clock::now()) {}
+    /**
+     * @brief Adiciona um primo a lista de ultimos primos encontrados
+     * @param prime Numero primo a ser adicionado
+     */
+    void add_prime(int prime) {
+        std::lock_guard<std::mutex> lock(last_primes_mutex);
+        last_primes.push_back(prime);
+        if (last_primes.size() > 10) {
+            last_primes.erase(last_primes.begin());
+        }
+    }
+    /**
+     * @brief Retorna uma copia dos ultimos primos encontrados
+     * @return Vetor com os ultimos primos
+     */
+    std::vector<int> get_last_primes() const {
+        std::lock_guard<std::mutex> lock(last_primes_mutex);
+        return last_primes;
+    }
+};
+
+/**
+ * @class PrimeCalculator
+ * @brief Classe principal que coordena o sistema Producer-Consumer
+ *
+ * Gerencia as threads produtoras, consumidoras e de monitoramento,
+ * coordenando todo o processo de calculo de numeros primos.
+ */
+class PrimeCalculator {
+private:
+    static constexpr int RANGE_START = 0; ///< Inicio do range de numeros
+    static constexpr int RANGE_END = 100000000; ///< Fim do range de numeros
+    static constexpr int INTERVAL_SIZE = 1000; ///< Tamanho de cada intervalo
+    static constexpr int BUFFER_SIZE = 100; ///< Tamanho do buffer
+    static constexpr int NUM_PRODUCERS = 16; ///< Numero de threads produtoras
+    static constexpr int NUM_CONSUMERS = 8; ///< Numero de threads consumidoras
+    IntervalBuffer buffer_; ///< Buffer compartilhado
+    Statistics stats_; ///< Estatisticas do processamento
+    std::vector<std::thread> producer_threads_; ///< Threads produtoras
+    std::vector<std::thread> consumer_threads_; ///< Threads consumidoras
+    std::thread monitor_thread_; ///< Thread de monitoramento
+    std::atomic<bool> processing_complete_; ///< _flag_ de processamento completo
+public:
+    /**
+     * @brief Construtor do calculador de primos
+     */
+    PrimeCalculator() : buffer_(BUFFER_SIZE), processing_complete_(false) {}
+    /**
+     * @brief Verifica se um numero e primo usando trial division
+     * @param n Numero a ser verificado
+     * @return true se o numero e primo
+     *
+     * Implementa o algoritmo de trial division de forma otimizada,
+     * verificando divisibilidade apenas por numeros impares ate raiz de n.
+     */
+    static bool is_prime(int n) {
+        if (n < 2) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;
+        // Trial division ate raiz de n (metodo custoso intencionalmente)
+        for (int i = 3; i * i <= n; i += 2) {
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+    /**
+     * @brief Funcao executada pelas threads produtoras
+     * @param producer_id ID da thread produtora
+     *
+     * Divide o range total em intervalos e os adiciona ao buffer.
+     * Implementa rate limiting para evitar sobrecarga do sistema.
+     */
+    void producer_function(int producer_id) {
+        const int total_intervals = (RANGE_END - RANGE_START + INTERVAL_SIZE - 1) / INTERVAL_SIZE;
+        int interval_id = 0;
+        for (int start = RANGE_START; start < RANGE_END; start += INTERVAL_SIZE * NUM_PRODUCERS) {
+            int adjusted_start = start + (producer_id * INTERVAL_SIZE);
+            if (adjusted_start >= RANGE_END) break;
+            int end = std::min(adjusted_start + INTERVAL_SIZE - 1, RANGE_END - 1);
+            Interval interval(adjusted_start, end, interval_id++);
+            if (!buffer_.push(interval)) {
+                break; // Shutdown sinalizado
+            }
+            // Rate limiting - pequeno delay
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        std::cout << "Produtor " << producer_id << " finalizou\n";
+    }
+    /**
+     * @brief Funcao executada pelas threads consumidoras
+     * @param consumer_id ID da thread consumidora
+     *
+     * Remove intervalos do buffer e verifica a primalidade de cada numero
+     * no intervalo, coletando estatisticas do processamento.
+     */
+    void consumer_function(int consumer_id) {
+        Interval interval;
+        while (buffer_.pop(interval)) {
+            auto interval_start_time = std::chrono::high_resolution_clock::now();
+            for (int num = interval.start; num <= interval.end; ++num) {
+                auto calc_start = std::chrono::high_resolution_clock::now();
+                bool prime = is_prime(num);
+                auto calc_end = std::chrono::high_resolution_clock::now();
+                auto calc_time = std::chrono::duration<double>(calc_end - calc_start);
+                if (prime) {
+                    stats_.primes_found++;
+                    stats_.add_prime(num);
+                }
+                stats_.total_numbers_checked++;
+            }
+            stats_.intervals_processed++;
+            auto interval_end_time = std::chrono::high_resolution_clock::now();
+            auto interval_duration = std::chrono::duration<double>(interval_end_time - interval_start_time);
+        }
+        std::cout << "Consumidor " << consumer_id << " finalizou\n";
+    }
+    /**
+     * @brief Funcao de monitoramento que exibe estatisticas em tempo real
+     *
+     * Exibe periodicamente o progresso do processamento, incluindo
+     * taxa de processamento, numeros primos encontrados e status do buffer.
+     */
+    void monitor_function() {
+        const int total_intervals = (RANGE_END - RANGE_START + INTERVAL_SIZE - 1) / INTERVAL_SIZE;
+        while (!processing_complete_.load()) {
+            auto current_time = std::chrono::steady_clock::now();
+            auto elapsed = std::chrono::duration<double>(current_time - stats_.start_time).count();
+            int processed = stats_.intervals_processed.load();
+            int primes = stats_.primes_found.load();
+            long long checked = stats_.total_numbers_checked.load();
+            size_t buffer_size = buffer_.size();
+            // Cria barra de progresso para o buffer
+            std::string buffer_bar = "[";
+            int bar_width = 10;
+            int filled = (buffer_size * bar_width) / BUFFER_SIZE;
+            for (int i = 0; i < bar_width; ++i) {
+                buffer_bar += (i < filled) ? "#" : " ";
+            }
+            buffer_bar += "]";
+            // Calcula taxa de processamento
+            double rate = (elapsed > 0) ? checked / elapsed : 0;
+            double avg_time = (checked > 0) ? (elapsed * 1000) / checked : 0;
+            // Formata tempo atual
+            auto now = std::chrono::system_clock::now();
+            auto time_t_var = std::chrono::system_clock::to_time_t(now);
+            std::tm tm_struct;
+            if (localtime_s(&tm_struct, &time_t_var) != 0) {
+                std::cerr << "Erro ao converter tempo local. Usando valor padrão.\n";
+                // Opcional: Continue ou use UTC
+                continue;
+            }
+            auto tm = tm_struct;  // Use como antes
+            // Obtém últimos primos encontrados
+            auto last_primes = stats_.get_last_primes();
+            // Limpa o terminal inteiro e move o cursor para o topo
+            std::cout << "\033[2J\033[H";
+            // Exibe estatísticas em um bloco coeso, com timestamp apenas no topo
+            std::cout << "[" << std::put_time(&tm, "%H:%M:%S") << "] Estatísticas de Processamento:\n"
+                << "Buffer: " << buffer_bar << " " << buffer_size << "/" << BUFFER_SIZE
+                << " (" << std::fixed << std::setprecision(1)
+                << (100.0 * buffer_size / BUFFER_SIZE) << "%)\n"
+                << "Processados: " << processed << " intervalos ("
+                << std::fixed << std::setprecision(1) << (100.0 * processed / total_intervals) << "%)\n"
+                << "Primos encontrados: " << primes << "\n"
+                << "Taxa: " << std::fixed << std::setprecision(0) << rate << " números/segundo\n"
+                << "Tempo médio: " << std::fixed << std::setprecision(1) << avg_time << "ms por número\n";
+            // Exibe últimos primos
+            if (!last_primes.empty()) {
+                std::cout << "Últimos primos encontrados: ";
+                for (size_t i = 0; i < last_primes.size() && i < 4; ++i) {
+                    if (i > 0) std::cout << " | ";
+                    std::cout << std::to_string(last_primes[i]);
+                }
+                std::cout << "\n";
+            }
+            std::cout << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(5));
+        }
+    }
+    /**
+     * @brief Executa o sistema completo de calculo de primos
+     *
+     * Coordena a criacao e execucao de todas as threads, exibe
+     * informacoes iniciais e finais do processamento.
+     */
+    void run() {
+        const int total_intervals = (RANGE_END - RANGE_START + INTERVAL_SIZE - 1) / INTERVAL_SIZE;
+        // Exibe cabecalho
+        std::cout << "=== CALCULADORA DE NUMEROS PRIMOS ===\n";
+        std::cout << "Range: " << RANGE_START << " - " << RANGE_END
+            << " | Intervalos: " << total_intervals
+            << " | Produtores: " << NUM_PRODUCERS
+            << " | Consumidores: " << NUM_CONSUMERS << "\n\n";
+        // Inicia threads produtoras
+        for (int i = 0; i < NUM_PRODUCERS; ++i) {
+            producer_threads_.emplace_back(&PrimeCalculator::producer_function, this, i);
+        }
+        // Inicia threads consumidoras
+        for (int i = 0; i < NUM_CONSUMERS; ++i) {
+            consumer_threads_.emplace_back(&PrimeCalculator::consumer_function, this, i);
+        }
+        // Inicia thread de monitoramento
+        monitor_thread_ = std::thread(&PrimeCalculator::monitor_function, this);
+        // Aguarda produtores terminarem
+        for (auto& t : producer_threads_) {
+            t.join();
+        }
+        // Sinaliza shutdown do buffer
+        buffer_.signal_shutdown();
+        // Aguarda consumidores terminarem
+        for (auto& t : consumer_threads_) {
+            t.join();
+        }
+        // Sinaliza fim do processamento e aguarda monitor
+        processing_complete_.store(true);
+        monitor_thread_.join();
+        // Exibe resultados finais
+        auto end_time = std::chrono::steady_clock::now();
+        auto total_time = std::chrono::duration<double>(end_time - stats_.start_time).count();
+        std::cout << "\n[PROCESSAMENTO COMPLETO!]\n";
+        std::cout << "Total de primos no range: " << stats_.primes_found.load() << "\n";
+        std::cout << "Tempo total: " << std::fixed << std::setprecision(1) << total_time << " segundos\n";
+        std::cout << "Numeros verificados: " << stats_.total_numbers_checked.load() << "\n";
+        std::cout << "Taxa media: " << std::fixed << std::setprecision(0)
+            << (stats_.total_numbers_checked.load() / total_time) << " numeros/segundo\n";
+    }
+};
+
+/**
+ * @brief Configura o console para suporte a UTF-8 no Windows
+ *
+ * Esta funcao configura o console do Windows para exibir
+ * caracteres UTF-8 corretamente.
+ */
+void setup_console() {
+#ifdef _WIN32
+    // Configura o console para UTF-8
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+    // Habilita processamento de escape sequences no Windows 10+
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut != INVALID_HANDLE_VALUE) {
+        DWORD dwMode = 0;
+        if (GetConsoleMode(hOut, &dwMode)) {
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+    }
+#endif
+}
+
+/**
+ * @brief Funcao principal do programa
+ * @return 0 se execucao bem-sucedida
+ *
+ * Cria uma instancia do PrimeCalculator e executa o sistema
+ * de calculo de numeros primos.
+ */
+int main() {
+    try {
+        setup_console();
+        PrimeCalculator calculator;
+        calculator.run();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Erro: " << e.what() << std::endl;
+        return 1;
+    }
+    return 0;
+}
+```
+
+#### Arquitetura Principal
+
+A @fig-producer-consumer apresenta uma visão geral do sistema desenvolvido. 
+
+::: {#fig-producer-consumer}
+![](/images/Producer-Consumer.webp)
+:::
+
+O sistema é orquestrado pela classe `PrimeCalculator` e opera com três tipos distintos de _threads_:
+
+A. **_threads_ Produtoras (16)**: Responsáveis por dividir o intervalo numérico total (de 0 a 100 milhões) em _unidades de trabalho_ menores, chamadas `Interval`. Essas unidades são então inseridas em um buffer compartilhado.
+B. **_threads_ Consumidoras (8)**: Retiram os `Interval` do buffer e executam a tarefa computacionalmente intensiva: verificar a _primalidade_ de cada número dentro do intervalo recebido.
+C. **Thread de Monitoramento (1)**: Executa em paralelo para exibir estatísticas de progresso e performance em tempo real, sem interferir no trabalho principal.
+
+#### Decisões de Design
+
+A arquitetura _Producer-Consumer_ foi escolhida devido às suas vantagens em sistemas de processamento paralelo:
+
+- **Desacoplamento**: As _threads_ produtoras não precisam saber sobre as consumidoras, e vice-versa. Elas se comunicam indiretamente através do buffer, o que simplifica o design.
+- **Balanceamento de Carga**: O buffer funciona como um "pulmão", permitindo que as _threads_ consumidoras processem o trabalho em seu próprio ritmo. Se uma consumidora terminar rápido, ela pode simplesmente pegar o próximo item, garantindo que os núcleos da CPU permaneçam ocupados.
+- **Controle de Fluxo (Back-pressure)**: O buffer possui um tamanho fixo. Se os produtores forem muito mais rápidos que os consumidores, o buffer ficará cheio, e os produtores serão naturalmente bloqueados até que espaço seja liberado. Isso previne o consumo excessivo de memória.
+- **Escalabilidade**: O número de _threads_ produtoras e consumidoras pode ser facilmente ajustado nas constantes `constexpr` para otimizar a performance de acordo com o hardware disponível (número de núcleos, velocidade de I/O, etc.).
+
+### Configurações e Includes
+
+#### Configuração Específica para Windows
+
+O código utiliza diretivas de pré-processador para se adaptar ao ambiente Windows.
+
+```cpp
+// O bloco a seguir só é compilado se a macro _WIN32 estiver definida
+#ifdef _WIN32
+// Previne que os headers do Windows definam macros 'min' e 'max',
+// que conflitam com std::min e std::max da biblioteca padrão do C++.
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+// Exclui APIs raramente usadas dos headers do Windows, reduzindo o
+// tempo de compilação.
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+// Inclui o header principal para a API do Windows, necessário para as
+// funções de manipulação do console.
+#include <windows.h>
+#endif
+```
+
+Ao desenvolver aplicações em C++ para Windows, é uma prática comum e recomendada definir as macros `WIN32_LEAN_AND_MEAN` e `NOMINMAX` antes de incluir o cabeçalho principal `<windows.h>`. Elas resolvem dois problemas distintos: tempo de compilação e conflitos de nomenclatura.
+
+#### 1. `WIN32_LEAN_AND_MEAN`
+
+Esta macro funciona como um _filtro_. O cabeçalho `<windows.h>` é um superconjunto que, por padrão, inclui muitos outros cabeçalhos da API do Windows, como os de Criptografia, RPC, DDE, Shell, e vários serviços de rede. Muitas aplicações não precisam de todas essas funcionalidades. Ao definir `WIN32_LEAN_AND_MEAN`, você instrui o compilador a excluir esses cabeçalhos menos comuns do processo de inclusão.
+
+O principal benefício é a **aceleração do tempo de compilação**. Ao processar menos código de cabeçalho, o compilador termina seu trabalho mais rapidamente. Em projetos grandes, essa economia de tempo pode ser significativa, tornando o ciclo de desenvolvimento mais ágil.
+
+```cpp
+// Otimiza o tempo de compilação excluindo APIs raramente usadas.
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+```
+
+#### 2. `NOMINMAX`
+
+Esta macro impede que os cabeçalhos do Windows definam duas macros de pré-processador muito problemáticas: `min` e `max`. Por razões de compatibilidade com código C antigo, `<windows.h>` define `min(a,b)` e `max(a,b)`.
+
+O principal benefício é **evitar conflitos de nome e erros de compilação**. A Biblioteca Padrão do C++ (STL) fornece suas próprias funções `std::min()` e `std::max()` (no cabeçalho `<algorithm>`), que são superiores às macros por serem seguras em tipo (`type-safe`) e não sofrerem de problemas de dupla avaliação.
+
+Se `NOMINMAX` não for definida, o pré-processador substituirá cegamente qualquer ocorrência de `min` ou `max`, levando a erros bizarros de sintaxe. Por exemplo:
+
+```cpp
+#include <windows.h>
+#include <algorithm>
+
+// SEM NOMINMAX, esta linha pode falhar:
+// O pré-processador pode tentar expandir 'max' dentro do código da STL.
+int max_val = std::numeric_limits<int>::max();
+```
+
+Ao definir `NOMINMAX`, você garante que as macros não serão criadas, permitindo o uso sem problemas das funções da biblioteca padrão do C++.
+
+```cpp
+// Previne a definição das macros 'min' e 'max' para evitar conflitos.
+#define NOMINMAX
+#include <windows.h>
+```
+
+**Usar ambas as macros é uma prática padrão para um desenvolvimento C++ mais limpo e rápido no ambiente Windows.
+**
+
+#### Bibliotecas Padrão Utilizadas
+
+O projeto faz uso extensivo de bibliotecas modernas do C++ para concorrência, tempo e estruturas de dados.
+
+- `<thread>`: Fornece a classe `std::thread`, que é a abstração fundamental para criar e gerenciar _threads_ de execução.
+- `<mutex>` e `<condition_variable>`: São os blocos de construção para sincronização. `std::mutex` garante exclusão mútua (apenas uma thread por vez pode acessar um recurso protegido). `std::condition_variable` permite que _threads_ esperem (durmam) até que uma condição específica seja atendida, evitando o "busy-waiting" (verificações em loop que consomem CPU).
+- `<atomic>`: Oferece tipos como `std::atomic<bool>` e `std::atomic<int>` para operações que devem ser executadas sem interrupção por outras _threads_. É muito mais eficiente que um `mutex` para operações simples como incrementar um contador ou definir uma _flag_.
+- `<chrono>`: Uma biblioteca poderosa para medição de tempo com alta precisão. Utiliza diferentes tipos de relógios, como `std::chrono::steady_clock` (para medir durações) e `std::chrono::system_clock` (para tempo de calendário).
+- `<queue>` e `<vector>`: Estruturas de dados padrão da STL. A `std::queue` é usada como base para o buffer (devido à sua natureza FIFO - First-In, First-Out), e o `std::vector` armazena as _threads_ e os últimos primos encontrados.
+
+### Estruturas de Dados
+
+#### Estrutura `Interval`
+
+```cpp
+struct Interval {
+    int start; // Número inicial do intervalo (inclusivo)
+    int end;   // Número final do intervalo (inclusivo)
+    int id;    // Identificador único do intervalo
+
+    Interval() : start(0), end(0), id(0) {}
+    Interval(int s, int e, int i) : start(s), end(e), id(i) {}
+};
+```
+
+**Propósito**: encapsular uma unidade de trabalho discreta. Em vez de cada _thread_ pegar um único número, ela pega um bloco (intervalo), o que reduz o _overhead_ de sincronização.
+
+**Design**: Uma estrutura C++ simples (`struct`) com membros públicos, ideal para agregar dados. Os construtores facilitam a criação de instâncias.
+
+### Classe `IntervalBuffer`
+
+Esta é a peça central do padrão _Producer-Consumer_. É uma classe que encapsula uma `std::queue` e a protege com um `std::mutex` e duas `std::condition_variable` para torná-la _thread-safe_ e bloqueante. A palavra _bloqueante_ significa que uma _thread_ que tenta realizar uma operação, tal como inserir ou remover um item da fila, ficará pausada ou suspensa se a operação não puder ser concluída imediatamente. A _thread_ permanecerá nesse estado de _bloqueio_ até que a condição para prosseguir seja atendida.
+
+Esta classe usa uma `std::queue<Interval>` como seu buffer interno.
+
+#### std::queue - Adaptador de Container FIFO em C++23
+
+A classe `std::queue` é um adaptador de container que implementa a estrutura de dados **fila** (queue), seguindo o princípio **FIFO** (**F**irst **I**n, **F**irst **O**ut). Não é um container propriamente dito, mas sim um _wrapper_ que utiliza outro container como base para fornecer interface específica de fila.
+
+```cpp
+#include <queue>
+```
+
+O container base deve suportar as seguintes operações:
+
+- `back()` - acesso ao último elemento;
+- `front()` - acesso ao primeiro elemento;
+- `push_back()` - inserção no final;
+- `pop_front()` - remoção do início.
+
+A `std::queue` permite o uso dos seguintes containers subjacentes:
+
+- `std::deque` (padrão) - melhor escolha geral;
+- `std::list` - para inserções/remoções frequentes;
+- `std::vector` - **não recomendado** (pop_front() é $O(n)$).
+
+##### Construtores
+
+```cpp
+// Construtor padrão
+std::queue<int> q1;
+
+// Construtor com container específico
+std::deque<int> d = {1, 2, 3};
+std::queue<int> q2(d);
+
+// Construtor de cópia
+std::queue<int> q3(q2);
+
+// Construtor de movimento (C++11+)
+std::queue<int> q4(std::move(q3));
+```
+
+##### Operações de Acesso
+
+```cpp
+// Acesso ao elemento da frente (próximo a ser removido)
+T& front();
+const T& front() const;
+
+// Acesso ao elemento de trás (último inserido)
+T& back();
+const T& back() const;
+```
+
+##### Operações de Modificação
+
+```cpp
+// Inserção no final da fila - Complexidade: O(1)
+void push(const T& value);
+void push(T&& value);           // C++11 - movimento
+
+// Construção in-place no final - Complexidade: O(1)
+template<class... Args>
+void emplace(Args&&... args);   // C++11
+
+// Remoção do início da fila - Complexidade: O(1)
+void pop();                     // Não retorna o elemento!
+
+// Troca o conteúdo com outra fila
+void swap(queue& other);        // C++11
+```
+
+##### Operações de Consulta
+
+```cpp
+// Verifica se a fila está vazia
+bool empty() const;
+
+// Retorna o número de elementos
+size_type size() const;
+```
+
+##### Complexidades de Tempo
+
+| Operação | Complexidade | Observações |
+|----------|--------------|-------------|
+| `push()` | $O(1)$ amortizado | Depende do container base |
+| `pop()` | $O(1)$ | Remove sem retornar |
+| `front()` | $O(1)$ | Acesso direto |
+| `back()` | $O(1)$ | Acesso direto |
+| `empty()` | $O(1)$ | Verificação trivial |
+| `size()` | $O(1)$ | Mantido internamente |
+
+##### Padrão de Uso Típico
+
+```cpp
+#include <queue>
+#include <iostream>
+
+void exemplo_basico() {
+    std::queue<int> fila;
+    
+    // Inserção de elementos
+    fila.push(10);
+    fila.push(20);
+    fila.push(30);
+    
+    // Processamento FIFO
+    while (!fila.empty()) {
+        int valor = fila.front();  // Acessa o primeiro
+        fila.pop();                // Remove o primeiro
+        std::cout << valor << " "; // Output: 10 20 30
+    }
+}
+```
+
+##### Uso Avançado com Containers Customizados
+
+```cpp
+// Usando std::list como container base
+std::queue<std::string, std::list<std::string>> fila_lista;
+
+// Definindo comparador customizado não é possível
+// (use std::priority_queue para ordenação)
+
+// Container customizado deve satisfazer conceitos
+template<typename T>
+class MeuContainer {
+    // Deve implementar: front(), back(), push_back(), pop_front(),
+    // empty(), size(), e tipos: value_type, size_type, reference, etc.
+};
+```
+
+##### Comparações e Operadores
+
+```cpp
+// Operadores de comparação (C++20 melhorou)
+std::queue<int> q1, q2;
+
+// Igualdade - compara elemento por elemento
+bool igual = (q1 == q2);
+
+// Comparação lexicográfica
+bool menor = (q1 < q2);
+
+// C++20: operador <=> (three-way comparison)
+auto resultado = q1 <=> q2;
+```
+
+##### Thread Safety
+
+`std::queue` **NÃO é thread-safe**. Para uso concorrente:
+
+```cpp
+#include <mutex>
+#include <condition_variable>
+
+class ThreadSafeQueue {
+    std::queue<int> queue_;
+    mutable std::mutex mutex_;
+    std::condition_variable condition_;
+    
+public:
+    void push(int item) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        queue_.push(item);
+        condition_.notify_one();
+    }
+    
+    bool pop(int& item) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        condition_.wait(lock, [this] { return !queue_.empty(); });
+        
+        item = queue_.front();
+        queue_.pop();
+        return true;
+    }
+};
+```
+
+##### Pegadinha Importante: pop() não retorna
+
+```cpp
+// ERRADO - pop() retorna void
+// int valor = fila.pop();  // Erro de compilação!
+
+// CORRETO - acessar antes de remover
+if (!fila.empty()) {
+    int valor = fila.front();  // Acessa
+    fila.pop();                // Remove
+    // usar valor...
+}
+```
+
+**Razão do Design**: _Exception safety_. Se `pop()` retornasse por valor e o construtor de cópia lançasse exceção, o elemento seria perdido.
+
+##### Melhorias do C++23
+
+O C++23 introduziu pequenas melhorias em containers:
+
+- **Ranges support**: melhor integração com algoritmos ranges;
+- **Constexpr extensions**: mais operações podem ser executadas em tempo de compilação;
+- **Memory resource support**: melhor integração com `std::pmr`.
+
+##### Comparação com Outras Estruturas
+
+| Estrutura | Acesso | Inserção | Remoção | Uso Ideal |
+|-----------|--------|----------|---------|-----------|
+| `std::queue` | FIFO apenas | Final ($O(1)$) | Início ($O(1)$) | Processamento sequencial |
+| `std::stack` | LIFO apenas | Topo ($O(1)$) | Topo ($O(1)$) | Recursão, parsing |
+| `std::deque` | Aleatório ($O(1)$) | Ambas extremidades | Ambas extremidades | Fila dupla |
+| `std::priority_queue` | Maior prioridade | $O(\log n)$ | $O(\log n)$ | Ordenação por prioridade |
+
+##### Casos de Uso Comuns
+
+1. **Buffer de Produção/Consumo**: _threads_ produtoras inserem, consumidoras removem;
+2. **Breadth-First Search**: Algoritmos de busca em grafos;
+3. **Cache LRU**: Implementação de políticas de substituição;
+4. **Task Scheduling**: Fila de tarefas para execução sequencial;
+5. **Event Processing**: Processamento de eventos em ordem de chegada.
+
+A escolha entre `std::queue` e outras estruturas deve considerar o padrão de acesso (FIFO vs LIFO vs aleatório) e os requisitos de performance específicos da aplicação.
+
+##### Membros Privados
+
+```cpp
+std::queue<Interval> buffer_;
+mutable std::mutex mtx_;
+std::condition_variable cv_not_full_;
+std::condition_variable cv_not_empty_;
+size_t max_size_;
+std::atomic<bool> shutdown_;
+```
+
+- `buffer_`: A fila FIFO que armazena os `Interval`;
+- `mtx_`: O `mutex` que garante que apenas uma thread possa modificar a `buffer_` por vez. É `mutable` para que possa ser bloqueado dentro de métodos `const` como `size()`;
+- `cv_not_full_` e `cv_not_empty_`: As variáveis de condição. `cv_not_full_` é usada para fazer os produtores esperarem quando o buffer está cheio. `cv_not_empty_` é usada para fazer os consumidores esperarem quando o buffer está vazio;
+- `shutdown_`: Uma _flag_ `std::atomic<bool>` que sinaliza para todas as _threads_ que o processamento está terminando e que elas devem parar de esperar por novos itens.
+
+###### Método `push()`
+
+```cpp
+bool push(const Interval& item) {
+    std::unique_lock<std::mutex> lock(mtx_);
+    cv_not_full_.wait(lock, [this] {
+        return buffer_.size() < max_size_ || shutdown_.load();
+    });
+    
+    if (shutdown_.load()) return false;
+    
+    buffer_.push(item);
+    cv_not_empty_.notify_one();
+    return true;
+}
+```
+
+**Funcionamento**:
+
+1. `std::unique_lock<std::mutex> lock(mtx_);`: Adquire o lock. `unique_lock` é usado em vez de `lock_guard` porque ele permite ser desbloqueado e rebloqueado, uma capacidade necessária para a `condition_variable`.
+2. `cv_not_full_.wait(...)`: Este é o passo chave. A thread verifica a condição dentro do lambda. Se for falsa (buffer cheio e sem shutdown), o `wait` atomicamente **desbloqueia** o mutex e coloca a thread para dormir. Quando a thread é acordada, ela **reativa** o lock e verifica a condição novamente. O uso do predicado lambda é crucial para lidar com "despertares espúrios" (`spurious wakeups`).
+3. `if (shutdown_.load())`: Após acordar, a thread re-verifica se o sistema está desligando.
+4. `buffer_.push(item)`: Insere o item na fila.
+5. `cv_not_empty_.notify_one()`: Notifica **uma** thread consumidora que estava esperando por um item. Usar `notify_one` é mais eficiente que `notify_all` aqui, pois apenas um item foi adicionado.
+
+###### Método `pop()`
+
+```cpp
+bool pop(Interval& item) {
+    std::unique_lock<std::mutex> lock(mtx_);
+    cv_not_empty_.wait(lock, [this] {
+        return !buffer_.empty() || shutdown_.load();
+    });
+    
+    if (buffer_.empty()) return false;
+    
+    item = buffer_.front();
+    buffer_.pop();
+    cv_not_full_.notify_one();
+    return true;
+}
+```
+
+**Funcionamento**:
+
+1. O consumidor adquire o lock e espera (`wait`) na `cv_not_empty_` se o buffer estiver vazio e o sistema não estiver desligando;
+2. `if (buffer_.empty())`: Esta verificação é vital. Uma thread consumidora pode ser acordada pelo `signal_shutdown`, mas o buffer pode já ter sido esvaziado por outras consumidoras. Nesse caso, ela deve sair sem tentar remover um item.
+3. A thread extrai o item do buffer;
+4. `cv_not_full_.notify_one()`: Notifica **uma** thread produtora de que agora há espaço disponível no buffer.
+
+###### Método `signal_shutdown()`
+
+```cpp
+void signal_shutdown() {
+    {
+        std::lock_guard<std::mutex> lock(mtx_);
+        shutdown_.store(true);
+    }
+    cv_not_full_.notify_all();
+    cv_not_empty_.notify_all();
+}
+```
+
+**Shutdown Gracioso**:
+
+1. Um `lock_guard` é usado em um escopo próprio para garantir que o _mutex_ seja liberado logo após a _flag_ `shutdown_` ser definida;
+2. Liberar o lock *antes* de notificar é uma boa prática que pode melhorar a performance, pois as _threads_ acordadas não competirão imediatamente pelo _lock_ que a _thread_ notificadora ainda estaria segurando;
+3. `notify_all()`: É **essencial** usar `notify_all()` aqui para acordar **todas** as _threads_ que estão esperando em ambas as variáveis de condição, garantindo que todas elas observem a _flag_ `shutdown_` e terminem sua execução.
+
+### Estrutura `Statistics`
+
+Agrega todas as métricas de performance de forma _thread-safe_, permitindo que múltiplas _threads_ consumidoras atualizem os contadores simultaneamente sem corromper os dados.
+
+#### Membros
+
+```cpp
+std::atomic<int> intervals_processed{0};
+std::atomic<int> primes_found{0};
+std::atomic<long long> total_numbers_checked{0};
+std::chrono::steady_clock::time_point start_time;
+mutable std::mutex last_primes_mutex;
+std::vector<int> last_primes;
+```
+
+- `std::atomic`: garante que incrementos (`++`) e leituras (`.load()`) sejam operações atômicas, eliminando condições de corrida nos contadores;
+- `std::chrono::steady_clock`: é um relógio monotônico, o que significa que ele sempre avança e não é afetado por mudanças no horário do sistema (como horário de verão ou ajustes do NTP). É a escolha correta para medir durações;
+- `last_primes_mutex`: Um `mutex` tradicional é necessário aqui porque modificar um `std::vector` (adicionando ou removendo elementos) não é uma operação atômica.
+
+#### Método `add_prime()`
+
+```cpp
+void add_prime(int prime) {
+    std::lock_guard<std::mutex> lock(last_primes_mutex);
+    last_primes.push_back(prime);
+    if (last_primes.size() > 10) {
+        last_primes.erase(last_primes.begin());
+    }
+}
+```
+
+* **Janela Deslizante**: A lógica mantém apenas os 10 últimos primos encontrados, simulando uma fila FIFO.
+* **Thread Safety**: O `std::lock_guard` adota o padrão RAII (Resource Acquisition Is Initialization). Ele bloqueia o `mutex` em sua construção e o libera automaticamente em sua destruição (no final do escopo), garantindo que o `mutex` seja sempre liberado, mesmo que ocorra uma exceção.
+
+---
+
+### Classe `PrimeCalculator`
+
+#### Constantes de Configuração
+
+```cpp
+static constexpr int RANGE_START = 0;
+static constexpr int RANGE_END = 100000000;
+static constexpr int INTERVAL_SIZE = 1000;
+static constexpr int BUFFER_SIZE = 100;
+static constexpr int NUM_PRODUCERS = 16;
+static constexpr int NUM_CONSUMERS = 8;
+```
+
+* `static constexpr`: Define constantes de tempo de compilação. Elas não ocupam memória por instância da classe e permitem otimizações pelo compilador.
+* **Tuning de Performance**: Os valores escolhidos refletem um balanceamento empírico. Ter mais produtores que consumidores (16 vs. 8) é razoável porque a tarefa do produtor (gerar um intervalo) é muito mais rápida (limitada por I/O e locks) do que a do consumidor (cálculo `is_prime`, limitado por CPU). Um buffer de 100 e intervalos de 1000 oferecem uma boa granularidade para manter as _threads_ consumidoras alimentadas sem muito overhead de sincronização.
+
+#### Algoritmo `is_prime()`
+
+```cpp
+static bool is_prime(int n) {
+    if (n < 2) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+    
+    // Trial division
+    for (int i = 3; i * i <= n; i += 2) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+```
+
+* **Otimizações Implementadas**:
+    1.  Trata casos base (`n < 2`, `n == 2`).
+    2.  Descarta todos os outros números pares.
+    3.  A condição do loop `i * i <= n` é matematicamente equivalente a `i <= sqrt(n)` mas evita o custo computacional de uma operação de ponto flutuante (`sqrt`), usando apenas aritmética de inteiros.
+    4.  O incremento `i += 2` garante que apenas divisores ímpares sejam testados.
+
+#### Função `producer_function()`
+
+```cpp
+void producer_function(int producer_id) {
+    // ...
+    for (int start = RANGE_START; start < RANGE_END; start += INTERVAL_SIZE * NUM_PRODUCERS) {
+        int adjusted_start = start + (producer_id * INTERVAL_SIZE);
+        if (adjusted_start >= RANGE_END) break;
+        
+        int end = std::min(adjusted_start + INTERVAL_SIZE - 1, RANGE_END - 1);
+        Interval interval(adjusted_start, end, interval_id++);
+        
+        if (!buffer_.push(interval)) break;
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    // ...
+}
+```
+
+- **Distribuição de Trabalho (Static Partitioning)**: A lógica de loop distribui os intervalos entre os produtores de forma intercalada (round-robin). O `start` avança em saltos do tamanho do número de produtores, e cada produtor calcula seu próprio offset (`producer_id * INTERVAL_SIZE`). Isso garante que os produtores gerem intervalos de diferentes partes do range total, promovendo uma carga mais variada para os consumidores desde o início.
+- **Rate Limiting**: O `sleep_for` de 1ms é uma forma simples de evitar que os produtores preencham o buffer instantaneamente e entrem em contenção de lock. Ele cede tempo de CPU, permitindo que as _threads_ consumidoras e a de monitoramento sejam escalonadas de forma mais equilibrada pelo sistema operacional.
+
+#### Função `consumer_function()`
+
+```cpp
+void consumer_function(int consumer_id) {
+    Interval interval;
+    while (buffer_.pop(interval)) {
+        // ... processamento do intervalo ...
+        for (int num = interval.start; num <= interval.end; ++num) {
+            // ... chama is_prime() e atualiza estatísticas ...
+        }
+        stats_.intervals_processed++;
+    }
+    // ...
+}
+```
+
+:::{.callout-tips}
+**Para tipos primitivos** (int, char, pointer): **Não há diferença de performance** com compiladores modernos.
+
+**Para tipos definidos pelo usuário** (iteradores, classes customizadas): **`++id` é mais eficiente** que `id++`.
+
+| Aspecto | `++id` | `id++` |
+|---------|--------|--------|
+| **Tipos primitivos** | Mesma performance | Mesma performance |
+| **Iteradores STL** | Mais rápido | Mais lento |
+| **Classes customizadas** | Sem cópia extra | Cria cópia temporária |
+| **Uso de memória** | Menor | Maior |
+| **Convenção** | Recomendado | Quando valor antigo necessário |
+
+A regra prática é: **use `++id` por padrão**, exceto quando explicitamente precisar do valor antigo. Compiladores modernos eliminarão diferenças para tipos primitivos, mas a convenção ajuda com consistência e performance para tipos mais complexos.
+
+No código, temos alguns pontos de otimização:
+
+```cpp
+// 1. Contadores atômicos - HÁ DIFERENÇA
+stats_.primes_found++;                // std::atomic<int> - MENOS eficiente
+stats_.total_numbers_checked++;       // std::atomic<long long> - MENOS eficiente  
+stats_.intervals_processed++;         // std::atomic<int> - MENOS eficiente
+
+// 2. Inteiros normais - SEM diferença (otimizado pelo compilador)
+interval_id++;                        // int - mesma performance
+for (int num = interval.start; num <= interval.end; ++num)  // int - mesma performance
+```
+
+**Resultado típico**: Pós-incremento é 5-15% mais lento para atomics.
+:::
+
+**Loop Principal**: O `while (buffer_.pop(interval))` é uma forma elegante e idiomática de consumir de um buffer bloqueante. O loop continuará enquanto `pop` retornar `true` (um item foi obtido com sucesso). Ele terminará naturalmente quando `pop` retornar `false`, o que só acontece quando o sistema está em shutdown e o buffer está vazio.
+
+#### Função `monitor_function()`
+
+```cpp
+void monitor_function() {
+    // ...
+    while (!processing_complete_.load()) {
+        // ... Coleta métricas das variáveis std::atomic ...
+        
+        // ... Formata timestamp usando std::chrono e localtime_s ...
+        auto now = std::chrono::system_clock::now();
+        auto time_t_var = std::chrono::system_clock::to_time_t(now);
+        std::tm tm_struct;
+        // localtime_s é a versão segura da API do Windows para localtime,
+        // prevenindo buffer overflows.
+        if (localtime_s(&tm_struct, &time_t_var) != 0) {
+            // ...
+        }
+        
+        // ... Imprime o dashboard no console ...
+        // \033[2J limpa a tela, \033[H move o cursor para o topo (canto esquerdo).
+        // São sequências de escape ANSI.
+        std::cout << "\033[2J\033[H";
+        // std::put_time formata a estrutura de tempo para uma string.
+        std::cout << "[" << std::put_time(&tm_struct, "%H:%M:%S") << "] ...\n";
+        
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+    }
+}
+```
+
+#### Método `run()`
+
+```cpp
+void run() {
+    // ... Inicia threads produtoras ...
+    // ... Inicia threads consumidoras ...
+    // ... Inicia thread de monitoramento ...
+
+    // 1. Aguarda finalização dos produtores
+    for (auto& t : producer_threads_) {
+        t.join();
+    }
+    
+    // 2. Sinaliza shutdown (nenhum item novo será produzido)
+    buffer_.signal_shutdown();
+    
+    // 3. Aguarda finalização dos consumidores
+    for (auto& t : consumer_threads_) {
+        t.join();
+    }
+    
+    // 4. Finaliza monitoramento
+    processing_complete_.store(true);
+    monitor_thread_.join();
+    
+    // ... Imprime relatório final ...
+}
+```
+
+**Sequência de Execução e Encerramento**: A ordem de `join()` e `signal_shutdown()` é fundamental para um encerramento correto.
+
+1. `join()` nos produtores: Garante que todos os intervalos foram gerados e colocados no buffer.
+2. `buffer_.signal_shutdown()`: Informa aos consumidores que não devem mais esperar por novos itens.
+3. `join()` nos consumidores: Garante que todos os itens que estavam no buffer foram processados antes de o programa continuar.
+4. Parar e `join()` o monitor: A thread principal espera a thread de monitoramento terminar.
+
+### Funções Auxiliares
+
+#### `setup_console()`
+
+```cpp
+void setup_console() {
+#ifdef _WIN32
+    // Define a página de código do console para UTF-8, permitindo
+    // a exibição correta de caracteres acentuados.
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+    
+    // Obtém um "handle" para o buffer de saída do console. Um handle é
+    // um identificador que o Windows usa para se referir a um recurso.
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut != INVALID_HANDLE_VALUE) {
+        DWORD dwMode = 0;
+        // Obtém o modo atual do console.
+        if (GetConsoleMode(hOut, &dwMode)) {
+            // Habilita o modo de processamento de terminal virtual,
+            // que interpreta as sequências de escape ANSI.
+            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+            SetConsoleMode(hOut, dwMode);
+        }
+    }
+#endif
+}
+```
+
+#### `main()`
+
+```cpp
+int main() {
+    try {
+        setup_console();
+        PrimeCalculator calculator;
+        calculator.run();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Erro: " << e.what() << std::endl;
+        return 1;
+    }
+    return 0;
+}
+```
+
+- **Ponto de Entrada**: A função `main` é o ponto de entrada do programa.
+- **Tratamento de Exceções**: O bloco `try...catch` garante que, se qualquer exceção padrão (`std::exception`) for lançada durante a execução (por exemplo, falha ao alocar memória), o programa não irá travar. Em vez disso, ele capturará a exceção, imprimirá uma mensagem de erro e retornará um código de status diferente de zero, indicando que ocorreu um erro.

@@ -137,7 +137,8 @@ O universo **UNIX**, e por herança **Linux**, adota um modelo elegante para a c
 
     Essa diferença no valor de retorno permite que o programa, após a chamada, siga caminhos de execução diferentes dependendo se ele é o pai ou o filho.
 
-2. **`exec()`: A Substituição da Imagem do Processo**: após o `fork()`, o processo filho geralmente precisa executar um programa diferente. A família de chamadas de sistema `exec` (como `execvp`, `execl`, `execve`) serve a este propósito. Uma chamada `exec` substitui completamente a imagem de memória do processo atual pelo novo programa especificado, carregando seus segmentos de texto, dados e `BSS` do arquivo executável. O **PID** do processo não muda, pois nenhum novo processo é criado; o processo existente é simplesmente transformado. Se a chamada `exec` for bem-sucedida, ela **nunca retorna** ao código que a cham , pois esse código foi substituído.
+2. **`exec()`: A Substituição da Imagem do Processo**: após o `fork()`, o processo filho geralmente precisa executar um programa diferente. A família de chamadas de sistema `exec` (como `execvp`, `execl`, `execve`) serve a este propósito. Uma chamada `exec` substitui completamente a imagem de memória do processo atual pelo novo programa especificado, carregando seus segmentos de texto, dados e `BSS` do
+3. arquivo executável. O **PID** do processo não muda, pois nenhum novo processo é criado; o processo existente é simplesmente transformado. Se a chamada `exec` for bem-sucedida, ela **nunca retorna** ao código que a cham , pois esse código foi substituído.
 
 A separação entre `fork()` e `exec()` é a base da flexibilidade do `shell` **UNIX**. Essa separação cria uma janela de oportunidade na qual o processo filho, antes de se transformar no novo programa com `exec()`, pode manipular seu próprio ambiente, como redirecionar a entrada e saída padrão (`stdin`, `stdout`) para implementar `pipes` e redirecionamentos de arquivo.
 

@@ -1,7 +1,5 @@
 # Apresentação
 
-
-
 ::: {.callout-note}
 **Este livro ainda está em desenvolvimento. A versão atual é um rascunho inicial, e muitas seções ainda estão sendo escritas. Agradecemos por sua paciência e compreensão enquanto  trabalhamos para criar um conteúdo de alta qualidade.**
 
@@ -19,12 +17,12 @@ Lembre-se de que este livro também é um dos materiais de apoio da disciplina d
 
 **Bibliografia Complementar**:
 
-1.	LOVE, Robert. **Linux Kernel Development**. 3ª ed. Addison-Wesley Professional, 2010.
-2.	ARPACI-DUSSEAU, Remzi H.; ARPACI-DUSSEAU, Andrea C. **Operating Systems: Three Easy Pieces**. Arpaci-Dusseau Books, 2018.
-3.	BURNS, Brendan; BEDA, Joe; HIGHTOWER, Kelsey. **Kubernetes: Up and Running**. 2ª ed. O'Reilly Media, 2019.
-4.	MOUAT, Adrian. **Using Docker: Developing and Deploying Software with Containers**. O'Reilly Media, 2015.
-5.	KLEPPMANN, Martin. **Designing Data-Intensive Applications**. O'Reilly Media, 2017.
-6.	BOVET, Daniel P.; CESATI, Marco. **Understanding the Linux Kernel**. 3ª ed. O'Reilly Media, 2005.
+1. LOVE, Robert. **Linux Kernel Development**. 3ª ed. Addison-Wesley Professional, 2010.
+2. ARPACI-DUSSEAU, Remzi H.; ARPACI-DUSSEAU, Andrea C. **Operating Systems: Three Easy Pieces**. Arpaci-Dusseau Books, 2018.
+3. BURNS, Brendan; BEDA, Joe; HIGHTOWER, Kelsey. **Kubernetes: Up and Running**. 2ª ed. O'Reilly Media, 2019.
+4. MOUAT, Adrian. **Using Docker: Developing and Deploying Software with Containers**. O'Reilly Media, 2015.
+5. KLEPPMANN, Martin. **Designing Data-Intensive Applications**. O'Reilly Media, 2017.
+6. BOVET, Daniel P.; CESATI, Marco. **Understanding the Linux Kernel**. 3ª ed. O'Reilly Media, 2005.
 
 Além disso, observe que o texto está sendo escrito visando a publicação. Ou seja, existem seções que só serão revisadas, escritas e finalizadas ao longo da disciplina. Portanto, não se surpreenda se encontrar erros de digitação, gramática ou mesmo de conteúdo. Agradeço caso possa indicar possíveis correções e melhorias.
 

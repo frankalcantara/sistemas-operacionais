@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sistema de Processamento de Hashes de Textos da Wikipedia</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    
+    <style>
+        /* Variáveis CSS Comuns */
+        :root {
+            --copper-50: #fdf8f6;
+            --copper-100: #f2e8e5;
+            --copper-200: #eaddd7;
+            --copper-300: #e0cec7;
+            --copper-400: #d2bab0;
+            --copper-500: #bfa094;
+            --copper-600: #a18072;
+            --copper-700: #977669;
+            --copper-800: #846358;
+            --copper-900: #43302b;
+            --sage-50: #f6f7f6;
+            --sage-100: #e3e7e3;
+            --sage-200: #c7d0c7;
+            --sage-300: #a3b2a3;
+            --sage-400: #7a8f7a;
+            --sage-500: #5d7360;
+            --sage-600: #495a4c;
+            --sage-700: #3d4a3f;
+            --sage-800: #343d36;
+            --sage-900: #2d342f;
+        }
+
+        /* Estilos Base */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Crimson Text', serif;
+        }
+
+        /* Layout Principal */
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(93, 115, 96, 0.9) 0%, rgba(191, 160, 148, 0.8) 100%);
+        }
+
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .toc-fixed.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 1.5rem;
+            height: 60vh;
+        }
+
+        .bento-main {
+            grid-row: 1 / -1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-side-top,
+        .bento-side-bottom {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Cards e Containers */
+        .concept-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, var(--sage-50), var(--copper-50));
+            border: 1px solid var(--sage-200);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .definition-title {
+            font-weight: 600;
+            color: var(--sage-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        /* Animações */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .hover-bg-light:hover {
+            background-color: var(--sage-50);
+        }
+
+        .stat-highlight {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        /* Steps */
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin: 0.8rem 0;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .step-number {
+            background: var(--sage-600);
+            color: white !important;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .bento-main {
+                grid-row: auto;
+            }
+            
+            .stat-highlight {
+                font-size: 2rem;
+            }
+        }
+
+        /* SVG Diagram Styles */
+        .diagram-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .svg-diagram {
+            width: 100%;
+            height: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        /* Thread type colors */
+        .thread-crawler { fill: #3b82f6; }
+        .thread-producer { fill: #10b981; }
+        .thread-consumer { fill: #f59e0b; }
+        .thread-monitor { fill: #ef4444; }
+        .thread-admin { fill: #8b5cf6; }
+        .thread-logger { fill: #06b6d4; }
+        .thread-cleanup { fill: #84cc16; }
+
+        .buffer-text { fill: #fbbf24; }
+        .buffer-hash { fill: #34d399; }
+        .communication { stroke: #6b7280; stroke-width: 2; fill: none; }
+        .data-flow { stroke: #059669; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+    </style>
+</head>
+<body>
+    <!-- Table of Contents -->
+    <nav class="toc-fixed" id="toc">
+        <div class="mb-4">
+            <h3 class="fs-5 fw-bold text-dark mb-3">Sumário</h3>
+            <ul class="list-unstyled">
+                <li class="mb-2"><a href="#introducao" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">1. Visão Geral</a></li>
+                <li class="mb-2"><a href="#arquitetura" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">2. Arquitetura</a></li>
+                <li class="mb-2"><a href="#threads" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">3. Threads</a></li>
+                <li class="mb-2"><a href="#bibliotecas" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">4. Bibliotecas</a></li>
+                <li class="mb-2"><a href="#implementacao" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">5. Implementação</a></li>
+                <li class="mb-2"><a href="#comunicacao" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">6. Comunicação</a></li>
+                <li class="mb-2"><a href="#dashboard" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">7. Dashboard</a></li>
+                <li class="mb-2"><a href="#avaliacao" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">8. Avaliação</a></li>
+                <li class="mb-2"><a href="#ambiente" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">9. Ambiente</a></li>
+                <li class="mb-2"><a href="#cronograma" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">10. Cronograma</a></li>
+            </ul>
+        </div>
+        <div class="mt-4 pt-4 border-top">
+            <h4 class="fs-6 fw-semibold text-dark mb-3">Componentes</h4>
+            <div class="d-flex flex-column gap-2">
+                <div class="p-2 bg-primary-subtle rounded"><i class="fas fa-cogs me-2 text-primary"></i><small class="text-primary fw-medium">Backend C++</small></div>
+                <div class="p-2 bg-success-subtle rounded"><i class="fas fa-desktop me-2 text-success"></i><small class="text-success fw-medium">Frontend Python</small></div>
+                <div class="p-2 bg-info-subtle rounded"><i class="fas fa-network-wired me-2 text-info"></i><small class="text-info fw-medium">IPC</small></div>
+                <div class="p-2 bg-warning-subtle rounded"><i class="fas fa-hashtag me-2 text-warning"></i><small class="text-warning fw-medium">SHA-1</small></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile TOC Toggle -->
+    <button class="d-lg-none position-fixed top-0 start-0 m-3 z-3 bg-white p-2 rounded shadow" onclick="toggleTOC()">
+        <i class="fas fa-bars text-dark"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="min-vh-100" style="background: linear-gradient(to bottom right, var(--sage-100), var(--copper-100));">
+            <div class="container py-5">
+                
+                <div class="bento-grid mb-5">
+                    <div class="bento-main bg-white rounded-3 shadow">
+                        <div class="hero-gradient h-100 d-flex align-items-center justify-content-center position-relative">
+                            <div class="position-absolute w-100 h-100 opacity-25" style="background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 300\"><defs><pattern id=\"threads\" x=\"0\" y=\"0\" width=\"60\" height=\"60\" patternUnits=\"userSpaceOnUse\"><circle cx=\"30\" cy=\"30\" r=\"15\" fill=\"%23ffffff\" opacity=\"0.3\"/><path d=\"M15,15 L45,45 M45,15 L15,45\" stroke=\"%23ffffff\" stroke-width=\"2\" opacity=\"0.2\"/></pattern></defs><rect width=\"100%25\" height=\"100%25\" fill=\"url(%23threads)\"/></svg>') center/cover;"></div>
+                            <div class="position-relative z-1 text-center text-white p-4">
+                                <h1 class="display-4 fw-bold mb-4">
+                                    <em class="d-block" style="color: var(--copper-200);">Projeto Sistemas Operacionais:</em>
+                                    <span class="d-block">Sistema de Processamento de Hashes Wikipedia</span>
+                                </h1>
+                                <p class="fs-4 text-light fw-light mx-auto" style="max-width: 32rem;">
+                                    Backend C++ multi-threaded + Frontend Python com dashboard em tempo real
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bento-side-top bg-white rounded-3 p-4 shadow">
+                        <div class="text-center">
+                            <div class="stat-highlight text-primary">7</div>
+                            <div class="fs-6 text-muted">Tipos de Threads</div>
+                        </div>
+                    </div>
+                    <div class="bento-side-bottom bg-light rounded-3 p-4 shadow" style="background-color: var(--copper-50);">
+                        <div class="text-center">
+                            <div class="stat-highlight" style="color: var(--copper-800);">#</div>
+                            <div class="fs-6" style="color: var(--copper-700);">SHA-1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+                    <div class="col">
+                        <div class="card h-100 bg-white rounded-3 shadow hover-lift">
+                            <div class="card-body p-4 text-center">
+                                <i class="fas fa-cogs fs-2 text-primary mb-3"></i>
+                                <h3 class="fs-6 fw-semibold text-primary">Backend C++</h3>
+                                <p class="fs-7 text-muted">Multi-threaded</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 bg-white rounded-3 shadow hover-lift">
+                            <div class="card-body p-4 text-center">
+                                <i class="fas fa-desktop fs-2 text-success mb-3"></i>
+                                <h3 class="fs-6 fw-semibold text-success">Frontend Python</h3>
+                                <p class="fs-7 text-muted">Dashboard em Tempo Real</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 bg-white rounded-3 shadow hover-lift">
+                            <div class="card-body p-4 text-center">
+                                <i class="fas fa-network-wired fs-2 text-info mb-3"></i>
+                                <h3 class="fs-6 fw-semibold text-info">IPC</h3>
+                                <p class="fs-7 text-muted">Comunicação TCP</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 bg-white rounded-3 shadow hover-lift">
+                            <div class="card-body p-4 text-center">
+                                <i class="fas fa-hashtag fs-2 text-warning mb-3"></i>
+                                <h3 class="fs-6 fw-semibold text-warning">SHA-1</h3>
+                                <p class="fs-7 text-muted">Implementação Manual</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Introduction Section -->
+        <section id="introducao" class="py-5 bg-white">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">1. Visão Geral do Projeto</h2>
+                    
+                    <div class="card p-4 rounded-3 shadow mb-5" style="background: linear-gradient(135deg, var(--sage-50), var(--copper-50));">
+                        <blockquote class="blockquote mb-4">
+                            <p class="fs-5 fst-italic">
+                                "Este projeto implementa um sistema multi-threaded que realiza crawling de páginas da Wikipedia, calcula hashes dos textos extraídos e processa esses hashes através de um pipeline de threads especializadas, demonstrando conceitos avançados de programação concorrente."
+                            </p>
+                            <footer class="blockquote-footer">Objetivo Pedagógico</footer>
+                        </blockquote>
+                    </div>
+
+                    <div class="definition-box">
+                        <div class="definition-title">Objetivos de Aprendizagem</div>
+                        <ul class="mb-0">
+                            <li><strong>Threading Avançado:</strong> Criação e sincronização de múltiplas threads especializadas</li>
+                            <li><strong>Algoritmos Criptográficos:</strong> Implementação manual de função SHA-1 simplificada</li>
+                            <li><strong>Comunicação IPC:</strong> Sockets TCP entre backend C++ e frontend Python</li>
+                            <li><strong>Interface Gráfica:</strong> Dashboard em tempo real com controles administrativos</li>
+                            <li><strong>Arquitetura de Software:</strong> Separação clara entre backend de processamento e frontend de controle</li>
+                        </ul>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-primary mb-3">Backend C++23</h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>7 tipos de threads especializadas</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Buffers thread-safe</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>SHA-1 implementado manualmente</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>HTTP client para Wikipedia</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-success mb-3">Frontend Python</h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Dashboard Tkinter</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Gráficos em tempo real</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Controles administrativos</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cliente TCP</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-info mb-3">Fluxo de Dados</h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-arrow-right text-info me-2"></i>Wikipedia → Textos</li>
+                                    <li class="mb-2"><i class="fas fa-arrow-right text-info me-2"></i>Textos → Hashes</li>
+                                    <li class="mb-2"><i class="fas fa-arrow-right text-info me-2"></i>Hashes → Processamento</li>
+                                    <li class="mb-2"><i class="fas fa-arrow-right text-info me-2"></i>Métricas → Dashboard</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="arquitetura" class="py-5 bg-light">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">2. Arquitetura do Sistema</h2>
+                    
+                    <div class="diagram-container">
+                        <h3 class="fs-4 fw-semibold mb-4 text-center">Visão Geral da Arquitetura</h3>
+                        <svg class="svg-diagram" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                                        refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#059669" />
+                                </marker>
+                            </defs>
+                            
+                            <!-- Background -->
+                            <rect width="800" height="600" fill="#f8f9fa"/>
+                            
+                            <!-- Backend Section -->
+                            <rect x="50" y="50" width="500" height="400" fill="#e3e7e3" stroke="#495a4c" stroke-width="2" rx="10"/>
+                            <text x="300" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#495a4c">Backend C++ (Multi-threaded)</text>
+                            
+                            <!-- Wikipedia API -->
+                            <rect x="20" y="150" width="100" height="60" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" rx="5"/>
+                            <text x="70" y="175" text-anchor="middle" font-size="12" font-weight="bold">Wikipedia</text>
+                            <text x="70" y="190" text-anchor="middle" font-size="12" font-weight="bold">API</text>
+                            
+                            <!-- Crawler Threads -->
+                            <rect x="150" y="120" width="80" height="40" class="thread-crawler" stroke="#1e40af" stroke-width="2" rx="5"/>
+                            <text x="190" y="135" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Crawler</text>
+                            <text x="190" y="150" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Threads</text>
+                            
+                            <!-- Text Buffer -->
+                            <rect x="270" y="120" width="80" height="40" class="buffer-text" stroke="#f59e0b" stroke-width="2" rx="5"/>
+                            <text x="310" y="135" text-anchor="middle" font-size="10" font-weight="bold">Text</text>
+                            <text x="310" y="150" text-anchor="middle" font-size="10" font-weight="bold">Buffer</text>
+                            
+                            <!-- Hash Producer Threads -->
+                            <rect x="390" y="120" width="80" height="40" class="thread-producer" stroke="#059669" stroke-width="2" rx="5"/>
+                            <text x="430" y="135" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Hash</text>
+                            <text x="430" y="150" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Producers</text>
+                            
+                            <!-- Hash Buffer -->
+                            <rect x="270" y="200" width="80" height="40" class="buffer-hash" stroke="#10b981" stroke-width="2" rx="5"/>
+                            <text x="310" y="215" text-anchor="middle" font-size="10" font-weight="bold">Hash</text>
+                            <text x="310" y="230" text-anchor="middle" font-size="10" font-weight="bold">Buffer</text>
+                            
+                            <!-- Consumer Threads -->
+                            <rect x="390" y="200" width="80" height="40" class="thread-consumer" stroke="#d97706" stroke-width="2" rx="5"/>
+                            <text x="430" y="215" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Hash</text>
+                            <text x="430" y="230" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Consumers</text>
+                            
+                            <!-- Support Threads -->
+                            <rect x="150" y="280" width="60" height="30" class="thread-monitor" stroke="#dc2626" stroke-width="1" rx="3"/>
+                            <text x="180" y="298" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Monitor</text>
+                            
+                            <rect x="220" y="280" width="60" height="30" class="thread-admin" stroke="#7c3aed" stroke-width="1" rx="3"/>
+                            <text x="250" y="298" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Admin</text>
+                            
+                            <rect x="290" y="280" width="60" height="30" class="thread-logger" stroke="#0891b2" stroke-width="1" rx="3"/>
+                            <text x="320" y="298" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Logger</text>
+                            
+                            <rect x="360" y="280" width="60" height="30" class="thread-cleanup" stroke="#65a30d" stroke-width="1" rx="3"/>
+                            <text x="390" y="298" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Cleanup</text>
+                            
+                            <!-- IPC Channel -->
+                            <rect x="450" y="350" width="80" height="40" fill="#e0e7ff" stroke="#3730a3" stroke-width="2" rx="5"/>
+                            <text x="490" y="365" text-anchor="middle" font-size="10" font-weight="bold">IPC</text>
+                            <text x="490" y="380" text-anchor="middle" font-size="10" font-weight="bold">TCP Socket</text>
+                            
+                            <!-- Frontend Section -->
+                            <rect x="600" y="200" width="150" height="200" fill="#dcfce7" stroke="#16a34a" stroke-width="2" rx="10"/>
+                            <text x="675" y="190" text-anchor="middle" font-size="14" font-weight="bold" fill="#16a34a">Frontend Python</text>
+                            
+                            <!-- Dashboard Components -->
+                            <rect x="620" y="220" width="110" height="30" fill="#22c55e" stroke="#15803d" stroke-width="1" rx="3"/>
+                            <text x="675" y="238" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Tkinter Dashboard</text>
+                            
+                            <rect x="620" y="260" width="110" height="30" fill="#22c55e" stroke="#15803d" stroke-width="1" rx="3"/>
+                            <text x="675" y="278" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Real-time Charts</text>
+                            
+                            <rect x="620" y="300" width="110" height="30" fill="#22c55e" stroke="#15803d" stroke-width="1" rx="3"/>
+                            <text x="675" y="318" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Control Panel</text>
+                            
+                            <rect x="620" y="340" width="110" height="30" fill="#22c55e" stroke="#15803d" stroke-width="1" rx="3"/>
+                            <text x="675" y="358" text-anchor="middle" font-size="10" fill="white" font-weight="bold">TCP Client</text>
+                            
+                            <!-- Data Flow Arrows -->
+                            <line x1="120" y1="180" x2="150" y2="140" class="data-flow"/>
+                            <line x1="230" y1="140" x2="270" y2="140" class="data-flow"/>
+                            <line x1="350" y1="140" x2="390" y2="140" class="data-flow"/>
+                            <line x1="430" y1="160" x2="310" y2="200" class="data-flow"/>
+                            <line x1="350" y1="220" x2="390" y2="220" class="data-flow"/>
+                            <line x1="530" y1="370" x2="600" y2="320" class="data-flow"/>
+                            
+                            <!-- Legend -->
+                            <rect x="50" y="500" width="700" height="80" fill="white" stroke="#6b7280" stroke-width="1" rx="5"/>
+                            <text x="400" y="520" text-anchor="middle" font-size="12" font-weight="bold">Legenda</text>
+                            
+                            <rect x="70" y="530" width="15" height="15" class="thread-crawler"/>
+                            <text x="95" y="542" font-size="10">Crawler Threads</text>
+                            
+                            <rect x="180" y="530" width="15" height="15" class="thread-producer"/>
+                            <text x="205" y="542" font-size="10">Producer Threads</text>
+                            
+                            <rect x="290" y="530" width="15" height="15" class="thread-consumer"/>
+                            <text x="315" y="542" font-size="10">Consumer Threads</text>
+                            
+                            <rect x="420" y="530" width="15" height="15" class="buffer-text"/>
+                            <text x="445" y="542" font-size="10">Buffers</text>
+                            
+                            <rect x="520" y="530" width="15" height="15" class="thread-monitor"/>
+                            <text x="545" y="542" font-size="10">Support Threads</text>
+                            
+                            <rect x="640" y="530" width="15" height="15" fill="#22c55e"/>
+                            <text x="665" y="542" font-size="10">Python Components</text>
+                            
+                            <line x1="70" y1="560" x2="120" y2="560" class="data-flow"/>
+                            <text x="130" y="564" font-size="10">Data Flow</text>
+                        </svg>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Pipeline de Processamento</div>
+                                <ol>
+                                    <li><strong>Crawling:</strong> Threads fazem requisições HTTP para Wikipedia</li>
+                                    <li><strong>Buffer de Textos:</strong> Armazena conteúdo extraído (máx. 100 textos)</li>
+                                    <li><strong>Hash Production:</strong> Threads calculam SHA-1 dos textos</li>
+                                    <li><strong>Buffer de Hashes:</strong> Armazena hashes calculados (máx. 50 hashes)</li>
+                                    <li><strong>Processing:</strong> Threads consomem e validam hashes finais</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Threads de Suporte</div>
+                                <ul>
+                                    <li><strong>Monitor:</strong> Coleta métricas do sistema</li>
+                                    <li><strong>Admin:</strong> Recebe comandos do dashboard</li>
+                                    <li><strong>Logger:</strong> Registra eventos importantes</li>
+                                    <li><strong>Cleanup:</strong> Limpeza periódica de recursos</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Threads Section -->
+        <section id="threads" class="py-5 bg-white">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">3. Threads Especializadas</h2>
+                    
+                    <div class="diagram-container">
+                        <h3 class="fs-4 fw-semibold mb-4 text-center">Diagrama de Threads e Sincronização</h3>
+                        <svg class="svg-diagram" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background -->
+                            <rect width="800" height="500" fill="#f8f9fa"/>
+                            
+                            <!-- Thread Groups -->
+                            <rect x="50" y="50" width="700" height="400" fill="white" stroke="#6b7280" stroke-width="1" rx="10"/>
+                            <text x="400" y="40" text-anchor="middle" font-size="16" font-weight="bold">Thread Synchronization Model</text>
+                            
+                            <!-- Primary Pipeline Threads -->
+                            <rect x="80" y="80" width="120" height="80" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5"/>
+                            <text x="140" y="100" text-anchor="middle" font-size="12" font-weight="bold">Crawler Threads</text>
+                            <text x="140" y="115" text-anchor="middle" font-size="10">2-3 threads</text>
+                            <text x="140" y="130" text-anchor="middle" font-size="10">HTTP requests</text>
+                            <text x="140" y="145" text-anchor="middle" font-size="10">Wikipedia API</text>
+                            
+                            <rect x="240" y="80" width="120" height="80" fill="#dcfce7" stroke="#10b981" stroke-width="2" rx="5"/>
+                            <text x="300" y="100" text-anchor="middle" font-size="12" font-weight="bold">Hash Producers</text>
+                            <text x="300" y="115" text-anchor="middle" font-size="10">3-4 threads</text>
+                            <text x="300" y="130" text-anchor="middle" font-size="10">SHA-1 calculation</text>
+                            <text x="300" y="145" text-anchor="middle" font-size="10">Text → Hash</text>
+                            
+                            <rect x="400" y="80" width="120" height="80" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="5"/>
+                            <text x="460" y="100" text-anchor="middle" font-size="12" font-weight="bold">Hash Consumers</text>
+                            <text x="460" y="115" text-anchor="middle" font-size="10">2-3 threads</text>
+                            <text x="460" y="130" text-anchor="middle" font-size="10">Process/validate</text>
+                            <text x="460" y="145" text-anchor="middle" font-size="10">Save to storage</text>
+                            
+                            <!-- Support Threads -->
+                            <rect x="560" y="80" width="120" height="80" fill="#fee2e2" stroke="#ef4444" stroke-width="2" rx="5"/>
+                            <text x="620" y="100" text-anchor="middle" font-size="12" font-weight="bold">Monitor Thread</text>
+                            <text x="620" y="115" text-anchor="middle" font-size="10">1 thread</text>
+                            <text x="620" y="130" text-anchor="middle" font-size="10">Collect metrics</text>
+                            <text x="620" y="145" text-anchor="middle" font-size="10">Send to dashboard</text>
+                            
+                            <rect x="80" y="200" width="120" height="80" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2" rx="5"/>
+                            <text x="140" y="220" text-anchor="middle" font-size="12" font-weight="bold">Admin Thread</text>
+                            <text x="140" y="235" text-anchor="middle" font-size="10">1 thread</text>
+                            <text x="140" y="250" text-anchor="middle" font-size="10">Receive commands</text>
+                            <text x="140" y="265" text-anchor="middle" font-size="10">Control system</text>
+                            
+                            <rect x="240" y="200" width="120" height="80" fill="#e0f2fe" stroke="#06b6d4" stroke-width="2" rx="5"/>
+                            <text x="300" y="220" text-anchor="middle" font-size="12" font-weight="bold">Logger Thread</text>
+                            <text x="300" y="235" text-anchor="middle" font-size="10">1 thread</text>
+                            <text x="300" y="250" text-anchor="middle" font-size="10">Thread-safe queue</text>
+                            <text x="300" y="265" text-anchor="middle" font-size="10">Write to file</text>
+                            
+                            <rect x="400" y="200" width="120" height="80" fill="#f0fdf4" stroke="#84cc16" stroke-width="2" rx="5"/>
+                            <text x="460" y="220" text-anchor="middle" font-size="12" font-weight="bold">Cleanup Thread</text>
+                            <text x="460" y="235" text-anchor="middle" font-size="10">1 thread</text>
+                            <text x="460" y="250" text-anchor="middle" font-size="10">Periodic cleanup</text>
+                            <text x="460" y="265" text-anchor="middle" font-size="10">Resource management</text>
+                            
+                            <!-- Synchronization Primitives -->
+                            <rect x="560" y="200" width="120" height="80" fill="#fff7ed" stroke="#ea580c" stroke-width="2" rx="5"/>
+                            <text x="620" y="215" text-anchor="middle" font-size="12" font-weight="bold">Sync Primitives</text>
+                            <text x="620" y="235" text-anchor="middle" font-size="9">• std::mutex</text>
+                            <text x="620" y="250" text-anchor="middle" font-size="9">• condition_variable</text>
+                            <text x="620" y="265" text-anchor="middle" font-size="9">• std::atomic</text>
+                            
+                            <!-- Buffer Representations -->
+                            <ellipse cx="320" cy="350" rx="60" ry="30" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+                            <text x="320" y="345" text-anchor="middle" font-size="11" font-weight="bold">Text Buffer</text>
+                            <text x="320" y="360" text-anchor="middle" font-size="9">Max: 100 texts</text>
+                            
+                            <ellipse cx="480" cy="350" rx="60" ry="30" fill="#34d399" stroke="#10b981" stroke-width="2"/>
+                            <text x="480" y="345" text-anchor="middle" font-size="11" font-weight="bold">Hash Buffer</text>
+                            <text x="480" y="360" text-anchor="middle" font-size="9">Max: 50 hashes</text>
+                            
+                            <!-- Connection Lines -->
+                            <line x1="200" y1="140" x2="260" y2="340" stroke="#6b7280" stroke-width="2" stroke-dasharray="5,5"/>
+                            <line x1="360" y1="140" x2="420" y2="340" stroke="#6b7280" stroke-width="2" stroke-dasharray="5,5"/>
+                            <line x1="520" y1="140" x2="540" y2="340" stroke="#6b7280" stroke-width="2" stroke-dasharray="5,5"/>
+                            
+                            <!-- Arrows showing data flow -->
+                            <path d="M200 120 L240 120" stroke="#059669" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                            <path d="M360 120 L400 120" stroke="#059669" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                        </svg>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-primary mb-3">
+                                    <i class="fas fa-spider me-2"></i>Crawler Threads (2-3)
+                                </h4>
+                                <p class="fs-6 mb-3">Fazem requisições HTTP para a API da Wikipedia e extraem conteúdo textual das páginas.</p>
+                                <div class="code-block">
+<pre><code class="cpp">#include &lt;httplib.h&gt;
+
+class WikipediaCrawler {
+    httplib::Client client;
+public:
+    std::string fetchRandomPage();
+};</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-success mb-3">
+                                    <i class="fas fa-hashtag me-2"></i>Hash Producers (3-4)
+                                </h4>
+                                <p class="fs-6 mb-3">Consomem textos do buffer e calculam hashes SHA-1 simplificado manualmente implementado.</p>
+                                <div class="code-block">
+<pre><code class="cpp">class SimpleSHA1 {
+    uint32_t h[5] = {0x67452301, 
+                     0xEFCDAB89, 
+                     0x98BADCFE, 
+                     0x10325476, 
+                     0xC3D2E1F0};
+public:
+    std::string hash(const std::string& msg);
+};</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-warning mb-3">
+                                    <i class="fas fa-cogs me-2"></i>Hash Consumers (2-3)
+                                </h4>
+                                <p class="fs-6 mb-3">Processam e validam hashes finais, salvando-os em arquivo JSON ou base de dados.</p>
+                                <div class="code-block">
+<pre><code class="cpp">#include &lt;nlohmann/json.hpp&gt;
+
+void processHash(const std::string& text, 
+                 const std::string& hash) {
+    json result;
+    result["text_preview"] = text.substr(0, 100);
+    result["hash"] = hash;
+    result["timestamp"] = getCurrentTime();
+    saveToFile(result);
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-danger mb-3">
+                                    <i class="fas fa-chart-line me-2"></i>Monitor Thread (1)
+                                </h4>
+                                <p class="fs-6 mb-3">Coleta estatísticas do sistema e envia métricas para o dashboard Python via TCP.</p>
+                                <div class="code-block">
+<pre><code class="cpp">struct SystemMetrics {
+    std::atomic&lt;int&gt; texts_crawled{0};
+    std::atomic&lt;int&gt; hashes_calculated{0};
+    std::atomic&lt;double&gt; avg_hash_time{0.0};
+    std::atomic&lt;int&gt; text_buffer_size{0};
+};</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-info mb-3">
+                                    <i class="fas fa-user-cog me-2"></i>Admin Thread (1)
+                                </h4>
+                                <p class="fs-6 mb-3">Recebe comandos do dashboard Python e controla operação do sistema.</p>
+                                <div class="code-block">
+<pre><code class="cpp">enum class Command {
+    PAUSE_CRAWLERS,
+    RESUME_CRAWLERS,
+    ADJUST_SPEED,
+    CLEAR_BUFFERS,
+    SHUTDOWN
+};</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-secondary mb-3">
+                                    <i class="fas fa-broom me-2"></i>Support Threads
+                                </h4>
+                                <p class="fs-6 mb-3">Logger thread para eventos e Cleanup thread para limpeza periódica de recursos.</p>
+                                <div class="code-block">
+<pre><code class="cpp">// Logger: Thread-safe queue
+std::queue&lt;LogMessage&gt; log_queue;
+std::mutex log_mutex;
+
+// Cleanup: Periodic execution
+std::this_thread::sleep_for(
+    std::chrono::seconds(30));
+cleanupExpiredTexts();</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Libraries Section -->
+        <section id="bibliotecas" class="py-5 bg-light">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">4. Bibliotecas e Dependências</h2>
+                    
+                    <div class="row row-cols-1 row-cols-lg-2 g-4">
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Backend C++23</div>
+                                <div class="example-box">
+                                    <h5 class="fw-semibold mb-3">HTTP Client para Wikipedia</h5>
+                                    <div class="code-block">
+<pre><code class="cpp">#include &lt;httplib.h&gt;  // cpp-httplib
+// Instalação: vcpkg install httplib
+
+httplib::Client client("https://en.wikipedia.org");
+auto res = client.Get("/api/v1/random");
+if (res && res->status == 200) {
+    std::string content = res->body;
+}</code></pre>
+                                    </div>
+                                </div>
+                                
+                                <div class="example-box">
+                                    <h5 class="fw-semibold mb-3">JSON Processing</h5>
+                                    <div class="code-block">
+<pre><code class="cpp">#include &lt;nlohmann/json.hpp&gt;  // nlohmann/json
+// Instalação: vcpkg install nlohmann-json
+
+using json = nlohmann::json;
+json metrics;
+metrics["texts_processed"] = 150;
+metrics["avg_time"] = 2.5;
+std::string json_str = metrics.dump();</code></pre>
+                                    </div>
+                                </div>
+                                
+                                <div class="example-box">
+                                    <h5 class="fw-semibold mb-3">Sockets (Windows)</h5>
+                                    <div class="code-block">
+<pre><code class="cpp">#include &lt;winsock2.h&gt;
+#include &lt;ws2tcpip.h&gt;
+#pragma comment(lib, "ws2_32.lib")
+
+WSADATA wsaData;
+WSAStartup(MAKEWORD(2,2), &wsaData);
+SOCKET server_socket = socket(AF_INET, SOCK_STREAM, 0);</code></pre>
+                                    </div>
+                                </div>
+                                
+                                <div class="example-box">
+                                    <h5 class="fw-semibold mb-3">Threading C++23</h5>
+                                    <div class="code-block">
+<pre><code class="cpp">#include &lt;thread&gt;
+#include &lt;mutex&gt;
+#include &lt;condition_variable&gt;
+#include &lt;atomic&gt;
+#include &lt;semaphore&gt;  // C++20/23 feature
+
+std::counting_semaphore&lt;10&gt; sem(5);
+std::atomic&lt;bool&gt; shutdown_flag{false};</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Frontend Python</div>
+                                <div class="example-box">
+                                    <h5 class="fw-semibold mb-3">GUI Framework</h5>
+                                    <div class="code-block">
+<pre><code class="python">import tkinter as tk
+from tkinter import ttk
+import customtkinter as ctk  # UI moderna
+
+class Dashboard:
+    def __init__(self):
+        self.root = ctk.CTk()
+        self.create_widgets()
+        
+    def create_widgets(self):
+        self.metrics_frame = ctk.CTkFrame(self.root)
+        self.control_frame = ctk.CTkFrame(self.root)</code></pre>
+                                    </div>
+                                </div>
+                                
+                                <div class="example-box">
+                                    <h5 class="fw-semibold mb-3">Networking</h5>
+                                    <div class="code-block">
+<pre><code class="python">import socket
+import json
+import threading
+
+class BackendClient:
+    def __init__(self, host='localhost', port=8888):
+        self.socket = socket.socket(socket.AF_INET, 
+                                   socket.SOCK_STREAM)
+        self.connect(host, port)
+        
+    def receive_metrics(self):
+        data = self.socket.recv(1024)
+        return json.loads(data.decode())</code></pre>
+                                    </div>
+                                </div>
+                                
+                                <div class="example-box">
+                                    <h5 class="fw-semibold mb-3">Visualização de Dados</h5>
+                                    <div class="code-block">
+<pre><code class="python">import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+import numpy as np
+
+class MetricsChart:
+    def __init__(self):
+        self.fig, self.ax = plt.subplots()
+        self.animation = FuncAnimation(
+            self.fig, self.update_chart, 
+            interval=1000, blit=True)</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Section -->
+        <section id="implementacao" class="py-5 bg-white">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">5. Detalhes de Implementação</h2>
+                    
+                    <div class="example-box">
+                        <h3 class="fs-4 fw-semibold mb-4">Função SHA-1 Simplificada</h3>
+                        <p class="mb-3">Os alunos devem implementar uma versão simplificada do algoritmo SHA-1:</p>
+                        <div class="code-block">
+<pre><code class="cpp">class SimpleSHA1 {
+private:
+    // Valores iniciais de hash (constantes SHA-1)
+    uint32_t h[5] = {
+        0x67452301, 0xEFCDAB89, 0x98BADCFE, 
+        0x10325476, 0xC3D2E1F0
+    };
+    
+    // Função de rotação à esquerda
+    uint32_t leftRotate(uint32_t value, unsigned int count) {
+        return (value << count) | (value >> (32 - count));
+    }
+    
+    // Funções auxiliares simplificadas
+    uint32_t f(int t, uint32_t b, uint32_t c, uint32_t d) {
+        if (t < 20) return (b & c) | ((~b) & d);
+        else if (t < 40) return b ^ c ^ d;
+        else if (t < 60) return (b & c) | (b & d) | (c & d);
+        else return b ^ c ^ d;
+    }
+    
+public:
+    std::string hash(const std::string& message) {
+        // Implementação simplificada com menos rounds
+        // Padding do message
+        std::string padded = message + "\x80";
+        while ((padded.length() % 64) != 56) {
+            padded += "\x00";
+        }
+        
+        // Adicionar length (simplificado)
+        uint64_t length = message.length() * 8;
+        for (int i = 0; i < 8; i++) {
+            padded += static_cast&lt;char&gt;(length >> (56 - i * 8));
+        }
+        
+        // Processar blocos (implementação simplificada)
+        for (size_t chunk = 0; chunk < padded.length(); chunk += 64) {
+            processChunk(padded.substr(chunk, 64));
+        }
+        
+        // Converter para string hexadecimal
+        return toHexString();
+    }
+    
+private:
+    void processChunk(const std::string& chunk) {
+        // Implementação dos 80 rounds simplificada para 40 rounds
+        uint32_t w[80];
+        
+        // Preparar message schedule
+        for (int i = 0; i < 16; i++) {
+            w[i] = (chunk[i*4] << 24) | (chunk[i*4+1] << 16) | 
+                   (chunk[i*4+2] << 8) | chunk[i*4+3];
+        }
+        
+        for (int i = 16; i < 40; i++) {  // Reduzido de 80 para 40
+            w[i] = leftRotate(w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16], 1);
+        }
+        
+        // Inicializar variáveis de trabalho
+        uint32_t a = h[0], b = h[1], c = h[2], d = h[3], e = h[4];
+        
+        // Main loop (40 rounds ao invés de 80)
+        for (int i = 0; i < 40; i++) {
+            uint32_t temp = leftRotate(a, 5) + f(i, b, c, d) + e + w[i] + getK(i);
+            e = d; d = c; c = leftRotate(b, 30); b = a; a = temp;
+        }
+        
+        // Adicionar aos valores de hash
+        h[0] += a; h[1] += b; h[2] += c; h[3] += d; h[4] += e;
+    }
+    
+    uint32_t getK(int t) {
+        if (t < 20) return 0x5A827999;
+        else return 0x6ED9EBA1;  // Simplificado para 2 constantes
+    }
+    
+    std::string toHexString() {
+        std::stringstream ss;
+        for (int i = 0; i < 5; i++) {
+            ss << std::hex << std::setfill('0') << std::setw(8) << h[i];
+        }
+        return ss.str();
+    }
+};</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h3 class="fs-4 fw-semibold mb-4">Estruturas de Dados Thread-Safe</h3>
+                        <div class="code-block">
+<pre><code class="cpp">// Text Buffer Thread-Safe
+template&lt;typename T&gt;
+class ThreadSafeBuffer {
+private:
+    std::queue&lt;T&gt; buffer;
+    mutable std::mutex mtx;
+    std::condition_variable cv_not_full;
+    std::condition_variable cv_not_empty;
+    size_t max_size;
+    std::atomic&lt;bool&gt; shutdown{false};
+    
+public:
+    ThreadSafeBuffer(size_t max_sz) : max_size(max_sz) {}
+    
+    void push(const T& item) {
+        std::unique_lock&lt;std::mutex&gt; lock(mtx);
+        cv_not_full.wait(lock, [this] { 
+            return buffer.size() < max_size || shutdown.load(); 
+        });
+        
+        if (shutdown.load()) return;
+        
+        buffer.push(item);
+        cv_not_empty.notify_one();
+    }
+    
+    bool pop(T& item) {
+        std::unique_lock&lt;std::mutex&gt; lock(mtx);
+        cv_not_empty.wait(lock, [this] { 
+            return !buffer.empty() || shutdown.load(); 
+        });
+        
+        if (shutdown.load() && buffer.empty()) return false;
+        
+        item = buffer.front();
+        buffer.pop();
+        cv_not_full.notify_one();
+        return true;
+    }
+    
+    size_t size() const {
+        std::lock_guard&lt;std::mutex&gt; lock(mtx);
+        return buffer.size();
+    }
+    
+    void shutdown_buffer() {
+        shutdown.store(true);
+        cv_not_full.notify_all();
+        cv_not_empty.notify_all();
+    }
+};
+
+// Especializações
+using TextBuffer = ThreadSafeBuffer&lt;std::string&gt;;
+using HashBuffer = ThreadSafeBuffer&lt;std::pair&lt;std::string, std::string&gt;&gt;;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h3 class="fs-4 fw-semibold mb-4">Sistema de Métricas</h3>
+                        <div class="code-block">
+<pre><code class="cpp">struct SystemMetrics {
+    // Contadores atômicos para thread safety
+    std::atomic&lt;int&gt; texts_crawled{0};
+    std::atomic&lt;int&gt; hashes_calculated{0};
+    std::atomic&lt;int&gt; hashes_processed{0};
+    
+    // Métricas de performance
+    std::atomic&lt;double&gt; avg_hash_time{0.0};
+    std::atomic&lt;double&gt; avg_crawl_time{0.0};
+    
+    // Status dos buffers
+    std::atomic&lt;int&gt; text_buffer_size{0};
+    std::atomic&lt;int&gt; hash_buffer_size{0};
+    
+    // Timestamp de início
+    std::chrono::steady_clock::time_point start_time;
+    
+    // Método para calcular taxa de processamento
+    double getProcessingRate() const {
+        auto now = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast&lt;std::chrono::seconds&gt;
+                       (now - start_time).count();
+        return duration > 0 ? static_cast&lt;double&gt;(texts_crawled.load()) / duration : 0.0;
+    }
+    
+    // Serializar para JSON
+    nlohmann::json toJson() const {
+        nlohmann::json j;
+        j["texts_crawled"] = texts_crawled.load();
+        j["hashes_calculated"] = hashes_calculated.load();
+        j["hashes_processed"] = hashes_processed.load();
+        j["avg_hash_time"] = avg_hash_time.load();
+        j["avg_crawl_time"] = avg_crawl_time.load();
+        j["text_buffer_size"] = text_buffer_size.load();
+        j["hash_buffer_size"] = hash_buffer_size.load();
+        j["processing_rate"] = getProcessingRate();
+        return j;
+    }
+};</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Communication Section -->
+        <section id="comunicacao" class="py-5 bg-light">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">6. Comunicação Backend ↔ Frontend</h2>
+                    
+                    <div class="diagram-container">
+                        <h3 class="fs-4 fw-semibold mb-4 text-center">Protocolo de Comunicação TCP</h3>
+                        <svg class="svg-diagram" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background -->
+                            <rect width="800" height="400" fill="#f8f9fa"/>
+                            
+                            <!-- Backend Side -->
+                            <rect x="50" y="50" width="250" height="300" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="10"/>
+                            <text x="175" y="40" text-anchor="middle" font-size="14" font-weight="bold">Backend C++ (Server)</text>
+                            
+                            <!-- TCP Server -->
+                            <rect x="80" y="80" width="190" height="40" fill="#3b82f6" rx="5"/>
+                            <text x="175" y="100" text-anchor="middle" font-size="12" fill="white" font-weight="bold">TCP Server Socket</text>
+                            <text x="175" y="115" text-anchor="middle" font-size="10" fill="white">Port: 8888</text>
+                            
+                            <!-- Message Queue -->
+                            <rect x="80" y="140" width="190" height="40" fill="#10b981" rx="5"/>
+                            <text x="175" y="160" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Message Queue</text>
+                            <text x="175" y="175" text-anchor="middle" font-size="10" fill="white">Metrics → JSON</text>
+                            
+                            <!-- Command Handler -->
+                            <rect x="80" y="200" width="190" height="40" fill="#f59e0b" rx="5"/>
+                            <text x="175" y="220" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Command Handler</text>
+                            <text x="175" y="235" text-anchor="middle" font-size="10" fill="white">JSON → Actions</text>
+                            
+                            <!-- Monitor Thread -->
+                            <rect x="80" y="260" width="90" height="40" fill="#ef4444" rx="5"/>
+                            <text x="125" y="275" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Monitor</text>
+                            <text x="125" y="290" text-anchor="middle" font-size="9" fill="white">Send Metrics</text>
+                            
+                            <!-- Admin Thread -->
+                            <rect x="180" y="260" width="90" height="40" fill="#8b5cf6" rx="5"/>
+                            <text x="225" y="275" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Admin</text>
+                            <text x="225" y="290" text-anchor="middle" font-size="9" fill="white">Recv Commands</text>
+                            
+                            <!-- Frontend Side -->
+                            <rect x="500" y="50" width="250" height="300" fill="#dcfce7" stroke="#16a34a" stroke-width="2" rx="10"/>
+                            <text x="625" y="40" text-anchor="middle" font-size="14" font-weight="bold">Frontend Python (Client)</text>
+                            
+                            <!-- TCP Client -->
+                            <rect x="530" y="80" width="190" height="40" fill="#16a34a" rx="5"/>
+                            <text x="625" y="100" text-anchor="middle" font-size="12" fill="white" font-weight="bold">TCP Client Socket</text>
+                            <text x="625" y="115" text-anchor="middle" font-size="10" fill="white">Connect to :8888</text>
+                            
+                            <!-- Dashboard -->
+                            <rect x="530" y="140" width="190" height="40" fill="#22c55e" rx="5"/>
+                            <text x="625" y="160" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Dashboard GUI</text>
+                            <text x="625" y="175" text-anchor="middle" font-size="10" fill="white">Real-time Updates</text>
+                            
+                            <!-- Control Panel -->
+                            <rect x="530" y="200" width="190" height="40" fill="#4ade80" rx="5"/>
+                            <text x="625" y="220" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Control Panel</text>
+                            <text x="625" y="235" text-anchor="middle" font-size="10" fill="white">Send Commands</text>
+                            
+                            <!-- Receiver/Sender Threads -->
+                            <rect x="530" y="260" width="90" height="40" fill="#059669" rx="5"/>
+                            <text x="575" y="275" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Receiver</text>
+                            <text x="575" y="290" text-anchor="middle" font-size="9" fill="white">Listen Thread</text>
+                            
+                            <rect x="630" y="260" width="90" height="40" fill="#059669" rx="5"/>
+                            <text x="675" y="275" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Sender</text>
+                            <text x="675" y="290" text-anchor="middle" font-size="9" fill="white">Command Thread</text>
+                            
+                            <!-- TCP Connection -->
+                            <line x1="300" y1="100" x2="500" y2="100" stroke="#6366f1" stroke-width="4"/>
+                            <text x="400" y="95" text-anchor="middle" font-size="12" font-weight="bold">TCP Connection</text>
+                            
+                            <!-- Data Flow Arrows -->
+                            <path d="M300 160 Q400 130 500 160" stroke="#059669" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                            <text x="400" y="140" text-anchor="middle" font-size="10">Metrics (JSON)</text>
+                            
+                            <path d="M500 220 Q400 250 300 220" stroke="#dc2626" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                            <text x="400" y="270" text-anchor="middle" font-size="10">Commands (JSON)</text>
+                        </svg>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-lg-2 g-4">
+                        <div class="col">
+                            <div class="example-box">
+                                <h4 class="fs-5 fw-semibold mb-3">Backend C++ (Servidor TCP)</h4>
+                                <div class="code-block">
+<pre><code class="cpp">class DashboardServer {
+private:
+    SOCKET server_socket;
+    std::thread server_thread;
+    std::atomic&lt;bool&gt; running{true};
+    SystemMetrics* metrics;
+    
+public:
+    void start(int port = 8888) {
+        WSADATA wsaData;
+        WSAStartup(MAKEWORD(2,2), &wsaData);
+        
+        server_socket = socket(AF_INET, SOCK_STREAM, 0);
+        
+        sockaddr_in server_addr;
+        server_addr.sin_family = AF_INET;
+        server_addr.sin_addr.s_addr = INADDR_ANY;
+        server_addr.sin_port = htons(port);
+        
+        bind(server_socket, (sockaddr*)&server_addr, 
+             sizeof(server_addr));
+        listen(server_socket, 5);
+        
+        server_thread = std::thread(&DashboardServer::accept_clients, this);
+    }
+    
+private:
+    void accept_clients() {
+        while (running.load()) {
+            sockaddr_in client_addr;
+            int client_size = sizeof(client_addr);
+            SOCKET client_socket = accept(server_socket, 
+                                        (sockaddr*)&client_addr, 
+                                        &client_size);
+            
+            if (client_socket != INVALID_SOCKET) {
+                std::thread client_thread(&DashboardServer::handle_client, 
+                                        this, client_socket);
+                client_thread.detach();
+            }
+        }
+    }
+    
+    void handle_client(SOCKET client_socket) {
+        while (running.load()) {
+            // Enviar métricas
+            std::string metrics_json = metrics->toJson().dump();
+            send(client_socket, metrics_json.c_str(), 
+                 metrics_json.length(), 0);
+            
+            // Receber comandos
+            char buffer[1024] = {0};
+            int bytes = recv(client_socket, buffer, 1024, 0);
+            if (bytes > 0) {
+                processCommand(std::string(buffer, bytes));
+            }
+            
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+        closesocket(client_socket);
+    }
+    
+    void processCommand(const std::string& json_str) {
+        try {
+            auto cmd = nlohmann::json::parse(json_str);
+            std::string action = cmd["action"];
+            
+            if (action == "pause_crawlers") {
+                // Pausar threads de crawler
+            } else if (action == "adjust_speed") {
+                double multiplier = cmd["value"];
+                // Ajustar velocidade
+            } else if (action == "clear_buffers") {
+                // Limpar buffers
+            }
+        } catch (const std::exception& e) {
+            // Log error
+        }
+    }
+};</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="example-box">
+                                <h4 class="fs-5 fw-semibold mb-3">Frontend Python (Cliente TCP)</h4>
+                                <div class="code-block">
+<pre><code class="python">import socket
+import json
+import threading
+import tkinter as tk
+from tkinter import ttk
+
+class BackendClient:
+    def __init__(self, host='localhost', port=8888):
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.host = host
+        self.port = port
+        self.connected = False
+        self.running = True
+        
+    def connect(self):
+        try:
+            self.socket.connect((self.host, self.port))
+            self.connected = True
+            
+            # Iniciar thread de recepção
+            self.recv_thread = threading.Thread(target=self.receive_loop)
+            self.recv_thread.daemon = True
+            self.recv_thread.start()
+            
+        except Exception as e:
+            print(f"Erro de conexão: {e}")
+    
+    def receive_loop(self):
+        while self.running and self.connected:
+            try:
+                data = self.socket.recv(1024)
+                if data:
+                    metrics = json.loads(data.decode())
+                    self.update_dashboard(metrics)
+                else:
+                    break
+            except Exception as e:
+                print(f"Erro de recepção: {e}")
+                break
+    
+    def send_command(self, command):
+        if self.connected:
+            try:
+                json_data = json.dumps(command)
+                self.socket.send(json_data.encode())
+            except Exception as e:
+                print(f"Erro ao enviar comando: {e}")
+    
+    def update_dashboard(self, metrics):
+        # Atualizar interface gráfica com métricas recebidas
+        pass
+
+class Dashboard:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Sistema Hash Wikipedia - Dashboard")
+        self.root.geometry("800x600")
+        
+        self.client = BackendClient()
+        self.client.connect()
+        
+        self.create_widgets()
+    
+    def create_widgets(self):
+        # Frame de métricas
+        metrics_frame = ttk.LabelFrame(self.root, text="Métricas do Sistema")
+        metrics_frame.pack(fill="x", padx=10, pady=5)
+        
+        self.texts_label = ttk.Label(metrics_frame, text="Textos: 0")
+        self.texts_label.pack(anchor="w")
+        
+        self.hashes_label = ttk.Label(metrics_frame, text="Hashes: 0")
+        self.hashes_label.pack(anchor="w")
+        
+        # Frame de controles
+        controls_frame = ttk.LabelFrame(self.root, text="Controles")
+        controls_frame.pack(fill="x", padx=10, pady=5)
+        
+        ttk.Button(controls_frame, text="Pausar Crawlers",
+                  command=self.pause_crawlers).pack(side="left", padx=5)
+        
+        ttk.Button(controls_frame, text="Retomar Crawlers",
+                  command=self.resume_crawlers).pack(side="left", padx=5)
+        
+        ttk.Button(controls_frame, text="Limpar Buffers",
+                  command=self.clear_buffers).pack(side="left", padx=5)
+    
+    def pause_crawlers(self):
+        self.client.send_command({"action": "pause_crawlers"})
+    
+    def resume_crawlers(self):
+        self.client.send_command({"action": "resume_crawlers"})
+    
+    def clear_buffers(self):
+        self.client.send_command({"action": "clear_buffers"})
+    
+    def run(self):
+        self.root.mainloop()
+
+if __name__ == "__main__":
+    dashboard = Dashboard()
+    dashboard.run()</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="py-5 bg-white">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">7. Dashboard Python - Especificações</h2>
+                    
+                    <div class="diagram-container">
+                        <h3 class="fs-4 fw-semibold mb-4 text-center">Interface do Dashboard</h3>
+                        <svg class="svg-diagram" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background -->
+                            <rect width="800" height="600" fill="#f8f9fa"/>
+                            
+                            <!-- Main Window -->
+                            <rect x="50" y="50" width="700" height="500" fill="white" stroke="#6b7280" stroke-width="2" rx="10"/>
+                            
+                            <!-- Title Bar -->
+                            <rect x="50" y="50" width="700" height="40" fill="#3b82f6" rx="10 10 0 0"/>
+                            <text x="400" y="72" text-anchor="middle" font-size="14" fill="white" font-weight="bold">Sistema Hash Wikipedia - Dashboard</text>
+                            
+                            <!-- Metrics Section -->
+                            <rect x="70" y="110" width="330" height="180" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" rx="5"/>
+                            <text x="235" y="130" text-anchor="middle" font-size="12" font-weight="bold">Métricas em Tempo Real</text>
+                            
+                            <!-- Metric Cards -->
+                            <rect x="85" y="140" width="80" height="60" fill="#dbeafe" rx="3"/>
+                            <text x="125" y="155" text-anchor="middle" font-size="10" font-weight="bold">Textos</text>
+                            <text x="125" y="170" text-anchor="middle" font-size="16" font-weight="bold" fill="#1d4ed8">1,247</text>
+                            <text x="125" y="185" text-anchor="middle" font-size="8">crawled</text>
+                            
+                            <rect x="175" y="140" width="80" height="60" fill="#dcfce7" rx="3"/>
+                            <text x="215" y="155" text-anchor="middle" font-size="10" font-weight="bold">Hashes</text>
+                            <text x="215" y="170" text-anchor="middle" font-size="16" font-weight="bold" fill="#16a34a">1,198</text>
+                            <text x="215" y="185" text-anchor="middle" font-size="8">calculated</text>
+                            
+                            <rect x="265" y="140" width="80" height="60" fill="#fef3c7" rx="3"/>
+                            <text x="305" y="155" text-anchor="middle" font-size="10" font-weight="bold">Rate</text>
+                            <text x="305" y="170" text-anchor="middle" font-size="16" font-weight="bold" fill="#d97706">15.7</text>
+                            <text x="305" y="185" text-anchor="middle" font-size="8">per second</text>
+                            
+                            <!-- Buffer Status -->
+                            <text x="85" y="225" font-size="10" font-weight="bold">Text Buffer: 67/100</text>
+                            <rect x="85" y="230" width="200" height="8" fill="#e5e7eb" rx="4"/>
+                            <rect x="85" y="230" width="134" height="8" fill="#3b82f6" rx="4"/>
+                            
+                            <text x="85" y="255" font-size="10" font-weight="bold">Hash Buffer: 23/50</text>
+                            <rect x="85" y="260" width="200" height="8" fill="#e5e7eb" rx="4"/>
+                            <rect x="85" y="260" width="92" height="8" fill="#10b981" rx="4"/>
+                            
+                            <!-- Charts Section -->
+                            <rect x="420" y="110" width="310" height="180" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" rx="5"/>
+                            <text x="575" y="130" text-anchor="middle" font-size="12" font-weight="bold">Performance Charts</text>
+                            
+                            <!-- Simulated Chart -->
+                            <polyline points="440,250 460,230 480,240 500,220 520,210 540,200 560,190 580,180 600,170 620,160 640,150 660,140 680,130 700,120" 
+                                     fill="none" stroke="#3b82f6" stroke-width="2"/>
+                            <text x="575" y="275" text-anchor="middle" font-size="9">Hash Rate Over Time</text>
+                            
+                            <!-- Control Panel -->
+                            <rect x="70" y="310" width="660" height="120" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" rx="5"/>
+                            <text x="400" y="330" text-anchor="middle" font-size="12" font-weight="bold">Painel de Controle</text>
+                            
+                            <!-- Control Buttons -->
+                            <rect x="90" y="345" width="80" height="30" fill="#10b981" rx="5"/>
+                            <text x="130" y="362" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Start/Pause</text>
+                            
+                            <rect x="180" y="345" width="80" height="30" fill="#f59e0b" rx="5"/>
+                            <text x="220" y="362" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Clear Buffers</text>
+                            
+                            <rect x="270" y="345" width="80" height="30" fill="#8b5cf6" rx="5"/>
+                            <text x="310" y="362" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Adjust Speed</text>
+                            
+                            <!-- Speed Slider -->
+                            <text x="370" y="355" font-size="10" font-weight="bold">Speed: 1.0x</text>
+                            <rect x="370" y="360" width="100" height="4" fill="#e5e7eb" rx="2"/>
+                            <circle cx="420" cy="362" r="6" fill="#3b82f6"/>
+                            
+                            <!-- Thread Status -->
+                            <text x="90" y="395" font-size="10" font-weight="bold">Thread Status:</text>
+                            <circle cx="90" cy="405" r="4" fill="#10b981"/>
+                            <text x="100" y="409" font-size="9">Crawlers (3 active)</text>
+                            
+                            <circle cx="200" cy="405" r="4" fill="#10b981"/>
+                            <text x="210" y="409" font-size="9">Producers (4 active)</text>
+                            
+                            <circle cx="310" cy="405" r="4" fill="#10b981"/>
+                            <text x="320" y="409" font-size="9">Consumers (3 active)</text>
+                            
+                            <circle cx="430" cy="405" r="4" fill="#f59e0b"/>
+                            <text x="440" y="409" font-size="9">Monitor (1 active)</text>
+                            
+                            <!-- Log Viewer -->
+                            <rect x="70" y="450" width="660" height="80" fill="#1f2937" stroke="#4b5563" stroke-width="1" rx="5"/>
+                            <text x="400" y="465" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Log Viewer</text>
+                            
+                            <text x="80" y="480" font-size="8" fill="#10b981">[2024-08-25 14:32:15] INFO: Crawler thread 1 started</text>
+                            <text x="80" y="495" font-size="8" fill="#3b82f6">[2024-08-25 14:32:16] DEBUG: Text buffer size: 45/100</text>
+                            <text x="80" y="510" font-size="8" fill="#f59e0b">[2024-08-25 14:32:17] WARN: Hash buffer near full: 48/50</text>
+                        </svg>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-primary mb-3">Métricas em Tempo Real</h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-chart-bar me-2 text-primary"></i>Textos crawled</li>
+                                    <li class="mb-2"><i class="fas fa-hashtag me-2 text-success"></i>Hashes calculados</li>
+                                    <li class="mb-2"><i class="fas fa-tachometer-alt me-2 text-warning"></i>Taxa de processamento</li>
+                                    <li class="mb-2"><i class="fas fa-memory me-2 text-info"></i>Status dos buffers</li>
+                                    <li class="mb-2"><i class="fas fa-clock me-2 text-secondary"></i>Tempo médio de hash</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-success mb-3">Controles Administrativos</h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-play me-2 text-success"></i>Pausar/Retomar crawlers</li>
+                                    <li class="mb-2"><i class="fas fa-adjust me-2 text-warning"></i>Ajustar velocidade</li>
+                                    <li class="mb-2"><i class="fas fa-trash me-2 text-danger"></i>Limpar buffers</li>
+                                    <li class="mb-2"><i class="fas fa-power-off me-2 text-secondary"></i>Shutdown sistema</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-info mb-3">Gráficos e Logs</h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-chart-line me-2 text-info"></i>Performance em tempo real</li>
+                                    <li class="mb-2"><i class="fas fa-list me-2 text-secondary"></i>Log viewer</li>
+                                    <li class="mb-2"><i class="fas fa-download me-2 text-primary"></i>Export de dados</li>
+                                    <li class="mb-2"><i class="fas fa-cog me-2 text-warning"></i>Configurações</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Avaliação Section -->
+        <section id="avaliacao" class="py-5 bg-light">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">8. Critérios de Avaliação</h2>
+                    
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Implementação Backend (40 pontos)</div>
+                                <ul>
+                                    <li><strong>Threading (15 pts):</strong> Implementação correta de 7 tipos de threads</li>
+                                    <li><strong>Sincronização (10 pts):</strong> Buffers thread-safe sem race conditions</li>
+                                    <li><strong>SHA-1 (10 pts):</strong> Implementação manual funcional</li>
+                                    <li><strong>HTTP Client (5 pts):</strong> Crawling da Wikipedia</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Frontend Python (30 pontos)</div>
+                                <ul>
+                                    <li><strong>Interface (15 pts):</strong> Dashboard funcional e responsivo</li>
+                                    <li><strong>Comunicação TCP (10 pts):</strong> Cliente TCP estável</li>
+                                    <li><strong>Visualização (5 pts):</strong> Gráficos em tempo real</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Arquitetura (20 pontos)</div>
+                                <ul>
+                                    <li><strong>Separação de Responsabilidades (10 pts)</li>
+                                    <li><strong>Tratamento de Erros (5 pts)</li>
+                                    <li><strong>Performance e Escalabilidade (5 pts)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Documentação (10 pontos)</div>
+                                <ul>
+                                    <li><strong>README completo (5 pts)</li>
+                                    <li><strong>Comentários no código (3 pts)</li>
+                                    <li><strong>Diagramas de arquitetura (2 pts)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ambiente Section -->
+        <section id="ambiente" class="py-5 bg-white">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">9. Ambiente de Desenvolvimento</h2>
+                    
+                    <div class="row row-cols-1 row-cols-lg-2 g-4">
+                        <div class="col">
+                            <div class="example-box">
+                                <h4 class="fs-5 fw-semibold mb-3">Configuração C++</h4>
+                                <div class="code-block">
+<pre><code class="cpp">// CMakeLists.txt
+cmake_minimum_required(VERSION 3.20)
+project(WikipediaHashSystem)
+
+set(CMAKE_CXX_STANDARD 23)
+
+# Dependências via vcpkg
+find_package(httplib CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+
+add_executable(hash_system
+    src/main.cpp
+    src/crawler.cpp
+    src/hash_producer.cpp
+    src/sha1.cpp
+    src/dashboard_server.cpp
+)
+
+target_link_libraries(hash_system
+    PRIVATE httplib::httplib
+    PRIVATE nlohmann_json::nlohmann_json
+    PRIVATE ws2_32  # Windows sockets
+)</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="example-box">
+                                <h4 class="fs-5 fw-semibold mb-3">Configuração Python</h4>
+                                <div class="code-block">
+<pre><code class="python"># requirements.txt
+customtkinter==5.2.0
+matplotlib==3.7.1
+numpy==1.24.3
+
+# setup.py
+from setuptools import setup
+
+setup(
+    name="wikipedia-dashboard",
+    version="1.0.0",
+    packages=["src"],
+    install_requires=[
+        "customtkinter>=5.2.0",
+        "matplotlib>=3.7.1",
+        "numpy>=1.24.3"
+    ],
+    python_requires=">=3.11",
+)</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cronograma Section -->
+        <section id="cronograma" class="py-5 bg-light">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">10. Cronograma de Desenvolvimento</h2>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">Semana 1-2: Backend Foundation</div>
+                        <div class="row row-cols-1 row-cols-md-4 g-3">
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <div>Estrutura básica C++</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <div>Threading system</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <div>Buffers thread-safe</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">4</div>
+                                    <div>SHA-1 implementation</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">Semana 3-4: Integration & Frontend</div>
+                        <div class="row row-cols-1 row-cols-md-4 g-3">
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">5</div>
+                                    <div>Wikipedia crawler</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">6</div>
+                                    <div>TCP server</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">7</div>
+                                    <div>Python dashboard</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">8</div>
+                                    <div>IPC communication</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">Semana 5-6: Testing & Polish</div>
+                        <div class="row row-cols-1 row-cols-md-4 g-3">
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">9</div>
+                                    <div>Testing & debugging</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">10</div>
+                                    <div>Performance optimization</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">11</div>
+                                    <div>Documentation</div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="step">
+                                    <div class="step-number">12</div>
+                                    <div>Final presentation</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Mobile TOC Toggle Script -->
+    <script>
+        function toggleTOC() {
+            const toc = document.getElementById('toc');
+            toc.classList.toggle('open');
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    
+    <!-- Inicializar Highlight.js -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            hljs.highlightAll();
+        });
+    </script>
+</body>
+</html>
+                                

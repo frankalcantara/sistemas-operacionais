@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Projeto IPC: Sistema de Comunicação Entre Processos</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    
+    <style>
+        /* Variáveis CSS Comuns */
+        :root {
+            --copper-50: #fdf8f6;
+            --copper-100: #f2e8e5;
+            --copper-200: #eaddd7;
+            --copper-300: #e0cec7;
+            --copper-400: #d2bab0;
+            --copper-500: #bfa094;
+            --copper-600: #a18072;
+            --copper-700: #977669;
+            --copper-800: #846358;
+            --copper-900: #43302b;
+            --sage-50: #f6f7f6;
+            --sage-100: #e3e7e3;
+            --sage-200: #c7d0c7;
+            --sage-300: #a3b2a3;
+            --sage-400: #7a8f7a;
+            --sage-500: #5d7360;
+            --sage-600: #495a4c;
+            --sage-700: #3d4a3f;
+            --sage-800: #343d36;
+            --sage-900: #2d342f;
+        }
+
+        /* Estilos Base */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Crimson Text', serif;
+        }
+
+        /* Layout Principal */
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(93, 115, 96, 0.9) 0%, rgba(191, 160, 148, 0.8) 100%);
+        }
+
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .toc-fixed.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 1.5rem;
+            height: 60vh;
+        }
+
+        .bento-main {
+            grid-row: 1 / -1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-side-top,
+        .bento-side-bottom {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Cards e Containers */
+        .concept-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, var(--sage-50), var(--copper-50));
+            border: 1px solid var(--sage-200);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .definition-title {
+            font-weight: 600;
+            color: var(--sage-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        /* Animações */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .hover-bg-light:hover {
+            background-color: var(--sage-50);
+        }
+
+        .stat-highlight {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        /* Steps */
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin: 0.8rem 0;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .step-number {
+            background: var(--sage-600);
+            color: white !important;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .bento-main {
+                grid-row: auto;
+            }
+            
+            .stat-highlight {
+                font-size: 2rem;
+            }
+        }
+
+        /* SVG Diagram Styles */
+        .diagram-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .svg-diagram {
+            width: 100%;
+            height: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        /* IPC mechanism colors */
+        .ipc-pipes { fill: #3b82f6; }
+        .ipc-sockets { fill: #10b981; }
+        .ipc-shared-mem { fill: #f59e0b; }
+        .ipc-frontend { fill: #8b5cf6; }
+        .ipc-process { fill: #ef4444; }
+
+        .data-flow { stroke: #059669; stroke-width: 3; fill: none; marker-end: url(#arrowhead); }
+        .communication { stroke: #6b7280; stroke-width: 2; fill: none; }
+
+        /* Rubrica styles */
+        .rubrica-table {
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+        }
+
+        .rubrica-table th,
+        .rubrica-table td {
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+            vertical-align: top;
+        }
+
+        .rubrica-table thead th {
+            background: linear-gradient(170deg, #546af3, #1ebef3);
+            color: white;
+            font-weight: bold;
+        }
+
+        .rubrica-table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        .rubrica-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        /* Team roles */
+        .role-card {
+            border-left: 4px solid;
+            margin-bottom: 1rem;
+        }
+
+        .role-pipes { border-left-color: #3b82f6; }
+        .role-sockets { border-left-color: #10b981; }
+        .role-shared-mem { border-left-color: #f59e0b; }
+        .role-frontend { border-left-color: #8b5cf6; }
+    </style>
+    
+    <script>
+        // Mobile TOC Toggle
+        function toggleTOC() {
+            const toc = document.getElementById('toc');
+            if (toc) {
+                toc.classList.toggle('open');
+            }
+        }
+
+        // Inicialização principal quando DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize highlight.js
+            if (typeof hljs !== 'undefined') {
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+            }
+            
+            initializeTOC();
+            initializeFadeAnimations();
+            initializeClickOutside();
+            initializeResize();
+        });
+
+        // Inicializar funcionalidades do TOC
+        function initializeTOC() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            const sections = document.querySelectorAll('section[id]');
+            
+            // Smooth scrolling para links âncora
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        const offset = 80;
+                        const elementPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+                        window.scrollTo({
+                            top: elementPosition - offset,
+                            behavior: 'smooth'
+                        });
+                    }
+                    // Fechar TOC móvel após clique
+                    if (window.innerWidth <= 1024) {
+                        const toc = document.getElementById('toc');
+                        if (toc) {
+                            toc.classList.remove('open');
+                        }
+                    }
+                });
+            });
+            
+            // Highlight ativo no TOC baseado na seção visível
+            if (sections.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = entry.target.getAttribute('id');
+                            links.forEach(link => {
+                                link.classList.remove('bg-light', 'text-dark');
+                                if (link.getAttribute('href') === `#${id}`) {
+                                    link.classList.add('bg-light', 'text-dark');
+                                }
+                            });
+                        }
+                    });
+                }, {
+                    rootMargin: '-80px 0px -70% 0px'
+                });
+                
+                sections.forEach(section => {
+                    observer.observe(section);
+                });
+            }
+        }
+
+        // Inicializar animações de fade-in
+        function initializeFadeAnimations() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            if (fadeElements.length > 0) {
+                const fadeObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, {
+                    threshold: 0.1
+                });
+                
+                fadeElements.forEach(el => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    fadeObserver.observe(el);
+                });
+            }
+        }
+
+        // Inicializar fechamento do TOC ao clicar fora (mobile)
+        function initializeClickOutside() {
+            document.addEventListener('click', function(event) {
+                const toc = document.getElementById('toc');
+                const hamburger = document.querySelector('button[onclick="toggleTOC()"]');
+                
+                if (toc && hamburger && window.innerWidth <= 1024 && toc.classList.contains('open')) {
+                    if (!toc.contains(event.target) && event.target !== hamburger && !hamburger.contains(event.target)) {
+                        toc.classList.remove('open');
+                    }
+                }
+            });
+        }
+
+        // Inicializar tratamento de redimensionamento
+        function initializeResize() {
+            window.addEventListener('resize', function() {
+                const toc = document.getElementById('toc');
+                if (toc && window.innerWidth > 1024) {
+                    toc.classList.remove('open');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- Table of Contents -->
+    <nav class="toc-fixed" id="toc">
+        <div class="mb-4">
+            <h3 class="fs-5 fw-bold text-dark mb-3">Sumário</h3>
+            <ul class="list-unstyled">
+                <li class="mb-2"><a href="#introducao" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">1. Introdução</a></li>
+                <li class="mb-2"><a href="#objetivo" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">2. Objetivo</a></li>
+                <li class="mb-2"><a href="#arquitetura" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">3. Arquitetura</a></li>
+                <li class="mb-2"><a href="#mecanismos" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">4. Mecanismos IPC</a></li>
+                <li class="mb-2"><a href="#organizacao" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">5. Organização</a></li>
+                <li class="mb-2"><a href="#requisitos" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">6. Requisitos</a></li>
+                <li class="mb-2"><a href="#implementacao" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">7. Implementação</a></li>
+                <li class="mb-2"><a href="#frontend" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">8. Frontend</a></li>
+                <li class="mb-2"><a href="#avaliacao" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">9. Avaliação</a></li>
+                <li class="mb-2"><a href="#entregaveis" class="d-block p-2 rounded text-dark text-decoration-none hover-lift hover-bg-light">10. Entregáveis</a></li>
+            </ul>
+        </div>
+        <div class="mt-4 pt-4 border-top">
+            <h4 class="fs-6 fw-semibold text-dark mb-3">Componentes</h4>
+            <div class="d-flex flex-column gap-2">
+                <div class="p-2 bg-primary-subtle rounded"><i class="fas fa-pipe me-2 text-primary"></i><small class="text-primary fw-medium">Pipes</small></div>
+                <div class="p-2 bg-success-subtle rounded"><i class="fas fa-network-wired me-2 text-success"></i><small class="text-success fw-medium">Sockets</small></div>
+                <div class="p-2 bg-warning-subtle rounded"><i class="fas fa-memory me-2 text-warning"></i><small class="text-warning fw-medium">Shared Memory</small></div>
+                <div class="p-2 bg-info-subtle rounded"><i class="fas fa-desktop me-2 text-info"></i><small class="text-info fw-medium">Frontend</small></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile TOC Toggle -->
+    <button class="d-lg-none position-fixed top-0 start-0 m-3 z-3 bg-white p-2 rounded shadow" onclick="toggleTOC()">
+        <i class="fas fa-bars text-dark"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="min-vh-100" style="background: linear-gradient(to bottom right, var(--sage-100), var(--copper-100));">
+            <div class="container py-5">
+                
+                <div class="bento-grid mb-5">
+                    <div class="bento-main bg-white rounded-3 shadow">
+                        <div class="hero-gradient h-100 d-flex align-items-center justify-content-center position-relative">
+                            <div class="position-absolute w-100 h-100 opacity-25" style="background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 300\"><defs><pattern id=\"ipc\" x=\"0\" y=\"0\" width=\"80\" height=\"80\" patternUnits=\"userSpaceOnUse\"><circle cx=\"40\" cy=\"20\" r=\"8\" fill=\"%23ffffff\" opacity=\"0.3\"/><circle cx=\"40\" cy=\"60\" r=\"8\" fill=\"%23ffffff\" opacity=\"0.3\"/><path d=\"M40,28 L40,52\" stroke=\"%23ffffff\" stroke-width=\"3\" opacity=\"0.4\"/><rect x=\"20\" y=\"35\" width=\"40\" height=\"10\" fill=\"%23ffffff\" opacity=\"0.2\"/></pattern></defs><rect width=\"100%25\" height=\"100%25\" fill=\"url(%23ipc)\"/></svg>') center/cover;"></div>
+                            <div class="position-relative z-1 text-center text-white p-4">
+                                <h1 class="display-4 fw-bold mb-4">
+                                    <em class="d-block" style="color: var(--copper-200);">Atividade Avaliativa RA1:</em>
+                                    <span class="d-block">Sistema de Comunicação Entre Processos</span>
+                                </h1>
+                                <p class="fs-4 text-light fw-light mx-auto" style="max-width: 32rem;">
+                                    Backend C++ com três mecanismos de IPC + Frontend visual para demonstração prática
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bento-side-top bg-white rounded-3 p-4 shadow">
+                        <div class="text-center">
+                            <div class="stat-highlight text-primary">3</div>
+                            <div class="fs-6 text-muted">Mecanismos IPC</div>
+                        </div>
+                    </div>
+                    <div class="bento-side-bottom bg-light rounded-3 p-4 shadow" style="background-color: var(--copper-50);">
+                        <div class="text-center">
+                            <div class="stat-highlight" style="color: var(--copper-800);">4</div>
+                            <div class="fs-6" style="color: var(--copper-700);">Alunos por Grupo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+                    <div class="col">
+                        <div class="card h-100 bg-white rounded-3 shadow hover-lift">
+                            <div class="card-body p-4 text-center">
+                                <i class="fas fa-pipe fs-2 text-primary mb-3"></i>
+                                <h3 class="fs-6 fw-semibold text-primary">Pipes</h3>
+                                <p class="fs-7 text-muted">Anônimos</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 bg-white rounded-3 shadow hover-lift">
+                            <div class="card-body p-4 text-center">
+                                <i class="fas fa-network-wired fs-2 text-success mb-3"></i>
+                                <h3 class="fs-6 fw-semibold text-success">Sockets</h3>
+                                <p class="fs-7 text-muted">Locais</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 bg-white rounded-3 shadow hover-lift">
+                            <div class="card-body p-4 text-center">
+                                <i class="fas fa-memory fs-2 text-warning mb-3"></i>
+                                <h3 class="fs-6 fw-semibold text-warning">Shared Memory</h3>
+                                <p class="fs-7 text-muted">Sincronizada</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 bg-white rounded-3 shadow hover-lift">
+                            <div class="card-body p-4 text-center">
+                                <i class="fas fa-desktop fs-2 text-info mb-3"></i>
+                                <h3 class="fs-6 fw-semibold text-info">Frontend</h3>
+                                <p class="fs-7 text-muted">Python/JS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Introduction Section -->
+        <section id="introducao" class="py-5 bg-white">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">1. Introdução à Comunicação Entre Processos</h2>
+                    
+                    <div class="card p-4 rounded-3 shadow mb-5" style="background: linear-gradient(135deg, var(--sage-50), var(--copper-50));">
+                        <blockquote class="blockquote mb-4">
+                            <p class="fs-5 fst-italic">
+                                "A Comunicação entre Processos (IPC - Inter-Process Communication) é um conjunto de mecanismos que os sistemas operacionais fornecem para permitir que processos distintos gerenciem e sincronizem suas ações. Dominar esses conceitos é fundamental para o desenvolvimento de software robusto e eficiente."
+                            </p>
+                            <footer class="blockquote-footer">Fundamentos de Sistemas Operacionais</footer>
+                        </blockquote>
+                    </div>
+
+                    <div class="definition-box">
+                        <div class="definition-title">Propósito do Projeto</div>
+                        <p class="mb-3">Este projeto visa solidificar o entendimento teórico através da criação de uma ferramenta prática e visual que demonstre o funcionamento dos principais mecanismos de IPC, com uma arquitetura moderna que separa a lógica de backend da interface do usuário.</p>
+                        <div class="p-3 bg-warning-subtle rounded">
+                            <strong>Importante:</strong> Os computadores dos laboratórios possuem restrições para instalação de aplicativos e bibliotecas. Teste seu projeto no laboratório antes da prova de autoria se não usar seu notebook pessoal.
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4 class="fs-5 fw-semibold mb-3">Código de Ética</h4>
+                        <p class="mb-2">Você poderá:</p>
+                        <ul class="mb-3">
+                            <li>Discutir questões com colegas, professores e amigos</li>
+                            <li>Consultar livros de referência e biblioteca virtual</li>
+                            <li>Usar a internet de forma abrangente</li>
+                        </ul>
+                        <p class="mb-0"><strong>Porém:</strong> O trabalho é seu e deverá ser realizado por você. Cópias ensejará anulação do trabalho.</p>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-primary mb-3">
+                                    <i class="fas fa-cogs me-2"></i>Backend C++
+                                </h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Três mecanismos IPC</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Gerenciamento de processos</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Sincronização</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Monitoramento</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-success mb-3">
+                                    <i class="fas fa-eye me-2"></i>Visualização
+                                </h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Interface clara e intuitiva</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Estado dos mecanismos</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Log de mensagens</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Controle em tempo real</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-5 fw-semibold text-info mb-3">
+                                    <i class="fas fa-graduation-cap me-2"></i>Aprendizagem
+                                </h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Conceitos teóricos</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Implementação prática</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Trabalho em equipe</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Documentação técnica</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Objective Section -->
+        <section id="objetivo" class="py-5 bg-light">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">2. Objetivo Geral</h2>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">Meta Principal</div>
+                        <p class="mb-0">Desenvolver uma aplicação com <strong>backend em C++23/C</strong> que gerencie a comunicação entre processos utilizando três mecanismos distintos de IPC: <strong>Pipes Anônimos</strong>, <strong>Sockets (locais)</strong> e <strong>Memória Compartilhada</strong>. A lógica de C++ será visualizada e controlada por uma interface gráfica desenvolvida em <strong>Python ou HTML/JavaScript</strong>.</p>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-lg-2 g-4">
+                        <div class="col">
+                            <div class="example-box">
+                                <h4 class="fs-5 fw-semibold mb-3">Funcionalidades Esperadas</h4>
+                                <ul class="mb-0">
+                                    <li>Envio de dados entre processos</li>
+                                    <li>Observação clara do fluxo de comunicação</li>
+                                    <li>Visualização das particularidades de cada método</li>
+                                    <li>Interface de controle e monitoramento</li>
+                                    <li>Log detalhado de operações</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="example-box">
+                                <h4 class="fs-5 fw-semibold mb-3">Opções de Backend</h4>
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="p-3 bg-primary-subtle rounded">
+                                        <strong>C++23:</strong> Recursos modernos, threading avançado
+                                    </div>
+                                    <div class="p-3 bg-success-subtle rounded">
+                                        <strong>C20:</strong> Compatibilidade e performance
+                                    </div>
+                                    <div class="p-3 bg-warning-subtle rounded">
+                                        <strong>Rust:</strong> Segurança de memória e concorrência
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="arquitetura" class="py-5 bg-white">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">3. Arquitetura do Sistema</h2>
+                    
+                    <div class="diagram-container">
+                        <h3 class="fs-4 fw-semibold mb-4 text-center">Visão Geral da Arquitetura IPC</h3>
+                        <svg class="svg-diagram" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                                        refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#059669" />
+                                </marker>
+                            </defs>
+                            
+                            <!-- Background -->
+                            <rect width="800" height="600" fill="#f8f9fa"/>
+                            
+                            <!-- Backend Section -->
+                            <rect x="50" y="100" width="500" height="350" fill="#e3e7e3" stroke="#495a4c" stroke-width="2" rx="10"/>
+                            <text x="300" y="90" text-anchor="middle" font-size="16" font-weight="bold" fill="#495a4c">Backend C++ (IPC Core)</text>
+                            
+                            <!-- Process 1 -->
+                            <rect x="80" y="130" width="100" height="60" class="ipc-process" stroke="#dc2626" stroke-width="2" rx="5"/>
+                            <text x="130" y="150" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Process A</text>
+                            <text x="130" y="165" text-anchor="middle" font-size="10" fill="white">Producer</text>
+                            
+                            <!-- Process 2 -->
+                            <rect x="420" y="130" width="100" height="60" class="ipc-process" stroke="#dc2626" stroke-width="2" rx="5"/>
+                            <text x="470" y="150" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Process B</text>
+                            <text x="470" y="165" text-anchor="middle" font-size="10" fill="white">Consumer</text>
+                            
+                            <!-- IPC Mechanisms -->
+                            <!-- Pipes -->
+                            <rect x="220" y="140" width="80" height="40" class="ipc-pipes" stroke="#1e40af" stroke-width="2" rx="5"/>
+                            <text x="260" y="155" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Pipes</text>
+                            <text x="260" y="170" text-anchor="middle" font-size="9" fill="white">Anonymous</text>
+                            
+                            <!-- Sockets -->
+                            <rect x="220" y="200" width="80" height="40" class="ipc-sockets" stroke="#059669" stroke-width="2" rx="5"/>
+                            <text x="260" y="215" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Sockets</text>
+                            <text x="260" y="230" text-anchor="middle" font-size="9" fill="white">Local</text>
+                            
+                            <!-- Shared Memory -->
+                            <rect x="220" y="260" width="80" height="40" class="ipc-shared-mem" stroke="#d97706" stroke-width="2" rx="5"/>
+                            <text x="260" y="275" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Shared</text>
+                            <text x="260" y="290" text-anchor="middle" font-size="9" fill="white">Memory</text>
+                            
+                            <!-- Synchronization -->
+                            <rect x="320" y="200" width="80" height="40" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2" rx="5"/>
+                            <text x="360" y="215" text-anchor="middle" font-size="11" font-weight="bold">Sync</text>
+                            <text x="360" y="230" text-anchor="middle" font-size="9">Mutex/Semaphore</text>
+                            
+                            <!-- Monitor -->
+                            <rect x="150" y="330" width="120" height="40" fill="#fee2e2" stroke="#ef4444" stroke-width="2" rx="5"/>
+                            <text x="210" y="345" text-anchor="middle" font-size="11" font-weight="bold">Monitor</text>
+                            <text x="210" y="360" text-anchor="middle" font-size="9">Status & Logs</text>
+                            
+                            <!-- Data Manager -->
+                            <rect x="300" y="330" width="120" height="40" fill="#ecfdf5" stroke="#10b981" stroke-width="2" rx="5"/>
+                            <text x="360" y="345" text-anchor="middle" font-size="11" font-weight="bold">Data Manager</text>
+                            <text x="360" y="360" text-anchor="middle" font-size="9">Message Queue</text>
+                            
+                            <!-- Frontend Section -->
+                            <rect x="580" y="150" width="170" height="200" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2" rx="10"/>
+                            <text x="665" y="140" text-anchor="middle" font-size="14" font-weight="bold" fill="#8b5cf6">Frontend Interface</text>
+                            
+                            <!-- GUI Components -->
+                            <rect x="600" y="170" width="130" height="30" class="ipc-frontend" stroke="#7c3aed" stroke-width="1" rx="3"/>
+                            <text x="665" y="188" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Control Panel</text>
+                            
+                            <rect x="600" y="210" width="130" height="30" class="ipc-frontend" stroke="#7c3aed" stroke-width="1" rx="3"/>
+                            <text x="665" y="228" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Message Input</text>
+                            
+                            <rect x="600" y="250" width="130" height="30" class="ipc-frontend" stroke="#7c3aed" stroke-width="1" rx="3"/>
+                            <text x="665" y="268" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Visual Logs</text>
+                            
+                            <rect x="600" y="290" width="130" height="30" class="ipc-frontend" stroke="#7c3aed" stroke-width="1" rx="3"/>
+                            <text x="665" y="308" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Status Display</text>
+                            
+                            <!-- Communication Protocol -->
+                            <rect x="450" y="380" width="120" height="40" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" rx="5"/>
+                            <text x="510" y="395" text-anchor="middle" font-size="11" font-weight="bold">Communication</text>
+                            <text x="510" y="410" text-anchor="middle" font-size="9">JSON/stdout</text>
+                            
+                            <!-- Data Flow Arrows -->
+                            <line x1="180" y1="160" x2="220" y2="160" class="data-flow"/>
+                            <line x1="300" y1="160" x2="420" y2="160" class="data-flow"/>
+                            <line x1="180" y1="170" x2="220" y2="220" class="data-flow"/>
+                            <line x1="300" y1="220" x2="420" y2="170" class="data-flow"/>
+                            <line x1="180" y1="180" x2="220" y2="280" class="data-flow"/>
+                            <line x1="300" y1="280" x2="420" y2="180" class="data-flow"/>
+                            
+                            <line x1="510" y1="380" x2="580" y2="250" class="data-flow"/>
+                            <line x1="270" y1="350" x2="450" y2="400" class="data-flow"/>
+                            
+                            <!-- Legend -->
+                            <rect x="50" y="500" width="700" height="80" fill="white" stroke="#6b7280" stroke-width="1" rx="5"/>
+                            <text x="400" y="520" text-anchor="middle" font-size="12" font-weight="bold">Legenda dos Componentes</text>
+                            
+                            <rect x="70" y="530" width="15" height="15" class="ipc-process"/>
+                            <text x="95" y="542" font-size="10">Processos</text>
+                            
+                            <rect x="150" y="530" width="15" height="15" class="ipc-pipes"/>
+                            <text x="175" y="542" font-size="10">Pipes</text>
+                            
+                            <rect x="220" y="530" width="15" height="15" class="ipc-sockets"/>
+                            <text x="245" y="542" font-size="10">Sockets</text>
+                            
+                            <rect x="300" y="530" width="15" height="15" class="ipc-shared-mem"/>
+                            <text x="325" y="542" font-size="10">Shared Memory</text>
+                            
+                            <rect x="420" y="530" width="15" height="15" class="ipc-frontend"/>
+                            <text x="445" y="542" font-size="10">Frontend</text>
+                            
+                            <line x1="550" y1="540" x2="600" y2="540" class="data-flow"/>
+                            <text x="610" y="544" font-size="10">Data Flow</text>
+                        </svg>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Separação de Responsabilidades</div>
+                                <ul class="mb-0">
+                                    <li><strong>Backend C++:</strong> Lógica de IPC, processos, sincronização</li>
+                                    <li><strong>Monitor:</strong> Coleta de status e logs dos mecanismos</li>
+                                    <li><strong>Data Manager:</strong> Gerenciamento de filas de mensagens</li>
+                                    <li><strong>Frontend:</strong> Interface visual e controles do usuário</li>
+                                    <li><strong>Protocolo:</strong> Comunicação estruturada (JSON via stdout)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Fluxo de Dados</div>
+                                <ol class="mb-0">
+                                    <li><strong>Input:</strong> Usuário digita mensagem no frontend</li>
+                                    <li><strong>Selection:</strong> Escolhe mecanismo IPC (Pipes/Sockets/SharedMem)</li>
+                                    <li><strong>Processing:</strong> Backend executa comunicação entre processos</li>
+                                    <li><strong>Monitoring:</strong> Sistema coleta status e eventos</li>
+                                    <li><strong>Display:</strong> Frontend atualiza logs e estados visuais</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IPC Mechanisms Section -->
+        <section id="mecanismos" class="py-5 bg-light">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">4. Mecanismos de IPC</h2>
+                    
+                    <div class="row row-cols-1 row-cols-lg-3 g-4 mb-5">
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-4 fw-semibold text-primary mb-3">
+                                    <i class="fas fa-pipe me-2"></i>Pipes Anônimos
+                                </h4>
+                                <p class="fs-6 mb-3">Comunicação unidirecional entre processos relacionados (pai-filho). Simples e eficiente para dados pequenos.</p>
+                                <div class="code-block">
+<pre><code class="cpp">// Exemplo básico de pipe
+int pipefd[2];
+if (pipe(pipefd) == -1) {
+    perror("pipe");
+    exit(1);
+}
+
+pid_t pid = fork();
+if (pid == 0) {
+    // Processo filho - escrever
+    close(pipefd[0]);
+    write(pipefd[1], "Hello", 5);
+    close(pipefd[1]);
+} else {
+    // Processo pai - ler
+    close(pipefd[1]);
+    char buffer[100];
+    read(pipefd[0], buffer, 100);
+    close(pipefd[0]);
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-4 fw-semibold text-success mb-3">
+                                    <i class="fas fa-network-wired me-2"></i>Sockets Locais
+                                </h4>
+                                <p class="fs-6 mb-3">Comunicação bidirecional usando protocolo cliente-servidor. Mais flexível que pipes.</p>
+                                <div class="code-block">
+<pre><code class="cpp">// Socket servidor local
+int server_fd;
+struct sockaddr_un server_addr;
+
+server_fd = socket(AF_UNIX, SOCK_STREAM, 0);
+server_addr.sun_family = AF_UNIX;
+strcpy(server_addr.sun_path, "/tmp/ipc_socket");
+
+bind(server_fd, 
+     (struct sockaddr*)&server_addr, 
+     sizeof(server_addr));
+     
+listen(server_fd, 5);
+
+// Aceitar conexões
+int client_fd = accept(server_fd, NULL, NULL);
+char buffer[1024];
+recv(client_fd, buffer, 1024, 0);</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card">
+                                <h4 class="fs-4 fw-semibold text-warning mb-3">
+                                    <i class="fas fa-memory me-2"></i>Memória Compartilhada
+                                </h4>
+                                <p class="fs-6 mb-3">Acesso direto à mesma região de memória. Mais rápido mas requer sincronização cuidadosa.</p>
+                                <div class="code-block">
+<pre><code class="cpp">// Criar segmento de memória compartilhada
+key_t key = ftok("shared_mem_key", 65);
+int shmid = shmget(key, 1024, 
+                   0666 | IPC_CREAT);
+
+// Anexar à memória
+char *shared_memory = (char*) shmat(shmid, NULL, 0);
+
+// Mutex para sincronização
+pthread_mutex_t *mutex = 
+    (pthread_mutex_t*)(shared_memory + 100);
+    
+pthread_mutex_lock(mutex);
+strcpy(shared_memory, "Data");
+pthread_mutex_unlock(mutex);
+
+// Desanexar
+shmdt(shared_memory);</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="diagram-container">
+                        <h3 class="fs-4 fw-semibold mb-4 text-center">Comparação dos Mecanismos IPC</h3>
+                        <svg class="svg-diagram" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background -->
+                            <rect width="800" height="400" fill="#f8f9fa"/>
+                            
+                            <!-- Pipes Section -->
+                            <rect x="50" y="50" width="200" height="300" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="10"/>
+                            <text x="150" y="40" text-anchor="middle" font-size="14" font-weight="bold">Pipes Anônimos</text>
+                            
+                            <!-- Pipe Diagram -->
+                            <rect x="80" y="80" width="60" height="30" fill="#ef4444" rx="5"/>
+                            <text x="110" y="98" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Proc A</text>
+                            
+                            <rect x="160" y="80" width="60" height="30" fill="#10b981" rx="5"/>
+                            <text x="190" y="98" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Proc B</text>
+                            
+                            <rect x="110" y="130" width="40" height="20" fill="#3b82f6" rx="3"/>
+                            <text x="130" y="142" text-anchor="middle" font-size="9" fill="white">PIPE</text>
+                            
+                            <path d="M110 95 L110 130" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M150 130 L190 110" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            
+                            <!-- Pipes Characteristics -->
+                            <text x="70" y="180" font-size="11" font-weight="bold">Características:</text>
+                            <text x="70" y="200" font-size="10">• Unidirecional</text>
+                            <text x="70" y="215" font-size="10">• Processos relacionados</text>
+                            <text x="70" y="230" font-size="10">• Buffer limitado</text>
+                            <text x="70" y="245" font-size="10">• Simples implementação</text>
+                            <text x="70" y="260" font-size="10">• Bloqueante</text>
+                            
+                            <text x="70" y="290" font-size="11" font-weight="bold" fill="#059669">✓ Rápido e simples</text>
+                            <text x="70" y="310" font-size="11" font-weight="bold" fill="#dc2626">✗ Limitado a pai-filho</text>
+                            
+                            <!-- Sockets Section -->
+                            <rect x="300" y="50" width="200" height="300" fill="#dcfce7" stroke="#10b981" stroke-width="2" rx="10"/>
+                            <text x="400" y="40" text-anchor="middle" font-size="14" font-weight="bold">Sockets Locais</text>
+                            
+                            <!-- Socket Diagram -->
+                            <rect x="320" y="80" width="60" height="30" fill="#ef4444" rx="5"/>
+                            <text x="350" y="98" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Client</text>
+                            
+                            <rect x="420" y="80" width="60" height="30" fill="#10b981" rx="5"/>
+                            <text x="450" y="98" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Server</text>
+                            
+                            <ellipse cx="400" cy="140" rx="30" ry="15" fill="#10b981"/>
+                            <text x="400" y="145" text-anchor="middle" font-size="9" fill="white">SOCKET</text>
+                            
+                            <path d="M350 110 L380 125" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M420 125 L450 110" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            
+                            <!-- Sockets Characteristics -->
+                            <text x="320" y="180" font-size="11" font-weight="bold">Características:</text>
+                            <text x="320" y="200" font-size="10">• Bidirecional</text>
+                            <text x="320" y="215" font-size="10">• Processos independentes</text>
+                            <text x="320" y="230" font-size="10">• Protocolo estruturado</text>
+                            <text x="320" y="245" font-size="10">• Mais overhead</text>
+                            <text x="320" y="260" font-size="10">• Flexível</text>
+                            
+                            <text x="320" y="290" font-size="11" font-weight="bold" fill="#059669">✓ Flexível e robusto</text>
+                            <text x="320" y="310" font-size="11" font-weight="bold" fill="#dc2626">✗ Mais complexo</text>
+                            
+                            <!-- Shared Memory Section -->
+                            <rect x="550" y="50" width="200" height="300" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="10"/>
+                            <text x="650" y="40" text-anchor="middle" font-size="14" font-weight="bold">Memória Compartilhada</text>
+                            
+                            <!-- Shared Memory Diagram -->
+                            <rect x="570" y="80" width="60" height="30" fill="#ef4444" rx="5"/>
+                            <text x="600" y="98" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Proc A</text>
+                            
+                            <rect x="670" y="80" width="60" height="30" fill="#10b981" rx="5"/>
+                            <text x="700" y="98" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Proc B</text>
+                            
+                            <rect x="610" y="130" width="80" height="40" fill="#f59e0b" rx="5"/>
+                            <text x="650" y="145" text-anchor="middle" font-size="10" fill="white" font-weight="bold">SHARED</text>
+                            <text x="650" y="160" text-anchor="middle" font-size="10" fill="white" font-weight="bold">MEMORY</text>
+                            
+                            <path d="M600 110 L630 130" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M700 110 L670 130" stroke="#059669" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            
+                            <!-- Mutex -->
+                            <circle cx="650" cy="190" r="10" fill="#8b5cf6"/>
+                            <text x="650" y="194" text-anchor="middle" font-size="8" fill="white">M</text>
+                            <text x="650" y="210" text-anchor="middle" font-size="8">Mutex</text>
+                            
+                            <!-- Shared Memory Characteristics -->
+                            <text x="570" y="240" font-size="11" font-weight="bold">Características:</text>
+                            <text x="570" y="260" font-size="10">• Acesso direto</text>
+                            <text x="570" y="275" font-size="10">• Mais rápido</text>
+                            <text x="570" y="290" font-size="10">• Requer sincronização</text>
+                            <text x="570" y="305" font-size="10">• Complexidade alta</text>
+                            
+                            <text x="570" y="330" font-size="11" font-weight="bold" fill="#059669">✓ Performance máxima</text>
+                            <text x="570" y="350" font-size="11" font-weight="bold" fill="#dc2626">✗ Sincronização crítica</text>
+                        </svg>
+                    </div>
+
+                    <div class="example-box">
+                        <h4 class="fs-5 fw-semibold mb-3">Quando Usar Cada Mecanismo</h4>
+                        <div class="row row-cols-1 row-cols-md-3 g-3">
+                            <div class="col">
+                                <div class="p-3 bg-primary-subtle rounded">
+                                    <h6 class="fw-semibold text-primary">Pipes</h6>
+                                    <ul class="mb-0 list-unstyled">
+                                        <li>• Comunicação simples pai-filho</li>
+                                        <li>• Dados pequenos e sequenciais</li>
+                                        <li>• Prototipagem rápida</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-3 bg-success-subtle rounded">
+                                    <h6 class="fw-semibold text-success">Sockets</h6>
+                                    <ul class="mb-0 list-unstyled">
+                                        <li>• Processos independentes</li>
+                                        <li>• Comunicação estruturada</li>
+                                        <li>• Aplicações cliente-servidor</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-3 bg-warning-subtle rounded">
+                                    <h6 class="fw-semibold text-warning">Shared Memory</h6>
+                                    <ul class="mb-0 list-unstyled">
+                                        <li>• Alto volume de dados</li>
+                                        <li>• Performance crítica</li>
+                                        <li>• Controle fino de sincronização</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Organization Section -->
+        <section id="organizacao" class="py-5 bg-white">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">5. Metodologia e Organização</h2>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">Estrutura do Projeto</div>
+                        <p class="mb-0">O projeto será desenvolvido em <strong>grupos de até 4 (quatro) alunos</strong>, utilizando <strong>Git e GitHub</strong> para controle de versão e colaboração.</p>
+                    </div>
+
+                    <div class="example-box">
+                        <h4 class="fs-5 fw-semibold mb-3">Workflow Git</h4>
+                        <div class="row row-cols-1 row-cols-md-2 g-4">
+                            <div class="col">
+                                <h6 class="fw-semibold text-primary">Responsabilidades</h6>
+                                <ul>
+                                    <li><strong>Aluno A:</strong> Mantenedor principal, criador do repositório</li>
+                                    <li><strong>Demais alunos:</strong> Colaboradores sem commit direto no main</li>
+                                    <li><strong>Pull Requests:</strong> Obrigatórios para todas as alterações</li>
+                                    <li><strong>Revisão:</strong> Mínimo um membro deve aprovar cada PR</li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <h6 class="fw-semibold text-success">Estrutura de Branches</h6>
+                                <ul>
+                                    <li><code>main/master</code>: Branch principal protegida</li>
+                                    <li><code>feature/pipe-backend-cpp</code>: Implementação pipes</li>
+                                    <li><code>feature/socket-backend-cpp</code>: Implementação sockets</li>
+                                    <li><code>feature/frontend-python</code>: Interface gráfica</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-lg-2 g-4">
+                        <div class="col">
+                            <div class="concept-card role-card role-pipes">
+                                <h4 class="fs-5 fw-semibold text-primary mb-3">
+                                    <i class="fas fa-pipe me-2"></i>Aluno A - Backend Pipes + Gestão
+                                </h4>
+                                <ul class="mb-0">
+                                    <li>Implementar comunicação via Pipes Anônimos em C++</li>
+                                    <li>Formato de saída JSON para stdout</li>
+                                    <li>Testes unitários (Google Test)</li>
+                                    <li>Gerenciar repositório e revisar PRs</li>
+                                    <li>Garantir integração coesa do projeto</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card role-card role-sockets">
+                                <h4 class="fs-5 fw-semibold text-success mb-3">
+                                    <i class="fas fa-network-wired me-2"></i>Aluno B - Backend Sockets
+                                </h4>
+                                <ul class="mb-0">
+                                    <li>Implementar comunicação cliente-servidor com Sockets</li>
+                                    <li>Expor status de conexão e mensagens</li>
+                                    <li>Validar troca de dados e tratamento de erros</li>
+                                    <li>Testes unitários em C++</li>
+                                    <li>Documentação da API de sockets</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card role-card role-shared-mem">
+                                <h4 class="fs-5 fw-semibold text-warning mb-3">
+                                    <i class="fas fa-memory me-2"></i>Aluno C - Backend Memória Compartilhada
+                                </h4>
+                                <ul class="mb-0">
+                                    <li>Implementar comunicação via Memória Compartilhada</li>
+                                    <li>Sincronização com semáforos/mutexes</li>
+                                    <li>Expor conteúdo da memória e estado de sincronização</li>
+                                    <li>Testes de consistência de dados</li>
+                                    <li>Validação de sincronização</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="concept-card role-card role-frontend">
+                                <h4 class="fs-5 fw-semibold text-info mb-3">
+                                    <i class="fas fa-desktop me-2"></i>Aluno D - Frontend + Integração
+                                </h4>
+                                <ul class="mb-0">
+                                    <li>Interface gráfica em Python (PyQt/Tkinter) ou JS</li>
+                                    <li>Camada de integração com backend C++</li>
+                                    <li>Execução de processos em background</li>
+                                    <li>Captura e interpretação de saídas</li>
+                                    <li>Testes de integração frontend-backend</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="diagram-container">
+                        <h3 class="fs-4 fw-semibold mb-4 text-center">Estrutura Organizacional do Projeto</h3>
+                        <svg class="svg-diagram" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background -->
+                            <rect width="800" height="500" fill="#f8f9fa"/>
+                            
+                            <!-- Git Repository -->
+                            <rect x="300" y="50" width="200" height="60" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2" rx="10"/>
+                            <text x="400" y="75" text-anchor="middle" font-size="14" font-weight="bold">GitHub Repository</text>
+                            <text x="400" y="95" text-anchor="middle" font-size="11">Main Branch (Protected)</text>
+                            
+                            <!-- Team Members -->
+                            <rect x="100" y="150" width="120" height="80" class="ipc-pipes" stroke="#1e40af" stroke-width="2" rx="8"/>
+                            <text x="160" y="170" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Aluno A</text>
+                            <text x="160" y="185" text-anchor="middle" font-size="10" fill="white">Backend Pipes</text>
+                            <text x="160" y="200" text-anchor="middle" font-size="10" fill="white">+ Repository</text>
+                            <text x="160" y="215" text-anchor="middle" font-size="10" fill="white">Manager</text>
+                            
+                            <rect x="250" y="150" width="120" height="80" class="ipc-sockets" stroke="#059669" stroke-width="2" rx="8"/>
+                            <text x="310" y="170" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Aluno B</text>
+                            <text x="310" y="185" text-anchor="middle" font-size="10" fill="white">Backend</text>
+                            <text x="310" y="200" text-anchor="middle" font-size="10" fill="white">Sockets</text>
+                            
+                            <rect x="400" y="150" width="120" height="80" class="ipc-shared-mem" stroke="#d97706" stroke-width="2" rx="8"/>
+                            <text x="460" y="170" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Aluno C</text>
+                            <text x="460" y="185" text-anchor="middle" font-size="10" fill="white">Backend</text>
+                            <text x="460" y="200" text-anchor="middle" font-size="10" fill="white">Shared Memory</text>
+                            
+                            <rect x="550" y="150" width="120" height="80" class="ipc-frontend" stroke="#7c3aed" stroke-width="2" rx="8"/>
+                            <text x="610" y="170" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Aluno D</text>
+                            <text x="610" y="185" text-anchor="middle" font-size="10" fill="white">Frontend +</text>
+                            <text x="610" y="200" text-anchor="middle" font-size="10" fill="white">Integration</text>
+                            
+                            <!-- Feature Branches -->
+                            <rect x="100" y="270" width="120" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="1" rx="5"/>
+                            <text x="160" y="288" text-anchor="middle" font-size="10" font-weight="bold">feature/pipe-cpp</text>
+                            
+                            <rect x="250" y="270" width="120" height="30" fill="#dcfce7" stroke="#10b981" stroke-width="1" rx="5"/>
+                            <text x="310" y="288" text-anchor="middle" font-size="10" font-weight="bold">feature/socket-cpp</text>
+                            
+                            <rect x="400" y="270" width="120" height="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="1" rx="5"/>
+                            <text x="460" y="288" text-anchor="middle" font-size="10" font-weight="bold">feature/shared-cpp</text>
+                            
+                            <rect x="550" y="270" width="120" height="30" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="1" rx="5"/>
+                            <text x="610" y="288" text-anchor="middle" font-size="10" font-weight="bold">feature/frontend</text>
+                            
+                            <!-- Pull Requests -->
+                            <ellipse cx="400" cy="350" rx="100" ry="30" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+                            <text x="400" y="345" text-anchor="middle" font-size="12" font-weight="bold">Pull Requests</text>
+                            <text x="400" y="360" text-anchor="middle" font-size="10">Review Required</text>
+                            
+                            <!-- Testing -->
+                            <rect x="150" y="420" width="100" height="40" fill="#ecfdf5" stroke="#10b981" stroke-width="2" rx="5"/>
+                            <text x="200" y="435" text-anchor="middle" font-size="11" font-weight="bold">Unit Tests</text>
+                            <text x="200" y="450" text-anchor="middle" font-size="9">C++ (Google Test)</text>
+                            
+                            <rect x="300" y="420" width="100" height="40" fill="#f0f9ff" stroke="#0284c7" stroke-width="2" rx="5"/>
+                            <text x="350" y="435" text-anchor="middle" font-size="11" font-weight="bold">Integration</text>
+                            <text x="350" y="450" text-anchor="middle" font-size="9">Frontend-Backend</text>
+                            
+                            <rect x="450" y="420" width="100" height="40" fill="#fefce8" stroke="#ca8a04" stroke-width="2" rx="5"/>
+                            <text x="500" y="435" text-anchor="middle" font-size="11" font-weight="bold">Documentation</text>
+                            <text x="500" y="450" text-anchor="middle" font-size="9">README + Code</text>
+                            
+                            <!-- Arrows showing workflow -->
+                            <path d="M160 230 L160 270" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M310 230 L310 270" stroke="#10b981" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M460 230 L460 270" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M610 230 L610 270" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            
+                            <path d="M160 300 L350 320" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M310 300 L380 320" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M460 300 L420 320" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M610 300 L450 320" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            
+                            <path d="M400 380 L400 110" stroke="#059669" stroke-width="3" marker-end="url(#arrowhead)"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Requirements Section -->
+        <section id="requisitos" class="py-5 bg-light">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">6. Requisitos do Sistema</h2>
+                    
+                    <div class="row row-cols-1 row-cols-lg-2 g-4">
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Requisitos Funcionais</div>
+                                <ol class="mb-0">
+                                    <li><strong>Interface gráfica</strong> clara e intuitiva</li>
+                                    <li><strong>Área de seleção</strong> para os três mecanismos de IPC</li>
+                                    <li><strong>Para cada mecanismo:</strong>
+                                        <ul class="mt-2">
+                                            <li>Iniciar/terminar processos C++ pela interface</li>
+                                            <li>Campo de texto para mensagens</li>
+                                            <li>Log de mensagens enviadas/recebidas</li>
+                                            <li>Representação visual do estado</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Não travar</strong> a interface do usuário</li>
+                                    <li><strong>Comunicação bem definida</strong> backend-frontend</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="col">
+                            <div class="definition-box">
+                                <div class="definition-title">Requisitos Não-Funcionais</div>
+                                <ul class="mb-0">
+                                    <li><strong>Backend:</strong> C++23/C/Rust</li>
+                                    <li><strong>Frontend:</strong> Python (PyQt/Tkinter) ou HTML/JavaScript</li>
+                                    <li><strong>Compilação:</strong> Instruções claras no README.md</li>
+                                    <li><strong>Plataforma:</strong> Windows, Linux ou macOS</li>
+                                    <li><strong>Documentação:</strong> Código comentado</li>
+                                    <li><strong>Protocolo:</strong> JSON via stdout ou servidor web local</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4 class="fs-5 fw-semibold mb-3">Interface Visual Esperada</h4>
+                        <div class="row row-cols-1 row-cols-md-3 g-3">
+                            <div class="col">
+                                <div class="p-3 bg-primary-subtle rounded">
+                                    <h6 class="fw-semibold text-primary">Seleção de IPC</h6>
+                                    <p class="mb-0 small">Radio buttons ou tabs para escolher entre Pipes, Sockets ou Shared Memory</p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-3 bg-success-subtle rounded">
+                                    <h6 class="fw-semibold text-success">Controles</h6>
+                                    <p class="mb-0 small">Botões Start/Stop, campo de entrada de texto, botão Send Message</p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="p-3 bg-warning-subtle rounded">
+                                    <h6 class="fw-semibold text-warning">Visualização</h6>
+                                    <p class="mb-0 small">Log de eventos, status visual dos buffers/conexões, indicadores de estado</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Section -->
+        <section id="implementacao" class="py-5 bg-white">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">7. Detalhes de Implementação</h2>
+                    
+                    <div class="example-box">
+                        <h3 class="fs-4 fw-semibold mb-4">Exemplo: Estrutura do Backend C++</h3>
+                        <div class="code-block">
+<pre><code class="cpp">// main.cpp - Estrutura principal
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;nlohmann/json.hpp&gt;
+#include "IPCManager.h"
+
+class IPCManager {
+public:
+    enum IPCType { PIPES, SOCKETS, SHARED_MEMORY };
+    
+private:
+    IPCType current_type;
+    std::unique_ptr&lt;IPCBase&gt; ipc_handler;
+    
+public:
+    void setIPCType(IPCType type) {
+        switch(type) {
+            case PIPES:
+                ipc_handler = std::make_unique&lt;PipeHandler&gt;();
+                break;
+            case SOCKETS:
+                ipc_handler = std::make_unique&lt;SocketHandler&gt;();
+                break;
+            case SHARED_MEMORY:
+                ipc_handler = std::make_unique&lt;SharedMemHandler&gt;();
+                break;
+        }
+        current_type = type;
+    }
+    
+    void sendMessage(const std::string& message) {
+        if (ipc_handler) {
+            IPCResult result = ipc_handler-&gt;send(message);
+            outputJSON(result);
+        }
+    }
+    
+    void receiveMessage() {
+        if (ipc_handler) {
+            IPCResult result = ipc_handler-&gt;receive();
+            outputJSON(result);
+        }
+    }
+    
+private:
+    void outputJSON(const IPCResult& result) {
+        nlohmann::json output;
+        output["timestamp"] = getCurrentTimestamp();
+        output["ipc_type"] = getIPCTypeName(current_type);
+        output["status"] = result.success ? "success" : "error";
+        output["message"] = result.message;
+        output["data"] = result.data;
+        output["buffer_state"] = result.buffer_info;
+        
+        std::cout &lt;&lt; output.dump() &lt;&lt; std::endl;
+    }
+};</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h3 class="fs-4 fw-semibold mb-4">Exemplo: Interface Base IPC</h3>
+                        <div class="code-block">
+<pre><code class="cpp">// IPCBase.h - Interface comum
+class IPCBase {
+public:
+    struct IPCResult {
+        bool success;
+        std::string message;
+        std::string data;
+        nlohmann::json buffer_info;
+        std::chrono::system_clock::time_point timestamp;
+    };
+    
+    virtual ~IPCBase() = default;
+    virtual IPCResult initialize() = 0;
+    virtual IPCResult send(const std::string& data) = 0;
+    virtual IPCResult receive() = 0;
+    virtual IPCResult cleanup() = 0;
+    virtual nlohmann::json getStatus() = 0;
+};
+
+// PipeHandler.h - Implementação específica
+class PipeHandler : public IPCBase {
+private:
+    int pipe_fd[2];
+    pid_t child_pid;
+    bool initialized = false;
+    
+public:
+    IPCResult initialize() override {
+        IPCResult result;
+        
+        if (pipe(pipe_fd) == -1) {
+            result.success = false;
+            result.message = "Failed to create pipe: " + std::string(strerror(errno));
+            return result;
+        }
+        
+        child_pid = fork();
+        if (child_pid == -1) {
+            result.success = false;
+            result.message = "Failed to fork process: " + std::string(strerror(errno));
+            return result;
+        }
+        
+        if (child_pid == 0) {
+            // Processo filho - consumer
+            close(pipe_fd[1]); // Fechar write end
+            childProcess();
+            exit(0);
+        } else {
+            // Processo pai - producer
+            close(pipe_fd[0]); // Fechar read end
+            initialized = true;
+            result.success = true;
+            result.message = "Pipe initialized successfully";
+        }
+        
+        return result;
+    }
+    
+    IPCResult send(const std::string& data) override {
+        IPCResult result;
+        result.timestamp = std::chrono::system_clock::now();
+        
+        if (!initialized) {
+            result.success = false;
+            result.message = "Pipe not initialized";
+            return result;
+        }
+        
+        ssize_t bytes_written = write(pipe_fd[1], data.c_str(), data.length());
+        if (bytes_written == -1) {
+            result.success = false;
+            result.message = "Write failed: " + std::string(strerror(errno));
+        } else {
+            result.success = true;
+            result.message = "Data sent successfully";
+            result.data = data;
+            result.buffer_info["bytes_written"] = bytes_written;
+        }
+        
+        return result;
+    }
+    
+private:
+    void childProcess() {
+        char buffer[1024];
+        while (true) {
+            ssize_t bytes_read = read(pipe_fd[0], buffer, sizeof(buffer) - 1);
+            if (bytes_read > 0) {
+                buffer[bytes_read] = '\0';
+                
+                // Output JSON para stdout do processo filho
+                nlohmann::json output;
+                output["type"] = "received";
+                output["data"] = std::string(buffer);
+                output["bytes"] = bytes_read;
+                output["timestamp"] = std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;
+                    (std::chrono::system_clock::now().time_since_epoch()).count();
+                
+                std::cout &lt;&lt; output.dump() &lt;&lt; std::endl;
+            } else if (bytes_read == 0) {
+                break; // Pipe closed
+            }
+        }
+    }
+};</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h3 class="fs-4 fw-semibold mb-4">Exemplo: Estrutura de Testes</h3>
+                        <div class="code-block">
+<pre><code class="cpp">// test_pipes.cpp - Testes unitários com Google Test
+#include &lt;gtest/gtest.h&gt;
+#include "PipeHandler.h"
+
+class PipeHandlerTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        handler = std::make_unique&lt;PipeHandler&gt;();
+    }
+    
+    void TearDown() override {
+        if (handler) {
+            handler-&gt;cleanup();
+        }
+    }
+    
+    std::unique_ptr&lt;PipeHandler&gt; handler;
+};
+
+TEST_F(PipeHandlerTest, InitializationSuccess) {
+    IPCBase::IPCResult result = handler-&gt;initialize();
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.message.empty());
+}
+
+TEST_F(PipeHandlerTest, SendReceiveMessage) {
+    // Inicializar
+    ASSERT_TRUE(handler-&gt;initialize().success);
+    
+    // Enviar mensagem
+    std::string test_message = "Hello IPC World!";
+    IPCBase::IPCResult send_result = handler-&gt;send(test_message);
+    
+    EXPECT_TRUE(send_result.success);
+    EXPECT_EQ(send_result.data, test_message);
+    EXPECT_GT(send_result.buffer_info["bytes_written"], 0);
+}
+
+TEST_F(PipeHandlerTest, ErrorHandling) {
+    // Tentar enviar sem inicializar
+    IPCBase::IPCResult result = handler-&gt;send("test");
+    EXPECT_FALSE(result.success);
+    EXPECT_THAT(result.message, ::testing::HasSubstr("not initialized"));
+}
+
+// Executar testes
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Frontend Section -->
+        <section id="frontend" class="py-5 bg-light">
+            <div class="container">
+                <div class="mx-auto fade-in" style="max-width: 64rem;">
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--sage-900);">8. Frontend e Integração</h2>
+                    
+                    <div class="example-box">
+                        <h3 class="fs-4 fw-semibold mb-4">Exemplo: Interface Python com Tkinter</h3>
+                        <div class="code-block">
+<pre><code class="python">import tkinter as tk
+from tkinter import ttk, scrolledtext
+import subprocess
+import json
+import threading
+import queue
+from datetime import datetime
+
+class IPCVisualizer:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("IPC Demonstration Tool")
+        self.root.geometry("800x600")
+        
+        # Queue para comunicação entre threads
+        self.message_queue = queue.Queue()
+        
+        # Processo backend atual
+        self.backend_process = None
+        self.current_ipc_type = "pipes"
+        
+        self.setup_ui()
+        self.start_message_processor()
+    
+    def setup_ui(self):
+        # Frame principal
+        main_frame = ttk.Frame(self.root, padding="10")
+        main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        
+        # Seleção de IPC
+        ipc_frame = ttk.LabelFrame(main_frame, text="IPC Mechanism Selection", padding="10")
+        ipc_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
+        
+        self.ipc_var = tk.StringVar(value="pipes")
+        ttk.Radiobutton(ipc_frame, text="Pipes Anônimos", variable=self.ipc_var, 
+                       value="pipes", command=self.on_ipc_change).grid(row=0, column=0, padx=5)
+        ttk.Radiobutton(ipc_frame, text="Sockets Locais", variable=self.ipc_var, 
+                       value="sockets", command=self.on_ipc_change).grid(row=0, column=1, padx=5)
+        ttk.Radiobutton(ipc_frame, text="Memória Compartilhada", variable=self.ipc_var, 
+                       value="shared_mem", command=self.on_ipc_change).grid(row=0, column=2, padx=5)
+        
+        # Controles
+        control_frame = ttk.LabelFrame(main_frame, text="Process Control", padding="10")
+        control_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
+        
+        self.start_button = ttk.Button(control_frame, text="Start IPC", command=self.start_ipc)
+        self.start_button.grid(row=0, column=0, padx=5)
+        
+        self.stop_button = ttk.Button(control_frame, text="Stop IPC", command=self.stop_ipc, state=tk.DISABLED)
+        self.stop_button.grid(row=0, column=1, padx=5)
+        
+        # Status indicator
+        self.status_label = ttk.Label(control_frame, text="Status: Stopped", foreground="red")
+        self.status_label.grid(row=0, column=2, padx=20)
+        
+        # Input de mensagem
+        input_frame = ttk.LabelFrame(main_frame, text="Send Message", padding="10")
+        input_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
+        
+        self.message_entry = ttk.Entry(input_frame, width=50)
+        self.message_entry.grid(row=0, column=0, padx=(0, 10))
+        self.message_entry.bind("<Return>", self.send_message)
+        
+        self.send_button = ttk.Button(input_frame, text="Send", command=self.send_message, state=tk.DISABLED)
+        self.send_button.grid(row=0, column=1)
+        
+        # Log de eventos
+        log_frame = ttk.LabelFrame(main_frame, text="Event Log", padding="10")
+        log_frame.grid(row=3, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        
+        self.log_text = scrolledtext.ScrolledText(log_frame, width=60, height=15)
+        self.log_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        
+        # Status visual
+        status_frame = ttk.LabelFrame(main_frame, text="IPC Status", padding="10")
+        status_frame.grid(row=3, column=1, sticky=(tk.W, tk.E, tk.N, tk.S), padx=(10, 0))
+        
+        self.status_text = scrolledtext.ScrolledText(status_frame, width=30, height=15)
+        self.status_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        
+        # Configure grid weights
+        main_frame.columnconfigure(0, weight=2)
+        main_frame.columnconfigure(1, weight=1)
+        main_frame.rowconfigure(3, weight=1)
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
+    
+    def on_ipc_change(self):
+        self.current_ipc_type = self.ipc_var.get()
+        self.log_message(f"IPC type changed to: {self.current_ipc_type.upper()}")
+    
+    def start_ipc(self):
+        try:
+            # Executar backend C++
+            cmd = [f"./backend_{self.current_ipc_type}", "--json-output"]
+            self.backend_process = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                text=True, bufsize=1, universal_newlines=True
+            )
+            
+            # Thread para ler output do backend
+            self.reader_thread = threading.Thread(
+                target=self.read_backend_output, daemon=True)
+            self.reader_thread.start()
+            
+            # Atualizar UI
+            self.start_button.config(state=tk.DISABLED)
+            self.stop_button.config(state=tk.NORMAL)
+            self.send_button.config(state=tk.NORMAL)
+            self.status_label.config(text="Status: Running", foreground="green")
+            
+            self.log_message(f"Started {self.current_ipc_type.upper()} backend process")
+            
+        except Exception as e:
+            self.log_message(f"Error starting backend: {str(e)}")
+    
+    def stop_ipc(self):
+        if self.backend_process:
+            self.backend_process.terminate()
+            self.backend_process.wait()
+            self.backend_process = None
+        
+        # Atualizar UI
+        self.start_button.config(state=tk.NORMAL)
+        self.stop_button.config(state=tk.DISABLED)
+        self.send_button.config(state=tk.DISABLED)
+        self.status_label.config(text="Status: Stopped", foreground="red")
+        
+        self.log_message("Backend process stopped")
+    
+    def send_message(self, event=None):
+        message = self.message_entry.get().strip()
+        if not message:
+            return
+        
+        try:
+            if self.backend_process:
+                # Enviar comando JSON para o backend
+                command = {
+                    "action": "send_message",
+                    "data": message,
+                    "timestamp": datetime.now().isoformat()
+                }
+                self.backend_process.stdin.write(json.dumps(command) + "\n")
+                self.backend_process.stdin.flush()
+                
+                self.log_message(f"Sent: {message}")
+                self.message_entry.delete(0, tk.END)
+        
+        except Exception as e:
+            self.log_message(f"Error sending message: {str(e)}")
+    
+    def read_backend_output(self):
+        try:
+            for line in self.backend_process.stdout:
+                line = line.strip()
+                if line:
+                    self.message_queue.put(('output', line))
+        except Exception as e:
+            self.message_queue.put(('error', f"Backend reading error: {str(e)}"))
+    
+    def start_message_processor(self):
+        def process_messages():
+            try:
+                while True:
+                    msg_type, data = self.message_queue.get(timeout=0.1)
+                    
+                    if msg_type == 'output':
+                        try:
+                            json_data = json.loads(data)
+                            self.process_backend_message(json_data)
+                        except json.JSONDecodeError:
+                            self.log_message(f"Raw output: {data}")
+                    
+                    elif msg_type == 'error':
+                        self.log_message(data)
+                        
+            except queue.Empty:
+                pass
+            
+            # Reagendar para próxima verificação
+            self.root.after(100, process_messages)
+        
+        process_messages()
+    
+    def process_backend_message(self, data):
+        timestamp = data.get('timestamp', datetime.now().isoformat())
+        ipc_type = data.get('ipc_type', 'unknown')
+        status = data.get('status', 'unknown')
+        message = data.get('message', '')
+        
+        # Log de eventos
+        log_entry = f"[{timestamp[:19]}] {ipc_type.upper()}: {message}"
+        if status != 'success':
+            log_entry += f" (Status: {status})"
+        
+        self.log_message(log_entry)
+        
+        # Atualizar status visual
+        if 'buffer_state' in data:
+            self.update_status_display(data['buffer_state'])
+    
+    def update_status_display(self, buffer_state):
+        self.status_text.delete('1.0', tk.END)
+        
+        status_info = f"Buffer Status:\n"
+        status_info += f"Type: {self.current_ipc_type.upper()}\n"
+        status_info += f"State: {json.dumps(buffer_state, indent=2)}\n"
+        
+        if self.current_ipc_type == 'pipes':
+            status_info += f"\nPipe Info:\n"
+            status_info += f"• Read FD: {buffer_state.get('read_fd', 'N/A')}\n"
+            status_info += f"• Write FD: {buffer_state.get('write_fd', 'N/A')}\n"
+            status_info += f"• Bytes Written: {buffer_state.get('bytes_written', 0)}\n"
+        
+        elif self.current_ipc_type == 'sockets':
+            status_info += f"\nSocket Info:\n"
+            status_info += f"• Server Status: {buffer_state.get('server_status', 'Unknown')}\n"
+            status_info += f"• Connections: {buffer_state.get('active_connections', 0)}\n"
+            status_info += f"• Messages Queued: {buffer_state.get('message_queue_size', 0)}\n"
+        
+        elif self.current_ipc_type == 'shared_mem':
+            status_info += f"\nShared Memory Info:\n"
+            status_info += f"• Memory ID: {buffer_state.get('shmem_id', 'N/A')}\n"
+            status_info += f"• Size: {buffer_state.get('size', 0)} bytes\n"
+            status_info += f"• Mutex Status: {buffer_state.get('mutex_status', 'Unknown')}\n"
+        
+        self.status_text.insert('1.0', status_info)
+    
+    def log_message(self, message):
+        timestamp = datetime.now().strftime("%H:%M:%S")
+        log_entry = f"[{timestamp}] {message}\n"
+        
+        self.log_text.insert(tk.END, log_entry)
+        self.log_text.see(tk.END)
+    
+    def run(self):
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.root.mainloop()
+    
+    def on_closing(self):
+        if self.backend_process:
+            self.stop_ipc()
+        self.root.destroy()
+
+if __name__ == "__main__":
+    app = IPCVisualizer()
+    app.run()

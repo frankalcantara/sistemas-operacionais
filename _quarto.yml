@@ -19,6 +19,7 @@ book:
         - intro1.qmd
         - intro2.qmd
         - intro3.qmd
+        - pr-guide.qmd
     - part: Gestão de Processos
       chapters: 
         - gerproc.qmd
@@ -28,7 +29,8 @@ book:
         - gerproc4.qmd
         - gerproc5.qmd
         - gerproc6.qmd 
-    - 12germem.qmd
+    - part: Gestão de Memória
+        - 12germem.qmd
     - 13gerfiles.qmd
     - 14geres.qmd
     - 15gerredes.qmd
@@ -40,7 +42,7 @@ book:
     - references.qmd
   page-footer: "Copyright © 2025 Frank de Alcantara"
   site-url: https://frankalcantara.com
-  repo-url: https://github.com/frankalcantara/linefollower
+  repo-url: https://github.com/frankalcantara/
   repo-actions: [edit, issue]
   
 bibliography: references.bib

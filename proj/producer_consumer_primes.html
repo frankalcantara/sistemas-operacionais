@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>producer_consumer_primes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="producer_consumer_primes_files/libs/clipboard/clipboard.min.js"></script>
+<script src="producer_consumer_primes_files/libs/quarto-html/quarto.js"></script>
+<script src="producer_consumer_primes_files/libs/quarto-html/popper.min.js"></script>
+<script src="producer_consumer_primes_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="producer_consumer_primes_files/libs/quarto-html/anchor.min.js"></script>
+<link href="producer_consumer_primes_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="producer_consumer_primes_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="producer_consumer_primes_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="producer_consumer_primes_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="producer_consumer_primes_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="sistema-producer-consumer-calculadora-de-números-primos" class="level1">
+<h1>Sistema Producer-Consumer: Calculadora de Números Primos</h1>
+<section id="objetivo-do-projeto" class="level2">
+<h2 class="anchored" data-anchor-id="objetivo-do-projeto">Objetivo do Projeto</h2>
+<p>Implementar um sistema multi-threaded usando o padrão Producer-Consumer para calcular números primos em intervalos definidos, demonstrando conceitos de sincronização de <em>threads</em>, _buffer_s compartilhados e balanceamento de carga computacional.</p>
+<p><strong>Duração:</strong> 4 horas.<br>
+<strong>Complexidade:</strong> Intermediária. <strong>Linguagem:</strong> C++20 ou superior, ou C, ou Rust, ou Python (Cuidado com a Versão do Python).</p>
+</section>
+<section id="visão-geral" class="level2">
+<h2 class="anchored" data-anchor-id="visão-geral">Visão Geral</h2>
+<p>O sistema será composto por:</p>
+<ul>
+<li><strong><em>threads</em> Produtoras</strong>: Geram intervalos de números para verificação de primalidade;</li>
+<li><strong><em>threads</em> Consumidoras</strong>: Testam se os números nos intervalos são primos;</li>
+<li><strong><em>buffer</em> Compartilhado</strong>: Fila thread-safe de intervalos de trabalho;</li>
+<li><strong>Thread Principal</strong>: Coleta resultados e exibe estatísticas.</li>
+</ul>
+</section>
+<section id="especificações-técnicas" class="level2">
+<h2 class="anchored" data-anchor-id="especificações-técnicas">Especificações Técnicas</h2>
+<p><strong>Nota</strong>: Você deve criar um repositório no Github, ou uma pasta em um repositório existente. Armazene todo o desenvolvimento neste repositório.</p>
+<section id="estrutura-de-dados" class="level3">
+<h3 class="anchored" data-anchor-id="estrutura-de-dados">Estrutura de Dados</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Interval <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> start<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> end<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> id<span class="op">;</span>  <span class="co">// identificador do intervalo</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> PrimeResult <span class="op">{</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> number<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> is_prime<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> interval_id<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>chrono::duration<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> calculation_time<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="configuração-do-sistema" class="level3">
+<h3 class="anchored" data-anchor-id="configuração-do-sistema">Configuração do Sistema</h3>
+<ul>
+<li><strong>Produtores</strong>: 2 <em>threads</em>;</li>
+<li><strong>Consumidores</strong>: 3-4 <em>threads</em> (configurável);</li>
+<li><strong><em>buffer</em> size</strong>: 10 intervalos;</li>
+<li><strong>Intervalo de números</strong>: 1.000 a 100.000.000;</li>
+<li><strong>Tamanho do intervalo</strong>: 1000 números por intervalo.</li>
+</ul>
+</section>
+</section>
+<section id="requisitos-funcionais" class="level2">
+<h2 class="anchored" data-anchor-id="requisitos-funcionais">Requisitos Funcionais</h2>
+<section id="thread-produtora" class="level3">
+<h3 class="anchored" data-anchor-id="thread-produtora">1. Thread Produtora</h3>
+<ul>
+<li>Dividir o range total (1.000 - 100.000.000) em intervalos de 1000 números;</li>
+<li>Inserir intervalos no <em>buffer</em> compartilhado;</li>
+<li>Implementar rate limiting (pequeno delay entre produções);</li>
+<li>Parar quando todos os intervalos forem produzidos.</li>
+</ul>
+</section>
+<section id="thread-consumidora" class="level3">
+<h3 class="anchored" data-anchor-id="thread-consumidora">2. Thread Consumidora</h3>
+<ul>
+<li>Retirar intervalos do <em>buffer</em>;</li>
+<li>Para cada número no intervalo, verificar se é primo usando trial division;</li>
+<li>Armazenar resultados em estrutura thread-safe;</li>
+<li>Medir tempo de processamento de cada número.</li>
+</ul>
+</section>
+<section id="função-de-alto-custo-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="função-de-alto-custo-computacional">3. Função de Alto Custo Computacional</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> is_prime<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">&lt;</span> <span class="dv">2</span><span class="op">)</span> <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">2</span><span class="op">)</span> <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Trial division até √n (método custoso intencionalmente)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">3</span><span class="op">;</span> i <span class="op">*</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">+=</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>n <span class="op">%</span> i <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="buffer-thread-safe" class="level3">
+<h3 class="anchored" data-anchor-id="buffer-thread-safe">4. <em>buffer</em> <em>Thread-Safe</em></h3>
+<p>Você pode usar um fila para <em>buffer</em> de dados. No C++ 20 ou maior, você pode usar <code>std::queue</code> com <code>std::mutex</code> e <code>std::condition_variable</code> para implementar um <em>buffer</em> <em>thread-safe</em>.</p>
+<ul>
+<li>Usar <code>std::queue</code> com <code>std::mutex</code> e <code>std::condition_variable</code>;</li>
+<li>Implementar operações <code>push()</code> e <code>pop()</code> <em>thread-safe</em>;</li>
+<li>Controlar quando <em>buffer</em> está cheio/vazio.</li>
+</ul>
+</section>
+<section id="sistema-de-monitoramento" class="level3">
+<h3 class="anchored" data-anchor-id="sistema-de-monitoramento">5. Sistema de Monitoramento</h3>
+<ul>
+<li>Thread principal coleta resultados periodicamente;</li>
+<li>Exibe estatísticas em tempo real:
+<ul>
+<li>Intervalos processados;</li>
+<li>Números primos encontrados;</li>
+<li>Taxa de processamento (números/segundo);</li>
+<li>Tempo médio por cálculo;</li>
+<li>Status do <em>buffer</em> (ocupação atual).</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="interface-de-saída" class="level2">
+<h2 class="anchored" data-anchor-id="interface-de-saída">Interface de Saída</h2>
+<p>O programa deve exibir no console:</p>
+<pre><code>=== CALCULADORA DE NÚMEROS PRIMOS ===
+Range: 1000 - 100000 | Intervalos: 990 | Produtores: 2 | Consumidores: 4
+
+[14:23:45] _buffer_: [##########] 1000/1000 (100%)
+[14:23:45] Processados: 45 intervalos (4.5%)
+[14:23:45] Primos encontrados: 432
+[14:23:45] Taxa: 1,247 números/segundo
+[14:23:45] Tempo médio: 0.8ms por número
+
+Últimos primos encontrados: 98,689 | 98,711 | 98,713 | 98,717
+
+[14:23:50] PROCESSAMENTO COMPLETO!
+Total de primos no range: 8,685
+Tempo total: 78.3 segundos</code></pre>
+</section>
+<section id="requisitos-de-implementação" class="level2">
+<h2 class="anchored" data-anchor-id="requisitos-de-implementação">Requisitos de Implementação</h2>
+<section id="sincronização-obrigatória" class="level3">
+<h3 class="anchored" data-anchor-id="sincronização-obrigatória">Sincronização Obrigatória</h3>
+<ul>
+<li><code>std::mutex</code> para proteção do <em>buffer</em>;</li>
+<li><code>std::condition_variable</code> para notificação entre <em>threads</em>;</li>
+<li><code>std::atomic</code> para contadores compartilhados;</li>
+<li>Evitar race conditions e deadlocks.</li>
+</ul>
+</section>
+<section id="tratamento-de-shutdown" class="level3">
+<h3 class="anchored" data-anchor-id="tratamento-de-shutdown">Tratamento de Shutdown</h3>
+<ul>
+<li>Sinal para parar produtores sem erros;</li>
+<li>Consumidores processam itens restantes no <em>buffer</em>;</li>
+<li>Join de todas as <em>threads</em> antes de finalizar.</li>
+</ul>
+</section>
+<section id="medição-de-performance" class="level3">
+<h3 class="anchored" data-anchor-id="medição-de-performance">Medição de Performance</h3>
+<ul>
+<li>Cronometrar tempo total de execução;</li>
+<li>Medir tempo médio de cálculo por número;</li>
+<li>Comparar performance com diferentes números de <em>threads</em> consumidoras.</li>
+</ul>
+</section>
+</section>
+<section id="critérios-de-avaliação" class="level2">
+<h2 class="anchored" data-anchor-id="critérios-de-avaliação">Critérios de Avaliação</h2>
+<section id="funcionalidade-40" class="level3">
+<h3 class="anchored" data-anchor-id="funcionalidade-40">Funcionalidade (40%)</h3>
+<ul>
+<li>Sistema produz e consome corretamente;</li>
+<li>Cálculo de primos está correto;</li>
+<li>Sincronização funciona sem travamentos;</li>
+<li>Output apresenta informações corretas.</li>
+</ul>
+</section>
+<section id="implementação-30" class="level3">
+<h3 class="anchored" data-anchor-id="implementação-30">Implementação (30%)</h3>
+<ul>
+<li>Uso correto de <em>threads</em> e primitivas de sincronização;</li>
+<li>Código bem estruturado e legível;</li>
+<li>Tratamento adequado de condições de corrida;</li>
+<li>Gerenciamento correto de recursos.</li>
+</ul>
+</section>
+<section id="performance-20" class="level3">
+<h3 class="anchored" data-anchor-id="performance-20">Performance (20%)</h3>
+<ul>
+<li>Sistema utiliza recursos de forma eficiente;</li>
+<li><em>threads</em> trabalham de forma balanceada;</li>
+<li><em>buffer</em> não causa gargalos desnecessários.</li>
+</ul>
+</section>
+<section id="documentação-10" class="level3">
+<h3 class="anchored" data-anchor-id="documentação-10">Documentação (10%)</h3>
+<ul>
+<li>Comentários explicando partes críticas;</li>
+<li>README com instruções de compilação e execução;</li>
+<li>Explicação das decisões de design.</li>
+</ul>
+</section>
+</section>
+<section id="cronograma-sugerido-4-horas" class="level2">
+<h2 class="anchored" data-anchor-id="cronograma-sugerido-4-horas">Cronograma Sugerido (4 horas)</h2>
+<section id="hora-1-estrutura-básica" class="level3">
+<h3 class="anchored" data-anchor-id="hora-1-estrutura-básica">Hora 1: Estrutura Básica</h3>
+<ul>
+<li>Definir estruturas de dados;</li>
+<li>Implementar <em>buffer</em> thread-safe básico;</li>
+<li>Criar função <code>is_prime()</code>;</li>
+<li>Teste unitário da função de primalidade.</li>
+</ul>
+</section>
+<section id="hora-2-threads-produtoras" class="level3">
+<h3 class="anchored" data-anchor-id="hora-2-threads-produtoras">Hora 2: <em>threads</em> Produtoras</h3>
+<ul>
+<li>Implementar lógica de produção de intervalos</li>
+<li>Adicionar no <em>buffer</em> compartilhado</li>
+<li>Testar produção sem consumidores</li>
+</ul>
+</section>
+<section id="hora-3-threads-consumidoras" class="level3">
+<h3 class="anchored" data-anchor-id="hora-3-threads-consumidoras">Hora 3: <em>threads</em> Consumidoras</h3>
+<ul>
+<li>Implementar lógica de consumo;</li>
+<li>Processar intervalos e calcular primos;</li>
+<li>Armazenar resultados thread-safe.</li>
+</ul>
+</section>
+<section id="hora-4-integração-e-monitoramento" class="level3">
+<h3 class="anchored" data-anchor-id="hora-4-integração-e-monitoramento">Hora 4: Integração e Monitoramento</h3>
+<ul>
+<li>Thread principal para estatísticas;</li>
+<li>Output formatado em tempo real;</li>
+<li>Testes finais e ajustes de performance.</li>
+</ul>
+</section>
+</section>
+<section id="dicas-de-implementação" class="level2">
+<h2 class="anchored" data-anchor-id="dicas-de-implementação">Dicas de Implementação</h2>
+<section id="buffer-thread-safe-1" class="level3">
+<h3 class="anchored" data-anchor-id="buffer-thread-safe-1"><em>buffer</em> Thread-Safe</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Interval_buffer_ <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>queue<span class="op">&lt;</span>Interval<span class="op">&gt;</span> _buffer_<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>mutex mtx<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>condition_variable cv_not_full<span class="op">,</span> cv_not_empty<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">size_t</span> max_size<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> shutdown <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> push<span class="op">(</span><span class="at">const</span> Interval<span class="op">&amp;</span> item<span class="op">);</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bool</span> pop<span class="op">(</span>Interval<span class="op">&amp;</span> item<span class="op">);</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> signal_shutdown<span class="op">();</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="controle-de-estatísticas" class="level3">
+<h3 class="anchored" data-anchor-id="controle-de-estatísticas">Controle de Estatísticas</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Statistics <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>atomic<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> intervals_processed<span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>atomic<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> primes_found<span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>atomic<span class="op">&lt;</span><span class="dt">long</span> <span class="dt">long</span><span class="op">&gt;</span> total_numbers_checked<span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>chrono::steady_clock::time_point start_time<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="compilação" class="level3">
+<h3 class="anchored" data-anchor-id="compilação">Compilação</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">g++</span> <span class="at">-std</span><span class="op">=</span>c++17 <span class="at">-pthread</span> <span class="at">-O2</span> <span class="at">-o</span> prime_calculator main.cpp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="extensões-opcionais-se-sobrar-tempo" class="level2">
+<h2 class="anchored" data-anchor-id="extensões-opcionais-se-sobrar-tempo">Extensões Opcionais (se sobrar tempo)</h2>
+<ul>
+<li>Implementar diferentes algoritmos de teste de primalidade;</li>
+<li>Adicionar opção de configurar range e número de <em>threads</em> via linha de comando;</li>
+<li>Salvar resultados em arquivo;</li>
+<li>Comparar performance entre diferentes configurações;</li>
+<li>Implementar pattern Thread Pool ao invés de <em>threads</em> fixas.</li>
+</ul>
+</section>
+<section id="entregáveis" class="level2">
+<h2 class="anchored" data-anchor-id="entregáveis">Entregáveis</h2>
+<ol type="1">
+<li>Código fonte completo (<code>main.cpp</code> e headers se necessário);</li>
+<li>Makefile ou script de compilação;</li>
+<li>README.md com instruções e análise de resultados;</li>
+<li>Teste demonstrando o funcionamento com screenshot/log da saída.</li>
+</ol>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

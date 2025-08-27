@@ -1,7 +1,4 @@
----
-title: "Gestão de Memória"
----
-## Gerenciamento de Memória: Otimizando o Uso de `RAM` {#sec-germen1}
+# Gerenciamento de Memória: Otimizando o Uso de `RAM` {#sec-germen1}
 
 A memória principal, também conhecida como `RAM` (Random Access Memory), representa um dos recursos mais importantes e voláteis que devem ser gerenciados cuidadosamente em qualquer **Sistema Operacional** moderno. Diferentemente do armazenamento permanente, a `RAM` perde todo seu conteúdo quando a energia é removida, tornando seu gerenciamento uma tarefa que exige precisão e eficiência constantes.
 
