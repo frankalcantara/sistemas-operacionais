@@ -208,8 +208,8 @@ private:
     static constexpr int RANGE_END = 100000000; ///< Fim do range de numeros
     static constexpr int INTERVAL_SIZE = 1000; ///< Tamanho de cada intervalo
     static constexpr int BUFFER_SIZE = 100; ///< Tamanho do buffer
-    static constexpr int NUM_PRODUCERS = 16; ///< Numero de threads produtoras
-    static constexpr int NUM_CONSUMERS = 8; ///< Numero de threads consumidoras
+    static constexpr int NUM_PRODUCERS = 2; ///< Numero de threads produtoras
+    static constexpr int NUM_CONSUMERS = 4; ///< Numero de threads consumidoras
     IntervalBuffer buffer_; ///< Buffer compartilhado
     Statistics stats_; ///< Estatisticas do processamento
     std::vector<std::thread> producer_threads_; ///< Threads produtoras
