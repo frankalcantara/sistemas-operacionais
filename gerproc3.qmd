@@ -8,7 +8,7 @@ Os modelos teóricos de estados, que a persistente leitora viu até o momento, f
 
 ### O Bloco de Controle de Processo (PCB): O Repositório de Estado
 
-Se um processo é uma entidade ativa, o Bloco de Controle de Processo, em inglês **P**rocess **C**ontrol **B**lock, **PCB** é sua personificação dentro do `Kernel` do **Sistema Operacional**. O **PCB**, também conhecido como descritor de processo, é uma estrutura de dados que armazena todas as informações essenciais que o **Sistema Operacional** precisa para gerenciar um processo específico. Para cada processo existente no sistema, há um **PCB** correspondente. Sem o **PCB**, um processo simplesmente não existe do ponto de vista do gerenciamento do sistema. O **PCB** é a âncora que transforma um fluxo de execução volátil em uma entidade concreta e controlável.
+Se um processo é uma entidade ativa, o Bloco de Controle de Processo, em inglês **P**rocess **C**ontrol **B**lock, **PCB** é sua personificação dentro do `Kernel` do **Sistema Operacional** . O **PCB**, também conhecido como descritor de processo, é uma estrutura de dados que armazena todas as informações essenciais que o **Sistema Operacional** precisa para gerenciar um processo específico. Para cada processo existente no sistema, há um **PCB** correspondente. Sem o **PCB**, um processo simplesmente não existe do ponto de vista do gerenciamento do sistema. O **PCB** é a âncora que transforma um fluxo de execução volátil em uma entidade concreta e controlável.
 
 O conteúdo de um **PCB** é abrangente, pois deve encapsular todo o contexto do processo. Embora a implementação exata varie entre os **Sistemas Operacionais**, os componentes de informação essenciais podem ser categorizados como mostrado na @tbl-pcb1.
 
@@ -47,7 +47,7 @@ Tudo começa na `task_struct`, a estrutura central que representa um processo ou
 
 ::: callout-note
 **O Que É o Slab Allocator**
-O **slab allocator** é um sistema de gerenciamento de memória especializado do `kernel` **Linux** que otimiza a alocação de objetos de tamanho fixo e frequentemente utilizados(ver `mm/slab.h`). Este allocator mantém caches pré-alocados de estruturas comuns como `task_struct`, `inode`, `dentry` e outras, evitando a fragmentação e reduzindo o overhead de alocação/desalocação. O **slab allocator** organiza a memória em três níveis: **caches**, conjuntos de _slabs_ para um tipo específico de objeto, **slabs**, páginas contíguas contendo múltiplos objetos do mesmo tipo e **objetos**,  as estruturas individuais como `task_struct`. Esta abordagem permite que o `kernel` mantenha objetos inicializados em `cache`, reutilize rapidamente estruturas liberadas e minimize a fragmentação interna, resultando em melhor performance para operações críticas como criação e destruição de processos. 
+O **slab allocator** é um sistema de gerenciamento de memória especializado do `kernel` **Linux** que otimiza a alocação de objetos de tamanho fixo e frequentemente utilizados(ver `mm/slab.h`). Este allocator mantém caches pré-alocados de estruturas comuns como `task_struct`, `inode`, `dentry` e outras, evitando a fragmentação e reduzindo o overhead de alocação/desalocação. O **slab allocator** organiza a memória em três níveis: **caches**, conjuntos de _slabs_ para um tipo específico de objeto, **slabs**, páginas contíguas contendo múltiplos objetos do mesmo tipo e **objetos**,  as estruturas individuais como `task_struct`. Esta abordagem permite que o `kernel` mantenha objetos inicializados em `_cache_`, reutilize rapidamente estruturas liberadas e minimize a fragmentação interna, resultando em melhor performance para operações críticas como criação e destruição de processos. 
 :::
 
 A `task_struct` é uma estrutura de dados complexa com algum espaço para variações que contém os seguintes campos básicos:
@@ -245,7 +245,7 @@ Como a perspicaz leitora deve ter percebido na @fig-pcb1, a `task_struct` é uma
 Estrutura no endereço `0xffff888012347000` implementando a tabela de descritores de arquivos do processo, utilizando arrays dinâmicos **RCU-protected** para acesso concorrente sem `locks` e `bitmaps` para controle eficiente de estado(ver `include/linux/fdtable.h`). Esta estrutura fundamental do **VFS** mantém o mapeamento entre números inteiros (**FD**s) e ponteiros para a `struct file`, suportando compartilhamento entre `threads` via `CLONE_FILES` e redimensionamento automático conforme necessário. O design emprega **R**ead-**C**opy-**U**pdate **RCU** para permitir leituras simultâneas durante operações de redimensionamento de arquivos, enquanto `bitmaps` especializados otimizam a localização de **FD**s livres e gerenciam `flags` como `close-on-exec` para controle preciso durante `execve()`.
 
 ::: callout-note
-**Bitmaps** são estruturas de dados que utilizam arrays de bits para representar estados booleanos de forma extremamente eficiente em termos de memória e performance. No contexto da `files_struct`, cada bit nos arrays `close_on_exec` e `open_fds` corresponde a um file descriptor específico: o bit na posição $n$ representa o estado do FD $n$. Um bit em `1` no bitmap `open_fds` indica que o FD está atualmente aberto, enquanto um bit em `1` em `close_on_exec` marca o FD para ser fechado automaticamente durante `execve()`. Esta abordagem permite operações O(1) para verificar o estado de qualquer FD através de operações bitwise simples (`test_bit()`, `set_bit()`, `clear_bit()`), além de otimizar a busca por FDs livres usando instruções como `find_next_zero_bit()`. Com cada bit ocupando apenas 1 bit de memória (versus 8 bytes para um ponteiro), os bitmaps oferecem compactação significativa e melhor localidade de cache para operações frequentes de gerenciamento de FDs.
+**Bitmaps** são estruturas de dados que utilizam arrays de bits para representar estados booleanos de forma extremamente eficiente em termos de memória e performance. No contexto da `files_struct`, cada bit nos arrays `close_on_exec` e `open_fds` corresponde a um file descriptor específico: o bit na posição $n$ representa o estado do FD $n$. Um bit em `1` no bitmap `open_fds` indica que o FD está atualmente aberto, enquanto um bit em `1` em `close_on_exec` marca o FD para ser fechado automaticamente durante `execve()`. Esta abordagem permite operações O(1) para verificar o estado de qualquer FD através de operações bitwise simples (`test_bit()`, `set_bit()`, `clear_bit()`), além de otimizar a busca por FDs livres usando instruções como `find_next_zero_bit()`. Com cada bit ocupando apenas 1 bit de memória (versus 8 bytes para um ponteiro), os bitmaps oferecem compactação significativa e melhor localidade de _cache_ para operações frequentes de gerenciamento de FDs.
 :::
 
 A `files_struct` organiza seus componentes em campos estrategicamente posicionados para otimizar acesso sequencial e alinhamento de memória. Os campos fundamentais incluem contadores atômicos para sincronização, ponteiros **RCU** para acesso seguro em concorrência à tabela de descritores, arrays dinâmicos para armazenamento dos ponteiros de arquivo, e bitmaps especializados para controle eficiente de estado e operações de busca:
@@ -925,7 +925,7 @@ public:
     std::weak_ptr<TaskStruct> group_leader;  ///< Líder do thread group
     
     // Informações de tempo
-    std::chrono::system_clock::time_point start_time; ///< Tempo de criação
+    std::chrono::system__clock_::time_point start_time; ///< Tempo de criação
     
     // Nome do processo
     std::string comm;                        ///< Nome do comando (16 chars max)
@@ -940,7 +940,7 @@ public:
                std::shared_ptr<TaskStruct> parent_task = nullptr,
                const std::string& command = "unknown") 
         : pid(next_pid_++), state(TaskState::TASK_RUNNING), flags(0),
-          cred(), start_time(std::chrono::system_clock::now()) {
+          cred(), start_time(std::chrono::system__clock_::now()) {
         
         // Trunca nome do comando para 15 caracteres (como no kernel)
         comm = command.substr(0, 15);
@@ -1788,7 +1788,7 @@ VOID SwapContext(
 
 **Linux Advantages**
 - **Lower latency** para context switches
-- **Better cache locality** com estruturas embeded
+- **Better _cache_ locality** com estruturas embeded
 - **Simpler debugging** com estrutura centralizada
 - **More efficient** para workloads compute-intensive
 
@@ -1812,7 +1812,7 @@ Nem precisamos pensar muito para inferir que estas filas são diferentes em **Si
 
 - **Fila de Prontos (Ready Queue)**: esta fila contém os **PCB**s de todos os processos que estão no estado **Pronto**. São processos que residem na memória principal e estão prontos e aptos a serem executados, aguardando apenas a alocação da `CPU`. O agendador de `CPU` seleciona processos desta fila.  
 
-- **Filas de Dispositivos (Device Queues)**: em vez de uma única fila para todos os processos bloqueados, **Sistemas Operacionais** eficientes mantêm uma fila separada para cada dispositivo de `E/S`. Quando um processo solicita uma operação de um disco específico, seu **PCB** é colocado na fila daquele disco. Quando o disco conclui a operação e gera uma interrupção, o **Sistema Operacional** sabe exatamente qual fila inspecionar para encontrar o **PCB** do processo que agora pode ser movido para a fila de prontos. Isso é muito mais eficiente do que percorrer uma lista monolítica de todos os processos bloqueados. Este conceitos de um uma fila por dispositivo ilustra a integração entre o hardware e o **Sistema Operacional**.
+- **Filas de Dispositivos (Device Queues)**: em vez de uma única fila para todos os processos bloqueados, **Sistemas Operacionais** eficientes mantêm uma fila separada para cada dispositivo de `E/S`. Quando um processo solicita uma operação de um disco específico, seu **PCB** é colocado na fila daquele disco. Quando o disco conclui a operação e gera uma interrupção, o **Sistema Operacional** sabe exatamente qual fila inspecionar para encontrar o **PCB** do processo que agora pode ser movido para a fila de prontos. Isso é muito mais eficiente do que percorrer uma lista monolítica de todos os processos bloqueados. Este conceitos de um uma fila por dispositivo ilustra a integração entre o hardware e o **Sistema Operacional** .
 
 ### O Mecanismo de Troca de Contexto (Context Switch)
 
@@ -1903,7 +1903,7 @@ A maneira como um **Sistema Operacional** modela seus processos é um reflexo di
 
 ## **Secção 4: Tópicos Avançados e Implicações de Desempenho**
 
-O gerenciamento de estados de processo não opera em um vácuo. Ele está intrinsecamente ligado a outros subsistemas críticos, mais notavelmente o gerenciamento de memória. A interação entre esses dois domínios define o teto de desempenho de um **Sistema Operacional**, especialmente sob condições de alta carga. Fenômenos como a suspensão de processos e o *thrashing* não são meras curiosidades acadêmicas; são desafios de engenharia do mundo real cuja gestão eficaz é responsável pela estabilidade e responsividade do sistema.
+O gerenciamento de estados de processo não opera em um vácuo. Ele está intrinsecamente ligado a outros subsistemas críticos, mais notavelmente o gerenciamento de memória. A interação entre esses dois domínios define o teto de desempenho de um **Sistema Operacional** , especialmente sob condições de alta carga. Fenômenos como a suspensão de processos e o *thrashing* não são meras curiosidades acadêmicas; são desafios de engenharia do mundo real cuja gestão eficaz é responsável pela estabilidade e responsividade do sistema.
 
 ### **4. Suspensão, Swapping e Memória Virtual**
 
@@ -1911,7 +1911,7 @@ Como introduzido no modelo de sete estados, a **suspensão** de um processo é f
 
 **swapping** — é uma resposta direta à escassez de RAM. Este mecanismo está no coração da **memória virtual**, um conceito que permite que um sistema execute processos que são maiores que a memória física disponível e que aumente o grau de multiprogramação.
 
-A forma mais comum de memória virtual é a **paginação por demanda (demand paging)**. Em vez de carregar um programa inteiro na memória no momento da sua criação, o **Sistema Operacional**, através de um componente chamado *pager*, carrega apenas as "páginas" (blocos de memória de tamanho fixo) que são imediatamente necessárias. Quando o processo tenta acessar uma página que não está na memória principal, ocorre uma interrupção de hardware chamada **falha de página (page fault)**. Neste ponto, o **Sistema Operacional** intervém:
+A forma mais comum de memória virtual é a **paginação por demanda (demand paging)**. Em vez de carregar um programa inteiro na memória no momento da sua criação, o **Sistema Operacional** , através de um componente chamado *pager*, carrega apenas as "páginas" (blocos de memória de tamanho fixo) que são imediatamente necessárias. Quando o processo tenta acessar uma página que não está na memória principal, ocorre uma interrupção de hardware chamada **falha de página (page fault)**. Neste ponto, o **Sistema Operacional** intervém:
 
 1. O processo que causou a falha é movido para o estado **Bloqueado**.  
 2. O **Sistema Operacional** localiza a página necessária no armazenamento secundário (disco).  
@@ -2002,9 +2002,9 @@ Matematicamente, o endereço físico final é calculado da seguinte forma:
 
 $$\text{Endereço Físico} = (\text{Endereço Base do Page Frame (do PTE)}) + \text{Offset}$$
 
-Todo este processo ocorre em hardware. Para acelerar ainda mais, a **MMU** utiliza a **TLB**, **T**ranslation **L**ookaside **B**uffer*, um cache que armazena asoutraduções de endereço virtual para físico mais recentes. Se a tradução necessária já estiver na **TLB**, temos um _TLB hit_, e os passos de $2$ a $5$ são pulados, melhorando drasticamente a performance. Um _TLB miss_ força a $MMU$ a realizar todos os passos descritos acima.
+Todo este processo ocorre em hardware. Para acelerar ainda mais, a **MMU** utiliza a **TLB**, **T**ranslation **L**ookaside **B**uffer*, um _cache_ que armazena asoutraduções de endereço virtual para físico mais recentes. Se a tradução necessária já estiver na **TLB**, temos um _TLB hit_, e os passos de $2$ a $5$ são pulados, melhorando drasticamente a performance. Um _TLB miss_ força a $MMU$ a realizar todos os passos descritos acima.
 
-É importante notar que cada nível da hierarquia pode falhar se uma entrada não estiver presente, $bit P = 0$,  se as permissões forem violadas, resultando em erro _page fault_ que deve ser tratado pelo **Sistema Operacional**.
+É importante notar que cada nível da hierarquia pode falhar se uma entrada não estiver presente, $bit P = 0$,  se as permissões forem violadas, resultando em erro _page fault_ que deve ser tratado pelo **Sistema Operacional** .
 :::
 
 #### A MMU não é uma Panaceia Universal
@@ -2033,7 +2033,7 @@ Embora a **MMU** e a memória virtual ofereçam muitos benefícios, elas não s�
 
 Ao longo do desenvolvimento das tecnologias de computação, surgiram alternativas à MMU para atender a diferentes necessidades de sistemas embarcados e de tempo real. A mais notável é a _**M**emory **P**rotection **U**nit_, **MPU**, que oferece uma abordagem simplificada para proteção de memória sem a complexidade da tradução de endereços virtuais.
 
-A _**M**emory **P**rotection **U**nit_, **MPU** representa a principal alternativa à **MMU** em sistemas que necessitam de proteção de memória sem a complexidade da tradução de endereços virtuais. Diferentemente da **MMU**, a **MPU** opera definindo regiões fixas de memória, tipicamente entre $8$ e $16$ regiões, cada uma com atributos específicos de acesso. Estes atributos incluem permissões de leitura, escrita e execução, além de características de cache como _cacheable_, _bufferable_ e _shareable_. O sistema permite sobreposição de regiões, nas quais a prioridade é determinada pelo número da região, proporcionando flexibilidade na definição de políticas de acesso. O custo computacional extra de verificação é mínimo, pois a validação ocorre diretamente em hardware sem necessidade de consulta a estruturas de dados complexas como tabelas de páginas.
+A _**M**emory **P**rotection **U**nit_, **MPU** representa a principal alternativa à **MMU** em sistemas que necessitam de proteção de memória sem a complexidade da tradução de endereços virtuais. Diferentemente da **MMU**, a **MPU** opera definindo regiões fixas de memória, tipicamente entre $8$ e $16$ regiões, cada uma com atributos específicos de acesso. Estes atributos incluem permissões de leitura, escrita e execução, além de características de _cache_ como _cacheable_, _bufferable_ e _shareable_. O sistema permite sobreposição de regiões, nas quais a prioridade é determinada pelo número da região, proporcionando flexibilidade na definição de políticas de acesso. O custo computacional extra de verificação é mínimo, pois a validação ocorre diretamente em hardware sem necessidade de consulta a estruturas de dados complexas como tabelas de páginas.
 
 A **segmentação**, técnica utilizada historicamente em arquiteturas $x86$ antes da popularização da paginação, constitui outro mecanismo de proteção de memória interessante e digno da nossa atenção. Este sistema empregava registradores de segmento, **CS** para código, **DS** para dados, **ES**/**FS**/**GS** para propósitos extras, e **SS** para pilha, que referenciam descritores de segmento contendo endereço base, limite e atributos de acesso. As _Global Descriptor Tables_ (GDT) e _Local Descriptor Tables_ (LDT) mantêm estes descritores, permitindo ao processador verificar privilégios e limites em hardware durante cada acesso à memória. Embora eficaz para proteção básica, a segmentação apresenta limitações de flexibilidade comparada aos sistemas modernos de paginação.
 
@@ -2068,7 +2068,7 @@ A **segmentação**, técnica utilizada historicamente em arquiteturas $x86$ ant
     3.2 **LDTR (Local Descriptor Table Register)**
 
     - Registrador de 16 bits contendo seletor para entrada LDT na GDT;
-    - Cache interno mantém base/limite da LDT atual;
+    - _cache_ interno mantém base/limite da LDT atual;
     - Legado: raramente usado em **Sistemas Operacionais** modernos;
     - Carregado via instrução `lldt`.
 
@@ -2098,13 +2098,13 @@ Os modelos de programação diferem substancialmente entre sistemas com e sem **
 
 Sistemas sem **MMU** adotam estratégias fundamentalmente diferentes. A alocação de memória ocorre predominantemente em _compile-time_, com estruturas de dados estaticamente dimensionadas. _Memory pools_ pré-alocados substituem a alocação dinâmica tradicional, oferecendo previsibilidade temporal essencial para sistemas de tempo real. O acesso direto a registradores de hardware elimina camadas de abstração, proporcionando controle determinístico sobre periféricos. Modelos de _cooperative multitasking_ ou _run-to-completion_ predominam, em sistemas nos quais tarefas voluntariamente cedem controle ou executam até conclusão antes de permitir escalonamento de outras tarefas.
 
-Sistemas com **MMU** dependem criticamente da eficiência da **T**ranslation **L**ookaside **B**uffer, **TLB**, para minimizar o overhead de tradução de endereços. A **TLB** é um cache de alta velocidade que armazena asoutraduções mais recentes de endereços virtuais para físicos, reduzindo significativamente o número de acessos à tabela de páginas. O tempo de acesso à **TLB** é tipicamente de $1$ a $2$ ciclos de _clock_, enquanto um _page table walk_ completo pode levar dezenas a centenas de ciclos, dependendo da profundidade da tabela e da arquitetura. A @tbl-tbl1 apresenta alguns tamanhos e latências típicas.
+Sistemas com **MMU** dependem criticamente da eficiência da **T**ranslation **L**ookaside **B**uffer, **TLB**, para minimizar o overhead de tradução de endereços. A **TLB** é um _cache_ de alta velocidade que armazena asoutraduções mais recentes de endereços virtuais para físicos, reduzindo significativamente o número de acessos à tabela de páginas. O tempo de acesso à **TLB** é tipicamente de $1$ a $2$ ciclos de __clock__, enquanto um _page table walk_ completo pode levar dezenas a centenas de ciclos, dependendo da profundidade da tabela e da arquitetura. A @tbl-tbl1 apresenta alguns tamanhos e latências típicas.
 
 | Nível TLB | Entradas Típicas | Latência de Acesso | Função |
 |-----------|------------------|-------------------|---------|
-| L1 TLB | 32-128 | 1-2 ciclos | Cache primário para traduções frequentes |
-| L2 TLB | 512-1024 | 10-20 ciclos | Cache secundário para working set estendido |
-| Unified TLB | 256-512 | 5-10 ciclos | Cache unificado para instruções e dados |
+| L1 TLB | 32-128 | 1-2 ciclos | _cache_ primário para traduções frequentes |
+| L2 TLB | 512-1024 | 10-20 ciclos | _cache_ secundário para working set estendido |
+| Unified TLB | 256-512 | 5-10 ciclos | _cache_ unificado para instruções e dados |
 | Split TLB | 64-128 cada | 2-5 ciclos | Caches separados para instruções (ITLB) e dados (DTLB) |
 
 : Tamanhos e latências típicas de TLB {#tbl-tbl1}
@@ -2115,13 +2115,13 @@ $$\text{Tempo Efetivo de Acesso} = \text{Tempo de TLB Hit} + \text{Taxa de TLB M
 
 Esta equação revela por que a eficiência da **TLB** tem peso na performance geral do sistema. Considerando valores típicos de uma arquitetura $x86-64$ moderna, teríamos:
 
-- **Tempo de TLB Hit**: 1-2 ciclos de clock;
+- **Tempo de TLB Hit**: 1-2 ciclos de _clock_;
 - **Tempo de Acesso à Tabela de Páginas**: 100-200 ciclos, incluindo múltiplos acessos à memória;
 - **Taxa de TLB Miss aceitável**: $\lt 1\%$ para aplicações bem otimizadas.
 
 Um exemplo numérico pode ilustrar o impacto dramático: considerando um **TLB** com _hit time_ de $2$ ciclos, tempo de acesso a _page table_ $150$ ciclos, e _miss rate_ de apenas $5\%$, o tempo efetivo de acesso será dados por $2 + 0,05 \times 150 = 9,5$ ciclos. Ou seja, nesta situação hipotética, teremos **um custo extra de $375\%$** comparado ao caso ideal. **Este efeito multiplicativo explica por que algoritmos com boa localidade espacial e temporal são fundamentalmente mais eficientes**, e por que o conceito de _working set_ é tão importante para o design de software de alto desempenho.
 
-A análise desta fórmula também revela o dilema de design das **TLB**s modernas: aumentar o tamanho da **TLB** reduz a taxa de erros, mas incrementa o tempo de acerto. Arquiteturas modernas resolvem este compromisso através de hierarquias de **TLB**, L1, L2, similares às hierarquias de `cache`, balanceando capacidade com latência de acesso.
+A análise desta fórmula também revela o dilema de design das **TLB**s modernas: aumentar o tamanho da **TLB** reduz a taxa de erros, mas incrementa o tempo de acerto. Arquiteturas modernas resolvem este compromisso através de hierarquias de **TLB**, L1, L2, similares às hierarquias de `_cache_`, balanceando capacidade com latência de acesso.
 
 O custo computacional extra devido a tradução representa um fator _sine qua non_ em sistemas com **MMU**. Durante _context switching_, operações de _TLB flush_ completo podem consumir entre $100$ e $1000$ ciclos dependendo do tamanho da **TLB** e da arquitetura. Otimizações como o **A**ddress **S**pace **ID**entifier, **ASID**, na tecnologia ARM e o **P**rocess **C**ontext **ID**entifier, **PCID** em tecnologia x86 eliminam _flushes_ de memória desnecessários ao permitir que entradas de diferentes processos coexistam na **TLB**. O _page table walking_ em arquiteturas modernas como $ARMv8$ e $x86-64$ requerem, tipicamente, de $4$ a $5$ acessos sequenciais à memória para completar uma tradução, representando custo computacional significativo em casos de **TLB**. Situações em que a _page table_ não está na **TLB**. Um erro que chamaremos de _TLB miss_.
 
@@ -2151,7 +2151,7 @@ $$\text{Tempo Efetivo de Acesso} = \text{Tempo de TLB Hit} + \text{Taxa de TLB M
 
 é matematicamente elegante. Porém, o simulador converte teoria abstrata em resultados tangíveis. A criativa leitora poderá experimentar com diferentes parâmetros e observar como pequenas mudanças na taxa de _miss_ causam impactos exponenciais na performance.
 
-O conceito de _working set_ é difícil de intuir. O simulador demonstrará concretamente como _working sets_ maiores que o tamanho da **TLB** causam degeneração da performance, permitindo que desenvolvedores compreendam por que algoritmos que sejam adequados ao uso de `cache` são superiores. O simulador também irá permitir a exploração de políticas de diferentes tamanhos de **TLB**, políticas de substituição e hierarquias analisando os custos extras criados por estas políticas. Finalmente, desenvolvedores de software de alto desempenho precisam entender como suas decisões algorítmicas afetam o hardware subjacente. O simulador servirá como um laboratório seguro para experimentar técnicas de otimização antes de aplicá-las em sistemas de produção. A @fig-simul1 ilustra o fluxograma do simulador.
+O conceito de _working set_ é difícil de intuir. O simulador demonstrará concretamente como _working sets_ maiores que o tamanho da **TLB** causam degeneração da performance, permitindo que desenvolvedores compreendam por que algoritmos que sejam adequados ao uso de `_cache_` são superiores. O simulador também irá permitir a exploração de políticas de diferentes tamanhos de **TLB**, políticas de substituição e hierarquias analisando os custos extras criados por estas políticas. Finalmente, desenvolvedores de software de alto desempenho precisam entender como suas decisões algorítmicas afetam o hardware subjacente. O simulador servirá como um laboratório seguro para experimentar técnicas de otimização antes de aplicá-las em sistemas de produção. A @fig-simul1 ilustra o fluxograma do simulador.
 
 ::: {#fig-simul1}
 ![](/images/tlb_simulator_flowchart.webp)
@@ -2221,7 +2221,7 @@ struct TLBMetrics {
 
     /**
      * @brief Calcula o tempo efetivo de acesso usando a fórmula fundamental
-     * @return Tempo efetivo de acesso em ciclos de clock
+     * @return Tempo efetivo de acesso em ciclos de _clock_
      *
      * Implementa a fórmula:
      * Effective Access Time = TLB Hit Time + TLB Miss Rate × Page Table Access Time
@@ -2247,7 +2247,7 @@ enum class AccessPattern {
 class TLBSimulator {
 private:
     size_t tlb_size_;                              ///< Tamanho da TLB em entradas
-    std::unordered_map<uint64_t, bool> tlb_cache_; ///< Cache simulado da TLB
+    std::unordered_map<uint64_t, bool> tlb_cache_; ///< _cache_ simulado da TLB
     TLBMetrics metrics_;                           ///< Métricas coletadas
     std::mt19937 generator_;                       ///< Gerador de números aleatórios
 
@@ -2542,7 +2542,7 @@ int main() {
 
 :::
 
-O simulador **TLB** implementado no código @lst-simul1 implementa uma representação simplificada, mas funcionalmente precisa do comportamento de uma _**T**ranslation **L**ookaside **B**uffer_, **TLB**. A classe `TLBSimulator` encapsula toda a lógica necessária através de uma estrutura de dados `std::unordered_map<uint64_t, bool>` que simula o cache da **TLB**, no qual as chaves representam números de páginas virtuais e os valores indicam presença no `cache`. O construtor inicializa os parâmetros fundamentais: `tlb_size_` define o número máximo de entradas que a **TLB** pode armazenar, `tlb_hit_time` especifica a latência em ciclos para acessos bem-sucedidos, e `page_table_access_time` determina o custo temporal de um _page table walk_ completo. A política de substituição **LRU** é implementada de forma simplificada através do método `evictOldestEntry()`, que remove a primeira entrada quando o `cache` atinge capacidade máxima.
+O simulador **TLB** implementado no código @lst-simul1 implementa uma representação simplificada, mas funcionalmente precisa do comportamento de uma _**T**ranslation **L**ookaside **B**uffer_, **TLB**. A classe `TLBSimulator` encapsula toda a lógica necessária através de uma estrutura de dados `std::unordered_map<uint64_t, bool>` que simula o _cache_ da **TLB**, no qual as chaves representam números de páginas virtuais e os valores indicam presença no `_cache_`. O construtor inicializa os parâmetros fundamentais: `tlb_size_` define o número máximo de entradas que a **TLB** pode armazenar, `tlb_hit_time` especifica a latência em ciclos para acessos bem-sucedidos, e `page_table_access_time` determina o custo temporal de um _page table walk_ completo. A política de substituição **LRU** é implementada de forma simplificada através do método `evictOldestEntry()`, que remove a primeira entrada quando o `_cache_` atinge capacidade máxima.
 
 A simulação processa vetores de endereços virtuais gerados por diferentes padrões de acesso através do método `runSimulation()`. Para cada endereço no vetor, o método `accessMemory()` extrai o número da página virtual usando operação de _bit shift_ `virtual_address >> 12`, assumindo páginas de $4KB$ conforme padrão em arquiteturas $x86-64$. A decisão crítica ocorre na verificação `tlb_cache_.contains(page_number)`: se a página está presente na **TLB**, incrementa-se o contador de _hits_ e retorna-se `true` indicando acesso rápido; caso contrário, incrementa-se o contador de _misses_, simula-se o acesso à tabela de páginas, e adiciona-se a nova entrada na **TLB** após possível remoção. Este processo replica fielmente o comportamento de hardware real, no qual cada acesso à memória virtual deve ser outraduzido para endereço físico.
 
@@ -2560,7 +2560,7 @@ O Espaço de Endereçamento Virtual disponível para um determinado processo nã
 
 5. **Pilha (`Stack`)**: É usada para gerenciar chamadas de função. Cada vez que uma função é invocada, um _stack frame_ é empurrado para a pilha. Este quadro contém as variáveis locais da função, os parâmetros passados para ela e o endereço de retorno, o local no código para o qual a execução deve voltar quando a função terminar. A pilha geralmente cresce para baixo, de endereços altos para endereços mais baixos, em direção ao `heap`. A memória na pilha é gerenciada automaticamente; ela é alocada quando as funções são chamadas e liberada quando elas retornam. _É importante notar que cada `thread` dentro de um processo possui sua própria pilha privada_.
 
-A organização do **VAS** não é uma convenção arbitrária, mas sim um contrato fundamental que permite que a cadeia de ferramentas de desenvolvimento e o **Sistema Operacional** colaborem de forma eficaz. tradicionalmente o processo começa com o compilador, que gera o código objeto e posiciona as instruções e variáveis nas seções apropriadas, `.text`, `.data`, `.bss`, com base em sua natureza. Em seguida, o _linker_ combina múltiplos arquivos objeto, resolve referências simbólicas e organiza as seções finais em um layout de memória que adere ao mapa convencional, codificando essa estrutura no formato de arquivo executável, **ELF** para o **Windows** ou **PE** para o Linux. Finalmente, o carregador do **Sistema Operacional** lê este arquivo executável. Ele interpreta a estrutura do arquivo para mapear o segmento de texto como somente leitura e executável, o segmento de dados como leitura/escrita, e para alocar e zerar o segmento **BSS**. Enquanto isso, a biblioteca de tempo de execução e a lógica do próprio programa gerenciam o `heap` e a pilha dentro das regiões designadas pelo **Sistema Operacional**, cientes de sua direção de crescimento oposta. Essa separação de responsabilidades, formalizada no layout do **VAS** e no formato do arquivo executável, permite que cada componente execute sua função de forma independente, usando o layout do **VAS** como uma linguagem comum.
+A organização do **VAS** não é uma convenção arbitrária, mas sim um contrato fundamental que permite que a cadeia de ferramentas de desenvolvimento e o **Sistema Operacional** colaborem de forma eficaz. tradicionalmente o processo começa com o compilador, que gera o código objeto e posiciona as instruções e variáveis nas seções apropriadas, `.text`, `.data`, `.bss`, com base em sua natureza. Em seguida, o _linker_ combina múltiplos arquivos objeto, resolve referências simbólicas e organiza as seções finais em um layout de memória que adere ao mapa convencional, codificando essa estrutura no formato de arquivo executável, **ELF** para o **Windows** ou **PE** para o Linux. Finalmente, o carregador do **Sistema Operacional** lê este arquivo executável. Ele interpreta a estrutura do arquivo para mapear o segmento de texto como somente leitura e executável, o segmento de dados como leitura/escrita, e para alocar e zerar o segmento **BSS**. Enquanto isso, a biblioteca de tempo de execução e a lógica do próprio programa gerenciam o `heap` e a pilha dentro das regiões designadas pelo **Sistema Operacional** , cientes de sua direção de crescimento oposta. Essa separação de responsabilidades, formalizada no layout do **VAS** e no formato do arquivo executável, permite que cada componente execute sua função de forma independente, usando o layout do **VAS** como uma linguagem comum.
 
 ## **Parte II: O Modelo Linux: Um Estudo em Composição**
 
@@ -2589,7 +2589,7 @@ Uma característica de design fundamental do ELF é sua "visão dupla" do conte�
 
 * **Visão de Ligação (*Linking View*)**: Para o ligador (como o ld), um arquivo ELF é uma coleção de **seções** (*sections*). As seções contêm blocos discretos de informações, como código executável (.text), dados inicializados (.data), dados somente leitura (.rodata), a tabela de símbolos (.symtab) e informações de relocação (.rel.text). O ligador usa essas seções para combinar múltiplos arquivos objeto em um único executável ou biblioteca compartilhada. As informações sobre todas as seções são armazenadas na  
   **Tabela de Cabeçalhos de Seção** (*Section Header Table*).  
-* **Visão de Execução (*Execution View*)**: Para o carregador do **Sistema Operacional**, um arquivo ELF é uma coleção de **segmentos** (*segments*). Um segmento é uma coleção de uma ou mais seções que são tratadas como uma única unidade para fins de carregamento na memória. O carregador está interessado em como mapear partes do arquivo na memória e definir suas permissões. Por exemplo, um segmento LOAD executável pode conter as seções .text, .rodata e outras seções somente leitura. As informações sobre os segmentos são armazenadas na Tabela de Cabeçalhos de Programa, em inglês Program Header Table.
+* **Visão de Execução (*Execution View*)**: Para o carregador do **Sistema Operacional** , um arquivo ELF é uma coleção de **segmentos** (*segments*). Um segmento é uma coleção de uma ou mais seções que são tratadas como uma única unidade para fins de carregamento na memória. O carregador está interessado em como mapear partes do arquivo na memória e definir suas permissões. Por exemplo, um segmento LOAD executável pode conter as seções .text, .rodata e outras seções somente leitura. As informações sobre os segmentos são armazenadas na Tabela de Cabeçalhos de Programa, em inglês Program Header Table.
 
 A estrutura de um arquivo ELF é definida por seus cabeçalhos:
 

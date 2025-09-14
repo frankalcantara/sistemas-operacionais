@@ -28,7 +28,7 @@ Se o arquivo executável é a planta de uma casa, o processo é a casa sendo con
 - **Heap**: utilizado para alocação dinâmica de memória durante a execução.
 - **Stack**: gerencia chamadas de função e variáveis locais.
 
-Esse layout de memória garante segurança por meio do isolamento entre processos e eficiência por meio de uma organização estruturada. Nós adotaremos esta estrutura como padrão. Entretanto, a esperta leitora não deve se deixar enganar. nem todos os processos em todos os **Sistemas Operacionais** possuem exatamente a estrutura descrita como padrão, embora o modelo seja amplamente adotado em **Sistemas Operacionais** modernos, como os baseados em UNIX (Linux, macOS) e Windows. A estrutura de um processo pode variar dependendo do **Sistema Operacional**, da arquitetura de hardware e do design específico do sistema. Antes de prosseguirmos, abaixo estão alguns pontos que devem ser considerados sobre estas variações:
+Esse layout de memória garante segurança por meio do isolamento entre processos e eficiência por meio de uma organização estruturada. Nós adotaremos esta estrutura como padrão. Entretanto, a esperta leitora não deve se deixar enganar. nem todos os processos em todos os **Sistemas Operacionais** possuem exatamente a estrutura descrita como padrão, embora o modelo seja amplamente adotado em **Sistemas Operacionais** modernos, como os baseados em UNIX (Linux, macOS) e Windows. A estrutura de um processo pode variar dependendo do **Sistema Operacional** , da arquitetura de hardware e do design específico do sistema. Antes de prosseguirmos, abaixo estão alguns pontos que devem ser considerados sobre estas variações:
 
 1. **Segmentos de Memória**: a divisão em segmentos de texto, dados, ``heap`` e `stack` é comum em **Sistemas Operacionais** que utilizam um modelo de memória virtual, tais como **Linux** e Windows. No entanto, **Sistemas Operacionais** mais simples ou embarcados podem usar modelos mais rudimentares, como uma única região de memória para código e dados, sem separação clara.
 
@@ -61,7 +61,7 @@ Comparação entre estruturas de processos em memória: espaço de endereçament
 
 A @fig-espacoend1 mostra a estrutura de memória tradicional e mais comum com a estrutura do **RTOS**. O processo de gestão de projetos não é trivial. O **Sistema Operacional** é o principal ator na gestão de processos, sendo responsável por:
 
-1. **Criação e exclusão**: gerencia processos de usuário, processos iniciados exclusivamente por usuários, e processos de sistema, iniciados pelo próprio **Sistema Operacional**.
+1. **Criação e exclusão**: gerencia processos de usuário, processos iniciados exclusivamente por usuários, e processos de sistema, iniciados pelo próprio **Sistema Operacional** .
 2. **Suspensão e retomada**: controla a pausa e retomada de processos, preservando seu estado, incluindo registradores, contador de programa e pilha.
 3. **Sincronização de processos**: coordena o acesso a recursos compartilhados para evitar condições de corrida e garantir consistência de dados.
 4. **Comunicação entre processos**: facilita a troca de informações por meio de mecanismos como pipes, sockets, memória compartilhada, mensagens ou sinais. Em inglês, a comunicação entre processos é chamada de **I**nter **P**rocess **C**ommunication, **IPC**.
@@ -69,7 +69,7 @@ A @fig-espacoend1 mostra a estrutura de memória tradicional e mais comum com a 
 
 #### Processos: muito além do executável
 
-Processo é um executável em memória usando tempo de processamento da `CPU`, mas é muito mais do que isso. É uma entidade dinâmica que encapsula a execução de um programa, incluindo seu estado, recursos alocados e contexto de execução. E aqui há um problema de semântica. Quando pensamos em executáveis esquecemos os drivers, as bibliotecas de ligação dinâmica, os processos de sistema e outros componentes que são executados pelo **Sistema Operacional**. No coração de cada programa e aplicativo que utilizamos, existe um arquivo executável, um conjunto de instruções que o **Sistema Operacional** pode entender e executar. No entanto, o formato desses arquivos varia consideravelmente entre os diferentes **Sistemas Operacionais**, cada um com sua própria arquitetura e filosofia de design e com a finalidade do arquivo executável. Compreender esses tipos de executáveis é fundamental para entender como o software funciona em plataformas modernas como Windows, macOS, **Linux** e Android.
+Processo é um executável em memória usando tempo de processamento da `CPU`, mas é muito mais do que isso. É uma entidade dinâmica que encapsula a execução de um programa, incluindo seu estado, recursos alocados e contexto de execução. E aqui há um problema de semântica. Quando pensamos em executáveis esquecemos os drivers, as bibliotecas de ligação dinâmica, os processos de sistema e outros componentes que são executados pelo **Sistema Operacional** . No coração de cada programa e aplicativo que utilizamos, existe um arquivo executável, um conjunto de instruções que o **Sistema Operacional** pode entender e executar. No entanto, o formato desses arquivos varia consideravelmente entre os diferentes **Sistemas Operacionais**, cada um com sua própria arquitetura e filosofia de design e com a finalidade do arquivo executável. Compreender esses tipos de executáveis é fundamental para entender como o software funciona em plataformas modernas como Windows, macOS, **Linux** e Android.
 
 Cada **Sistema Operacional** possui um formato primário de arquivo executável, além de outros tipos que servem a propósitos específicos.
 
@@ -104,7 +104,7 @@ Cada **Sistema Operacional** possui um formato primário de arquivo executável,
 
 Compreender que nem todos os processos são criados iguais é essencial para diagnosticar problemas, gerenciar o desempenho e entender a segurança do sistema. Eles podem ser classificados de acordo com seu propósito, privilégio e interação com o usuário. A seguir, apresentamos os principais tipos de processos encontrados nos **Sistemas Operacionais** modernos que interagem diretamente com as tarefas definidas pelo usuário.
 
-1. **Processos de Usuário (User Processes)**: são processos iniciados direta ou indiretamente por um usuário logado no **Sistema Operacional**. Processos de usuário rodam no espaço do usuário, em inglês _user space_, uma área da memória com privilégios limitados, o que significa que não podem acessar diretamente o hardware ou interferir com processos críticos do sistema.
+1. **Processos de Usuário (User Processes)**: são processos iniciados direta ou indiretamente por um usuário logado no **Sistema Operacional** . Processos de usuário rodam no espaço do usuário, em inglês _user space_, uma área da memória com privilégios limitados, o que significa que não podem acessar diretamente o hardware ou interferir com processos críticos do sistema.
 
 2. **Processos de Primeiro Plano (Foreground)**: são os processos com os quais o usuário interage diretamente. Eles possuem uma interface gráfica (ou estão atrelados a um terminal de comando ativo, `shell`. São os aplicativos que você "vê" em execução. Um navegador web (Chrome, Firefox), um editor de texto (VS Code, Bloco de Notas), um player de música ou um jogo são exemplos de processos de primeiro plano.
 
@@ -114,7 +114,7 @@ Além dos processos definidos diretamente pelas ações e necessidades do usuár
 
 1. **Daemons (Linux/macOS) e Serviços (Windows)**: esta é a categoria mais importante de processos de sistema. Eles operam em segundo plano para realizar tarefas fundamentais. Nos sistemas Linux/macOS são chamados de `daemons`. Estes processos gerenciam a rede (`sshd`), agendam tarefas (`cron` ou `launchd`), gerenciam a interface gráfica, entre muitas outras coisas. O processo `systemd`, em muitas distribuições **Linux**, e o `launchd`, no macOS, são os "pais" de quase todos os outros `daemons` e processos do sistema. No **Windows** estes processos são chamados de _Serviços_. Estes processos realizam funções análogas. O processo `svchost.exe` é um anfitrião genérico que pode executar múltiplos serviços para economizar recursos. Outros exemplos incluem `lsass.exe` que gerencia a segurança e o login e o `services.exe`, o gerenciador de controle de serviços.
 
-2. **Threads do Kernel**:: em um nível ainda mais baixo, o próprio `kernel` executa `threads` especiais que não são processos de usuário completos. Eles lidam com tarefas internas de baixo nível, como gerenciamento de memória, operações de `E/S` e agendamento e despacho de outros processos. No **Linux**, por exemplo, o processo `kthreadd` é responsável por criar essas outras `threads` do `kernel`. Os `threads` serão estudados mais adiante, mas é importante notar que eles são uma parte fundamental do funcionamento interno do **Sistema Operacional**.
+2. **Threads do Kernel**:: em um nível ainda mais baixo, o próprio `kernel` executa `threads` especiais que não são processos de usuário completos. Eles lidam com tarefas internas de baixo nível, como gerenciamento de memória, operações de `E/S` e agendamento e despacho de outros processos. No **Linux**, por exemplo, o processo `kthreadd` é responsável por criar essas outras `threads` do `kernel`. Os `threads` serão estudados mais adiante, mas é importante notar que eles são uma parte fundamental do funcionamento interno do **Sistema Operacional** .
 
 ##### A Hierarquia e o Relacionamento entre Processos
 
@@ -126,7 +126,7 @@ Os processos em sistemas como **Linux** e macOS existem em uma hierarquia clara,
 
 3. **Processos Zumbis (Zombie Processes)**: quando um processo filho termina, ele não desaparece completamente. Ele se torna um zumbi. Sua entrada na tabela de processos do sistema é mantida para que o processo pai possa ler seu status de saída, se terminou com sucesso ou com erro. O processo pai deve ler o zumbi para liberá-lo completamente. Zumbis são normais por um curto período, mas um grande acúmulo pode indicar um problema no programa pai.
 
-A criação de processos, a genealogia de processos e toda estrutura de criação de processos é gerenciada pelo **Sistema Operacional**. O processo de criação de um novo processo é chamado de `fork`, que cria uma cópia do processo pai, e o processo filho pode então executar um programa diferente usando a chamada `exec`. O `fork` cria uma cópia exata do processo pai, incluindo seu espaço de endereçamento, mas com um novo identificador de processo (PID). A seguir, o filho pode substituir seu espaço de endereçamento com um novo programa usando `exec`, que carrega um novo executável no espaço do processo filho. Contudo, antes de nos aprofundarmos nos processos, a curiosa leitora precisa conhecer os `threads`.
+A criação de processos, a genealogia de processos e toda estrutura de criação de processos é gerenciada pelo **Sistema Operacional** . O processo de criação de um novo processo é chamado de `fork`, que cria uma cópia do processo pai, e o processo filho pode então executar um programa diferente usando a chamada `exec`. O `fork` cria uma cópia exata do processo pai, incluindo seu espaço de endereçamento, mas com um novo identificador de processo (PID). A seguir, o filho pode substituir seu espaço de endereçamento com um novo programa usando `exec`, que carrega um novo executável no espaço do processo filho. Contudo, antes de nos aprofundarmos nos processos, a curiosa leitora precisa conhecer os `threads`.
 
 ### Threads {#sec-thread1}
 
@@ -142,7 +142,7 @@ os `threads` são uma evolução no conceito de execução concorrente, permitin
 
 : Comparação entre as características entre processos e `threads`. {#tbl-threads2}
 
-A criação de threads é geralmente mais rápida que a criação de processos, pois threads compartilham o mesmo espaço de memória. Um estudo de 2018 mediu o tempo de criação de processos em $35 µs$$ e de `threads` em $5 µs$ para um ``heap`` de $2 MB$, resultando em `threads` $7$ vezes mais rápidos. Outro benchmark de 2017 indicou que a criação de threads é $2$ a $3$ vezes mais rápida que a criação de processos. O mesmo benchmark de 2017 mostrou que a criação de threads é $7$ a $8$ vezes mais rápida que a de processos.A diferença no tempo de criação varia devido ao tamanho do contexto de execução e à implementação específica do **Sistema Operacional**. A @tbl-thread1 mostra alguns benchmarks de criação de processos e threads em diferentes **Sistemas Operacionais**.
+A criação de threads é geralmente mais rápida que a criação de processos, pois threads compartilham o mesmo espaço de memória. Um estudo de 2018 mediu o tempo de criação de processos em $35 µs$$ e de `threads` em $5 µs$ para um ``heap`` de $2 MB$, resultando em `threads` $7$ vezes mais rápidos. Outro benchmark de 2017 indicou que a criação de threads é $2$ a $3$ vezes mais rápida que a criação de processos. O mesmo benchmark de 2017 mostrou que a criação de threads é $7$ a $8$ vezes mais rápida que a de processos.A diferença no tempo de criação varia devido ao tamanho do contexto de execução e à implementação específica do **Sistema Operacional** . A @tbl-thread1 mostra alguns benchmarks de criação de processos e threads em diferentes **Sistemas Operacionais**.
 
 | **Sistema Operacional** | Tempo de Criação de Processo (µs) | Tempo de Criação de `Thread` (µs) | Razão (`Thread` mais rápido) |
 |---------------------|-----------------------------------|---------------------------------|------------------------------|
@@ -166,7 +166,7 @@ Essa evolução demonstra como as `threads` transformaram a computação moderna
 
 ## Processos a Nível de Usuário: Nascimento, Vida e Morte de Tarefas
 
-Um processo é a unidade fundamental de execução de sistemas computacionais gerenciados por um **Sistema Operacional**, representando uma instância de um programa em andamento.
+Um processo é a unidade fundamental de execução de sistemas computacionais gerenciados por um **Sistema Operacional** , representando uma instância de um programa em andamento.
 
 Como vamos começar estudando processos de usuário. Para criar um processo a esforçada leitora pode, simplesmente, dar dois cliques rápidos com o m se em um ícone de aplicativo na tela da sua máquina. Ou, se for um pouco mais audaciosa, pode abrir um terminal e digitar um comando como `./meu_programa` e teclar `Enter`. Nestes dois casos existem duas possibilidades,  o **Sistema Operacional** entende o clique duplo e o comando e cria um processo,  ele indica um erro. Nos dois casos restam algumas dúvidas. A mais importante delas é: como o **Sistema Operacional** transforma esse comando em uma tarefa em execução? Vamos explorar os fundamentos do gerenciamento de processos, desde a criação até a finalização, passando por conceitos essenciais como espaço de endereçamento virtual, tabelas de páginas e o ciclo de vida de um processo.
 
@@ -1001,7 +1001,7 @@ A capacidade de um **Sistema Operacional** de gerenciar múltiplos processos sim
 
 Para gerenciar essa complexa dança de tarefas concorrentes, o **Sistema Operacional** abstrai o ciclo de vida de cada processo em um conjunto de estados discretos. Este é o mecanismo central pelo qual o **Sistema Operacional** aloca recursos, garante a justiça, impõe a proteção e mantém a estabilidade do sistema. a transição de um processo entre esses estados é um evento que dita quando um processo pode usar a `CPU`, quando deve esperar por recursos e quando deve ceder o controle.
 
-Nesta parte da nossa jornada, iniciaremos explorando a evolução dos modelos teóricos, desde os mais simples até os mais complexos que incorporam o gerenciamento de memória virtual. Ao chegarmos o porto termos uma compreensão abrangente de como um processo nasce, vive e morre dentro do ecossistema de um **Sistema Operacional**.
+Nesta parte da nossa jornada, iniciaremos explorando a evolução dos modelos teóricos, desde os mais simples até os mais complexos que incorporam o gerenciamento de memória virtual. Ao chegarmos o porto termos uma compreensão abrangente de como um processo nasce, vive e morre dentro do ecossistema de um **Sistema Operacional** .
 
 ### Modelos Teóricos do Ciclo de Vida do Processo
 
@@ -1031,7 +1031,7 @@ Para resolver as deficiências do modelo de dois estados, o estado **Não-Execut
 
 As transições entre esses estados são tão importantes quanto os próprios estados e são acionadas por eventos específicos gerenciados pelo Sistema Operacional:
 
-- **Novo $\rightarrow$ Pronto (Admissão)**: o **Sistema Operacional**, por meio de seu agendador de longo ou médio prazo, decide admitir o processo recém-criado no conjunto de processos ativos. Isso geralmente envolve alocar a memória principal para o processo e colocar seu PCB na fila de prontos. Mantenha o foco, vamos falar destes agendadores diferentes em futuro próximo. Ainda neste capítulo.
+- **Novo $\rightarrow$ Pronto (Admissão)**: o **Sistema Operacional** , por meio de seu agendador de longo ou médio prazo, decide admitir o processo recém-criado no conjunto de processos ativos. Isso geralmente envolve alocar a memória principal para o processo e colocar seu PCB na fila de prontos. Mantenha o foco, vamos falar destes agendadores diferentes em futuro próximo. Ainda neste capítulo.
 
 - **Pronto $\rightarrow$ Executando (Despacho)**: o agendador de curto prazo,  agendador de `CPU` seleciona um processo da fila de prontos e aloca este processo à `CPU`. Esta ação é chamada de despacho, em inglês _dispatch_.  
 

@@ -167,13 +167,13 @@ struct Statistics {
     std::atomic<int> intervals_processed{ 0 }; ///< Numero de intervalos processados
     std::atomic<int> primes_found{ 0 }; ///< Numero total de primos encontrados
     std::atomic<long long> total_numbers_checked{ 0 }; ///< Total de numeros verificados
-    std::chrono::steady_clock::time_point start_time; ///< Tempo de inicio do processamento
+    std::chrono::steady__clock_::time_point start_time; ///< Tempo de inicio do processamento
     mutable std::mutex last_primes_mutex; ///< Mutex para proteger last_primes
     std::vector<int> last_primes; ///< Ultimos primos encontrados (max 10)
     /**
      * @brief Construtor que inicializa o tempo de inicio
      */
-    Statistics() : start_time(std::chrono::steady_clock::now()) {}
+    Statistics() : start_time(std::chrono::steady__clock_::now()) {}
     /**
      * @brief Adiciona um primo a lista de ultimos primos encontrados
      * @param prime Numero primo a ser adicionado
@@ -272,11 +272,11 @@ public:
     void consumer_function(int consumer_id) {
         Interval interval;
         while (buffer_.pop(interval)) {
-            auto interval_start_time = std::chrono::high_resolution_clock::now();
+            auto interval_start_time = std::chrono::high_resolution__clock_::now();
             for (int num = interval.start; num <= interval.end; ++num) {
-                auto calc_start = std::chrono::high_resolution_clock::now();
+                auto calc_start = std::chrono::high_resolution__clock_::now();
                 bool prime = is_prime(num);
-                auto calc_end = std::chrono::high_resolution_clock::now();
+                auto calc_end = std::chrono::high_resolution__clock_::now();
                 auto calc_time = std::chrono::duration<double>(calc_end - calc_start);
                 if (prime) {
                     ++stats_.primes_found;
@@ -285,7 +285,7 @@ public:
                 ++stats_.total_numbers_checked;
             }
             ++stats_.intervals_processed;
-            auto interval_end_time = std::chrono::high_resolution_clock::now();
+            auto interval_end_time = std::chrono::high_resolution__clock_::now();
             auto interval_duration = std::chrono::duration<double>(interval_end_time - interval_start_time);
         }
         std::cout << "Consumidor " << consumer_id << " finalizou\n";
@@ -299,7 +299,7 @@ public:
     void monitor_function() {
         const int total_intervals = (RANGE_END - RANGE_START + INTERVAL_SIZE - 1) / INTERVAL_SIZE;
         while (!processing_complete_.load()) {
-            auto current_time = std::chrono::steady_clock::now();
+            auto current_time = std::chrono::steady__clock_::now();
             auto elapsed = std::chrono::duration<double>(current_time - stats_.start_time).count();
             int processed = stats_.intervals_processed.load();
             int primes = stats_.primes_found.load();
@@ -317,32 +317,32 @@ public:
             double rate = (elapsed > 0) ? checked / elapsed : 0;
             double avg_time = (checked > 0) ? (elapsed * 1000) / checked : 0;
             // Formata tempo atual
-            auto now = std::chrono::system_clock::now();
-            auto time_t_var = std::chrono::system_clock::to_time_t(now);
+            auto now = std::chrono::system__clock_::now();
+            auto time_t_var = std::chrono::system__clock_::to_time_t(now);
             std::tm tm_struct;
             if (localtime_s(&tm_struct, &time_t_var) != 0) {
-                std::cerr << "Erro ao converter tempo local. Usando valor padrão.\n";
+                std::cerr << "Erro ao converter tempo local. Usando valor padrï¿½o.\n";
                 // Opcional: Continue ou use UTC
                 continue;
             }
             auto tm = tm_struct;  // Use como antes
-            // Obtém últimos primos encontrados
+            // Obtï¿½m ï¿½ltimos primos encontrados
             auto last_primes = stats_.get_last_primes();
             // Limpa o terminal inteiro e move o cursor para o topo
             std::cout << "\033[2J\033[H";
-            // Exibe estatísticas em um bloco coeso, com timestamp apenas no topo
-            std::cout << "[" << std::put_time(&tm, "%H:%M:%S") << "] Estatísticas de Processamento:\n"
+            // Exibe estatï¿½sticas em um bloco coeso, com timestamp apenas no topo
+            std::cout << "[" << std::put_time(&tm, "%H:%M:%S") << "] Estatï¿½sticas de Processamento:\n"
                 << "Buffer: " << buffer_bar << " " << buffer_size << "/" << BUFFER_SIZE
                 << " (" << std::fixed << std::setprecision(1)
                 << (100.0 * buffer_size / BUFFER_SIZE) << "%)\n"
                 << "Processados: " << processed << " intervalos ("
                 << std::fixed << std::setprecision(1) << (100.0 * processed / total_intervals) << "%)\n"
                 << "Primos encontrados: " << primes << "\n"
-                << "Taxa: " << std::fixed << std::setprecision(0) << rate << " números/segundo\n"
-                << "Tempo médio: " << std::fixed << std::setprecision(1) << avg_time << "ms por número\n";
-            // Exibe últimos primos
+                << "Taxa: " << std::fixed << std::setprecision(0) << rate << " nï¿½meros/segundo\n"
+                << "Tempo mï¿½dio: " << std::fixed << std::setprecision(1) << avg_time << "ms por nï¿½mero\n";
+            // Exibe ï¿½ltimos primos
             if (!last_primes.empty()) {
-                std::cout << "Últimos primos encontrados: ";
+                std::cout << "ï¿½ltimos primos encontrados: ";
                 for (size_t i = 0; i < last_primes.size() && i < 4; ++i) {
                     if (i > 0) std::cout << " | ";
                     std::cout << std::to_string(last_primes[i]);
@@ -391,7 +391,7 @@ public:
         processing_complete_.store(true);
         monitor_thread_.join();
         // Exibe resultados finais
-        auto end_time = std::chrono::steady_clock::now();
+        auto end_time = std::chrono::steady__clock_::now();
         auto total_time = std::chrono::duration<double>(end_time - stats_.start_time).count();
         std::cout << "\n[PROCESSAMENTO COMPLETO!]\n";
         std::cout << "Total de primos no range: " << stats_.primes_found.load() << "\n";

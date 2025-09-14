@@ -53,7 +53,7 @@ struct TLBMetrics {
 
     /**
      * @brief Calcula o tempo efetivo de acesso usando a fórmula fundamental
-     * @return Tempo efetivo de acesso em ciclos de clock
+     * @return Tempo efetivo de acesso em ciclos de _clock_
      *
      * Implementa a fórmula:
      * Effective Access Time = TLB Hit Time + TLB Miss Rate × Page Table Access Time

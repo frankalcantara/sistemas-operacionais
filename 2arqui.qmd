@@ -48,7 +48,7 @@ Neste ponto, a atenta leitora deve ter percebido que a arquitetura monolítica a
 **Linux Moderno**: o `Kernel` **Linux** representa uma evolução da arquitetura monolítica, incorporando **módulos carregáveis** que permitem alguma flexibilidade sem sacrificar a eficiência fundamental da abordagem monolítica. Esta abordagem híbrida permite que drivers e funcionalidades sejam adicionados dinamicamente, mantendo os benefícios de performance das chamadas diretas de função para operações principais. A Figura abaixo ilustra a pilha de abstração típica do Ubuntu 22.04 LTS, um exemplo moderno de **Sistema Operacional** monolítico:
 
 ![Diagrama de uma pilha de abstração, no topo a interface do usuário, seguida de uma camada de apis, seguida do `Kernel` esta última sobre o hardware](/assets/images/ubuntu_moderno.webp)
-_Figura 22: Diagrama em Blocos do Ubuntu 22.04 LTS destacando as camadas do **Sistema Operacional**._{: class=`legend`}
+_Figura 22: Diagrama em Blocos do Ubuntu 22.04 LTS destacando as camadas do **Sistema Operacional** ._{: class=`legend`}
 
 > **A Evolução do Linux: Monolítico com Flexibilidade**
 >
@@ -222,7 +222,7 @@ A implementação da virtualização manifesta-se por meio de três paradigmas p
 
    A virtualização de containers representa uma abordagem fundamentalmente diferente que compartilha o `Kernel` do **Sistema Operacional** hospedeiro entre múltiplos ambientes isolados. *Cada container encapsula uma aplicação e suas dependências, mas utiliza o mesmo `Kernel` subjacente, criando um isolamento de processo ao nível do Sistema Operacional*.
 
-   Esta abordagem oferece eficiência superior em termos de recursos, pois elimina a sobrecarga de múltiplos `Kernel`s de **Sistema Operacional**. O isolamento é implementado por meio de namespaces e cgroups, tecnologias que criam ambientes separados para processos, sistemas de arquivos, redes e recursos.
+   Esta abordagem oferece eficiência superior em termos de recursos, pois elimina a sobrecarga de múltiplos `Kernel`s de **Sistema Operacional** . O isolamento é implementado por meio de namespaces e cgroups, tecnologias que criam ambientes separados para processos, sistemas de arquivos, redes e recursos.
 
    **Casos Importantes**: Docker, LXC (Linux Containers), Containerd.
 
@@ -282,7 +282,7 @@ A complexidade dos sistemas distribuídos surge da necessidade de manter consist
    >Como partições de rede são inevitáveis em sistemas distribuídos reais, os arquitetos de sistemas devem escolher entre um de dois sistemas possíveis **CP** (Consistency + Partition tolerance) ou **AP** (Availability + Partition tolerance):
    >
    > - **Sistemas CP**: priorizam consistência. Durante partições, alguns vértices tornam-se indisponíveis para manter consistência. Exemplos: sistemas bancários, bancos de dados ACID tradicionais.
-   > - **Sistemas AP**: Priorizam disponibilidade. Durante partições, o sistema aceita inconsistências temporárias. Exemplos: DNS, sistemas de cache distribuído, redes sociais.
+   > - **Sistemas AP**: Priorizam disponibilidade. Durante partições, o sistema aceita inconsistências temporárias. Exemplos: DNS, sistemas de _cache_ distribuído, redes sociais.
    >
    >O teorema aplica-se apenas durante partições de rede. Em operação normal, sistemas podem fornecer todas as três propriedades. Além disso, as definições são binárias - na prática, existem graus de consistência e disponibilidade que permitem trade-offs mais refinados.
 

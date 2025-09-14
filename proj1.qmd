@@ -1,6 +1,4 @@
----
-title: "Projetos"
----
+# Projetos e Simuladores
 
 ## Capítulo: Gestão de Processos
 
@@ -1252,3 +1250,298 @@ int main() {
     return 0;
 }
 ```
+## Capítulo Gestão de Memória Virtual
+
+### Simulação Prática em C++23: Construindo um Gerenciador de Memória Virtual
+
+A teoria do gerenciamento de memória virtual é complexa, e a melhor maneira de solidificar a compreensão é através da implementação prática. A seguir, apresentamos um simulador em C++23 que modela os componentes e a lógica discutidos, permitindo observar o sistema em ação. O simulador se concentrará na tradução de endereços, no tratamento de faltas de página e em um algoritmo de substituição de página.
+
+#### Arquitetura do Simulador
+
+O simulador é composto por várias classes que representam os componentes do mundo real 22:
+
+* struct PageTableEntry: Uma estrutura simples para representar uma PTE. Ela conterá o número do quadro, um bit de validade (presença), um bit de modificação (dirty) e um bit de referência (usado para o algoritmo de substituição). 
+* class PhysicalMemory: Simula a `RAM`. Será um std::vector de bytes para armazenar os dados e uma estrutura de dados (como uma std::list ou std::queue) para gerenciar os quadros livres e ocupados. 
+* class PageTable: Representa a tabela de páginas de um processo, contendo um std::vector de PageTableEntry. 
+* class **MMU** : O cérebro do simulador. Sua principal função, translate, receberá um endereço virtual e tentará convertê-lo em um endereço físico. Se a página não estiver presente (bit de validade é 0), a **MMU** lançará uma exceção customizada, PageFaultException, para sinalizar a falha ao Sistema Operacional. 
+* class OperatingSystem: Contém a lógica de alto nível. A função handle\_page\_fault capturará a exceção da **MMU**, implementará um algoritmo de substituição de página (neste caso, FIFO \- First-In, First-Out, por simplicidade), simulará a E/S de disco (através de saídas no console) e atualizará a tabela de páginas.
+
+A implementação de um simulador como este revela as complexidades da gestão de estado. O desafio não está na aritmética da tradução de endereços, mas em manter o estado de todos os componentes (bits de validade, listas de quadros livres, conteúdo da memória física, etc.) consistente através de operações complexas como uma falta de página.
+
+#### Implementação do Fluxo de Tradução e Falha
+
+O fluxo principal do simulador será um loop que lê uma sequência de referências de memória (operações de leitura ou escrita em endereços virtuais). Para cada referência:
+
+1. O simulador invoca um método na **MMU**, como read(virtual\_address) ou write(virtual\_address, value). 
+2. A **MMU** tenta traduzir o endereço. 
+3. **Cenário de Sucesso**: Se a tradução for bem-sucedida (a página está na memória), a **MMU** calcula o endereço físico e realiza a operação no std::vector da PhysicalMemory. 
+4. **Cenário de Falha**: Se a PTE correspondente tiver o bit de validade como 0, a **MMU** lança PageFaultException. 
+5. O loop principal do simulador captura a exceção e invoca os.handle\_page\_fault(faulting\_address). 
+6. O OperatingSystem executa a lógica de tratamento da falha: encontra um quadro (usando o algoritmo FIFO), simula o *swap-out* se a página vítima estiver suja, simula o *swap-in* da nova página, atualiza a tabela de páginas e retorna. 
+7. Após o retorno bem-sucedido do handler, a operação de memória original (read ou write) é tentada novamente. Desta vez, ela terá sucesso.
+
+#### Código-Fonte Completo e Comentado (C++23)
+
+A seguir, o código completo do simulador. Ele é projetado para ser compilado com um compilador C++23. O programa lê um arquivo de entrada com uma sequência de referências e o tamanho da memória física, e gera estatísticas sobre seu desempenho, conforme a especificação em.
+
+```cpp
+#include <vector>
+#include <string>
+#include <sstream>
+#include <fstream>
+#include <cstdint>
+#include <optional>
+#include <list>
+#include <iomanip>
+#include <stdexcept>
+#include <map>
+
+// Constantes da simulação 
+constexpr size_t PAGE_SIZE = 4096; // 4 KB
+constexpr size_t VIRTUAL_ADDRESS_SPACE_SIZE = 64 * 1024 * 1024; // 64 MB
+constexpr size_t NUM_VIRTUAL_PAGES = VIRTUAL_ADDRESS_SPACE_SIZE / PAGE_SIZE;
+
+// Estrutura para uma Entrada da Tabela de Páginas (PTE) 
+struct PageTableEntry { 
+ uint32_t frame_number = 0;
+ bool valid_bit = false;
+ bool dirty_bit = false;
+ bool referenced_bit = false;
+};
+
+// Exceção customizada para faltas de página
+class PageFaultException : public std::runtime_error {
+public: 
+ explicit PageFaultException(uint32_t vpn) 
+ : std::runtime_error("Page Fault"), virtual_page_number(vpn) {} 
+ uint32_t get_vpn() const { return virtual_page_number; } 
+private: 
+ uint32_t virtual_page_number; 
+};
+
+// Simula a Tabela de Páginas de um processo
+class PageTable {
+public:
+ PageTable() : entries(NUM_VIRTUAL_PAGES) {}
+ PageTableEntry& get_entry(uint32_t vpn) {
+ if (vpn >= NUM_VIRTUAL_PAGES) {
+ throw std::out_of_range(_VPN fora dos limites_);
+ }
+ return entries[vpn];
+ }
+private:
+ std::vector<PageTableEntry> entries;   
+};
+
+// Simula a memória física (`RAM`) 
+class PhysicalMemory {
+public:
+ explicit PhysicalMemory(size_t num_frames)
+ : frames(num_frames, std::vector<std::byte>(PAGE_SIZE)),
+ num_frames_(num_frames) {}
+
+ std::byte read(uint32_t frame_number, uint32_t offset) {
+ return frames[frame_number][offset];
+ }
+
+ void write(uint32_t frame_number, uint32_t offset, std::byte value) {
+ frames[frame_number][offset] = value;
+ }
+
+ size_t get_num_frames() const { return num_frames_; }
+
+private:
+ std::vector<std::vector<std::byte>> frames;
+ size_t num_frames_;
+};
+
+// Simula a Unidade de Gerenciamento de Memória (MMU) 
+class MMU{
+public:
+ uint32_t translate(uint32_t virtual_address, PageTable& page_table) {
+ uint32_t vpn = virtual_address / PAGE_SIZE;
+ uint32_t offset = virtual_address % PAGE_SIZE;
+
+ PageTableEntry& pte = page_table.get_entry(vpn);
+
+ if (!pte.valid_bit) {
+ throw PageFaultException(vpn); 
+ }
+
+ pte.referenced_bit = true;
+ return (pte.frame_number * PAGE_SIZE) + offset;
+ }  
+};
+
+// Simula o Sistema Operacional 
+class OperatingSystem {
+public:
+ explicit OperatingSystem(size_t num_frames) {
+ for (size_t i = 0; i < num_frames; ++i) {
+ free_frames_.push_back(i);
+ }
+ }
+
+ // Trata uma falta de página usando o algoritmo FIFO 
+ void handle_page_fault(uint32_t vpn, PageTable& page_table) {
+ std::cout << "-> Page Fault na pagina virtual " << vpn << ". ";
+
+ uint32_t target_frame;
+ if (!free_frames_.empty()) {
+ target_frame = free_frames_.front();
+ free_frames_.pop_front();
+ std::cout << _Alocando quadro livre _ << target_frame << _.\\n_;
+ } else {
+ // Algoritmo de substituição FIFO
+ uint32_t victim_vpn = fifo_queue_.front();
+ fifo_queue_.pop_front();
+
+ PageTableEntry& victim_pte = page_table.get_entry(victim_vpn);
+ target_frame = victim_pte.frame_number;
+
+ std::cout << "Nao ha quadros livres. Substituindo pagina " << victim_vpn
+           << " no quadro " << target_frame << ". ";
+
+ if (victim_pte.dirty_bit) {
+ std::cout << "(Pagina suja, salvando no disco...)\n";
+ // Simulação de escrita no disco (swap out)
+ } else {
+ std::cout << "(Pagina limpa, descartando.)\n";
+ }
+ victim_pte.valid_bit = false;
+ victim_pte.dirty_bit = false;
+ }
+
+ std::cout << _ Carregando pagina _ << vpn << _ do disco para o quadro _ << target_frame << _.\\n_;
+ // Simulação de leitura do disco (swap in)
+
+ PageTableEntry& new_pte = page_table.get_entry(vpn);
+ new_pte.valid_bit = true;
+ new_pte.frame_number = target_frame;
+ new_pte.dirty_bit = false; // Página recém-carregada está limpa
+
+ fifo_queue_.push_back(vpn);
+ }
+
+private:
+ std::list<uint32_t> free_frames_;
+ std::list<uint32_t> fifo_queue_; // Para o algoritmo de substituição FIFO
+};
+
+// Classe principal do simulador 
+class Simulator { 
+public: 
+ void run(const std::string& input_filename) { 
+ std::ifstream input_file(input_filename); 
+ if (!input_file) { 
+ std::cerr << "Erro ao abrir o arquivo de entrada: " << input_filename << std::endl; 
+ return; 
+ }
+
+ std::string line; 
+ 
+ // Ler a sequência de referências 
+ std::getline(input_file, line); 
+ std::stringstream ss(line); 
+ std::string ref_str; 
+ std::vector<std::pair<char, uint32_t>> references; 
+ while (std::getline(ss, ref_str, ';')) { 
+ std::stringstream ref_ss(ref_str); 
+ char type; 
+ uint32_t address; 
+ ref_ss >> type >> address; 
+ references.emplace_back(type, address); 
+ }
+
+ // Ler o número de quadros de memória física 
+ size_t num_frames; 
+ input_file >> num_frames;
+
+ std::cout << "Iniciando simulacao com " << num_frames << " quadros de memoria fisica." << "\n\n";
+
+ PhysicalMemory physical_memory(num_frames);
+ OperatingSystem os(num_frames);
+ MMU mmu;
+ PageTable page_table;
+
+ int access_count = 0;
+ int page_fault_count = 0;
+
+ for (const auto& ref : references) { 
+ char type \= ref.first; 
+ uint32_t virtual_address = ref.second;
+ access_count++;
+
+ std::cout << "Acesso #" << access_count << ": "
+           << (type == 'R' ? "Leitura" : "Escrita")
+           << " no endereco virtual " << virtual_address << "\n";
+
+ bool success = false;
+ while (!success) {
+ try {
+ uint32_t physical_address = mmu.translate(virtual_address, page_table);
+ uint32_t vpn = virtual_address / PAGE_SIZE;
+ uint32_t offset = virtual_address % PAGE_SIZE;
+ uint32_t frame = physical_address / PAGE_SIZE;
+
+ std::cout << "Traducao bem-sucedida. VPN " << vpn << " -> Quadro " << frame
+           << ". Endereco fisico: " << physical_address << "\n";
+
+ if (type == 'W') {
+ page_table.get_entry(vpn).dirty_bit = true;
+ std::cout << "Escrevendo no quadro " << frame << ". Marcando pagina " << vpn << " como suja.\n";
+ physical_memory.write(frame, offset, std::byte{0xAB});
+ } else {
+ physical_memory.read(frame, offset);
+ }
+ success = true;
+
+ } catch (const PageFaultException& e) {
+ page_fault_count++;
+ os.handle_page_fault(e.get_vpn(), page_table);
+ std::cout << " Retentando a operacao...\n";
+ } catch (const std::exception& e) {
+ std::cerr << "Erro inesperado: " << e.what() << std::endl;
+ return;
+ }
+ }
+ std::cout << "-----------------------------------------------------\n";
+ }
+
+ std::cout << "\n--- Estatisticas Finais ---\n";
+ std::cout << "Total de acessos a memoria: " << access_count << "\n";
+ std::cout << "Total de faltas de pagina: " << page_fault_count << "\n";
+ if (access_count > 0) {
+ double fault_rate = static_cast<double>(page_fault_count) / access_count * 100.;
+ std::cout << "Taxa de falta de pagina: " << std::fixed << std::setprecision(2) << fault_rate << "%\n";
+ }
+ }
+};
+
+int main() {
+ // Criar um arquivo de entrada de exemplo
+ std::ofstream example_input("entrada.txt");
+ example_input << "R 8192;W 12288;R 8193;R 24576;W 40960;R 8195;W 12290;R 65536;W 40961;R 24580\n";
+ example_input << "4\n"; // Número de quadros de memória física
+ example_input.close();
+
+ Simulator sim;
+ sim.run("entrada.txt");
+
+ return 0; 
+}
+```
+
+#### Análise e Teste
+
+Para executar o simulador, compile o código com um compilador C++23 e execute o programa resultante. Ele criará um arquivo entrada.txt com uma sequência de 10 referências de memória e uma configuração de 4 quadros de memória física. A saída do programa mostrará passo a passo cada acesso, a tradução de endereço e, crucialmente, o tratamento de cada falta de página.
+
+Ao analisar a saída, é possível observar:
+
+* As primeiras quatro referências a páginas distintas (8192 → VPN 2, 12288 → VPN 3, 24576 → VPN 6, 40960 → VPN 10) causarão faltas de página, pois a memória está inicialmente vazia. O Sistema Operacional alocará os 4 quadros livres. 
+* A quinta referência (8195 → VPN 2) será um *acerto*, pois a página 2 já foi carregada. 
+* A sexta referência (12290 → VPN 3) também será um acerto. 
+* A sétima referência (65536 → VPN 16) causará uma falta de página, mas agora não há quadros livres. O algoritmo FIFO selecionará a primeira página que foi carregada (VPN 2) como vítima para substituição. 
+* A execução continua, demonstrando como o estado da memória evolui e como o desempenho (medido pela taxa de faltas de página) é diretamente afetado pelo número de quadros disponíveis e pelo padrão de acesso.
+
+Executando o simulador com diferentes tamanhos de memória física (alterando o número no arquivo de entrada) ou com diferentes sequências de referência (por exemplo, uma sequência com alta localidade vs. uma sequência aleatória) demonstraria de forma prática os conceitos de *working set* e *thrashing*. Com poucos quadros, o sistema gastaria a maior parte do tempo trocando páginas entre a `RAM` e o disco, um fenômeno que degrada drasticamente o desempenho do sistema real.

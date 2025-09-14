@@ -55,7 +55,7 @@ O `Kernel` constrói explicitamente as entradas da tabela de páginas (**PTEs**)
 - **Range de endereços**: `0xffffc90000000000` - `0xffffe8ffffffffff`;
 - **Função de alocação**: `vmalloc()`, `vzalloc()`, `vmalloc_32()` (ver include/linux/vmalloc.h);
 - **Contiguidade**: virtual apenas, fisicamente dispersa;
-- **Performance**: custo computacional extra devido ao **TLB** e `cache` impactado pela dispersão física dos dados;
+- **Performance**: custo computacional extra devido ao **TLB** e `_cache_` impactado pela dispersão física dos dados;
 - **Uso principal**: grandes buffers, módulos do kernel, mapeamentos de dispositivos.
 
 #### 3. Área de Módulos do Kernel
@@ -83,7 +83,7 @@ O `kernel` **Linux** implementa esta proteção automaticamente através das mac
 
 #### 4. `kernel` Text/Data (vmlinux)
 
-Esta área contém o núcleo permanente do **Sistema Operacional**, incluindo todo o código essencial do `Kernel` compilado estaticamente no binário `vmlinux` (ver arch/x86/kernel/vmlinux.lds.S). Diferentemente dos módulos carregáveis, este código é carregado durante a inicialização do sistema e permanece residente durante toda a execução. 
+Esta área contém o núcleo permanente do **Sistema Operacional** , incluindo todo o código essencial do `Kernel` compilado estaticamente no binário `vmlinux` (ver arch/x86/kernel/vmlinux.lds.S). Diferentemente dos módulos carregáveis, este código é carregado durante a inicialização do sistema e permanece residente durante toda a execução. 
 
 Este processo de carregamento durante a inicialização do sistema é feito pelo **bootloader** (GRUB, systemd-boot, etc.). O **bootloader** carrega o binário `vmlinux` da mídia de armazenamento para a memória física, tipicamente em endereços baixos como `0x1000000` ($16MB$). Se o `kernel` estiver comprimido, `bzImage`, o **bootloader** carrega primeiro um `stub` de descompressão que extrai o `vmlinux` real para a memória. Durante esta fase, o sistema ainda opera em **modo real** ou **modo protegido** de $32 bits$, sem paginação ativa.
 
@@ -131,7 +131,7 @@ A organização do espaço do `kernel` reflete trade-offs fundamentais entre per
 - **Mapeamento direto**: Máxima performance para operações críticas;
 - **vmalloc**: Flexibilidade para grandes alocações com custo de performance;
 - **Fragmentação**: Balanceamento entre utilização eficiente da memória e contiguidade física;
-- **Cache locality**: Organização que favorece localidade espacial e temporal.
+- **_cache_ locality**: Organização que favorece localidade espacial e temporal.
 
 ### O Layout do Espaço de Endereçamento do `kernel` Windows
 
@@ -144,7 +144,7 @@ O `Kernel` do **Windows NT**, usado em todas as versões modernas, do **Windows 
 
    Dados no _Paged Pool_ só podem ser acessados quando a `CPU` está em `IRQL = 0`, um estado conhecido como `PASSIVE_LEVEL`. A razão para esta restrição é que um acesso a dados que foram paginados para o disco gera uma _page fault_. Em `PASSIVE_LEVEL`, o `Kernel` pode gerenciar essa falha de forma segura: ele pode suspender a `thread` atual, instruir o Gerenciador de Memória a carregar a página necessária do disco para a `RAM` e, em seguida, retomar a `thread`. Em contraste, em `IRQLs` mais altos (como `DISPATCH_LEVEL` ou superior), o escalonador de `threads` está desativado para permitir que tarefas mais urgentes sejam concluídas sem interrupção. Se uma _page fault_ ocorresse nesse estado, o sistema não poderia esperar pela demorada operação de leitura do disco, resultando em uma falha crítica do sistema (um _Bug Check_ ou _Tela Azul da Morte_), tipicamente com o código `IRQL_NOT_LESS_OR_EQUAL`.
 
-2. **System Cache Working Set**: esta região é usada pelo _Cache Manager_ para mapear `views` de arquivos em cache. Em vez de ler dados de disco diretamente em `buffers` do `Kernel`, o **Windows** mapeia porções de arquivos no espaço de endereçamento do `Kernel`, permitindo que o acesso aos dados do arquivo seja tratado como acessos à memória.
+2. **System _cache_ Working Set**: esta região é usada pelo _Cache Manager_ para mapear `views` de arquivos em _cache_. Em vez de ler dados de disco diretamente em `buffers` do `Kernel`, o **Windows** mapeia porções de arquivos no espaço de endereçamento do `Kernel`, permitindo que o acesso aos dados do arquivo seja tratado como acessos à memória.
 
 3. **System PTEs (Page Table Entries)**: uma área reservada de entradas de tabela de páginas que o `Kernel` usa para mapear dinamicamente coisas como `buffers` de ``E/S`` para `DMA`,  para mapear temporariamente seções de memória de processos de usuário no espaço do `Kernel` durante _system calls_.
 
@@ -157,13 +157,13 @@ A tabela @fig-kernel-mem-comp resume as principais regiões análogas entre **Li
 ::: {#fig-kernel-mem-comp}
 ![](/images/kernel_memory_comparison_svg.webp)
 
-Organização do espaço de endereçamento dos kernels **Linux** e **Windows** NT. O **Linux** (esquerda) emprega mapeamento direto 1:1 com a memória física para máxima eficiência, complementado por área vmalloc para alocações virtualmente contíguas. O **Windows** NT (direita) utiliza pools diferenciados (paged/non-paged) com controle rigoroso via IRQL, cache manager dedicado e PTEs dinâmicas. As regiões especializadas refletem filosofias distintas: simplicidade e performance no **Linux** versus controle granular e robustez no **Windows** NT
+Organização do espaço de endereçamento dos kernels **Linux** e **Windows** NT. O **Linux** (esquerda) emprega mapeamento direto 1:1 com a memória física para máxima eficiência, complementado por área vmalloc para alocações virtualmente contíguas. O **Windows** NT (direita) utiliza pools diferenciados (paged/non-paged) com controle rigoroso via IRQL, _cache_ manager dedicado e PTEs dinâmicas. As regiões especializadas refletem filosofias distintas: simplicidade e performance no **Linux** versus controle granular e robustez no **Windows** NT
 :::
 
 ::: callout-note
 **Um Mergulho Técnico na Proteção do Kernel: KPTI e a Mitigação de Meltdown**
 
-A simples divisão do espaço de endereçamento com um bit de permissão Supervisor/Usuário na **PTE** foi considerada segura por décadas. No entanto, a vulnerabilidade de hardware _Meltdown_ ([CVE-2017-5754](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-5754)) quebrou essa premissa. _Meltdown_ explora a execução especulativa em processadores modernos para ler dados do espaço do `Kernel` a partir do modo de usuário. Mesmo que a instrução de acesso final falhe e gere uma exceção, os dados do `Kernel` já foram trazidos para o `cache` da `CPU` e podem ser inferidos através de um ataque de _side-channel_.
+A simples divisão do espaço de endereçamento com um bit de permissão Supervisor/Usuário na **PTE** foi considerada segura por décadas. No entanto, a vulnerabilidade de hardware _Meltdown_ ([CVE-2017-5754](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-5754)) quebrou essa premissa. _Meltdown_ explora a execução especulativa em processadores modernos para ler dados do espaço do `Kernel` a partir do modo de usuário. Mesmo que a instrução de acesso final falhe e gere uma exceção, os dados do `Kernel` já foram trazidos para o `_cache_` da `CPU` e podem ser inferidos através de um ataque de _side-channel_.
 
 A solução de software para esse problema de hardware é o **K**ernel **P**age **T**able **I**solation**, **KPTI**, também conhecido como `kaise_r_`. O **KPTI** reforça radicalmente o isolamento entre o `user-space` e o `kernel-space`, quebrando o modelo de um único conjunto de tabelas de páginas compartilhado.
 
@@ -183,7 +183,7 @@ Este mecanismo opera da seguinte forma:
 
 O custo computacional extra do **KPTI** vem dessa troca constante do registrador `CR3` e do _TLB flush_ que ela acarreta. Cada transição de/para o `Kernel` se torna mais cara. Para otimizar isso, processadores mais novos introduziram o **P**rocess-**C**ontext **ID**entifier, **PCID**, que permite que entradas da **TLB** sejam marcadas com um ID. Com o **PCID**, o `Kernel` pode alternar entre os dois contextos de tabela de páginas (**PCID** para usuário, **PCID** para `Kernel`) sem precisar invalidar todo o conteúdo da **TLB** a cada transição, reduzindo significativamente a sobrecarga de desempenho. Tanto o **Linux** quanto o **Windows** implementaram o **KPTI**,  sua variante específica para mitigar o _Meltdown_.
 
-Até este ponto em que estamos do livro, o **KPTI** é o melhor exemplo do laço de realimentação positiva que eu citei antes, algumas vezes. Neste caso, tivemos uma necessidade, um problema de segurança, que provocou uma mudança no **Sistema Operacional**. Que, por sua vez, provocou uma mudança no hardware. Para fraseando [Fred Guiol](https://en.wikipedia.org/wiki/Fred_Guiol): assim caminha a tecnologia!
+Até este ponto em que estamos do livro, o **KPTI** é o melhor exemplo do laço de realimentação positiva que eu citei antes, algumas vezes. Neste caso, tivemos uma necessidade, um problema de segurança, que provocou uma mudança no **Sistema Operacional** . Que, por sua vez, provocou uma mudança no hardware. Para fraseando [Fred Guiol](https://en.wikipedia.org/wiki/Fred_Guiol): assim caminha a tecnologia!
 :::
 
 ## Projeto 2: Monitor de Hierarquia de Processos e Análise de Memória
@@ -436,7 +436,7 @@ public:
 **Motivação**:
 
 - Demonstrações interativas tornam conceitos abstratos mais concretos.
-- Relatórios comparativos ajudam a entender as escolhas de design de cada **Sistema Operacional**.
+- Relatórios comparativos ajudam a entender as escolhas de design de cada **Sistema Operacional** .
 
 **Entregáveis**:
 

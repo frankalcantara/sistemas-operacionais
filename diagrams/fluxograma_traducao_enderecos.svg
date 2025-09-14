@@ -1,0 +1,1199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1400 1000"
+   version="1.1"
+   id="svg93"
+   sodipodi:docname="fluxograma_traducao_enderecos.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview93"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.855"
+     inkscape:cx="601.16959"
+     inkscape:cy="468.42105"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg93" />
+  <!-- Estilos -->
+  <defs
+     id="defs3">
+    <marker
+       style="overflow:visible"
+       id="marker94"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path94" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker93"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path93" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <style
+       id="style1">
+      .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #2c3e50; }
+      .subtitle { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #34495e; }
+      .label { font-family: Arial, sans-serif; font-size: 11px; fill: #2c3e50; }
+      .small-label { font-family: Arial, sans-serif; font-size: 9px; fill: #2c3e50; }
+      .decision-label { font-family: Arial, sans-serif; font-size: 10px; fill: #2c3e50; font-weight: bold; }
+      .process-box { fill: #3498db; stroke: #2980b9; stroke-width: 2; }
+      .decision-box { fill: #f39c12; stroke: #e67e22; stroke-width: 2; }
+      .fast-result { fill: #2ecc71; stroke: #27ae60; stroke-width: 3; }
+      .medium-result { fill: #f1c40f; stroke: #f39c12; stroke-width: 3; }
+      .slow-result { fill: #e74c3c; stroke: #c0392b; stroke-width: 3; }
+      .tlb-component { fill: #9b59b6; stroke: #8e44ad; stroke-width: 2; }
+      .mmu-component { fill: #16a085; stroke: #138d75; stroke-width: 2; }
+      .os-component { fill: #34495e; stroke: #2c3e50; stroke-width: 2; }
+      .arrow-yes { stroke: #27ae60; stroke-width: 3; fill: none; marker-end: url(#greenarrow); }
+      .arrow-no { stroke: #e74c3c; stroke-width: 3; fill: none; marker-end: url(#redarrow); }
+      .arrow-flow { stroke: #34495e; stroke-width: 2; fill: none; marker-end: url(#grayarrow); }
+      .performance-box { fill: #ecf0f1; stroke: #bdc3c7; stroke-width: 2; }
+    </style>
+    <!-- Definições de setas -->
+    <marker
+       id="greenarrow"
+       markerWidth="12"
+       markerHeight="9"
+       refX="11"
+       refY="4.5"
+       orient="auto">
+      <polygon
+         points="0 0, 12 4.5, 0 9"
+         fill="#27ae60"
+         id="polygon1" />
+    </marker>
+    <marker
+       id="redarrow"
+       markerWidth="12"
+       markerHeight="9"
+       refX="11"
+       refY="4.5"
+       orient="auto">
+      <polygon
+         points="0 0, 12 4.5, 0 9"
+         fill="#e74c3c"
+         id="polygon2" />
+    </marker>
+    <marker
+       id="grayarrow"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#34495e"
+         id="polygon3" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker93-0"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path93-9" />
+    </marker>
+  </defs>
+  <!-- Título principal -->
+  <text
+     x="656.72516"
+     y="45.204678"
+     text-anchor="middle"
+     class="title"
+     id="text3"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.3333px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#2c3e50"
+     inkscape:export-filename="..\images\virtual3.webp"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96">Fluxograma de Tradução de Endereços: Três Cenários de Performance</text>
+  <!-- Início do fluxo -->
+  <rect
+     x="556.72516"
+     y="75.204681"
+     width="200"
+     height="60"
+     rx="10"
+     class="process-box"
+     id="rect3" />
+  <text
+     x="656.61578"
+     y="92.460442"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text4"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">CPU Gera</text>
+  <text
+     x="656.69391"
+     y="107.46044"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text5"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Endereço Virtual</text>
+  <text
+     x="656.72125"
+     y="125.76855"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text6"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">(ex: 0x12345678)</text>
+  <!-- Seta para MMU -->
+  <line
+     x1="656.72516"
+     y1="135.20468"
+     x2="656.72516"
+     y2="175.20468"
+     class="arrow-flow"
+     id="line6" />
+  <!-- MMU recebe endereço -->
+  <rect
+     x="556.72516"
+     y="175.20468"
+     width="200"
+     height="50"
+     rx="8"
+     class="mmu-component"
+     id="rect6" />
+  <text
+     x="656.72516"
+     y="195.20468"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text7"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">MMU Extrai VPN</text>
+  <text
+     x="656.72516"
+     y="215.16684"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text8"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">VPN = Endereço &gt;&gt; 12</text>
+  <!-- Seta para primeira decisão -->
+  <line
+     x1="656.72516"
+     y1="225.20468"
+     x2="656.72516"
+     y2="265.20468"
+     class="arrow-flow"
+     id="line8" />
+  <!-- Primeira decisão: TLB Hit? -->
+  <polygon
+     points="780,290 700,330 620,290 700,250 "
+     class="decision-box"
+     id="polygon8"
+     transform="translate(-43.274854,15.204678)" />
+  <text
+     x="655.55554"
+     y="303.12866"
+     text-anchor="middle"
+     class="decision-label"
+     fill="white"
+     id="text9"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.3333px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">TLB</text>
+  <text
+     x="655.55554"
+     y="316.12866"
+     text-anchor="middle"
+     class="decision-label"
+     fill="white"
+     id="text10"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.3333px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Hit?</text>
+  <!-- CENÁRIO 1: TLB Hit (lado esquerdo) -->
+  <line
+     x1="576.72516"
+     y1="305.20468"
+     x2="522.68964"
+     y2="305.20468"
+     class="arrow-yes"
+     id="line10"
+     style="stroke-width:2.952;stroke-dasharray:none;marker-end:url(#marker94)" />
+  <text
+     x="560.35089"
+     y="300.20468"
+     text-anchor="middle"
+     class="label"
+     fill="#27ae60"
+     id="text11">SIM</text>
+  <rect
+     x="311.98831"
+     y="268.18713"
+     width="200"
+     height="60"
+     rx="10"
+     class="fast-result"
+     id="rect11" />
+  <text
+     x="411.98831"
+     y="284.18713"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text12"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">CENÁRIO 1: TLB HIT</text>
+  <text
+     x="411.98831"
+     y="303.18713"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text13"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Tradução Instantânea</text>
+  <text
+     x="411.98831"
+     y="322.18713"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text14"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">VPN → PFN (do cache)</text>
+  <rect
+     x="294.74286"
+     y="348.3092"
+     width="235.31792"
+     height="39.755825"
+     rx="7.0595379"
+     class="fast-result"
+     id="rect14" />
+  <text
+     x="411.98831"
+     y="363.18713"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text15"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Acesso à RAM</text>
+  <text
+     x="411.98831"
+     y="378.18713"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text16"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Endereço Físico = PFN + Offset</text>
+  <rect
+     x="311.98831"
+     y="408.18713"
+     width="200"
+     height="60"
+     rx="8"
+     class="performance-box"
+     id="rect16" />
+  <text
+     x="411.98831"
+     y="428.18713"
+     text-anchor="middle"
+     class="subtitle"
+     fill="#27ae60"
+     id="text17">⚡ MUITO RÁPIDO</text>
+  <text
+     x="411.98831"
+     y="443.18713"
+     text-anchor="middle"
+     class="small-label"
+     id="text18">1-2 ciclos de clock</text>
+  <text
+     x="411.98831"
+     y="458.18713"
+     text-anchor="middle"
+     class="small-label"
+     id="text19">~0.5-1ns em CPU 2GHz</text>
+  <!-- CENÁRIO 2: TLB Miss + Page Hit (centro-direita) -->
+  <text
+     x="751.16962"
+     y="299.0351"
+     text-anchor="middle"
+     class="label"
+     fill="#e74c3c"
+     id="text20">NÃO</text>
+  <line
+     x1="953.39178"
+     y1="304.91229"
+     x2="994.76715"
+     y2="304.91229"
+     class="arrow-no"
+     id="line31"
+     style="marker-end:url(#marker93)" />
+  <polygon
+     points="900,250 980,290 900,330 820,290 "
+     class="decision-box"
+     id="polygon20"
+     transform="translate(-24.853801,14.912281)" />
+  <text
+     x="877.19299"
+     y="303.71344"
+     text-anchor="middle"
+     class="decision-label"
+     fill="white"
+     id="text21"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.3333px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Página</text>
+  <text
+     x="879.53217"
+     y="321.39182"
+     text-anchor="middle"
+     class="decision-label"
+     fill="white"
+     id="text22"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.3333px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">na RAM?</text>
+  <line
+     x1="875.43854"
+     y1="344.61987"
+     x2="875.43854"
+     y2="377.88745"
+     class="arrow-yes"
+     id="line22"
+     style="marker-end:url(#Triangle)" />
+  <text
+     x="890.76019"
+     y="362.92398"
+     text-anchor="middle"
+     class="label"
+     fill="#27ae60"
+     id="text23">SIM</text>
+  <rect
+     x="777.26599"
+     y="388.26013"
+     width="199.85399"
+     height="88.041122"
+     rx="9.9926996"
+     class="medium-result"
+     id="rect23" />
+  <text
+     x="871.92981"
+     y="407.01755"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text24"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">CENÁRIO 2: TLB MISS</text>
+  <text
+     x="871.92981"
+     y="422.01755"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text25"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#ffffff">PAGE HIT</text>
+  <text
+     x="871.92981"
+     y="437.01755"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text26"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.8px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">1. Page Walk na RAM</text>
+  <text
+     x="871.92981"
+     y="452.01755"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text27"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.8px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">2. Lê PTE válida</text>
+  <text
+     x="871.92981"
+     y="467.01755"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text28"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.8px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">3. Atualiza TLB</text>
+  <rect
+     x="777.19299"
+     y="488.18713"
+     width="200"
+     height="60"
+     rx="8"
+     class="performance-box"
+     id="rect28" />
+  <text
+     x="877.19299"
+     y="508.18713"
+     text-anchor="middle"
+     class="subtitle"
+     fill="#f39c12"
+     id="text29">⚡ MODERADO</text>
+  <text
+     x="877.19299"
+     y="523.18713"
+     text-anchor="middle"
+     class="small-label"
+     id="text30">10-100 ciclos de clock</text>
+  <text
+     x="877.19299"
+     y="538.18707"
+     text-anchor="middle"
+     class="small-label"
+     id="text31">~5-50ns em CPU 2GHz</text>
+  <!-- CENÁRIO 3: Page Fault (lado direito) -->
+  <text
+     x="1027.3099"
+     y="343.47952"
+     text-anchor="middle"
+     class="label"
+     fill="#e74c3c"
+     id="text32">NÃO</text>
+  <rect
+     x="1007.31"
+     y="238.47954"
+     width="200"
+     height="140"
+     rx="10"
+     class="slow-result"
+     id="rect32" />
+  <text
+     x="1107.3099"
+     y="258.47952"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text33"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">CENÁRIO 3: PAGE FAULT</text>
+  <text
+     x="1107.3099"
+     y="278.47952"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text34"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.25px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">1. MMU gera trap</text>
+  <text
+     x="1107.3099"
+     y="293.47952"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text35"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.25px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">2. SO assume controle</text>
+  <text
+     x="1107.3099"
+     y="308.47952"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text36"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.25px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">3. Algoritmo de substituição</text>
+  <text
+     x="1107.3099"
+     y="323.47952"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text37"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.25px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">4. Swap out (se necessário)</text>
+  <text
+     x="1107.3099"
+     y="338.47952"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text38"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.25px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">5. Carrega do disco (swap in)</text>
+  <text
+     x="1107.3099"
+     y="353.47952"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text39"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.25px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">6. Atualiza tabela de páginas</text>
+  <text
+     x="1107.3099"
+     y="368.47952"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text40"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.25px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">7. Reexecuta instrução</text>
+  <rect
+     x="1007.31"
+     y="398.47952"
+     width="200"
+     height="80"
+     rx="8"
+     class="performance-box"
+     id="rect40" />
+  <text
+     x="1107.3099"
+     y="423.47952"
+     text-anchor="middle"
+     class="subtitle"
+     fill="#e74c3c"
+     id="text41">🐌 MUITO LENTO</text>
+  <text
+     x="1107.3099"
+     y="438.47952"
+     text-anchor="middle"
+     class="small-label"
+     id="text42">Milhões de ciclos</text>
+  <text
+     x="1107.3099"
+     y="453.47952"
+     text-anchor="middle"
+     class="small-label"
+     id="text43">~1-10ms (acesso a disco)</text>
+  <text
+     x="1107.3099"
+     y="468.47952"
+     text-anchor="middle"
+     class="small-label"
+     id="text44">10.000x mais lento que TLB hit</text>
+  <!-- Seção de análise comparativa -->
+  <rect
+     x="50"
+     y="580"
+     width="1300"
+     height="380"
+     rx="15"
+     fill="#f8f9fa"
+     stroke="#dee2e6"
+     stroke-width="2"
+     id="rect44" />
+  <text
+     x="700"
+     y="610"
+     text-anchor="middle"
+     class="subtitle"
+     id="text45"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.6667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#34495e">Análise Comparativa de Performance</text>
+  <!-- Tabela de comparação -->
+  <rect
+     x="100"
+     y="630"
+     width="1200"
+     height="280"
+     rx="10"
+     fill="white"
+     stroke="#bdc3c7"
+     stroke-width="1"
+     id="rect45" />
+  <!-- Cabeçalho da tabela -->
+  <rect
+     x="100"
+     y="630"
+     width="300"
+     height="40"
+     class="os-component"
+     id="rect46" />
+  <text
+     x="250"
+     y="655"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text46"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Cenário</text>
+  <rect
+     x="400"
+     y="630"
+     width="200"
+     height="40"
+     class="os-component"
+     id="rect47" />
+  <text
+     x="500"
+     y="655"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text47"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Condição</text>
+  <rect
+     x="600"
+     y="630"
+     width="200"
+     height="40"
+     class="os-component"
+     id="rect48" />
+  <text
+     x="700"
+     y="655"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text48"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Operações</text>
+  <rect
+     x="800"
+     y="630"
+     width="150"
+     height="40"
+     class="os-component"
+     id="rect49" />
+  <text
+     x="875"
+     y="655"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text49"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Latência</text>
+  <rect
+     x="950"
+     y="630"
+     width="150"
+     height="40"
+     class="os-component"
+     id="rect50" />
+  <text
+     x="1025"
+     y="655"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text50"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Taxa Típica</text>
+  <rect
+     x="1100"
+     y="630"
+     width="200"
+     height="40"
+     class="os-component"
+     id="rect51" />
+  <text
+     x="1200"
+     y="655"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text51"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Impacto no Sistema</text>
+  <!-- Linha 1: TLB Hit -->
+  <rect
+     x="100"
+     y="670"
+     width="300"
+     height="60"
+     class="fast-result"
+     id="rect52" />
+  <text
+     x="250"
+     y="690"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text52"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">TLB Hit</text>
+  <text
+     x="250"
+     y="705"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text53"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(Cenário 1)</text>
+  <text
+     x="250"
+     y="720"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text54"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">⚡ Ideal</text>
+  <rect
+     x="400"
+     y="670"
+     width="200"
+     height="60"
+     fill="#d5f4e6"
+     stroke="#58d68d"
+     id="rect54" />
+  <text
+     x="500"
+     y="696"
+     text-anchor="middle"
+     class="small-label"
+     id="text55"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">VPN encontrado</text>
+  <text
+     x="500"
+     y="717"
+     text-anchor="middle"
+     class="small-label"
+     id="text56"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">no cache TLB</text>
+  <rect
+     x="600"
+     y="670"
+     width="200"
+     height="60"
+     fill="#d5f4e6"
+     stroke="#58d68d"
+     id="rect56" />
+  <text
+     x="700"
+     y="696"
+     text-anchor="middle"
+     class="small-label"
+     id="text57"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Busca associativa</text>
+  <text
+     x="700"
+     y="717"
+     text-anchor="middle"
+     class="small-label"
+     id="text58"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">no TLB</text>
+  <rect
+     x="800"
+     y="670"
+     width="150"
+     height="60"
+     fill="#d5f4e6"
+     stroke="#58d68d"
+     id="rect58" />
+  <text
+     x="875"
+     y="696"
+     text-anchor="middle"
+     class="small-label"
+     id="text59"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">1-2 ciclos</text>
+  <text
+     x="875"
+     y="717"
+     text-anchor="middle"
+     class="small-label"
+     id="text60"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">~0.5ns</text>
+  <rect
+     x="950"
+     y="670"
+     width="150"
+     height="60"
+     fill="#d5f4e6"
+     stroke="#58d68d"
+     id="rect60" />
+  <text
+     x="1025"
+     y="696"
+     text-anchor="middle"
+     class="small-label"
+     id="text61"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">95-99%</text>
+  <text
+     x="1025"
+     y="717"
+     text-anchor="middle"
+     class="small-label"
+     id="text62"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(sistemas típicos)</text>
+  <rect
+     x="1100"
+     y="670"
+     width="200"
+     height="60"
+     fill="#d5f4e6"
+     stroke="#58d68d"
+     id="rect62" />
+  <text
+     x="1200"
+     y="696"
+     text-anchor="middle"
+     class="small-label"
+     id="text63"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Nenhum overhead</text>
+  <text
+     x="1200"
+     y="717"
+     text-anchor="middle"
+     class="small-label"
+     id="text64"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Performance máxima</text>
+  <!-- Linha 2: TLB Miss -->
+  <rect
+     x="100"
+     y="730"
+     width="300"
+     height="60"
+     class="medium-result"
+     id="rect64" />
+  <text
+     x="250"
+     y="750"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text65"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">TLB Miss</text>
+  <text
+     x="250"
+     y="765"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text66"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(Cenário 2)</text>
+  <text
+     x="250"
+     y="780"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text67"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">⚡ Aceitável</text>
+  <rect
+     x="400"
+     y="730"
+     width="200"
+     height="60"
+     fill="#fff3cd"
+     stroke="#ffc107"
+     id="rect67" />
+  <text
+     x="500"
+     y="756"
+     text-anchor="middle"
+     class="small-label"
+     id="text68"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Página está na RAM</text>
+  <text
+     x="500"
+     y="777"
+     text-anchor="middle"
+     class="small-label"
+     id="text69"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">mas não no TLB</text>
+  <rect
+     x="600"
+     y="730"
+     width="200"
+     height="60"
+     fill="#fff3cd"
+     stroke="#ffc107"
+     id="rect69" />
+  <text
+     x="700"
+     y="756"
+     text-anchor="middle"
+     class="small-label"
+     id="text70"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Page walk + leitura</text>
+  <text
+     x="700"
+     y="777"
+     text-anchor="middle"
+     class="small-label"
+     id="text71"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">PTE + atualiza TLB</text>
+  <rect
+     x="800"
+     y="730"
+     width="150"
+     height="60"
+     fill="#fff3cd"
+     stroke="#ffc107"
+     id="rect71" />
+  <text
+     x="875"
+     y="756"
+     text-anchor="middle"
+     class="small-label"
+     id="text72"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">10-100 ciclos</text>
+  <text
+     x="875"
+     y="777"
+     text-anchor="middle"
+     class="small-label"
+     id="text73"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">~10-50ns</text>
+  <rect
+     x="950"
+     y="730"
+     width="150"
+     height="60"
+     fill="#fff3cd"
+     stroke="#ffc107"
+     id="rect73" />
+  <text
+     x="1025"
+     y="756"
+     text-anchor="middle"
+     class="small-label"
+     id="text74"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">1-5%</text>
+  <text
+     x="1025"
+     y="777"
+     text-anchor="middle"
+     class="small-label"
+     id="text75"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(sistemas típicos)</text>
+  <rect
+     x="1100"
+     y="730"
+     width="200"
+     height="60"
+     fill="#fff3cd"
+     stroke="#ffc107"
+     id="rect75" />
+  <text
+     x="1200"
+     y="756"
+     text-anchor="middle"
+     class="small-label"
+     id="text76"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Overhead moderado</text>
+  <text
+     x="1200"
+     y="777"
+     text-anchor="middle"
+     class="small-label"
+     id="text77"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Ainda aceitável</text>
+  <!-- Linha 3: Page Fault -->
+  <rect
+     x="100"
+     y="790"
+     width="300"
+     height="60"
+     class="slow-result"
+     id="rect77" />
+  <text
+     x="250"
+     y="810"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text78"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Page Fault</text>
+  <text
+     x="250"
+     y="825"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text79"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(Cenário 3)</text>
+  <text
+     x="250"
+     y="840"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text80"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">🐌 Crítico</text>
+  <rect
+     x="400"
+     y="790"
+     width="200"
+     height="60"
+     fill="#f8d7da"
+     stroke="#dc3545"
+     id="rect80" />
+  <text
+     x="500"
+     y="816"
+     text-anchor="middle"
+     class="small-label"
+     id="text81"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Página não está</text>
+  <text
+     x="500"
+     y="837"
+     text-anchor="middle"
+     class="small-label"
+     id="text82"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">na RAM</text>
+  <rect
+     x="600"
+     y="790"
+     width="200"
+     height="60"
+     fill="#f8d7da"
+     stroke="#dc3545"
+     id="rect82" />
+  <text
+     x="700"
+     y="816"
+     text-anchor="middle"
+     class="small-label"
+     id="text83"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Interrupção + I/O</text>
+  <text
+     x="700"
+     y="837"
+     text-anchor="middle"
+     class="small-label"
+     id="text84"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">disco + swap</text>
+  <rect
+     x="800"
+     y="790"
+     width="150"
+     height="60"
+     fill="#f8d7da"
+     stroke="#dc3545"
+     id="rect84" />
+  <text
+     x="875"
+     y="816"
+     text-anchor="middle"
+     class="small-label"
+     id="text85"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Milhões ciclos</text>
+  <text
+     x="875"
+     y="837"
+     text-anchor="middle"
+     class="small-label"
+     id="text86"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">~1-10ms</text>
+  <rect
+     x="950"
+     y="790"
+     width="150"
+     height="60"
+     fill="#f8d7da"
+     stroke="#dc3545"
+     id="rect86" />
+  <text
+     x="1025"
+     y="816"
+     text-anchor="middle"
+     class="small-label"
+     id="text87"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">1%</text>
+  <text
+     x="1025"
+     y="837"
+     text-anchor="middle"
+     class="small-label"
+     id="text88"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(bem configurado)</text>
+  <rect
+     x="1100"
+     y="790"
+     width="200"
+     height="60"
+     fill="#f8d7da"
+     stroke="#dc3545"
+     id="rect88" />
+  <text
+     x="1200"
+     y="816"
+     text-anchor="middle"
+     class="small-label"
+     id="text89"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Overhead extremo</text>
+  <text
+     x="1200"
+     y="837"
+     text-anchor="middle"
+     class="small-label"
+     id="text90"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Causa thrashing</text>
+  <!-- Linha 4: Resumo -->
+  <rect
+     x="100"
+     y="850"
+     width="1200"
+     height="50"
+     fill="#e9ecef"
+     stroke="#6c757d"
+     id="rect90" />
+  <text
+     x="700"
+     y="870"
+     text-anchor="middle"
+     class="label"
+     id="text91"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Princípio fundamental: A eficiência do sistema depende criticamente da taxa de TLB hits.</text>
+  <text
+     x="700"
+     y="885"
+     text-anchor="middle"
+     class="small-label"
+     id="text92"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">TLB thrashing (baixa taxa de hits) pode degradar performance em ordens de magnitude.</text>
+  <!-- Rodapé -->
+  <text
+     x="705.84796"
+     y="940.23395"
+     text-anchor="middle"
+     class="small-label"
+     fill="#7f8c8d"
+     id="text93"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#2c3e50">O TLB é o componente crítico que determina a viabilidade prática da memória virtual, transformando uma abstração elegante em um sistema de alta performance.</text>
+  <line
+     x1="736.08771"
+     y1="305.10785"
+     x2="783.50336"
+     y2="305.10785"
+     class="arrow-no"
+     id="line31-4"
+     style="fill:none;stroke:#e74c3c;stroke-width:3.1223;marker-end:url(#marker93-0)" />
+</svg>

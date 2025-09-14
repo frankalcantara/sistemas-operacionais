@@ -1,34 +1,198 @@
-# Gerenciamento de Memória: Otimizando o Uso de `RAM` {#sec-germen1}
+# Hierarquia de Memória: Fundamentos e Necessidade {#sec-hierarquia}
 
-A memória principal, também conhecida como `RAM` (Random Access Memory), representa um dos recursos mais importantes e voláteis que devem ser gerenciados cuidadosamente em qualquer **Sistema Operacional** moderno. Diferentemente do armazenamento permanente, a `RAM` perde todo seu conteúdo quando a energia é removida, tornando seu gerenciamento uma tarefa que exige precisão e eficiência constantes.
+A memória principal na maioria de sistemas computacionais, também conhecida como `RAM` (**R**andom **A**ccess **M**emory), representa um dos recursos mais importantes e voláteis gerenciados cuidadosamente em qualquer **Sistema Operacional**. Diferentemente do armazenamento permanente, a `RAM` perde todo seu conteúdo quando a energia é removida, tornando seu gerenciamento uma tarefa que exige precisão e eficiência.
 
-_O controle de alocação de processos em memória envolve manter um registro detalhado e atualizado de quais partes da memória estão em uso por processos ativos e quais permanecem disponíveis_. A alocação dinâmica aumenta a complexidade desta tarefa ao exigir que o sistema constantemente atribua e libere espaço conforme processos são criados e terminados, criando um ambiente dinâmico de constante mudança. Além disso, o sistema deve lidar com a fragmentação da memória, que ocorre quando blocos de memória livre são divididos em pedaços pequenos e não contíguos, dificultando a alocação eficiente de novos processos.
+A atenta leitora pode visualizar esta complexidade se lembrar o quão complexo é manter processos diferentes em memória. _O controle de alocação de processos em memória envolve manter um registro detalhado e atualizado de quais partes da memória estão em uso por processos ativos e quais permanecem disponíveis_. Como os processos são alocados dinamicamente, o sistema deve ser capaz de rastrear essas alocações em tempo real, garantindo que a memória seja utilizada de forma eficiente e evitando conflitos entre processos. 
 
-::: callout-note
-**Hierarquia de Memória**
-A hierarquia de memória é um conceito que representa a organização dos sistemas de armazenamento em um computador, organizados por velocidade, capacidade e custo. No topo desta hierarquia estão as unidades de armazenamento mais rápidas e caras, registradores da `CPU` e cache, enquanto na base estão os dispositivos de armazenamento mais lentos, mas de maior capacidade, discos rígidos e armazenamento óptico. Este conceito hierárquico existe por motivos econômicos. Porém, serve como base para a criação de rotinas para o uso eficiente de memória. Dois pontos desta hierarquia são importantes para esta introdução aos Sistemas Operacionais:
+Force a imaginação e considere que a alocação dinâmica, de processos e de artefatos em memória pelos próprios processos, aumenta a complexidade desta tarefa ao exigir que o sistema constantemente atribua e libere espaço conforme processos, ou artefatos, são criados e terminados, criando um ambiente dinâmico de constante mudança. Toda esta complexidade cria a possibilidade da criação de fragmentos de memória, que podem levar a uma utilização ineficiente do espaço disponível. Esta fragmentação ocorre quando blocos de memória livre são divididos em pedaços pequenos e não contíguos, dificultando a alocação eficiente de novos processos. Não deve ser simples, nem fácil. Isso tudo começa a década de 1940, com a introdução da memória. Como pode ser visto na @fig-timeline1. 
 
-A **memória cache** serve como um buffer de alta velocidade entre a `CPU` e a memória principal, tipicamente implementada usando SRAM, em inglês Static `RAM`. Processadores modernos incluem múltiplos níveis de cache: cache L1, mais próximo aos núcleos da `CPU`, ~32KB-64KB, cache L2, ~256KB-1MB, e frequentemente cache L3, ~8MB-32MB,  compartilhado entre núcleos. O cache opera no princípio da localidade temporal. Ou seja, considera que dados acessados recentemente provavelmente serão acessados novamente e localidade espacial, dados próximos provavelmente serão acessados em breve. Quando a `CPU` solicita dados, primeiro verifica sua existência no cache; um cache hit, o dado está no cache, fornece dados em 1-3 ciclos de clock, enquanto um cache miss, o dado não está no cache, requer acessar níveis de memória mais lentos.
-
-A **memória principal (`RAM`)** consiste em um conjunto de chips DRAM volátil, em inglês Dynamic `RAM`, que armazena programas em execução e seus dados. Embora significativamente mais lenta que o cache, com latência típica de 100-300 ciclos de clock, a `RAM` fornece capacidade muito maior, alguma coisa entre 8GB e 64GB em sistemas modernos, a um custo razoável. O **Sistema Operacional** gerencia a alocação de `RAM`, mapeamento de memória virtual e o movimento de dados entre níveis de armazenamento. A `RAM` serve como o espaço de trabalho primário para processos ativos, com o **Sistema Operacional**tratando page faults, erros que ocorrem quando dados solicitados não estão presentes na memória física.
+:::{#fig-timeline1}
+![Linha do Tempo da Evolução da Memória](/images/timeline_primeiros_computadores.webp)
 :::
 
-A **proteção de memória** garante que processos não acessem memória de outros processos, prevenindo interferências maliciosas ou acidentais que possam comprometer a estabilidade do sistema. _O gerenciamento de memória virtual complementa essas responsabilidades ao criar a ilusão de o processo tem mais memória disponível que a memória fisicamente disponível_, permitindo que múltiplos programas executem simultaneamente mesmo em sistemas com `RAM` limitada. À esta memória virtual damos o nome de **espaço de endereçamento**. Para implementar essas responsabilidades, os **Sistemas Operacionais** empregam técnicas como o **particionamento fixo** que divide a memória em partições de tamanho fixo predeterminado, oferecendo previsibilidade. Esta técnica relativamente simples corre o risco de ser ineficiente quando os tamanhos dos processos não correspondem aos tamanhos das partições fixamente definidas. Uma técnica mais complexa, o **particionamento dinâmico**, oferece maior flexibilidade ao criar partições conforme necessário. Neste caso, quando um novo processo solicita memória, o sistema cria uma partição exatamente do tamanho necessário, maximizando a utilização da memória disponível e eliminando o desperdício interno das partições fixas.
+## Um Pouco de História
 
-Uma técnica conhecida como paginação revoluciona o gerenciamento de memória ao dividir tanto a memória física quanto o espaço de endereçamento dos processos em páginas de tamanho fixo. Esta técnica permite que processos sejam carregados de forma não-contígua na memória física, resolvendo problemas de fragmentação externa. Nesta técnica o cálculo do endereço físico segue a fórmula:
+Talvez por causa do efeito do pós-guerra, temos a tendência de considerar que os primeiros computadores foram o Colossus de 1943 e o ENIAC de 1945. Estes computadores eletrônicos separavam rigidamente programa de dados. O ENIAC (1945) era programado através de painéis de conexão e chaves físicas. Para mudar o programa, técnicos passavam dias reconectando cabos e ajustando cerca de 3.000 chaves de comutação de estados. Os dados ficavam em acumuladores, mas o programa era o próprio hardware configurado (GOLDSTINE; GOLDSTINE, 1946). O Colossus (1943), usado em Bletchley Park para quebrar códigos nazistas, tinha o programa definido por _plugboards_, que pode ser traduzido para painéis de conexão, enquanto dados vinham de fita de papel perfurado (COPELAND, 2006). Porém, comparados com o Z3, estes dois computadores perdem um pouco do seu brilho.
 
-$$\text{Endereço Físico} = \text{Número da Página} \times \text{Tamanho da Página} + \text{Offset}$$
+### A Era do Bit Lascado
 
-A segmentação oferece uma alternativa ao dividir a memória em segmentos de tamanho variável que correspondem mais naturalmente à estrutura lógica dos programas, com diferentes segmentos contendo código, dados, pilha ou heap.
+O Z3, completado por Konrad Zuse em maio de 1941, representa um marco fundamental na evolução das tecnologias de memória computacional, antecedendo até mesmo os sistemas eletrônicos posteriores (ROJAS, 1998). Utilizando **relés eletromecânicos** ao invés das válvulas termiônicas do ENIAC ou das linhas de retardo do EDVAC, o Z3 implementava uma memória de 64 palavras de 22 bits cada, totalizando 1.408 bits (aproximadamente 176 bytes), nos quais cada relé representava um bit através de seu estado físico, fechado para '1' e aberto para '0' (ZUSE, 1993). A arquitetura da palavra demonstrava notável sofisticação para a época: **1 bit para sinal, 7 bits para expoente em notação excesso-64, e 14 bits para mantissa**, estabelecendo assim o primeiro sistema de ponto flutuante implementado em hardware, uma inovação que antecipou em décadas a padronização [IEEE 754](https://frankalcantara.com/precisao-realidade-os-desafios-da-norma-ieee-754-na-computacao-moderna/) (ROJAS, 2000).
 
-![Diagrama mostrando particionamento fixo e dinâmico e memória virtual e o particionamento todos os diagramas em blocos ](/assets/images/memory_management_figure1.webp)
-_Figura 9: Diagrama ilustrativo de paginação e segmentação na memória, mostrando como processos são divididos em páginas e segmentos, com endereços físicos correspondentes._{: class=`legend`}
+Operando com _clock_ de 5-10 Hz e executando uma adição em aproximadamente 0,8 segundos, a memória do Z3 era classificada como _latch memory_, não oferecendo acesso aleatório verdadeiro, mas seleção por palavra através de matriz de endereçamento, e mantinha característica volátil, perdendo todo conteúdo ao ser desenergizada. Esta tecnologia representou evolução significativa sobre o Z1 anterior, que utilizava memória puramente mecânica com lâminas metálicas propensas a falhas, estabelecendo conceitos fundamentais como programa armazenado (em fita perfurada), aritmética binária e unidade de memória endereçável separada que influenciariam toda a computação subsequente, apesar da destruição do original em bombardeio aliado em dezembro de 1943. A escolha de relés sobre válvulas, embora resultasse em menor velocidade, oferecia maior confiabilidade e menor consumo energético, demonstrando que diferentes tecnologias de memória podiam coexistir e competir mesmo nos primórdios da computação eletrônica, estabelecendo precedente para a diversidade tecnológica que caracterizaria as próximas oito décadas de evolução.
 
-### Memória Virtual
+O **Projeto do EDVAC 1945** continha uma ideia revolucionária, formalizada no _First Draft of a Report on the EDVAC_ por von Neumann (1945), uma memória unificada contendo instruções (como dados numéricos), dados operacionais e resultados intermediários, todas acessíveis pelo mesmo mecanismo. Isso significava que um programa poderia modificar suas próprias instruções durante a execução, conceito poderoso mas também perigoso (VON NEUMANN, 1945).
+
+O **Manchester Baby (1948)** foi o primeiro computador de programa armazenado a executar com sucesso (LAVINGTON, 1998). Utilizava memória [_Williams-Kilburn Tube_](https://www.computerhistory.org/revolution/memory-storage/8/308), usando um tubo de raios catódicos para armazenamento, com capacidade de 32 palavras de 32 bits (128 bytes total), sendo volátil e baseada em carga elétrica na tela de fósforo. O primeiro programa executado em 21 de junho de 1948 encontrou o maior fator de $2^18 = 262.144$, levando 52 minutos e executando 3,5 milhões de instruções (NAPPER, 2000). No Manchester Baby, descobriram que um programa poderia acidentalmente sobrescrever suas próprias instruções. Isso levou ao desenvolvimento das primeiras técnicas de proteção de memória e à distinção entre segmentos de código e dados, conceitos que a esforçada leitora verá que são fundamentais até hoje (LAVINGTON, 1980).
+
+O **EDSAC (1949)** foi o primeiro computador de programa armazenado praticamente útil (WILKES, 1985). Utilizava _[Mercury delay lines](https://ieeexplore.ieee.org/document/1698100)_, linhas de retardo de mercúrio, com capacidade de 512 palavras de 18 bits. A peculiaridade era que dados circulavam como pulsos sonoros em tubos de mercúrio de 1,5m. [David Wheeler](https://en.wikipedia.org/wiki/David_Wheeler_(computer_scientist)) escreveu a primeira sub-rotina armazenada para o EDSAC, inventando efetivamente o conceito de _function call_ (CAMPBELL-KELLY, 1998).
+
+O **EDVAC (1951)** representou a implementação completa da arquitetura von Neumann (STERN, 1981). Com _Mercury delay lines_ mais refinadas que o EDSAC, tinha capacidade de 1024 palavras de 44 bits e introduziu aritmética binária, se diferenciando do ENIAC. Apesar de concebido antes, só ficou operacional depois do EDSAC devido a disputas de patentes e problemas técnicos.
+
+:::{#callout-note}
+**A Controvérsia da _Arquitetura von Neumann_**
+
+A atribuição da arquitetura de programa armazenado exclusivamente a [John von Neumann](https://en.wikipedia.org/wiki/John_von_Neumann) constitui uma das controvérsias mais significativas da história da computação, centrada no documento _First Draft of a Report on the EDVAC_ de junho de 1945 (GOLDSTINE, 1972). Embora este documento tenha sido assinado apenas por von Neumann, o relatório sintetizava discussões colaborativas da equipe da Moore School of Electrical Engineering da Universidade da Pensilvânia, incluindo [J. Presper Eckert](https://en.wikipedia.org/wiki/J._Presper_Eckert) e [John Mauchly](https://en.wikipedia.org/wiki/John_Mauchly), principais projetistas do ENIAC, que já desenvolviam o conceito de programa armazenado para o EDVAC antes da chegada de von Neumann como consultor em 1944 (STERN, 1981). A distribuição prematura do documento por [Herman Goldstine](https://en.wikipedia.org/wiki/Herman_Goldstine), listando apenas von Neumann como autor, não apenas consolidou incorretamente a atribuição histórica, mas teve consequências legais devastadoras: considerada _divulgação pública_, impediu Eckert e Mauchly de patentear suas inovações no prazo legal de um ano, privando-os dos direitos comerciais sobre suas invenções fundamentais, incluindo a memória de linha de retardo de mercúrio desenvolvida por Eckert (MCCARTNEY, 1999).
+:::
+
+O **UNIVAC I (1951)** foi o primeiro computador comercial americano de programa armazenado (LUKOFF, 1979). Com memória principal de _Mercury delay lines_ (1000 palavras de 72 bits) e memória secundária em fita magnética, uma inovação digna de nota. O UNIVAC I foi construído por J. Presper Eckert e John Mauchly. Eles projetaram o computador na empresa que fundaram, a Eckert-Mauchly Computer Corporation e entregaram a primeira unidade ao Departamento do Censo dos EUA em 1951. O UNIVAC I ficou famoso por prever corretamente a vitória de Eisenhower em 1952, contrariando todas as pesquisas.
+
+## A Era da Memória de Núcleo Magnético (1949-1975)
+
+A memória de núcleo magnético, desenvolvida entre 1949 e 1953, dominou a computação por mais de duas décadas (FORRESTER, 1951). [An Wang](https://en.wikipedia.org/wiki/An_Wang) e Way-Dong Woo desenvolveram o princípio básico em 1949 no Harvard Computation Laboratory. É importante notar que a implementação de Wang e Woo funcionava mais como uma linha de atraso ou registrador de deslocamento (serial), e não como uma memória de acesso aleatório, `RAM` propriamente dita, enquanto [Jay Forrester](https://en.wikipedia.org/wiki/Jay_Wright_Forrester) e sua equipe no MIT criaram a primeira implementação prática para o computador Whirlwind em 1953 (WANG, 1951; FORRESTER, 1951).
+
+A tecnologia baseava-se em pequenos anéis de ferrite, 1-2mm de diâmetro inicialmente, reduzidos para 0,4mm nos anos 1970 @fig-magnucleo1, atravessados por fios de cobre. Cada anel armazenava um bit através de sua magnetização (PUGH, 1984). A não-volatilidade era uma característica revolucionária - dados permaneciam intactos mesmo com o computador desligado, permitindo o conceito de "core dump" que persiste na terminologia moderna (BASHE et al., 1986).
+
+O tempo de acesso evoluiu de 10 microssegundos em 1953 para menos de 1 microssegundo em 1970. O custo caiu dramaticamente de US$ 1 por bit em 1955 para US$ 0,01 por bit em 1970, enquanto a capacidade cresceu de kilobits para megabits (COMPUTER HISTORY MUSEUM, 2006).
+
+:::{#fig-magnucleo1}
+![Memória de Núcleo Magnético](\images\KL_CoreMemory.webp)
+_Figura 1: Memória de Núcleo Magnético_
+:::
+
+Não deve ser difícil, para a esforçada leitora, acreditar que a redução no custo e o aumento significativo de velocidade tenham sido os fatores que impulsionaram a adoção da tecnologia de memória de núcleos magnéticos. Em 1976, aproximadamente 20 bilhões de núcleos eram produzidos anualmente, com 95% de todos os computadores utilizando esta tecnologia (GARDNER; WONG, 2019). O processo de manufatura era predominantemente manual, empregando principalmente mulheres que passavam fios através dos minúsculos anéis usando microscópios, trabalho que migrou para Ásia nos anos 1960, estabelecendo padrão que persiste na indústria eletrônica (PUGH; JOHNSON; PALMER, 1991).
+
+Outra curiosidade interessante: memória de núcleo magnético, ou _magnetic core memory_, quando era necessário estudar o programa em busca de erros ou problemas, os engenheiros faziam a baixa dos núcleos, ou _core dump_, para análise posterior. E, ainda hoje, a expressão _core dump_ é usada para descrever a captura do estado da memória de um programa em execução. 
+
+## A Revolução dos Semicondutores: DRAM e SRAM (1970-presente)
+
+A transição da memória de núcleo magnético para os semicondutores representou uma mudança de paradigma na arquitetura computacional, impulsionada pela necessidade crescente de maior densidade, velocidade superior e custos reduzidos de produção. Enquanto a tecnologia de núcleos magnéticos havia atingido limites físicos práticos em termos de miniaturização e velocidade de acesso, os semicondutores prometiam superar essas barreiras através de processos de fabricação fotolitográficos que permitiam integração em larga escala. Esta revolução não apenas transformaria fundamentalmente como a informação era armazenada e acessada, mas também estabeleceria as bases tecnológicas para a explosão da computação pessoal e dos sistemas embarcados que caracterizariam as décadas seguintes, consolidando a supremacia dos circuitos integrados sobre as tecnologias eletromecânicas predecessoras.
+
+A verdadeira revolução começa com [Robert Dennard](https://en.wikipedia.org/wiki/Robert_H._Dennard) da IBM que patenteou a célula `DRAM` de um transistor em 1967, estabelecendo o princípio fundamental que ainda governa a `DRAM` moderna: armazenamento de carga em capacitores minúsculos com refresh periódico a cada 64 milissegundos (DENNARD, 1968). Mas, antes que a memória ficasse dinâmica ela foi estática.
+
+### SRAM: A Precursora Veloz
+
+Antes que a `DRAM` pudesse iniciar seu reinado, a **Memória de Acesso Aleatório Estática (SRAM)** surgiu como a primeira forma viável de memória de semicondutor, estabelecendo um nicho de alto desempenho. A invenção da `SRAM` é creditada a [Robert Norman](https://www.computerhistory.org/siliconengine/semiconductor-rams-serve-high-speed-storage-needs/) na Fairchild Semiconductor em 1963 (RIORDAN; HODDESON, 1997). Diferente da `DRAM`, que armazena bits como carga em capacitores, a `SRAM` utiliza um arranjo de seis transistores, conhecido como **célula de flip-flop**, para cada bit. Este design, embora mais complexo e ocupando mais espaço no silício, oferece duas vantagens significativas: velocidade de acesso muito superior e a não necessidade de ciclos de _refresh_ para manter os dados, daí o termo "estática" (HODGES, 1972).
+
+O primeiro produto comercial da recém-fundada Intel, em 1969, não foi um microprocessador nem uma `DRAM`, mas sim o chip `SRAM` **Intel 3101**, um componente bipolar de 64 bits (LUM et al., 1969). Embora sua capacidade fosse ínfima para os padrões atuais, sua velocidade era notável, com tempo de acesso de aproximadamente 60 nanossegundos, superando em mais de uma ordem de magnitude a memória de núcleo magnético mais rápida disponível (BOYSEN, 2011). No entanto, seu alto custo de produção, maior consumo de energia e menor densidade de bits em comparação com o que a `DRAM` prometia, limitaram seu uso como memória principal em larga escala. A `SRAM` encontrou seu lugar em aplicações críticas de velocidade, como memórias _cache_ e registradores de alta performance, um papel que, em grande parte, ela mantém até hoje.
+
+Apesar do ganho em velocidade, As primeiras SRAMs eram aproximadamente 10 vezes mais caras que a memória de núcleo magnético. No final da década de 1960, enquanto um bit em memória de núcleo magnético custava cerca de US$ 0,01, o mesmo bit em uma `SRAM` de alto desempenho podia custar perto de US$ 1,00 no seu lançamento, com o preço caindo para cerca de US$ 0,10 nos anos seguintes. A precavida leitora deve guardar esta informação: a `SRAM` é rápida, mas cara. Este pode ser o motivo da SRAM não ter substituído a memória de núcleo magnético.
+
+A _Static RAM_, `SRAM`, baseada em flip-flops de 6 transistores, atualmente oferece acesso em menos de 1 nanosegundo mas com densidade muito menor que `DRAM` (WESTE; HARRIS, 2015). Utilizada principalmente em caches de processadores, a `SRAM` representa o comprometimento fundamental entre velocidade e capacidade que caracteriza a hierarquia de memória moderna (JACOB; NG; WANG, 2008). Como veremos na seção @hierarquia.
+
+A `SRAM` não foi relegada a uma prateleira empoeirada da história. Em vez disso, está viva e ativa nos registradores e caches de processadores modernos. Este nicho, mantém a tecnologia viva e, ao mesmo tempo, permite que as `DRAMs` dominem a memória principal, na qual a densidade e o custo por bit são mais críticos que a velocidade absoluta.
+
+### Intel 1103 e o Início da Era DRAM
+
+A **Intel 1103**, lançada em outubro de 1970, foi o primeiro circuito integrado `DRAM` comercialmente bem-sucedido, marcando o início do fim para a memória de núcleo magnético (FAGGIN; HOFF; MAZOR, 1996). Com capacidade de 1.024 bits e preço competitivo de US$ 0,01 por bit, aproximadamente o custo das memórias de núcleo magnético. Esta memória tornou-se o circuito integrado semicondutor mais vendido do mundo em 1972 (COMPUTER HISTORY MUSEUM, 2018).
+
+Apelidada de "Core Killer", a assassina de núcleos, a 1103 foi adotada por fabricantes de _mainframes_ como Honeywell, DEC, em seus PDP-11, e HP, em sua série 9800. A Intel 1103, utilizava uma célula de três transistores inventada por [William Regitz](https://intelalumni.org/wp-content/uploads/Regitz-Intel-Oral-HistoryInterview-1999-DE.pdf) na Honeywell. Essa célula era mais simples que as células de núcleo magnético, mas ainda assim complexa se comparada às `DRAMs` de um transistor que surgiriam depois. Graças a evolução das ideias de Dennard.
+
+A progressão foi exponencial: 4KB (1973), 16KB (1976), 64KB (1980), 256KB (1983), 1MB (1986), culminando com a primeira `DRAM` de 1GB da Samsung em 1996 (SAMSUNG ELECTRONICS, 1996). Cada geração representou não apenas aumento de capacidade, mas inovações fundamentais em arquitetura.
+
+A atenta leitora deve entender que a `DRAM` reina, mas seu reinado não é, nem foi tranquilo. Ao longo da história, e ainda hoje, a pesquisa não para e novas tecnologias estão sempre surgindo para desafiar seu domínio.
+
+**Bubble Memory**: desenvolvida por [Andrew Bobeck](https://en.wikipedia.org/wiki/Andrew_H._Bobeck) nos Bell Labs em 1967, a bubble memory prometia combinar a não-volatilidade do núcleo magnético com a densidade dos semicondutores (BOBECK; DELLA TORRE, 1975). Baseada em domínios magnéticos microscópicos sobre camadas finas de um composto de granada, _garnet_ em inglês, denominadas _filme de garnet_, alcançou produção comercial limitada nos anos 1970-1980, mas foi superada pelo rápido avanço dos discos rígidos e memória Flash (CHEN; YEACK-SCRANTON, 1990).
+
+**CCD Memory e Twistor Memory**: A _Charge-Coupled Device_ (CCD) memory, desenvolvida nos Bell Labs, oferecia densidade superior à `DRAM` inicial mas com complexidade de controle proibitiva (AMELIO; TOMPSETT; SMITH, 1970). A _Twistor memory_ da Bell Labs, usando fitas magnéticas entrelaçadas, nunca superou a fase experimental apesar de promissoras características de não-volatilidade (BOBECK, 1967).
+
+**Ferroelectric RAM (FeRAM)**: Utilizando materiais ferroelétricos para armazenar dados, a FeRAM oferece tempos de acesso rápidos e não-volatilidade, mas enfrenta desafios de escalabilidade e custo que limitam sua adoção em larga escala (SCOTT, 2007).
+
+**Memórias de Estado Sólido**: As memórias de estado sólido, como a Flash, revolucionaram o armazenamento ao oferecer alta densidade e não-volatilidade, mas com limitações em termos de ciclos de gravação e latência (KIM; KIM; KIM, 2012).
+
+Finalmente, a família _**D**ouble **D**ata **R**ate_, **DDR**, `DRAM` representa a padronização e evolução contínua da tecnologia `DRAM`: sua inovação fundamental reside na capacidade de transferir dados duas vezes por ciclo de _clock_ (double data rate), uma na sua borda de subida, quando o sinal vai de baixo para alto, e outra na borda de descida, quando o sinal vai de alto para baixo. Isso a diferencia de sua predecessora. Que agora é chamada de **SDR**, **S**ingle **D**ata **R**ate, `SDRAM`, que realizava apenas uma transferência por ciclo, tradicionalmente na borda de subida do sinal de _clock_.
+
+Para viabilizar essa dupla taxa de transferência sem alterar a frequência do núcleo da memória, a arquitetura **DDR** introduziu um _buffer_ de pré-busca de 2 bits. A cada ciclo, o barramento de memória interno acessa e carrega dois bits de dados adjacentes da matriz de células de memória para este _buffer_. Em seguida, o barramento externo, sincronizado por este mesmo _clock_, envia o primeiro bit na borda de subida e o segundo bit na borda de descida. Na prática, essa técnica efetivamente dobra a largura de banda máxima da memória sem a necessidade de duplicar a frequência do barramento, uma solução que ofereceu um ganho de desempenho significativo com maior eficiência energética (PATTERSON; HENNESSY, 2017). As gerações subsequentes, como DDR2 e DDR3, expandiram este conceito utilizando buffers de pré-busca maiores (4 e 8, respectivamente), permitindo taxas de transferência ainda mais altas em relação à frequência do _clock_ interno do chip de memória. Em resumo, temos:
+
+- **DDR (2000)**: 200-400 MT/s, 2.5V (JEDEC, 2000);
+- **DDR2 (2003)**: 400-800 MT/s, 1.8V, prefetch 4-bit (JEDEC, 2003);
+- **DDR3 (2007)**: 800-1600 MT/s, 1.5V, prefetch 8-bit (JEDEC, 2007);
+- **DDR4 (2014)**: 1600-3200 MT/s, 1.2V, bank groups (JEDEC, 2014), nova tecnologia;
+- **DDR5 (2020)**: 3200-6400 MT/s, 1.1V, on-die ECC (JEDEC, 2020), nova tecnologia.
+
+Cada geração introduziu inovações significativas: DDR2 dobrou o buffer de prefetch, DDR3 implementou calibração automática, um recurso que garante a integridade do sinal em frequências mais altas, ajustando dinamicamente a impedância dos drivers de saída e compensando desvios de tempo no barramento de memória; DDR4 adicionou verificação CRC (Cyclic Redundancy Check), mecanismo que detecta erros de transmissão de dados em trânsito entre o controlador e os chips de DRAM antes que sejam escritos, aumentando a confiabilidade em altas velocidades; e DDR5 incorporou correção de erros on-die (On-Die ECC), onde cada chip de memória individualmente verifica e corrige erros de bits internos, uma necessidade crescente para manter a estabilidade das células à medida que a densidade de armazenamento aumenta e os processos de fabricação encolhem (JACOB; WANG; NG, 2021).
+
+## A Necessidade da Hierarquia de Memória {#hierarquia}
+
+A criação de uma hierarquia de memória não foi uma escolha arbitrária dos projetistas de sistemas computacionais, mas sim uma resposta necessária a três limitações fundamentais e inter-relacionadas que persistem desde os primórdios da computação: **velocidade**, **capacidade** e **custo** (PATTERSON; HENNESSY, 2014). Esta trindade de restrições cria um paradoxo tecnológico conhecido como _memory wall_, descrito originalmente por Wulf e McKee (1995), onde a disparidade entre a velocidade de processamento da `CPU` e o tempo de acesso à memória continua a crescer exponencialmente.
+
+O problema central reside no fato de que _nenhuma tecnologia de memória única consegue simultaneamente fornecer alta velocidade de acesso, grande capacidade de armazenamento e baixo custo por bit_. As memórias mais rápidas, construídas com transistores próximos ao núcleo do processador, são exponencialmente mais caras por unidade de armazenamento. Por exemplo, a **SRAM** (Static Random Access Memory) utilizada em caches L1 pode custar até 1000 vezes mais por megabyte que a **DRAM** convencional, enquanto oferece tempos de acesso na ordem de 0,5 a 2 nanossegundos comparados aos 50-100 nanossegundos da **DRAM** (JACOB; NG; WANG, 2008).
+
+::: callout-note
+**O Princípio da Localidade**
+
+A hierarquia de memória funciona eficientemente devido ao _princípio da localidade_, descoberto empiricamente por Denning (1968) e fundamental para o design de sistemas modernos. Este princípio manifesta-se em duas formas complementares:
+
+**Localidade Temporal**: Quando um endereço de memória é acessado, existe alta probabilidade de ser acessado novamente em um futuro próximo. Loops em programas exemplificam este comportamento, onde instruções e variáveis são repetidamente acessadas.
+
+**Localidade Espacial**: Quando um endereço de memória é acessado, endereços próximos provavelmente serão acessados em breve. Arrays e estruturas de dados sequenciais demonstram este padrão, onde elementos adjacentes são processados consecutivamente.
+
+Estudos empíricos demonstram que programas típicos exibem razão 90/10: aproximadamente 90% do tempo de execução é gasto em apenas 10% do código (HENNESSY; PATTERSON, 2019). Esta característica permite que pequenas memórias rápidas capturem a maioria dos acessos, tornando a hierarquia economicamente viável.
+:::
+
+## Evolução Histórica e Pressões Tecnológicas
+
+A necessidade de uma hierarquia estruturada tornou-se evidente durante a década de 1960, quando a _Lei de Moore_ começou a ditar o ritmo de evolução dos processadores. Gordon Moore observou em 1965 que o número de transistores em um circuito integrado dobrava aproximadamente a cada dois anos, permitindo processadores cada vez mais rápidos. Contudo, a velocidade de acesso à memória **DRAM** melhorava apenas 7% ao ano, criando uma divergência exponencial conhecida como _processor-memory performance gap_ (HENNESSY; PATTERSON, 2019).
+
+Esta divergência pode ser quantificada pela seguinte relação temporal:
+
+$$T_{efetivo} = H \times T_{_cache_} + (1-H) \times T_{memoria}$$
+
+Onde $H$ representa a taxa de acerto (_hit rate_) no _cache_, $T_{_cache_}$ o tempo de acesso ao _cache_, e $T_{memoria}$ o tempo de acesso à memória principal. _Sem uma hierarquia eficiente, onde $H$ aproxima-se de 1, o desempenho do sistema seria dominado pelo termo $(1-H) \times T_{memoria}$_, resultando em processadores desperdiçando a maioria de seus ciclos esperando dados.
+
+## Componentes da Hierarquia de Memória
+
+A hierarquia moderna de memória organiza-se em níveis distintos, cada um otimizado para equilibrar velocidade, capacidade e custo. A estrutura típica, do nível mais próximo ao processador para o mais distante, compreende:
+
+### Registradores do Processador
+
+No topo da hierarquia residem os **registradores**, elementos de armazenamento integrados diretamente no núcleo do processador. Construídos com latches e flip-flops usando tecnologia **CMOS** (Complementary Metal-Oxide-Semiconductor), os registradores fornecem acesso em menos de um ciclo de _clock_, tipicamente 0,25 a 0,5 nanossegundos em processadores modernos operando a 4 GHz (STALLINGS, 2018). 
+
+Processadores contemporâneos da arquitetura x86-64 incluem tipicamente 16 registradores de propósito geral de 64 bits, além de registradores especializados para ponto flutuante, vetorização **SIMD** (Single Instruction, Multiple Data) e controle de estado. A limitação severa no número de registradores, geralmente entre 32 e 192 dependendo da arquitetura, decorre do custo exponencial de implementar portas de leitura e escrita múltiplas necessárias para acesso paralelo (SHEN; LIPASTI, 2013).
+
+### Memória _cache_
+
+A **memória _cache_** constitui o segundo nível da hierarquia, subdividida em múltiplos níveis para otimizar diferentes padrões de acesso. Implementada predominantemente com **SRAM**, a _cache_ oferece tempos de acesso significativamente menores que a **DRAM** devido à sua estrutura de seis transistores por célula, que mantém o estado sem necessidade de refresh periódico.
+
+**_cache_ L1** representa o nível mais próximo ao núcleo do processador, tipicamente dividido em _cache_ de instruções (I-_cache_) e _cache_ de dados (D-_cache_) para permitir acesso simultâneo. Com capacidades entre 32KB e 64KB por núcleo, o L1 oferece latência de 2-4 ciclos de _clock_, aproximadamente 0,5 a 1 nanossegundo. A separação entre instruções e dados, conhecida como _arquitetura Harvard modificada_, elimina conflitos estruturais no pipeline do processador (PATTERSON; HENNESSY, 2014).
+
+**_cache_ L2** fornece capacidade intermediária, tipicamente 256KB a 1MB por núcleo, com latência de 10-20 ciclos. Unificado para instruções e dados, o L2 emprega políticas de substituição mais sofisticadas como **LRU** (Least Recently Used) ou aproximações pseudo-LRU para maximizar a taxa de acerto. Processadores modernos implementam L2 inclusivo, onde todos os dados em L1 também existem em L2, ou exclusivo, maximizando a capacidade efetiva total de _cache_.
+
+**_cache_ L3**, quando presente, opera como _cache_ compartilhado entre múltiplos núcleos, com capacidades de 8MB a 32MB e latências de 30-50 ciclos. O compartilhamento permite que núcleos acessem dados modificados por outros núcleos sem recorrer à memória principal, crucial para sincronização em sistemas multicore. Protocolos de coerência como **MESI** (Modified, Exclusive, Shared, Invalid) ou **MOESI** mantêm consistência entre caches de diferentes núcleos (CULLER; SINGH; GUPTA, 1999).
+
+### Memória Principal (RAM)
+
+A **memória principal**, implementada com tecnologia **DRAM** (Dynamic Random Access Memory), constitui o repositório primário para programas e dados ativos. Cada célula **DRAM** consiste de um único transistor e um capacitor, permitindo densidade muito maior que **SRAM** ao custo de requerer refresh periódico a cada 64 milissegundos para manter os dados.
+
+Tecnologias **DRAM** modernas incluem:
+
+**DDR4 SDRAM** (Double Data Rate 4 Synchronous Dynamic RAM) opera com frequências de 2133 a 3200 MHz, transferindo dados em ambas as bordas do _clock_. Com largura de banda teórica de até 25,6 GB/s por canal, a DDR4 introduziu bank groups para melhorar paralelismo e reduzir consumo através de tensão operacional de 1,2V (JACOB; NG; WANG, 2008).
+
+**DDR5 SDRAM**, a geração mais recente, dobra a largura de banda para até 51,2 GB/s por canal, operando a frequências de 4800 a 8400 MHz. Inovações incluem on-die ECC (Error Correcting Code) para confiabilidade aumentada e arquitetura de canal duplo por módulo **DIMM** (Dual In-line Memory Module).
+
+A latência de acesso à **DRAM** permanece relativamente constante em termos absolutos, aproximadamente 50-100 nanossegundos, mas aumenta drasticamente quando medida em ciclos de _clock_ do processador devido ao aumento das frequências de operação. Esta latência inclui múltiplos componentes: **RAS** (Row Access Strobe) latency para ativar uma linha, **CAS** (Column Access Strobe) latency para selecionar a coluna, e tempo de transferência dos dados.
+
+### Armazenamento Secundário
+
+O **armazenamento secundário** forma a base da hierarquia, fornecendo persistência não-volátil com capacidades na ordem de terabytes. Duas tecnologias dominam este nível:
+
+**Solid State Drives (SSD)** utilizam memória flash **NAND** para armazenamento persistente sem partes móveis. Com latências de acesso aleatório de 25-100 microssegundos e velocidades de transferência sequencial excedendo 7 GB/s em interfaces **NVMe** (Non-Volatile Memory Express) sobre **PCIe** 4.0, os SSDs reduziram dramaticamente a penalidade de acessar armazenamento secundário (MIN; KANG; EREZ, 2017).
+
+**Hard Disk Drives (HDD)** continuam relevantes para armazenamento de alta capacidade e baixo custo, oferecendo até 20TB por unidade. Entretanto, a natureza mecânica impõe latências de 5-10 milissegundos para acesso aleatório, incluindo tempo de seek e latência rotacional. Velocidades de transferência sequencial alcançam 250 MB/s em discos de 7200 RPM com tecnologia **SMR** (Shingled Magnetic Recording).
+
+## Métricas de Desempenho e Trade-offs
+
+A eficácia da hierarquia de memória é quantificada através de métricas específicas que capturam a interação entre níveis:
+
+**Taxa de Acerto (Hit Rate)** mede a fração de acessos satisfeitos em um nível específico:
+
+$$H_i = \frac{\text{Acessos satisfeitos no nível } i}{\text{Total de acessos ao nível } i}$$
+
+**Tempo Médio de Acesso à Memória (AMAT)** fornece uma métrica composta considerando múltiplos níveis:
+
+$$AMAT = T_{L1} + (1-H_{L1}) \times [T_{L2} + (1-H_{L2}) \times T_{L3} + ...]$$
+
+**Largura de Banda Efetiva** considera a taxa de transferência agregada através da hierarquia, crítica para aplicações com alto throughput de dados como processamento de vídeo ou computação científica.
+
+A proteção de memória garante que processos não acessem memória de outros processos, prevenindo interferências maliciosas ou acidentais que possam comprometer a estabilidade do sistema. _O gerenciamento de memória virtual complementa essas responsabilidades ao criar a ilusão de que o processo tem mais memória disponível que a memória fisicamente disponível_, permitindo que múltiplos programas executem simultaneamente mesmo em sistemas com `RAM` limitada. À esta memória virtual damos o nome de **espaço de endereçamento**.
+
+## Memória Virtual
 
 O conceito de memória virtual representa uma das inovações mais impactantes no gerenciamento de memória. Esta técnica permite, como vimos antes, que programas maiores que a memória física sejam executados, criando  transparentemente a ilusão de abundância de memória por meio de duas estratégias principais. O primeiro é o **swapping**, que envolve mover processos inteiros entre a memória física e o disco rígido quando necessário. Embora eficaz, o **swapping** pode introduzir latências significativas durante as transferências, especialmente se os processos forem grandes ou se houver muitos processos ativos simultaneamente.
 
 O segundo é a **paginação sob demanda**, que refina o conceito de **swapping** ao carregar apenas as páginas necessárias de um processo na memória física quando elas são realmente requisitadas. Isso minimiza tanto o uso da memória física quanto o tempo de carregamento inicial dos programas, permitindo que sistemas modernos executem dezenas de processos simultaneamente mesmo com quantidades modestas de `RAM` física.
 
-![](/assets/images/memory_management_figure2.webp)
-_Figura 10: Diagrama ilustrativo de paginação e segmentação na memória, mostrando como processos são divididos em páginas e segmentos, com endereços físicos correspondentes._{: class=`legend`}
+:::{#fig-memo2}
+![](/images/memory_management_figure2.webp)
+
+Diagrama mostrando a paginação sob demanda e uma comparação entre segmentação e paginação.
+:::

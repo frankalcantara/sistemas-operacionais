@@ -1369,7 +1369,7 @@ public:
         std::string message;
         std::string data;
         nlohmann::json buffer_info;
-        std::chrono::system_clock::time_point timestamp;
+        std::chrono::system__clock_::time_point timestamp;
     };
     
     virtual ~IPCBase() = default;
@@ -1422,7 +1422,7 @@ public:
     
     IPCResult send(const std::string& data) override {
         IPCResult result;
-        result.timestamp = std::chrono::system_clock::now();
+        result.timestamp = std::chrono::system__clock_::now();
         
         if (!initialized) {
             result.success = false;
@@ -1458,7 +1458,7 @@ private:
                 output["data"] = std::string(buffer);
                 output["bytes"] = bytes_read;
                 output["timestamp"] = std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;
-                    (std::chrono::system_clock::now().time_since_epoch()).count();
+                    (std::chrono::system__clock_::now().time_since_epoch()).count();
                 
                 std::cout &lt;&lt; output.dump() &lt;&lt; std::endl;
             } else if (bytes_read == 0) {

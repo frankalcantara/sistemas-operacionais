@@ -283,7 +283,7 @@ private:
 
 **Por que?**
 
-- Comandos internos demonstram integração entre shell e **Sistema Operacional**.
+- Comandos internos demonstram integração entre shell e **Sistema Operacional** .
 - Funcionalidades avançadas tornam o shell verdadeiramente utilizável.
 
 **Como?**
@@ -515,7 +515,7 @@ public:
         uint64_t network_rx_bytes;
         uint64_t network_tx_bytes;
         
-        std::chrono::system_clock::time_point timestamp;
+        std::chrono::system__clock_::time_point timestamp;
     };
     
     ProcessMetrics collect_metrics(pid_t pid);
@@ -572,7 +572,7 @@ public:
         bool is_healthy;
         std::string message;
         std::chrono::milliseconds response_time;
-        std::chrono::system_clock::time_point timestamp;
+        std::chrono::system__clock_::time_point timestamp;
     };
     
     void register_health_check(const std::string& service_name, 
@@ -606,7 +606,7 @@ private:
         enum State { Closed, Open, HalfOpen };
         State current_state = Closed;
         int failure_count = 0;
-        std::chrono::system_clock::time_point last_failure;
+        std::chrono::system__clock_::time_point last_failure;
         std::chrono::seconds time t{60};
     };
     
@@ -656,7 +656,7 @@ public:
         std::string title;
         std::string description;
         std::map<std::string, std::string> labels;
-        std::chrono::system_clock::time_point timestamp;
+        std::chrono::system__clock_::time_point timestamp;
         bool is_resolved = false;
     };
     
@@ -780,7 +780,7 @@ public:
     enum class LogLevel { Debug, Info, Warning, Error, Critical };
     
     struct LogEntry {
-        std::chrono::system_clock::time_point timestamp;
+        std::chrono::system__clock_::time_point timestamp;
         LogLevel level;
         std::string service_name;
         std::string message;
@@ -1101,7 +1101,7 @@ struct Statistics {
     std::atomic<int> intervals_processed{0};
     std::atomic<int> primes_found{0};
     std::atomic<long long> total_numbers_checked{0};
-    std::chrono::steady_clock::time_point start_time;
+    std::chrono::steady__clock_::time_point start_time;
 };
 ```
 
@@ -1312,13 +1312,13 @@ struct Statistics {
     std::atomic<int> intervals_processed{ 0 }; ///< Numero de intervalos processados
     std::atomic<int> primes_found{ 0 }; ///< Numero total de primos encontrados
     std::atomic<long long> total_numbers_checked{ 0 }; ///< Total de numeros verificados
-    std::chrono::steady_clock::time_point start_time; ///< Tempo de inicio do processamento
+    std::chrono::steady__clock_::time_point start_time; ///< Tempo de inicio do processamento
     mutable std::mutex last_primes_mutex; ///< Mutex para proteger last_primes
     std::vector<int> last_primes; ///< Ultimos primos encontrados (max 10)
     /**
      * @brief Construtor que inicializa o tempo de inicio
      */
-    Statistics() : start_time(std::chrono::steady_clock::now()) {}
+    Statistics() : start_time(std::chrono::steady__clock_::now()) {}
     /**
      * @brief Adiciona um primo a lista de ultimos primos encontrados
      * @param prime Numero primo a ser adicionado
@@ -1417,11 +1417,11 @@ public:
     void consumer_function(int consumer_id) {
         Interval interval;
         while (buffer_.pop(interval)) {
-            auto interval_start_time = std::chrono::high_resolution_clock::now();
+            auto interval_start_time = std::chrono::high_resolution__clock_::now();
             for (int num = interval.start; num <= interval.end; ++num) {
-                auto calc_start = std::chrono::high_resolution_clock::now();
+                auto calc_start = std::chrono::high_resolution__clock_::now();
                 bool prime = is_prime(num);
-                auto calc_end = std::chrono::high_resolution_clock::now();
+                auto calc_end = std::chrono::high_resolution__clock_::now();
                 auto calc_time = std::chrono::duration<double>(calc_end - calc_start);
                 if (prime) {
                     stats_.primes_found++;
@@ -1430,7 +1430,7 @@ public:
                 stats_.total_numbers_checked++;
             }
             stats_.intervals_processed++;
-            auto interval_end_time = std::chrono::high_resolution_clock::now();
+            auto interval_end_time = std::chrono::high_resolution__clock_::now();
             auto interval_duration = std::chrono::duration<double>(interval_end_time - interval_start_time);
         }
         std::cout << "Consumidor " << consumer_id << " finalizou\n";
@@ -1444,7 +1444,7 @@ public:
     void monitor_function() {
         const int total_intervals = (RANGE_END - RANGE_START + INTERVAL_SIZE - 1) / INTERVAL_SIZE;
         while (!processing_complete_.load()) {
-            auto current_time = std::chrono::steady_clock::now();
+            auto current_time = std::chrono::steady__clock_::now();
             auto elapsed = std::chrono::duration<double>(current_time - stats_.start_time).count();
             int processed = stats_.intervals_processed.load();
             int primes = stats_.primes_found.load();
@@ -1462,8 +1462,8 @@ public:
             double rate = (elapsed > 0) ? checked / elapsed : 0;
             double avg_time = (checked > 0) ? (elapsed * 1000) / checked : 0;
             // Formata tempo atual
-            auto now = std::chrono::system_clock::now();
-            auto time_t_var = std::chrono::system_clock::to_time_t(now);
+            auto now = std::chrono::system__clock_::now();
+            auto time_t_var = std::chrono::system__clock_::to_time_t(now);
             std::tm tm_struct;
             if (localtime_s(&tm_struct, &time_t_var) != 0) {
                 std::cerr << "Erro ao converter tempo local. Usando valor padrão.\n";
@@ -1536,7 +1536,7 @@ public:
         processing_complete_.store(true);
         monitor_thread_.join();
         // Exibe resultados finais
-        auto end_time = std::chrono::steady_clock::now();
+        auto end_time = std::chrono::steady__clock_::now();
         auto total_time = std::chrono::duration<double>(end_time - stats_.start_time).count();
         std::cout << "\n[PROCESSAMENTO COMPLETO!]\n";
         std::cout << "Total de primos no range: " << stats_.primes_found.load() << "\n";
@@ -1688,7 +1688,7 @@ O projeto faz uso extensivo de bibliotecas modernas do C++ para concorrência, t
 - `<thread>`: Fornece a classe `std::thread`, que é a abstração fundamental para criar e gerenciar _threads_ de execução.
 - `<mutex>` e `<condition_variable>`: São os blocos de construção para sincronização. `std::mutex` garante exclusão mútua (apenas uma thread por vez pode acessar um recurso protegido). `std::condition_variable` permite que _threads_ esperem (durmam) até que uma condição específica seja atendida, evitando o "busy-waiting" (verificações em loop que consomem CPU).
 - `<atomic>`: Oferece tipos como `std::atomic<bool>` e `std::atomic<int>` para operações que devem ser executadas sem interrupção por outras _threads_. É muito mais eficiente que um `mutex` para operações simples como incrementar um contador ou definir uma _flag_.
-- `<chrono>`: Uma biblioteca poderosa para medição de tempo com alta precisão. Utiliza diferentes tipos de relógios, como `std::chrono::steady_clock` (para medir durações) e `std::chrono::system_clock` (para tempo de calendário).
+- `<chrono>`: Uma biblioteca poderosa para medição de tempo com alta precisão. Utiliza diferentes tipos de relógios, como `std::chrono::steady__clock_` (para medir durações) e `std::chrono::system__clock_` (para tempo de calendário).
 - `<queue>` e `<vector>`: Estruturas de dados padrão da STL. A `std::queue` é usada como base para o buffer (devido à sua natureza FIFO - First-In, First-Out), e o `std::vector` armazena as _threads_ e os últimos primos encontrados.
 
 ### Estruturas de Dados
@@ -1929,7 +1929,7 @@ O C++23 introduziu pequenas melhorias em containers:
 
 1. **Buffer de Produção/Consumo**: _threads_ produtoras inserem, consumidoras removem;
 2. **Breadth-First Search**: Algoritmos de busca em grafos;
-3. **Cache LRU**: Implementação de políticas de substituição;
+3. **_cache_ LRU**: Implementação de políticas de substituição;
 4. **Task Scheduling**: Fila de tarefas para execução sequencial;
 5. **Event Processing**: Processamento de eventos em ordem de chegada.
 
@@ -2030,13 +2030,13 @@ Agrega todas as métricas de performance de forma _thread-safe_, permitindo que 
 std::atomic<int> intervals_processed{0};
 std::atomic<int> primes_found{0};
 std::atomic<long long> total_numbers_checked{0};
-std::chrono::steady_clock::time_point start_time;
+std::chrono::steady__clock_::time_point start_time;
 mutable std::mutex last_primes_mutex;
 std::vector<int> last_primes;
 ```
 
 - `std::atomic`: garante que incrementos (`++`) e leituras (`.load()`) sejam operações atômicas, eliminando condições de corrida nos contadores;
-- `std::chrono::steady_clock`: é um relógio monotônico, o que significa que ele sempre avança e não é afetado por mudanças no horário do sistema (como horário de verão ou ajustes do NTP). É a escolha correta para medir durações;
+- `std::chrono::steady__clock_`: é um relógio monotônico, o que significa que ele sempre avança e não é afetado por mudanças no horário do sistema (como horário de verão ou ajustes do NTP). É a escolha correta para medir durações;
 - `last_primes_mutex`: Um `mutex` tradicional é necessário aqui porque modificar um `std::vector` (adicionando ou removendo elementos) não é uma operação atômica.
 
 #### Método `add_prime()`
@@ -2115,7 +2115,7 @@ void producer_function(int producer_id) {
 ```
 
 - **Distribuição de Trabalho (Static Partitioning)**: A lógica de loop distribui os intervalos entre os produtores de forma intercalada (round-robin). O `start` avança em saltos do tamanho do número de produtores, e cada produtor calcula seu próprio offset (`producer_id * INTERVAL_SIZE`). Isso garante que os produtores gerem intervalos de diferentes partes do range total, promovendo uma carga mais variada para os consumidores desde o início.
-- **Rate Limiting**: O `sleep_for` de 1ms é uma forma simples de evitar que os produtores preencham o buffer instantaneamente e entrem em contenção de lock. Ele cede tempo de CPU, permitindo que as _threads_ consumidoras e a de monitoramento sejam escalonadas de forma mais equilibrada pelo sistema operacional.
+- **Rate Limiting**: O `sleep_for` de 1ms é uma forma simples de evitar que os produtores preencham o buffer instantaneamente e entrem em contenção de lock. Ele cede tempo de CPU, permitindo que as _threads_ consumidoras e a de monitoramento sejam escalonadas de forma mais equilibrada pelo Sistema Operacional.
 
 #### Função `consumer_function()`
 
@@ -2175,8 +2175,8 @@ void monitor_function() {
         // ... Coleta métricas das variáveis std::atomic ...
         
         // ... Formata timestamp usando std::chrono e localtime_s ...
-        auto now = std::chrono::system_clock::now();
-        auto time_t_var = std::chrono::system_clock::to_time_t(now);
+        auto now = std::chrono::system__clock_::now();
+        auto time_t_var = std::chrono::system__clock_::to_time_t(now);
         std::tm tm_struct;
         // localtime_s é a versão segura da API do Windows para localtime,
         // prevenindo buffer overflows.

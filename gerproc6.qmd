@@ -64,7 +64,7 @@ HEWITT, C.; BISHOP, P.; STEIGER, R. **A universal modular ACTOR formalism for ar
 
 IBM. **fork() — Create a new process**. IBM Documentation, 2023. Disponível em: <https://www.ibm.com/docs/en/zos/2.?topic=functions-fork-create-new-process>. Acesso em: 30 jun. 2025.
 
-IMPERIAL COLLEGE LONDON. Department of Computing. **Cache performance in multithreaded systems**. London, 2023. Disponível em: <https://www.imperial.ac.uk/computing/research/>. Acesso em: 25 jun. 2025.
+IMPERIAL COLLEGE LONDON. Department of Computing. **_cache_ performance in multithreaded systems**. London, 2023. Disponível em: <https://www.imperial.ac.uk/computing/research/>. Acesso em: 25 jun. 2025.
 
 INSTITUTE OF ELECTRICAL AND ELECTRONICS ENGINEERS. **IEEE Std 1003.1-2017: portable operating system interface (POSIX)**. New York: IEEE, 2018.
 
@@ -135,7 +135,7 @@ and Dynamic Priority Scheduling**. West Lafayette, 2024. Disponível em: <https:
 
 PURDUE UNIVERSITY. **Operating Systems: Course Website**. West Lafayette, 2024. Disponível em: <https://www.cs.purdue.edu/homes/cs354/>. Acesso em: 29 jun. 2025.
 
-RAMIREZ, A.; VALERO, M. **Exploring cache performance in multithreaded processors**. **IEEe transactions on Computers**, Los Alamitos, v. 47, n. 2, p. 192-205, fev. 1998.
+RAMIREZ, A.; VALERO, M. **Exploring _cache_ performance in multithreaded processors**. **IEEe transactions on Computers**, Los Alamitos, v. 47, n. 2, p. 192-205, fev. 1998.
 
 RENSSELAER POLYTECHNIC INSTITUTE. **Deadlock**. Troy, 2004. Disponível em: <https://www.cs.rpi.edu/academics/courses/fall04/os/c10/>. Acesso em: 29 jun. 2025.
 

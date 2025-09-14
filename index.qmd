@@ -33,7 +33,7 @@ Este livro é o resultado de uma longa jornada pelo fascinante mundo dos **Siste
 
 Aqui, vamos usar o C++23 para desenvolver todos os nossos exemplos, testes e códigos de demonstração e simulação. O C++ é uma linguagem de programação poderosa e versátil, amplamente utilizada no desenvolvimento de **Sistemas Operacionais**, software de alto desempenho e aplicações críticas. Sua sintaxe rica e recursos avançados, como gerenciamento de memória manual, permitem um controle preciso sobre o hardware, tornando-o ideal para explorar os conceitos fundamentais de **Sistemas Operacionais**. A precavida leitora precisará dos conhecimentos básicos de C++. É preferível que esteja ciente das novas técnicas e artefatos implementados na linguagem a partir do C++20 e que seja capaz de criar e rodar programas, tanto no Windows quanto no Ubuntu/Linux. Vamos usar preferencialmente o C++23. Logo, caberá à audaciosa leitora criar e manter seu próprio ambiente de desenvolvimento.
 
-Não se deixe impressionar com o uso do C++23, pois encontrará textos em Assembly de vez ou outra. Além disso, a leitora precisará de algum conhecimento básico de computação, como saber o que é um MegaByte, um disco rígido ou um `cache`.
+Não se deixe impressionar com o uso do C++23, pois encontrará textos em Assembly de vez ou outra. Além disso, a leitora precisará de algum conhecimento básico de computação, como saber o que é um MegaByte, um disco rígido ou um `_cache_`.
 
 Muito será escrito, muito será testado e a jornada será árdua, longa e para poucos. Mas por enquanto, isso tudo é só pretensão. Ainda estamos na fase de pesquisa, redação e design. 
 

@@ -220,7 +220,7 @@ struct Statistics {
     std::atomic<int> intervals_processed{0};
     std::atomic<int> primes_found{0};
     std::atomic<long long> total_numbers_checked{0};
-    std::chrono::steady_clock::time_point start_time;
+    std::chrono::steady__clock_::time_point start_time;
 };
 ```
 

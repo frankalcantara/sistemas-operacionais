@@ -1,0 +1,175 @@
+# Gestão de Memória - Referências
+## Referências Hierarquia de Memória
+
+CULLER, D.; SINGH, J. P.; GUPTA, A. **Parallel Computer Architecture: A Hardware/Software Approach**. San Francisco: Morgan Kaufmann, 1999.
+
+DENNING, P. J. The Working Set Model for Program Behavior. **Communications of the ACM**, v. 11, n. 5, p. 323-333, 1968.
+
+HENNESSY, J. L.; PATTERSON, D. A. **Computer Architecture: A Quantitative Approach**. 6. ed. Cambridge: Morgan Kaufmann, 2019.
+
+JACOB, B.; NG, S. W.; WANG, D. T. **Memory Systems: _cache_, DRAM, Disk**. Burlington: Morgan Kaufmann, 2008.
+
+MIN, R.; KANG, Y.; EREZ, M. Understanding and Optimizing Flash-based SSD Performance. **ACM Computing Surveys**, v. 49, n. 3, p. 1-35, 2017.
+
+PATTERSON, D. A.; HENNESSY, J. L. **Computer Organization and Design: The Hardware/Software Interface**. 5. ed. Waltham: Morgan Kaufmann, 2014.
+
+SHEN, J. P.; LIPASTI, M. H. **Modern Processor Design: Fundamentals of Superscalar Processors**. Long Grove: Waveland Press, 2013.
+
+STALLINGS, W. **Computer Organization and Architecture: Designing for Performance**. 10. ed. Boston: Pearson, 2018.
+
+WULF, W. A.; MCKEE, S. A. Hitting the Memory Wall: Implications of the Obvious. **ACM SIGARCH Computer Architecture News**, v. 23, n. 1, p. 20-24, 1995.
+
+
+## Referências Histórico de Memória
+
+AMELIO, G. F.; TOMPSETT, M. F.; SMITH, G. E. Experimental verification of the charge coupled device concept. **Bell System Technical Journal**, v. 49, n. 4, p. 593-600, 1970.
+
+ANANDTECH. Intel to wind down Optane memory business. **AnandTech**, 2022. Disponível em: https://www.anandtech.com/show/17515/intel-to-wind-down-optane-memory-business. Acesso em: 1 set. 2025.
+
+BASHE, C. J. et al. **IBM's early computers**. Cambridge: MIT Press, 1986.
+
+BOBECK, A. H. Properties and device applications of magnetic domains in orthoferrites. **Bell System Technical Journal**, v. 46, n. 8, p. 1901-1925, 1967.
+
+BOBECK, A. H.; DELLA TORRE, E. **Magnetic bubbles**. Amsterdam: North-Holland Publishing, 1975.
+
+BURKS, A. W.; GOLDSTINE, H. H.; VON NEUMANN, J. Preliminary discussion of the logical design of an electronic computing instrument. **Institute for Advanced Study**, Princeton, 1946.
+
+CAMPBELL-KELLY, M. Programming the EDSAC: Early programming activity at the University of Cambridge. **Annals of the History of Computing**, v. 20, n. 4, p. 46-61, 1998.
+
+CAMPBELL-KELLY, M.; ASPRAY, W. **Computer: A history of the information machine**. 2. ed. Boulder: Westview Press, 2004.
+
+CHEN, T.; YEACK-SCRANTON, C. E. An analysis of the decline of bubble memory technology. **IEEE Transactions on Magnetics**, v. 26, n. 6, p. 3141-3146, 1990.
+
+COMPUTER HISTORY MUSEUM. **Magnetic core memory**. Mountain View: Computer History Museum, 2006.
+
+COMPUTER HISTORY MUSEUM. **Timeline of computer history: Memory & storage**. Mountain View: Computer History Museum, 2018. Disponível em: https://www.computerhistory.org/timeline/memory-storage/. Acesso em: 1 set. 2025.
+
+COPELAND, B. J. (Ed.). **Colossus: The secrets of Bletchley Park's code-breaking computers**. Oxford: Oxford University Press, 2006.
+
+CULLER, D.; SINGH, J. P.; GUPTA, A. **Parallel computer architecture: A hardware/software approach**. San Francisco: Morgan Kaufmann, 1999.
+
+DENNARD, R. H. Field-effect transistor memory. US Patent 3,387,286, 1968.
+
+DENNING, P. J. The locality principle. **Communications of the ACM**, v. 48, n. 7, p. 19-24, 2005.
+
+DENNING, P. J. The working set model for program behavior. **Communications of the ACM**, v. 11, n. 5, p. 323-333, 1968.
+
+DRAM EXCHANGE. **DRAM market share by manufacturer Q4 2023**. TrendForce, 2023. Disponível em: https://www.dramexchange.com. Acesso em: 1 set. 2025.
+
+FAGGIN, F.; HOFF, M. E.; MAZOR, S. The history of the 4004. **IEEE Micro**, v. 16, n. 6, p. 10-20, 1996.
+
+FORRESTER, J. W. Digital information storage in three dimensions using magnetic cores. **Journal of Applied Physics**, v. 22, n. 1, p. 44-48, 1951.
+
+FUJITSU. **MB85RC256V FeRAM datasheet**. Tokyo: Fujitsu Semiconductor, 2016.
+
+GARDNER, W. D.; WONG, K. K. **Modern computer memories: Technologies and applications**. New York: Academic Press, 2019.
+
+GOLDSTINE, H. H.; GOLDSTINE, A. The Electronic Numerical Integrator and Computer (ENIAC). **Mathematical Tables and Other Aids to Computation**, v. 2, n. 15, p. 97-110, 1946.
+
+HENNESSY, J. L.; PATTERSON, D. A. **Computer architecture: A quantitative approach**. 6. ed. Cambridge: Morgan Kaufmann, 2019.
+
+IBM RESEARCH. Breakthrough in phase change memory technology. **IBM Research Blog**, 2016. Disponível em: https://www.ibm.com/blogs/research. Acesso em: 1 set. 2025.
+
+IC INSIGHTS. **Global semiconductor industry outlook 2022**. Scottsdale: IC Insights, 2022.
+
+IKEDA, S. et al. A perpendicular-anisotropy CoFeB-MgO magnetic tunnel junction. **Nature Materials**, v. 9, n. 9, p. 721-724, 2010.
+
+INTEL CORPORATION. Intel and Micron produce breakthrough memory technology. **Intel Newsroom**, 2015. Disponível em: https://newsroom.intel.com. Acesso em: 1 set. 2025.
+
+INTERNATIONAL ROADMAP FOR DEVICES AND SYSTEMS. **IRDS 2022 Edition**. IEEE, 2022. Disponível em: https://irds.ieee.org. Acesso em: 1 set. 2025.
+
+JACOB, B.; NG, S. W.; WANG, D. T. **Memory systems: _cache_, DRAM, disk**. Burlington: Morgan Kaufmann, 2008.
+
+JACOB, B.; WANG, D.; NG, S. **Memory systems: _cache_, DRAM, disk**. 2. ed. San Francisco: Morgan Kaufmann, 2021.
+
+JEDEC. **JESD79: DDR SDRAM specification**. Arlington: JEDEC Solid State Technology Association, 2000.
+
+JEDEC. **JESD79-2: DDR2 SDRAM specification**. Arlington: JEDEC Solid State Technology Association, 2003.
+
+JEDEC. **JESD79-3: DDR3 SDRAM specification**. Arlington: JEDEC Solid State Technology Association, 2007.
+
+JEDEC. **JESD79-4: DDR4 SDRAM specification**. Arlington: JEDEC Solid State Technology Association, 2014.
+
+JEDEC. **JESD79-5: DDR5 SDRAM specification**. Arlington: JEDEC Solid State Technology Association, 2020.
+
+KOOMEY, J. et al. Implications of historical trends in the electrical efficiency of computing. **IEEE Annals of the History of Computing**, v. 33, n. 3, p. 46-54, 2011.
+
+LAVINGTON, S. **A history of Manchester computers**. Manchester: NCC Publications, 1980.
+
+LAVINGTON, S. **Early British computers**. 2. ed. Manchester: Manchester University Press, 1998.
+
+LUKOFF, H. **From dits to bits: A personal history of the electronic computer**. Portland: Robotics Press, 1979.
+
+MACK, C. Fifty years of Moore's law. **IEEE Transactions on Semiconductor Manufacturing**, v. 24, n. 2, p. 202-207, 2011.
+
+MARINELLA, M. J. et al. Multiscale co-design analysis of energy, latency, area, and accuracy of a ReRAM analog neural training accelerator. **IEEE Journal on Emerging and Selected Topics in Circuits and Systems**, v. 8, n. 1, p. 86-101, 2018.
+
+MORDOR INTELLIGENCE. **Magnetoresistive RAM market - growth, trends, and forecasts (2024-2032)**. Hyderabad: Mordor Intelligence, 2024.
+
+MOSTEK CORPORATION. **MK4096 4096-bit dynamic RAM datasheet**. Carrollton: Mostek, 1973.
+
+NAPPER, R. B. E. The Manchester Mark 1 computers. In: ROJAS, R.; HASHAGEN, U. (Eds.). **The first computers: History and architectures**. Cambridge: MIT Press, 2000. p. 356-377.
+
+PATTERSON, D. A.; HENNESSY, J. L. **Computer organization and design: The hardware/software interface**. 6. ed. Cambridge: Morgan Kaufmann, 2021.
+
+PUGH, E. W. **Memories that shaped an industry**. Cambridge: MIT Press, 1984.
+
+PUGH, E. W.; JOHNSON, L. R.; PALMER, J. H. **IBM's 360 and early 370 systems**. Cambridge: MIT Press, 1991.
+
+ROJAS, R. (April–June 1997). **Konrad Zuse's Legacy: The Architecture of the Z1 and Z3** (PDF). IEEE Annals of the History of Computing. 19 (2): 5–16 [7–8]. doi:10.1109/85.586067. Archived (PDF) from the original on 2022-07-03. Retrieved 2022-07-03. (12 pages)
+
+SAMSUNG ELECTRONICS. Samsung develops world's first 1 gigabit DRAM. **Samsung Newsroom**, 1996. Disponível em: https://news.samsung.com. Acesso em: 1 set. 2025.
+
+SAMSUNG ELECTRONICS. Samsung starts mass production of eMRAM. **Samsung Newsroom**, 2019. Disponível em: https://news.samsung.com. Acesso em: 1 set. 2025.
+
+STERN, N. **From ENIAC to UNIVAC: An appraisal of the Eckert-Mauchly computers**. Bedford: Digital Press, 1981.
+
+TEXAS INSTRUMENTS. **MSP430FRxx FeRAM microcontrollers**. Dallas: Texas Instruments, 2018.
+
+VON NEUMANN, J. First draft of a report on the EDVAC. **Moore School of Electrical Engineering**, University of Pennsylvania, 1945.
+
+WANG, A. Magnetic delay line storage. **Proceedings of the IRE**, v. 39, n. 4, p. 401-407, 1951.
+
+WASER, R. et al. Redox-based resistive switching memories: Nanoionic mechanisms, prospects, and challenges. **Advanced Materials**, v. 21, n. 25-26, p. 2632-2663, 2009.
+
+WESTE, N.; HARRIS, D. **CMOS VLSI design: A circuits and systems perspective**. 4. ed. Boston: Pearson, 2015.
+
+WILKES, M. V. **Memoirs of a computer pioneer**. Cambridge: MIT Press, 1985.
+
+WILKES, M. V.; RENWICK, W. The EDSAC, an electronic calculating machine. **Journal of Scientific Instruments**, v. 26, n. 12, p. 385-391, 1949.
+
+WILLIAMS, F. C.; KILBURN, T. Electronic digital computers. **Nature**, v. 162, n. 4117, p. 487, 1948.
+
+WILLIAMS, F. C.; KILBURN, T. A storage system for use with binary-digital computing machines. **Proceedings of the IEE**, v. 96, n. 81, p. 183-200, 1949.
+
+WONG, H. S. P. et al. Phase change memory. **Proceedings of the IEEE**, v. 98, n. 12, p. 2201-2227, 2010.
+
+WONG, H. S. P.; SALAHUDDIN, S. Memory leads the way to better computing. **Nature Nanotechnology**, v. 10, n. 3, p. 191-194, 2015.
+
+WULF, W. A.; MCKEE, S. A. Hitting the memory wall: Implications of the obvious. **ACM SIGARCH Computer Architecture News**, v. 23, n. 1, p. 20-24, 1995.
+
+## Referências Memória Virtual
+
+1. Sistemas Operacionais \- Gerência de Memória \- Blog Gran Cursos Online, acessado em setembro 7, 2025, [https://blog.grancursosonline.com.br/sistemas-operacionais-gerencia-de-memoria/](https://blog.grancursosonline.com.br/sistemas-operacionais-gerencia-de-memoria/)  
+2. Sistemas Operacionais \-- Memória Virtual \- UFRJ, acessado em setembro 7, 2025, [https://cos.ufrj.br/\~vitor/aulas/COS773/slides/aulas\_8.html](https://cos.ufrj.br/~vitor/aulas/COS773/slides/aulas_8.html)  
+3. Unidade de gerenciamento de memória – Wikipédia, a enciclopédia livre, acessado em setembro 7, 2025, [https://pt.wikipedia.org/wiki/Unidade\_de\_gerenciamento\_de\_mem%C3%B3ria](https://pt.wikipedia.org/wiki/Unidade_de_gerenciamento_de_mem%C3%B3ria)  
+4. Como A Memória Virtual Funciona \- FasterCapital, acessado em setembro 7, 2025, [https://fastercapital.com/pt/tema/como-a-mem%C3%B3ria-virtual-funciona.html/1](https://fastercapital.com/pt/tema/como-a-mem%C3%B3ria-virtual-funciona.html/1)  
+5. Endereço Lógico vs. Físico na Gerenciamento de Memória : r/compsci \- Reddit, acessado em setembro 7, 2025, [https://www.reddit.com/r/compsci/comments/35e0zz/logical\_vs\_physical\_address\_in\_memory\_management/?tl=pt-br](https://www.reddit.com/r/compsci/comments/35e0zz/logical_vs_physical_address_in_memory_management/?tl=pt-br)  
+6. Qual a diferença entre endereço físico e endereço virtual, acessado em setembro 7, 2025, [https://xcoworking.com.br/qual-a-diferenca-entre-endereco-fisico-e-endereco-virtual/](https://xcoworking.com.br/qual-a-diferenca-entre-endereco-fisico-e-endereco-virtual/)  
+7. Endereço fiscal ou comercial: saiba a diferença \- Company Hero, acessado em setembro 7, 2025, [https://www.companyhero.com/videos/diferenca-entre-endereco-fiscal-e-comercial](https://www.companyhero.com/videos/diferenca-entre-endereco-fiscal-e-comercial)  
+8. Gerenciamento de memória. partições, realocação, memória virtual… | by Célio Normando | Medium, acessado em setembro 7, 2025, [https://medium.com/@celionormando/gerenciamento-de-mem%C3%B3ria-7f8ee4d9b020](https://medium.com/@celionormando/gerenciamento-de-mem%C3%B3ria-7f8ee4d9b020)  
+9. Memória virtual \- paginação e segmentação \- IME-USP, acessado em setembro 7, 2025, [https://www.ime.usp.br/\~song/mac344/slides07-virtual-memory.pdf](https://www.ime.usp.br/~song/mac344/slides07-virtual-memory.pdf)  
+10. O que é memória virtual e como ela funciona? \- Blog Faspec, acessado em setembro 7, 2025, [https://faspecblog.com.br/memoria-virtual/](https://faspecblog.com.br/memoria-virtual/)  
+11. O que é memória virtual \- Profissão Cloud, acessado em setembro 7, 2025, [https://profissaocloud.com.br/glossario/o-que-e-memoria-virtual-entenda-sua-importancia/](https://profissaocloud.com.br/glossario/o-que-e-memoria-virtual-entenda-sua-importancia/)  
+12. Gerenciamento de Memória \- CIn UFPE, acessado em setembro 7, 2025, [https://www.cin.ufpe.br/\~can/Arquivos/gerenciamento-de-memoria.htm](https://www.cin.ufpe.br/~can/Arquivos/gerenciamento-de-memoria.htm)  
+13. SOsim: SIMULADOR PARA O ENSINO DE SISTEMAS OPERACIONAIS \- Página do Professor André, acessado em setembro 7, 2025, [http://www.lapolli.pro.br/escolas/unicid/SistOpera/laboratorio/Tese.pdf](http://www.lapolli.pro.br/escolas/unicid/SistOpera/laboratorio/Tese.pdf)  
+14. Sistemas Operacionais \- Instituto de Informática \- UFRGS, acessado em setembro 7, 2025, [http://www.inf.ufrgs.br/\~asc/sisop/pdf/aula20.pdf](http://www.inf.ufrgs.br/~asc/sisop/pdf/aula20.pdf)  
+15. Translation Lookaside Buffer (TLB) in Paging \- GeeksforGeeks, acessado em setembro 7, 2025, [https://www.geeksforgeeks.org/operating-systems/translation-lookaside-buffer-tlb-in-paging/](https://www.geeksforgeeks.org/operating-systems/translation-lookaside-buffer-tlb-in-paging/)  
+16. Translation lookaside buffer \- Wikipedia, acessado em setembro 7, 2025, [https://en.wikipedia.org/wiki/Translation\_lookaside\_buffer](https://en.wikipedia.org/wiki/Translation_lookaside_buffer)  
+17. Translation Lookaside Buffer (TLB) in OS- Scaler Topics, acessado em setembro 7, 2025, [https://www.scaler.com/topics/tlb-in-os/](https://www.scaler.com/topics/tlb-in-os/)  
+18. Falta de página – Wikipédia, a enciclopédia livre, acessado em setembro 7, 2025, [https://pt.wikipedia.org/wiki/Falta\_de\_p%C3%A1gina](https://pt.wikipedia.org/wiki/Falta_de_p%C3%A1gina)  
+19. O que é page fault? \- Stack Overflow em Português, acessado em setembro 7, 2025, [https://pt.stackoverflow.com/questions/207174/o-que-%C3%A9-page-fault](https://pt.stackoverflow.com/questions/207174/o-que-%C3%A9-page-fault)  
+20. Sistemas Operacionais \- Instituto de Informática \- UFRGS, acessado em setembro 7, 2025, [http://www.inf.ufrgs.br/\~asc/livro/transparencias/cap7.pdf](http://www.inf.ufrgs.br/~asc/livro/transparencias/cap7.pdf)  
+21. Posso evitar que ocorram falhas de página? | Lenovo Brasil, acessado em setembro 7, 2025, [https://www.lenovo.com/br/pt/glossary/page-fault/](https://www.lenovo.com/br/pt/glossary/page-fault/)  
+22. Trabalho II: Simulador de Memória Virtual, acessado em setembro 7, 2025, [https://www.dcc.fc.up.pt/\~ricroc/aulas/0607/so/prat/trabII.html](https://www.dcc.fc.up.pt/~ricroc/aulas/0607/so/prat/trabII.html)  
+23. Prática \- Simulação de Substituição de Páginas em Memória Virtual, acessado em setembro 7, 2025, [https://lesandrop.github.io/site/teaching/SO/praticas/pratica-sistemas-operacionais-substituicao-de-paginas-memoria-virtual.html](https://lesandrop.github.io/site/teaching/SO/praticas/pratica-sistemas-operacionais-substituicao-de-paginas-memoria-virtual.html)

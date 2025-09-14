@@ -1,0 +1,851 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1200 900"
+   version="1.1"
+   id="svg72"
+   sodipodi:docname="decomposicao_endereco_virtual.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview72"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.3435029"
+     inkscape:cx="600.6686"
+     inkscape:cy="307.03321"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg72" />
+  <!-- Estilos -->
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="marker72"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path72" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <style
+       id="style1">
+      .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #2c3e50; }
+      .subtitle { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #34495e; }
+      .label { font-family: Arial, sans-serif; font-size: 11px; fill: #2c3e50; }
+      .small-label { font-family: Arial, sans-serif; font-size: 9px; fill: #2c3e50; }
+      .bit-label { font-family: 'Courier New', monospace; font-size: 10px; fill: #2c3e50; }
+      .hex-label { font-family: 'Courier New', monospace; font-size: 12px; fill: #2c3e50; font-weight: bold; }
+      .vpn-section { fill: #3498db; stroke: #2980b9; stroke-width: 2; }
+      .offset-section { fill: #e74c3c; stroke: #c0392b; stroke-width: 2; }
+      .example-box { fill: #f39c12; stroke: #e67e22; stroke-width: 2; }
+      .calculation-box { fill: #9b59b6; stroke: #8e44ad; stroke-width: 2; }
+      .result-box { fill: #2ecc71; stroke: #27ae60; stroke-width: 2; }
+      .header-box { fill: #34495e; stroke: #2c3e50; stroke-width: 2; }
+      .mmu-process { fill: #16a085; stroke: #138d75; stroke-width: 2; }
+      .arrow { stroke: #34495e; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .curved-arrow { stroke: #e67e22; stroke-width: 2; fill: none; marker-end: url(#orangearrow); }
+    </style>
+    <!-- Definições de setas -->
+    <marker
+       id="arrowhead"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#34495e"
+         id="polygon1" />
+    </marker>
+    <marker
+       id="orangearrow"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#e67e22"
+         id="polygon2" />
+    </marker>
+  </defs>
+  <!-- Título principal -->
+  <text
+     x="611.16486"
+     y="43.397812"
+     text-anchor="middle"
+     class="title"
+     id="text2"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#2c3e50"
+     inkscape:export-filename="..\images\virtual2.webp"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96">Paginação: Decomposição de Endereço Virtual em VPN e Offset</text>
+  <!-- Seção superior - Conceitos Fundamentais -->
+  <rect
+     x="50"
+     y="60"
+     width="1100"
+     height="140"
+     rx="12"
+     fill="#ecf0f1"
+     stroke="#bdc3c7"
+     stroke-width="2"
+     id="rect2" />
+  <!-- Endereço de 32 bits -->
+  <text
+     x="70"
+     y="85"
+     class="subtitle"
+     id="text3"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.6667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#34495e">Endereço Virtual de 32 bits (sistema x86):</text>
+  <!-- Representação visual dos 32 bits -->
+  <rect
+     x="70.075745"
+     y="95.142075"
+     width="399.9053"
+     height="49.048843"
+     class="vpn-section"
+     id="rect3" />
+  <text
+     x="270"
+     y="114"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text4"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">VPN - Virtual Page Number</text>
+  <text
+     x="270"
+     y="135"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text5"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Bits 31-12 (20 bits)</text>
+  <rect
+     x="469.98105"
+     y="95.142075"
+     width="239.94319"
+     height="49.048843"
+     class="offset-section"
+     id="rect5" />
+  <text
+     x="590"
+     y="114"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     id="text6"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Offset (Deslocamento)</text>
+  <text
+     x="590"
+     y="135"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text7"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#ffffff">Bits 11-0 (12 bits)</text>
+  <!-- Numeração dos bits -->
+  <text
+     x="77.607468"
+     y="152.34169"
+     class="bit-label"
+     id="text8"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.7155px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.10722"
+     transform="scale(0.90295104,1.1074798)">31</text>
+  <text
+     x="498.35016"
+     y="152.34169"
+     class="bit-label"
+     id="text9"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.7155px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.10722"
+     transform="scale(0.90295104,1.1074798)">12</text>
+  <text
+     x="520.49451"
+     y="152.34169"
+     class="bit-label"
+     id="text10"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.7155px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.10722"
+     transform="scale(0.90295104,1.1074798)">11</text>
+  <text
+     x="779.23743"
+     y="151.39122"
+     class="bit-label"
+     id="text11"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.7155px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.10722"
+     transform="scale(0.90295102,1.1074798)">0</text>
+  <!-- Explicação das páginas -->
+  <text
+     x="813.04651"
+     y="96.052628"
+     class="label"
+     id="text12"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Páginas de 4KB = 2^12 bytes</text>
+  <text
+     x="813.50745"
+     y="119.79619"
+     class="label"
+     id="text13"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#2c3e50">Offset de 12 bits = 4096 posições</text>
+  <text
+     x="814.21057"
+     y="143.21162"
+     class="label"
+     id="text14"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">VPN de 20 bits = 1.048.576 páginas</text>
+  <text
+     x="813.01526"
+     y="166.94737"
+     class="label"
+     id="text15"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Espaço total = 4GB (2^32 bytes)</text>
+  <!-- Exemplo Prático -->
+  <rect
+     x="50"
+     y="220"
+     width="1100"
+     height="320"
+     rx="12"
+     fill="#f8f9fa"
+     stroke="#dee2e6"
+     stroke-width="2"
+     id="rect15" />
+  <text
+     x="600"
+     y="250"
+     text-anchor="middle"
+     class="subtitle"
+     id="text16"
+     style="-inkscape-font-specification:'Arial, sans-serif, Bold';font-family:Arial, sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.6667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#34495e">Exemplo Concreto: Endereço Virtual 0x87654321</text>
+  <!-- Endereço de exemplo -->
+  <rect
+     x="70"
+     y="270"
+     width="500"
+     height="50"
+     class="example-box"
+     id="rect16" />
+  <text
+     x="100"
+     y="290"
+     class="label"
+     fill="white"
+     id="text17"
+     style="-inkscape-font-specification:'Courier New, monospace, Bold';font-family:'Courier New', monospace;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:14.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Endereço Virtual de Exemplo:</text>
+  <text
+     x="461.05264"
+     y="309.21054"
+     text-anchor="middle"
+     class="hex-label"
+     fill="white"
+     id="text18"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:17.3333px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">0x87654321</text>
+  <!-- Conversão para binário -->
+  <text
+     x="70"
+     y="340"
+     class="label"
+     id="text19"
+     style="-inkscape-font-specification:'Arial, sans-serif, Normal';font-family:Arial, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#2c3e50">Representação Binária:</text>
+  <!-- Bits VPN em azul -->
+  <rect
+     x="70"
+     y="350"
+     width="320"
+     height="30"
+     class="vpn-section"
+     id="rect19" />
+  <text
+     x="230"
+     y="370"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text20"
+     style="-inkscape-font-specification:'Courier New, monospace, Bold';font-family:'Courier New', monospace;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:14.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">10000111011001010100</text>
+  <!-- Bits Offset em vermelho -->
+  <rect
+     x="390"
+     y="350"
+     width="180"
+     height="30"
+     class="offset-section"
+     id="rect20" />
+  <text
+     x="480"
+     y="370"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text21"
+     style="-inkscape-font-specification:'Courier New, monospace, Bold';font-family:'Courier New', monospace;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:14.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">001100100001</text>
+  <!-- Labels para as seções -->
+  <text
+     x="230"
+     y="397"
+     text-anchor="middle"
+     class="label"
+     id="text22"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">VPN = 0x87654</text>
+  <text
+     x="480"
+     y="397"
+     text-anchor="middle"
+     class="label"
+     id="text23"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Offset = 0x321</text>
+  <!-- Conversões decimais -->
+  <text
+     x="230"
+     y="414"
+     text-anchor="middle"
+     class="small-label"
+     id="text24"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">VPN = 554580 (decimal)</text>
+  <text
+     x="480"
+     y="414"
+     text-anchor="middle"
+     class="small-label"
+     id="text25"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Offset = 801 bytes</text>
+  <!-- Cálculos detalhados -->
+  <rect
+     x="600.05463"
+     y="270.05463"
+     width="534.10126"
+     height="249.89076"
+     rx="8.9016876"
+     fill="#dfe6e9"
+     stroke="#b2bec3"
+     stroke-width="2.10924"
+     id="rect25" />
+  <text
+     x="858.42108"
+     y="291.8421"
+     text-anchor="middle"
+     class="subtitle"
+     id="text26">Processo de Tradução pela MMU</text>
+  <!-- Passo 1: Extração VPN -->
+  <!-- Passo 2: Extração Offset -->
+  <rect
+     x="875.34705"
+     y="309.55759"
+     width="235.62169"
+     height="59.832222"
+     class="calculation-box"
+     id="rect29" />
+  <text
+     x="992.10529"
+     y="325.47369"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text30"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">2. Extração do Offset:</text>
+  <text
+     x="992.10529"
+     y="342.47369"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text31"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Offset = 0x87654321 0xFFF</text>
+  <text
+     x="992.10529"
+     y="362.10529"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text32"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Offset = 0x321 = 801</text>
+  <!-- Passo 3: Consulta Tabela -->
+  <rect
+     x="620.04572"
+     y="379.99649"
+     width="218.85594"
+     height="59.957806"
+     class="result-box"
+     id="rect32" />
+  <text
+     x="728"
+     y="400"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text33"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">3. Consulta Tabela:</text>
+  <text
+     x="728"
+     y="417"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text34"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">Página 554580 → Quadro</text>
+  <text
+     x="728"
+     y="434"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text35"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">PFN = 1234 (exemplo)</text>
+  <!-- Passo 4: Construção Final -->
+  <rect
+     x="875.34589"
+     y="379.55643"
+     width="235.09775"
+     height="59.834591"
+     class="result-box"
+     id="rect35" />
+  <text
+     x="992.10529"
+     y="399.47369"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text36"
+     style="-inkscape-font-specification:'Courier New, monospace, Bold';font-family:'Courier New', monospace;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:14.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">4. Endereço Físico:</text>
+  <text
+     x="992.10529"
+     y="416.47369"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text37"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">(1234 × 4096) + 801</text>
+  <text
+     x="992.10529"
+     y="433.47369"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text38"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">= 0x4D2321</text>
+  <!-- Verificação -->
+  <rect
+     x="621.65833"
+     y="450.07938"
+     width="490.89386"
+     height="49.841221"
+     rx="7.0127692"
+     fill="#d1f2eb"
+     stroke="#58d68d"
+     stroke-width="2.15878"
+     id="rect38" />
+  <text
+     x="867.4884"
+     y="468.42105"
+     text-anchor="middle"
+     class="label"
+     id="text39"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Verificação: O offset permanece inalterado (0x321)</text>
+  <text
+     x="866.81879"
+     y="491.3158"
+     text-anchor="middle"
+     class="small-label"
+     id="text40"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Posição relativa dentro da página é preservada</text>
+  <!-- Setas conectando exemplo aos cálculos -->
+  <path
+     d="m 389.47367,363.94737 c 76.89622,-34.17838 42.41553,-35.469 222.15817,-30.60339"
+     class="curved-arrow"
+     id="path40"
+     sodipodi:nodetypes="cc"
+     style="marker-end:url(#marker72)" />
+  <path
+     d="m 571.23324,367.54128 c 6.86857,1.66018 19.93727,2.26813 36.71811,-1.49272 33.30962,-7.46522 228.16116,-22.40598 259.31034,-22.26309"
+     class="curved-arrow"
+     id="path41"
+     sodipodi:nodetypes="csc"
+     style="stroke:#5599ff;marker-end:url(#Triangle)" />
+  <rect
+     x="620.04572"
+     y="310.04572"
+     width="218.85594"
+     height="59.957806"
+     class="calculation-box"
+     id="rect26" />
+  <text
+     x="728"
+     y="326"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text27"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">1. Extração do VPN:</text>
+  <text
+     x="728"
+     y="343"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text28"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">VPN = 0x87654321 &gt;&gt; 12</text>
+  <text
+     x="728"
+     y="362.63159"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text29"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;font-family:'Courier New', monospace;-inkscape-font-specification:'Courier New, monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">VPN = 0x87654 = 554580</text>
+  <!-- Processo de Tradução pela MMU -->
+  <rect
+     x="50"
+     y="560"
+     width="1100"
+     height="280"
+     rx="12"
+     fill="#f1c40f"
+     stroke="#f39c12"
+     stroke-width="2"
+     id="rect41" />
+  <text
+     x="600"
+     y="590"
+     text-anchor="middle"
+     class="subtitle"
+     id="text41">Fluxo Completo de Tradução de Endereços</text>
+  <!-- Passo 1: Recebimento -->
+  <rect
+     x="80"
+     y="610"
+     width="150"
+     height="80"
+     class="header-box"
+     id="rect42" />
+  <text
+     x="155"
+     y="630"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text42">1. CPU Gera</text>
+  <text
+     x="155"
+     y="645"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text43">Endereço Virtual</text>
+  <text
+     x="155"
+     y="665"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text44">0x87654321</text>
+  <text
+     x="155"
+     y="680"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text45">(32 bits)</text>
+  <!-- Seta 1 -->
+  <line
+     x1="230"
+     y1="650"
+     x2="280"
+     y2="650"
+     class="arrow"
+     id="line45" />
+  <!-- Passo 2: Decomposição -->
+  <rect
+     x="300"
+     y="610"
+     width="150"
+     height="80"
+     class="mmu-process"
+     id="rect45" />
+  <text
+     x="375"
+     y="630"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text46">2. MMU Decompõe</text>
+  <text
+     x="375"
+     y="645"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text47">o Endereço</text>
+  <text
+     x="375"
+     y="665"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text48">VPN: 554580</text>
+  <text
+     x="375"
+     y="680"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text49">Offset: 801</text>
+  <!-- Seta 2 -->
+  <line
+     x1="450"
+     y1="650"
+     x2="500"
+     y2="650"
+     class="arrow"
+     id="line49" />
+  <!-- Passo 3: Busca -->
+  <rect
+     x="520"
+     y="610"
+     width="150"
+     height="80"
+     class="vpn-section"
+     id="rect49" />
+  <text
+     x="595"
+     y="630"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text50">3. Busca PFN</text>
+  <text
+     x="595"
+     y="645"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text51">na Tabela</text>
+  <text
+     x="595"
+     y="665"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text52">VPN 554580</text>
+  <text
+     x="595"
+     y="680"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text53">→ PFN 1234</text>
+  <!-- Seta 3 -->
+  <line
+     x1="670"
+     y1="650"
+     x2="720"
+     y2="650"
+     class="arrow"
+     id="line53" />
+  <!-- Passo 4: Construção -->
+  <rect
+     x="740"
+     y="610"
+     width="150"
+     height="80"
+     class="result-box"
+     id="rect53" />
+  <text
+     x="815"
+     y="630"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text54">4. Constrói</text>
+  <text
+     x="815"
+     y="645"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text55">Endereço Físico</text>
+  <text
+     x="815"
+     y="665"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text56">PFN 1234</text>
+  <text
+     x="815"
+     y="680"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text57">+ Offset 801</text>
+  <!-- Seta 4 -->
+  <line
+     x1="890"
+     y1="650"
+     x2="940"
+     y2="650"
+     class="arrow"
+     id="line57" />
+  <!-- Passo 5: Resultado -->
+  <rect
+     x="960"
+     y="610"
+     width="150"
+     height="80"
+     class="offset-section"
+     id="rect57" />
+  <text
+     x="1035"
+     y="630"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text58">5. Resultado</text>
+  <text
+     x="1035"
+     y="645"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text59">Final</text>
+  <text
+     x="1035"
+     y="665"
+     text-anchor="middle"
+     class="bit-label"
+     fill="white"
+     id="text60">0x4D2321</text>
+  <text
+     x="1035"
+     y="680"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     id="text61">= 5.054.465</text>
+  <!-- Detalhamento técnico -->
+  <rect
+     x="80"
+     y="710"
+     width="480"
+     height="100"
+     rx="8"
+     fill="#dfe6e9"
+     stroke="#b2bec3"
+     stroke-width="2"
+     id="rect61" />
+  <text
+     x="320"
+     y="735"
+     text-anchor="middle"
+     class="subtitle"
+     id="text62">Propriedades Matemáticas</text>
+  <text
+     x="100"
+     y="755"
+     class="label"
+     id="text63">• Tamanho da página = 2^12 = 4.096 bytes</text>
+  <text
+     x="100"
+     y="770"
+     class="label"
+     id="text64">• Número máximo de páginas = 2^20 = 1.048.576</text>
+  <text
+     x="100"
+     y="785"
+     class="label"
+     id="text65">• Espaço de endereçamento = 2^32 = 4 GB</text>
+  <text
+     x="100"
+     y="800"
+     class="label"
+     id="text66">• Offset máximo = 4.095 (0xFFF)</text>
+  <rect
+     x="620"
+     y="710"
+     width="480"
+     height="100"
+     rx="8"
+     fill="#d1f2eb"
+     stroke="#58d68d"
+     stroke-width="2"
+     id="rect66" />
+  <text
+     x="860"
+     y="735"
+     text-anchor="middle"
+     class="subtitle"
+     id="text67">Vantagens da Paginação</text>
+  <text
+     x="640"
+     y="755"
+     class="label"
+     id="text68">• Tradução eficiente: apenas VPN precisa ser mapeado</text>
+  <text
+     x="640"
+     y="770"
+     class="label"
+     id="text69">• Granularidade ótima: páginas de 4KB balanceiam overhead e flexibilidade</text>
+  <text
+     x="640"
+     y="785"
+     class="label"
+     id="text70">• Localidade espacial: offset preserva proximidade na página</text>
+  <text
+     x="640"
+     y="800"
+     class="label"
+     id="text71">• Simplicidade do hardware: operações bit-shift e AND</text>
+  <!-- Rodapé técnico -->
+  <text
+     x="600"
+     y="880"
+     text-anchor="middle"
+     class="small-label"
+     fill="#7f8c8d"
+     id="text72">
+    A decomposição VPN/Offset permite que a MMU traduza endereços de forma eficiente,
+    aproveitando a localidade espacial e simplificando as operações de hardware.
+  </text>
+</svg>

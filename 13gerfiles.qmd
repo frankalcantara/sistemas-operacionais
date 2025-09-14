@@ -4,7 +4,7 @@ title: "Gestão de Arquivos"
 
 ## Gerenciamento do Sistema de Arquivos: Organizando Dados Persistentes
 
-Se a compassiva leitora permitir eu vou me referir ao sistema de arquivos como uma das partes mais importantes de um **Sistema Operacional**, responsável por organizar, armazenar e recuperar dados persistentes em dispositivos de armazenamento. O gerenciamento do sistemas de arquivos atua como uma ponte entre o hardware de armazenamento e os usuários ou aplicações. Neste contexto, podemos destacar as seguintes funções:
+Se a compassiva leitora permitir eu vou me referir ao sistema de arquivos como uma das partes mais importantes de um **Sistema Operacional** , responsável por organizar, armazenar e recuperar dados persistentes em dispositivos de armazenamento. O gerenciamento do sistemas de arquivos atua como uma ponte entre o hardware de armazenamento e os usuários ou aplicações. Neste contexto, podemos destacar as seguintes funções:
 
 1. **Interface de Operações com Arquivos e Diretórios**: o sistema de arquivos oferece uma API, Interface de Programação de Aplicações, consistente que permite aos usuários e programas realizarem operações fundamentais. Isso inclui a capacidade de `write`, `read` e `delete` tanto arquivos quanto diretórios, abstraindo os comandos complexos do hardware de armazenamento em ações simples e padronizadas.
 

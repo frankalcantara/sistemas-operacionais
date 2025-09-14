@@ -8,7 +8,7 @@ Para garantir a confiabilidade e a estabilidade de um sistema computacional, é 
 
 ### Proteção: O Controle Interno de Acessos
 
-A **proteção** refere-se aos mecanismos internos do **Sistema Operacional** que controlam o acesso de programas e processos aos recursos do sistema. O objetivo desta estrutura de controle é evitar que um processo interfira indevidamente com outro processo,  com o próprio **Sistema Operacional**, seja por erro ou por intenção maliciosa. A proteção é a muralha que garante a ordem dentro do castelo.
+A **proteção** refere-se aos mecanismos internos do **Sistema Operacional** que controlam o acesso de programas e processos aos recursos do sistema. O objetivo desta estrutura de controle é evitar que um processo interfira indevidamente com outro processo,  com o próprio **Sistema Operacional** , seja por erro ou por intenção maliciosa. A proteção é a muralha que garante a ordem dentro do castelo.
 
 Os mecanismos fundamentais de proteção incluem:
 

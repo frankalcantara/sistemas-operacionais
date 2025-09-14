@@ -180,7 +180,7 @@ d) **Influência Moderna**:
 
 ### 11. `kernel` vs **Sistema Operacional** Completo
 
-**Enunciado**: Diferencie claramente `kernel` de **Sistema Operacional**, explicando:
+**Enunciado**: Diferencie claramente `kernel` de **Sistema Operacional** , explicando:
 a) Funções específicas do kernel;
 b) Componentes adicionais do SO;
 c) Por que o **Linux** é tecnicamente um kernel;
@@ -347,7 +347,7 @@ d) **Papel do Docker e Kubernetes**:
 Essas tecnologias são a base para a implementação prática e o gerenciamento de microsserviços.
 
 - **Docker (Containerização)**: Fornece o mecanismo para empacotar um microsserviço, junto com todas as suas dependências e configurações, em uma unidade portátil e isolada chamada **contêiner**. Isso garante que o serviço funcione de maneira consistente em qualquer ambiente (desenvolvimento, teste, produção), resolvendo o clássico problema do "funciona na minha máquina".
-- **Kubernetes (Orquestração)**: É o "sistema operacional" que gerencia os contêineres em escala. Ele automatiza as tarefas descritas nos itens anteriores: implantação, escalabilidade (inclusive auto-scaling, que ajusta o número de réplicas automaticamente com base no uso de CPU), balanceamento de carga, descoberta de serviços, health checks e
+- **Kubernetes (Orquestração)**: É o "Sistema Operacional" que gerencia os contêineres em escala. Ele automatiza as tarefas descritas nos itens anteriores: implantação, escalabilidade (inclusive auto-scaling, que ajusta o número de réplicas automaticamente com base no uso de CPU), balanceamento de carga, descoberta de serviços, health checks e
 
 ### 16. O Impacto da Inteligência Artificial nos Sistemas Operacionais
 
@@ -764,7 +764,7 @@ c) **Complementaridade**: A perspectiva de gerente foca na alocação eficiente 
 
 4. **Dispositivos de Entrada/Saída**: Desafio: Coordenação via drivers, filas de requisições, e gerenciamento de interrupções.
 
-**Interação `CPU` e E/S**: Em um servidor web **Linux**, o escalonador (CPU) prioriza processos do servidor (e.g., Apache) para responder rapidamente a requisições HTTP, enquanto o subsistema de `E/S`gerencia leituras de arquivos HTML do disco, usando cache para minimizar atrasos, como descrito na seção de gerenciamento de recursos.
+**Interação `CPU` e E/S**: Em um servidor web **Linux**, o escalonador (CPU) prioriza processos do servidor (e.g., Apache) para responder rapidamente a requisições HTTP, enquanto o subsistema de `E/S`gerencia leituras de arquivos HTML do disco, usando _cache_ para minimizar atrasos, como descrito na seção de gerenciamento de recursos.
 
 ### 5. Tarefas do Capitão de Navio
 
@@ -790,17 +790,17 @@ d) **Sockets**: Oculta protocolos de rede; simplifica comunicação. *Exemplo*: 
 
 ### 7. Exemplo de Complexidade Oculta
 
-**Enunciado**: Liste as 3 principais fases da operação `read(documento.txt, buffer, 1024)` descritas no texto. Explique como essas fases contribuem para o custo computacional total, $N_{\text{ops}} = N_{\text{directory traversal}} + N_{\text{permission checks}} + N_{\text{disk E/S}} + N_{\text{cache operations}}$.
+**Enunciado**: Liste as 3 principais fases da operação `read(documento.txt, buffer, 1024)` descritas no texto. Explique como essas fases contribuem para o custo computacional total, $N_{\text{ops}} = N_{\text{directory traversal}} + N_{\text{permission checks}} + N_{\text{disk E/S}} + N_{\text{_cache_ operations}}$.
 
 **Resposta**:
 
 1. **Fase de Abertura (`open`)**: Resolve caminho, verifica permissões, aloca descritor, inicializa metadados.
 
-2. **Fase de Leitura (`read`)**: Valida parâmetros, traduz offset, gerencia cache, realiza `E/S`.
+2. **Fase de Leitura (`read`)**: Valida parâmetros, traduz offset, gerencia _cache_, realiza `E/S`.
 
 3. **Fase de Fechamento (`close`)**: Libera recursos, faz flush de dados, remove locks.
 
-**Contribuição para $N_{\text{ops}}$**: A abertura envolve travessia de diretórios e verificações de permissão ($N_{\text{directory traversal}}$, $N_{\text{permission checks}}$); a leitura inclui operações de cache e `E/S`($N_{\text{cache operations}}$, $N_{\text{disk E/S}}$); o fechamento adiciona operações menores, como liberação de descritores.
+**Contribuição para $N_{\text{ops}}$**: A abertura envolve travessia de diretórios e verificações de permissão ($N_{\text{directory traversal}}$, $N_{\text{permission checks}}$); a leitura inclui operações de _cache_ e `E/S`($N_{\text{_cache_ operations}}$, $N_{\text{disk E/S}}$); o fechamento adiciona operações menores, como liberação de descritores.
 
 ### 8. Hierarquia de Abstrações
 

@@ -1101,11 +1101,11 @@ using HashBuffer = ThreadSafeBuffer&lt;std::pair&lt;std::string, std::string&gt;
     std::atomic&lt;int&gt; hash_buffer_size{0};
     
     // Timestamp de início
-    std::chrono::steady_clock::time_point start_time;
+    std::chrono::steady__clock_::time_point start_time;
     
     // Método para calcular taxa de processamento
     double getProcessingRate() const {
-        auto now = std::chrono::steady_clock::now();
+        auto now = std::chrono::steady__clock_::now();
         auto duration = std::chrono::duration_cast&lt;std::chrono::seconds&gt;
                        (now - start_time).count();
         return duration > 0 ? static_cast&lt;double&gt;(texts_crawled.load()) / duration : 0.0;
@@ -1525,7 +1525,7 @@ if __name__ == "__main__":
                                     <li class="mb-2"><i class="fas fa-hashtag me-2 text-success"></i>Hashes calculados</li>
                                     <li class="mb-2"><i class="fas fa-tachometer-alt me-2 text-warning"></i>Taxa de processamento</li>
                                     <li class="mb-2"><i class="fas fa-memory me-2 text-info"></i>Status dos buffers</li>
-                                    <li class="mb-2"><i class="fas fa-clock me-2 text-secondary"></i>Tempo médio de hash</li>
+                                    <li class="mb-2"><i class="fas fa-_clock_ me-2 text-secondary"></i>Tempo médio de hash</li>
                                 </ul>
                             </div>
                         </div>

@@ -48,8 +48,8 @@ url("./bootstrap-icons.woff?2820a3852bdb9a5832199cc61cec4e65") format("woff");
 .bi-arrow-bar-left::before { content: "\f113"; }
 .bi-arrow-bar-right::before { content: "\f114"; }
 .bi-arrow-bar-up::before { content: "\f115"; }
-.bi-arrow-clockwise::before { content: "\f116"; }
-.bi-arrow-counterclockwise::before { content: "\f117"; }
+.bi-arrow-_clock_wise::before { content: "\f116"; }
+.bi-arrow-counter_clock_wise::before { content: "\f117"; }
 .bi-arrow-down-circle-fill::before { content: "\f118"; }
 .bi-arrow-down-circle::before { content: "\f119"; }
 .bi-arrow-down-left-circle-fill::before { content: "\f11a"; }
@@ -427,9 +427,9 @@ url("./bootstrap-icons.woff?2820a3852bdb9a5832199cc61cec4e65") format("woff");
 .bi-clipboard-plus::before { content: "\f28e"; }
 .bi-clipboard-x::before { content: "\f28f"; }
 .bi-clipboard::before { content: "\f290"; }
-.bi-clock-fill::before { content: "\f291"; }
-.bi-clock-history::before { content: "\f292"; }
-.bi-clock::before { content: "\f293"; }
+.bi-_clock_-fill::before { content: "\f291"; }
+.bi-_clock_-history::before { content: "\f292"; }
+.bi-_clock_::before { content: "\f293"; }
 .bi-cloud-arrow-down-fill::before { content: "\f294"; }
 .bi-cloud-arrow-down::before { content: "\f295"; }
 .bi-cloud-arrow-up-fill::before { content: "\f296"; }

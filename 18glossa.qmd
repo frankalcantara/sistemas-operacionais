@@ -38,11 +38,11 @@ Técnica que utiliza áreas de memória temporária para compensar diferenças d
 
 ### C
 
-**Cache**
+**_cache_**
 Memória de alta velocidade que armazena dados frequentemente acessados para reduzir o tempo de acesso médio.
 
 **Chamadas de Sistema (System Calls)**
-Interface programática por meio da qual processos solicitam serviços do **Sistema Operacional**.
+Interface programática por meio da qual processos solicitam serviços do **Sistema Operacional** .
 
 **CFS (Completely Fair Scheduler)**
 Algoritmo de escalonamento do `Kernel` **Linux** que visa garantir uma distribuição justa do tempo de `CPU` entre os processos.
@@ -376,7 +376,7 @@ Sistema no qual múltiplos usuários compartilham recursos computacionais simult
 Período de tempo durante o qual um processo pode utilizar a `CPU` antes de ser preemptado. Também chamado de Quantum.
 
 **TLB (Translation Lookaside Buffer)**
-Cache de memória usado pela unidade de gerenciamento de memória (MMU) para acelerar a tradução de endereços virtuais para físicos.
+_cache_ de memória usado pela unidade de gerenciamento de memória (MMU) para acelerar a tradução de endereços virtuais para físicos.
 
 **TPU (Tensor Processing Unit)**
 Acelerador de Inteligência Artifical especializado, desenvolvido pelo Google, para processamento de redes neurais.

@@ -168,7 +168,7 @@
     </marker>
     <!-- Clock animation -->
     <animateTransform
-       id="clockRotation"
+       id="_clock_Rotation"
        attributeName="transform"
        type="rotate"
        values="0 500 200;360 500 200"

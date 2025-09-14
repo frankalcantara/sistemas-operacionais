@@ -64,7 +64,7 @@ c) Papel da Linguagem C na portabilidade
 d) Influência nos sistemas modernos
 
 #### `kernel` vs **Sistema Operacional** Completo
-Diferencie claramente `kernel` de **Sistema Operacional**, explicando:
+Diferencie claramente `kernel` de **Sistema Operacional** , explicando:
 a) Funções específicas do kernel
 b) Componentes adicionais do SO
 c) Por que o **Linux** é tecnicamente um kernel
@@ -230,7 +230,7 @@ c) Por que são consideradas complementares? Dê um exemplo prático de cada per
 
 ### 7. Exemplo de Complexidade Oculta
 
-**Enunciado:** Liste as 3 principais fases da operação `read(documento.txt, buffer, 1024)` descritas no texto. Explique como essas fases contribuem para o custo computacional total, $N_{\text{ops}} = N_{\text{directory traversal}} + N_{\text{permission checks}} + N_{\text{disk E/S}} + N_{\text{cache operations}}$.
+**Enunciado:** Liste as 3 principais fases da operação `read(documento.txt, buffer, 1024)` descritas no texto. Explique como essas fases contribuem para o custo computacional total, $N_{\text{ops}} = N_{\text{directory traversal}} + N_{\text{permission checks}} + N_{\text{disk E/S}} + N_{\text{_cache_ operations}}$.
 
 ### 8. Hierarquia de Abstrações
 
