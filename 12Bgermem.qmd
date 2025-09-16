@@ -1,0 +1,1211 @@
+# Algoritmos de Substituição de Páginas: A Arte de Escolher a Vítima
+
+Quando um sistema operacional implementa memória virtual através de paginação, inevitavelmente surge um problema: _que página remover da memória física quando não há quadros livres disponíveis?_ Esta decisão, aparentemente simples, pode determinar a diferença entre um sistema responsivo e um sistema que rasteja sob o peso de constantes acessos ao disco. Os algoritmos de substituição de páginas representam o coração desta decisão crítica, equilibrando princípios teóricos com limitações práticas de implementação.
+
+O problema da substituição de páginas surge naturalmente do modelo de paginação sob demanda. Quando um processo gera uma falha de página, _page fault_ e todos os quadros físicos estão ocupados, o sistema operacional deve selecionar uma página _vítima_ para ser removida, liberando espaço para a nova página. A escolha da vítima impacta diretamente o desempenho futuro: uma escolha inadequada pode resultar na remoção de uma página que será acessada novamente em breve, causando outra falta de página desnecessária.
+
+## O Problema Fundamental e suas Métricas
+
+O objetivo de qualquer algoritmo de substituição é **minimizar o número total de faltas de página** durante a execução de um programa ou conjunto de programas. Esta métrica, conhecida como _page fault rate_, determina diretamente quantas operações custosas de entrada/saída serão necessárias.
+
+Para analisar algoritmos de substituição, utilizamos o conceito de **_string_ de referência**, uma sequência temporal de números de páginas virtuais acessados por um processo. Por exemplo, a _string_ `1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5` representa um processo que acessa páginas nesta ordem específica.
+
+Dado um número fixo de quadros físicos disponíveis para um processo, diferentes algoritmos produzirão diferentes números de falhas de página para a mesma _string_ de referência. O algoritmo ideal seria aquele que sempre minimiza este número, mas como veremos, este _algoritmo ótimo_ só é possível quando conhecemos todo o futuro da execução.
+
+## FIFO (First In, First Out): Simplicidade e suas Armadilhas
+
+O algoritmo **F**irst **I**n, **F**irst **O**ut, **FIFO**, representa a abordagem mais intuitiva para substituição de páginas: _remover sempre a página que está há mais tempo na memória_. Implementado através de uma fila circular, o **FIFO** mantém controle sobre a ordem de chegada das páginas sem necessidade de informações sobre padrões de acesso.
+
+### Implementação e Funcionamento
+
+A implementação do FIFO requer apenas uma estrutura de dados simples:
+
+```shell
+Estrutura FIFO:
+- Fila circular de quadros
+- Ponteiro para o próximo quadro a ser substituído
+- Contador de quadros ocupados
+```
+
+O algoritmo opera da seguinte forma:
+
+1. **Acesso à página**: Verificar se a página está na memória
+2. **Se presente**: Continuar execução (hit)
+3. **Se ausente e há quadro livre**: Carregar página no próximo quadro livre
+4. **Se ausente e memória cheia**: 
+   - Selecionar vítima usando ponteiro FIFO
+   - Se página vítima está suja (*dirty*), salvá-la no disco
+   - Carregar nova página no quadro liberado
+   - Avançar ponteiro FIFO
+
+### Exemplo Prático
+
+Considere a _string_ de referência `7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1` com 3 quadros disponíveis:
+
+```shell
+Página | Quadros    | Resultado
+   7   | [7, -, -]  | MISS
+   0   | [7, 0, -]  | MISS  
+   1   | [7, 0, 1]  | MISS
+   2   | [2, 0, 1]  | MISS (remove 7)
+   0   | [2, 0, 1]  | HIT
+   3   | [2, 3, 1]  | MISS (remove 0)
+   0   | [2, 3, 0]  | MISS (remove 1)
+   4   | [4, 3, 0]  | MISS (remove 2)
+   2   | [4, 2, 0]  | MISS (remove 3)
+   3   | [4, 2, 3]  | MISS (remove 0)
+   ...
+```
+
+O algoritmo FIFO resulta em 15 faltas de página para esta _string_ com 3 quadros. Também podemos criar um código em C++ 23 para simular este comportamento. O fragmento de código abaixo ilustra a função de acesso à página dentro de uma classe `FifoPageManager`:
+
+```cpp
+void FifoPageManager::accessPage(DWORD page_number) {
+    // Verifica se a página está na memória (HIT)
+    if (page_table.contains(page_number)) {
+        hits++;
+        return;
+    }
+
+    // Caso contrário, é uma falha de página (MISS)
+    page_faults++;
+
+    // Se há quadro livre, aloca a página
+    if (page_table.size() < num_frames) {
+        SIZE_T free_frame_index = 0;
+        for (SIZE_T i = 0; i < num_frames; ++i) {
+            if (!frames[i].has_value()) {
+                free_frame_index = i;
+                break;
+            }
+        }
+        frames[free_frame_index] = page_number;
+        page_table[page_number] = free_frame_index;
+        fifo_queue.push(page_number);
+    } else {
+        // Se memória cheia, remove a página mais antiga (FIFO)
+        DWORD victim_page = fifo_queue.front();
+        fifo_queue.pop();
+        SIZE_T frame_index_to_replace = page_table.at(victim_page);
+        page_table.erase(victim_page);
+        frames[frame_index_to_replace] = page_number;
+        page_table[page_number] = frame_index_to_replace;
+        fifo_queue.push(page_number);
+    }
+}
+```
+
+O método `accessPage` encapsula a essência do algoritmo **FIFO**, que substitui a página mais antiga quando a memória está cheia. Abaixo, uma análise detalhada de cada etapa:
+
+1. **Verificação de Acerto (Hit)**:
+
+   - **Código**: `if (page_table.contains(page_number)) { hits++; return; }`;
+   - **Funcionamento**: verifica se a página solicitada está na memória usando uma tabela de páginas (`page_table`, implementada como `unordered_map`). Se presente, incrementa o contador de acertos (`hits`) e retorna;
+   - **Análise**: a busca na `page_table` tem complexidade $O(1)$ em média, garantindo eficiência. O algoritmo **FIFO** não reordena páginas em acertos, mantendo sua simplicidade.
+
+2. **Registro de Falha (Miss)**:
+
+   - **Código**: `page_faults++;`;
+   - **Funcionamento**: se a página não está na memória, registra uma falha de página (`page_faults`);
+   - **Análise**: este passo é crucial para rastrear o desempenho do algoritmo, permitindo calcular a taxa de acertos posteriormente.
+
+3. **Alocação em Quadro Livre**:
+
+   - **Código**:
+
+     ```cpp
+     if (page_table.size() < num_frames) {
+         SIZE_T free_frame_index = 0;
+         for (SIZE_T i = 0; i < num_frames; ++i) {
+             if (!frames[i].has_value()) {
+                 free_frame_index = i;
+                 break;
+             }
+         }
+         frames[free_frame_index] = page_number;
+         page_table[page_number] = free_frame_index;
+         fifo_queue.push(page_number);
+     }
+     ```
+
+   - **Funcionamento**: se há quadros livres, ou seja, menos páginas que o número total de quadros, `num_frames`, encontra o primeiro quadro vazio, aloca a nova página, atualiza a `page_table` e adiciona a página à fila **FIFO** (`fifo_queue`).
+   - **Análise**:
+     - A busca linear por um quadro livre tem complexidade $O(n)$, onde `n` é o número de quadros. Isso poderia ser otimizado com uma lista de quadros livres;
+     - O uso de `std::optional` para representar quadros vazios é uma escolha moderna e segura;
+     - A adição à `fifo_queue` mantém a ordem de entrada, essencial para a política **FIFO**.
+
+4. **Substituição de Página (Memória Cheia)**:
+   - **Código**:
+
+     ```cpp
+     else {
+         DWORD victim_page = fifo_queue.front();
+         fifo_queue.pop();
+         SIZE_T frame_index_to_replace = page_table.at(victim_page);
+         page_table.erase(victim_page);
+         frames[frame_index_to_replace] = page_number;
+         page_table[page_number] = frame_index_to_replace;
+         fifo_queue.push(page_number);
+     }
+     ```
+
+   - **Funcionamento**: Quando a memória está cheia, remove a página mais antiga (primeira da `fifo_queue`), libera seu quadro, insere a nova página no mesmo quadro e atualiza as estruturas de dados.
+   - **Análise**:
+     - A escolha da vítima é $O(1)$ devido à `std::queue`, ideal para **FIFO**;
+     - Atualizações na `page_table` são $O(1)$ em média, garantindo eficiência;
+     - A substituição ignora a frequência de uso, o que pode levar a ineficiências (ex.:, a anomalia de Belady).
+
+### A Anomalia de Belady
+
+O algoritmo **FIFO** apresenta uma característica contraintuitiva descoberta por [László Belady](https://en.wikipedia.org/wiki/L%C3%A1szl%C3%B3_B%C3%A9l%C3%A1dy) em 1969: **aumentar o número de quadros pode paradoxalmente aumentar o número de faltas de página**. Esta anomalia viola a expectativa natural de que mais memória sempre resulta em melhor desempenho.
+
+**Exemplo da Anomalia**:
+_string_: `1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5`
+
+Com $3$ quadros: $9$ faltas de página.
+Com $4$ quadros: $10$ faltas de página.
+
+Esta anomalia ocorre porque o **FIFO** não considera padrões de localidade temporal, podendo remover páginas que serão acessadas novamente em breve.
+
+## Algoritmo Ótimo (OPT/MIN): O Padrão Impossível
+
+Desenvolvido por László Belady em 1966, o **algoritmo ótimo** fornece a referência teórica para todos os outros algoritmos. Sua regra é elegantemente simples: *sempre remover a página que será acessada mais distante no futuro, ou nunca mais*.
+
+### Funcionamento Teórico
+
+O algoritmo ótimo requer conhecimento completo da _string_ de referência futura:
+
+1. **Para cada falta de página**: Examinar todas as páginas na memória
+2. **Identificar**: Qual página será referenciada mais tarde (ou nunca)
+3. **Selecionar**: Esta página como vítima
+
+### Exemplo Demonstrativo
+
+_string_: `7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1` com 3 quadros:
+
+```
+Página | Quadros    | Análise Futura           | Resultado
+   7   | [7, -, -]  | -                        | MISS
+   0   | [7, 0, -]  | -                        | MISS
+   1   | [7, 0, 1]  | -                        | MISS
+   2   | [7, 0, 1]  | 7→pos, 0→pos, 1→pos | MISS (remove 7)
+   0   | [2, 0, 1]  | -                        | HIT
+   3   | [2, 0, 1]  | 2→pos, 0→pos, 1→pos   | MISS (remove 1)
+   ...
+```
+
+### Limitações Práticas
+
+O algoritmo ótimo é **impraticável** para implementação real porque requer conhecimento do futuro completo. No mundo real, longe da teoria e dos dados controlados, é impossível prever quais páginas serão acessadas. Além disso, a complexidade computacional de analisar a _string_ futura para cada falta de página é proibitiva.
+
+Contudo, serve como **limite inferior teórico** para comparação de algoritmos práticos e como ferramenta de análise em simulações quando a _string_ de referência é conhecida a posteriori.
+
+## LRU (Least Recently Used): Aproximando o Ótimo
+
+O algoritmo **L**east **R**ecently **U**sed, **LRU**, baseia-se numa heurística fundamental: _páginas acessadas recentemente têm maior probabilidade de serem acessadas novamente em breve_. Esta aproximação do algoritmo ótimo substitui _conhecimento do futuro_ por _memória do passado recente_.
+
+### Princípio Fundamental
+
+O **LRU** mantém histórico de acessos e sempre remove a página que **não foi acessada há mais tempo**. Esta estratégia explora o princípio da localidade temporal, observando que programas tendem a reutilizar dados recentemente acessados.
+
+### Implementações Práticas
+
+#### Implementação com Lista Ligada
+
+A implementação clássica utiliza uma lista duplamente ligada:
+
+```shell
+Estrutura LRU:
+- Lista duplamente ligada de páginas
+- Hash table para acesso O(1) aos nós
+- Cabeça = mais recentemente usado
+- Cauda = menos recentemente usado
+
+Operações:
+- Acesso: Mover página para cabeça da lista
+- Substituição: Remover página da cauda
+```
+
+**Complexidade**: $O(1)$ para acesso e substituição com _hash table_ auxiliar.
+
+#### Implementação com Matriz de Bits
+
+Para sistemas com poucos quadros, uma matriz $n \times n$ pode rastrear ordem de acesso:
+
+```shell
+Algoritmo da Matriz:
+- Matriz M[i][j] onde i,j são índices de quadros
+- Ao acessar página no quadro k:
+  * Definir linha k = 1111..
+  * Definir coluna k = 0000..
+- Para substituição: escolher linha com menor valor binário
+```
+
+**Vantagem**: Implementação simples para poucos quadros.
+**Desvantagem**: Espaço $O(n^2)$ e operações $O(n)$ por acesso.
+
+#### Aproximações Hardware-Assistidas
+
+Sistemas reais frequentemente utilizam aproximações devido ao custo de LRU completo:
+
+**Algoritmo de Envelhecimento (_aging_)**:
+
+- Cada página mantém contador de $8$ a $16$ bits;
+- Periodicamente: deslocar contadores à direita;
+- Se bit de referência é igual a $1$: definir bit mais significativo;
+- Substituir página com menor contador.
+
+### Exemplo Detalhado
+
+_string_: `7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1` com 3 quadros:
+
+```shell
+Página | Quadros (ordem LRU) | Resultado
+   7   | [7]                 | MISS
+   0   | [0, 7]              | MISS
+   1   | [1, 0, 7]           | MISS
+   2   | [2, 1, 0]           | MISS (remove 7)
+   0   | [0, 2, 1]           | HIT (0 move para frente)
+   3   | [3, 0, 2]           | MISS (remove 1)
+   0   | [0, 3, 2]           | HIT
+   4   | [4, 0, 3]           | MISS (remove 2)
+   2   | [2, 4, 0]           | MISS (remove 3)
+   3   | [3, 2, 4]           | MISS (remove 0)
+   ...
+```
+
+### Propriedades do LRU
+
+O **LRU** possui características importantes:
+
+- **Não sofre anomalia de Belady**: mais quadros sempre resulta em desempenho igual ou melhor;
+- **Desempenho próximo ao ótimo**: em workloads com boa localidade temporal;
+- **Implementação complexa**: requer estruturas de dados sofisticadas para eficiência.
+
+Novamente, podemos implementar o **LRU** em C++ 23 a partir da classe `LruPageManager`. 
+
+```cpp
+void LruPageManager::accessPage(DWORD page_number) {
+    // Verificar se a página está na memória (HIT)
+    auto it = page_table.find(page_number);
+    if (it != page_table.end()) {
+        hits++;
+        // Em um HIT, a página se torna a mais recentemente usada.
+        // Movemos o elemento correspondente para o início da lista.
+        lru_list.splice(lru_list.begin(), lru_list, it->second);
+        return;
+    }
+    // Se ausente (MISS / Page Fault)
+    page_faults++;
+    // Se a memória está cheia, remover a página menos recentemente usada (LRU)
+    if (page_table.size() == num_frames) {
+        // A página LRU é a última na lista
+        DWORD victim_page = lru_list.back();
+        // Remove a vítima da tabela de hash e da lista
+        page_table.erase(victim_page);
+        lru_list.pop_back();
+        // Insere a nova página na frente (agora é a MRU)
+        lru_list.push_front(page_number);
+        page_table[page_number] = lru_list.begin();
+    }
+    else {
+        // Se há quadro livre, apenas insere a nova página na frente
+        lru_list.push_front(page_number);
+        page_table[page_number] = lru_list.begin();
+    }
+}
+```
+
+O método `accessPage` encapsula a lógica do algoritmo **LRU**, que atualiza a ordem de recenticidade das páginas a cada acesso e substitui a página menos recentemente usada quando necessário. Abaixo, uma análise detalhada de cada etapa:
+
+1. **Verificação de Acerto (Hit)**:
+   - **Código**: 
+
+     ```cpp
+     auto it = page_table.find(page_number);
+     if (it != page_table.end()) {
+         hits++;
+         lru_list.splice(lru_list.begin(), lru_list, it->second);
+         return;
+     }
+     ```
+
+   - **Funcionamento**: Verifica se a página solicitada (`page_number`) está na memória usando a `page_table` (um `std::unordered_map` que mapeia números de página para iteradores na `lru_list`). Se presente, incrementa o contador de acertos (`hits`) e move a página para o início da `lru_list` (tornando-a a mais recentemente usada, ou *Most Recently Used* - MRU) usando `splice`.
+
+   - **Análise**:
+
+     - A busca na `page_table` é $O(1)$ em média, devido ao uso de `unordered_map`;
+     - A operação `splice` na `std::list` é $O(1)$, pois apenas rearranja ponteiros internamente, sem copiar elementos;
+     - Reorganizar a lista em cada hit reflete a essência do LRU, mantendo a ordem de recenticidade.
+
+2. **Registro de Falha (Miss)**:
+
+   - **Código**: `page_faults++;`;
+   - **Funcionamento**: se a página não está na memória, registra uma falha de página (`page_faults`);
+   - **Análise**: este passo é essencial para rastrear o desempenho do algoritmo, permitindo calcular a taxa de acertos posteriormente.
+
+3. **Substituição de Página (Memória Cheia)**:
+
+   - **Código**:
+
+     ```cpp
+     if (page_table.size() == num_frames) {
+         DWORD victim_page = lru_list.back();
+         page_table.erase(victim_page);
+         lru_list.pop_back();
+         lru_list.push_front(page_number);
+         page_table[page_number] = lru_list.begin();
+     }
+     ```
+
+   - **Funcionamento**: Se a memória está cheia, número de páginas igual a `num_frames`, remove a página menos recentemente usada, a última da `lru_list`, apaga-a da `page_table` e da lista, e insere a nova página no início da `lru_list`, atualizando a `page_table`.
+
+   - **Análise**:
+
+     - A escolha da vítima (`lru_list.back()`) é $O(1)$, assim como `pop_back()` e `push_front()` na `std::list`;
+     - A remoção e inserção na `page_table` são $O(1)$ em média, garantindo alta performance;
+     - Este passo reflete a política **LRU**, priorizando a retenção de páginas recentemente usadas.
+
+4. **Alocação em Quadro Livre**:
+
+   - **Código**:
+
+     ```cpp
+     else {
+         lru_list.push_front(page_number);
+         page_table[page_number] = lru_list.begin();
+     }
+     ```
+
+   - **Funcionamento**: Se há quadros livres, insere a nova página no início da `lru_list`, e atualiza a `page_table`.
+
+   - **Análise**:
+     - As operações `push_front` e a inserção na `page_table` são $O(1)$;
+     - Não é necessária uma busca por quadros livres, pois a `lru_list` e a `page_table` gerenciam diretamente as páginas alocadas.
+
+Podemos destacar alguns pontos fortes do  **LRU**:
+
+- **Eficiência**: o uso de `std::list` e `std::unordered_map` garante operações $O(1)$ para busca, movimentação e substituição de páginas, tornando a implementação eficiente;
+- **Aderência ao Princípio da Localidade**: o **LRU** é mais eficaz que o **FIFO** em cenários com padrões de acesso repetitivos, reduzindo falhas de página;
+
+Por outro lado, comparado ao **FIFO**, o **LRU** tem a implementação mais complexa devido à necessidade de rastrear a ordem de recenticidade, exigindo estruturas como listas duplamente ligadas. Além disso, em hardware, manter a ordem de uso pode ser custoso sem suporte específico, ex.: contadores de acesso. O código assume um ambiente simulado. Finalmente, não há verificação de entradas inválidas, ex.: `page_number` ou `num_frames`, o que seria necessário em sistemas reais.
+
+## Algoritmo do Relógio (Clock/Second Chance)
+
+O **algoritmo do relógio**, desenvolvido como aproximação eficiente do **LRU**, utiliza um bit de referência mantido pelo hardware para implementar uma política de _segunda chance_. Esta abordagem oferece desempenho próximo ao **LRU** com implementação significativamente mais simples.
+
+### Estrutura e Funcionamento
+
+O algoritmo organiza os quadros em uma estrutura circular com ponteiro que _varre_ continuamente:
+
+```shell
+Estrutura Clock:
+- Array circular de quadros
+- Bit de referência por quadro (mantido pelo hardware)
+- Ponteiro de relógio (clock hand)
+
+Algoritmo:
+1. Ao acessar página: hardware define bit de referência = 1
+2. Para substituição:
+   a. Examinar quadro atual do ponteiro
+   b. Se bit = 0: selecionar como vítima
+   c. Se bit = 1: definir bit = 0, avançar ponteiro
+   d. Repetir até encontrar vítima
+```
+
+### Análise do Comportamento
+
+O algoritmo do relógio implementa efetivamente uma política de **segunda chance**:
+
+- **Primeira passada**: páginas com bit igual a $1$ recebem a _segunda chance_;
+- **Segunda passada**: páginas que não foram referenciadas no intervalo são removidas;
+- **Convergência**: em caso limite, comporta-se como **FIFO**.
+
+### Exemplo Ilustrativo
+
+Podemos ilustrar o funcionamento do algoritmo do relógio com um código em C++ a partir da classe `ClockPageManager`:
+
+```cpp
+void ClockPageManager::accessPage(DWORD page_number) {
+    // Verificar se a página está na memória (HIT)
+    auto it = page_table.find(page_number);
+    if (it != page_table.end()) {
+        hits++;
+        // Em um HIT, o hardware define o bit de referência como 1
+        reference_bits[it->second] = true;
+        return;
+    }
+    // Se ausente (MISS / Page Fault)
+    page_faults++;
+    // Tenta encontrar um quadro livre primeiro
+    std::optional<SIZE_T> free_frame;
+    for (SIZE_T i = 0; i < num_frames; ++i) {
+        if (!frames[i].has_value()) {
+            free_frame = i;
+            break;
+        }
+    }
+    if (free_frame.has_value()) {
+        SIZE_T frame_index = *free_frame;
+        frames[frame_index] = page_number;
+        reference_bits[frame_index] = true; // Página nova entra com bit 1
+        page_table[page_number] = frame_index;
+    } else {
+        // Se a memória está cheia, executar o algoritmo do Relógio
+        while (true) {
+            // Examinar o quadro atual do ponteiro
+            if (reference_bits[clock_hand] == false) {
+                // Se bit = 0: selecionar como vítima
+                const DWORD victim_page = frames[clock_hand].value();
+                page_table.erase(victim_page);
+                frames[clock_hand] = page_number;
+                reference_bits[clock_hand] = true; // Página nova entra com bit 1
+                page_table[page_number] = clock_hand;
+                clock_hand = (clock_hand + 1) % num_frames;
+                break; // Vítima encontrada, sai do loop
+            } else {
+                // Se bit = 1: dar segunda chance (zerar o bit) e avançar
+                reference_bits[clock_hand] = false;
+                clock_hand = (clock_hand + 1) % num_frames;
+            }
+        }
+    }
+}
+```
+
+Neste caso, o método `accessPage` encapsula a lógica do algoritmo Relógio, que usa um ponteiro circular, `clock_hand`, e bits de referência para gerenciar a substituição de páginas. Abaixo, uma análise detalhada de cada etapa:
+
+1. **Verificação de Acerto (Hit)**:
+
+   - **Código**:
+
+     ```cpp
+     auto it = page_table.find(page_number);
+     if (it != page_table.end()) {
+         hits++;
+         reference_bits[it->second] = true;
+         return;
+     }
+     ```
+
+   - **Funcionamento**: verifica se a página solicitada, `page_number`, está na memória usando a `page_table`, um `std::unordered_map` que mapeia números de página para índices de quadros. Se presente, incrementa o contador de acertos (`hits`) e define o bit de referência do quadro correspondente como `true`, indicando que a página foi recentemente acessada.
+
+   - **Análise**:
+  
+     - A busca na `page_table` é $O(1)$ em média, garantindo eficiência;
+     - Definir o bit de referência como `true` simula o comportamento de hardware que marca páginas acessadas, essencial para a política de _segunda chance_;
+     - Diferentemente do **LRU**, o Relógio não reorganiza uma lista, reduzindo a sobrecarga computacional.
+
+2. **Registro de Falha (Miss)**:
+
+   - **Código**: `page_faults++;`;
+   - **Funcionamento**: se a página não está na memória, registra uma falha de página, `page_faults`;
+   - **Análise**: Este passo é crucial para rastrear o desempenho do algoritmo, permitindo calcular a taxa de acertos posteriormente.
+
+3. **Alocação em Quadro Livre**:
+
+   - **Código**:
+
+     ```cpp
+     std::optional<SIZE_T> free_frame;
+     for (SIZE_T i = 0; i < num_frames; ++i) {
+         if (!frames[i].has_value()) {
+             free_frame = i;
+             break;
+         }
+     }
+     if (free_frame.has_value()) {
+         SIZE_T frame_index = *free_frame;
+         frames[frame_index] = page_number;
+         reference_bits[frame_index] = true;
+         page_table[page_number] = frame_index;
+     }
+     ```
+
+   - **Funcionamento**: verifica se há quadros livres, usando `std::optional` para identificar quadros vazios. Se encontrado, aloca a nova página no quadro, define seu bit de referência como `true`, indicando acesso recente, e atualiza a `page_table`.
+
+   - **Análise**:
+
+     - A busca linear por um quadro livre é $O(n)$, onde `n` é o número de quadros, `num_frames`. Isso poderia ser otimizado com uma lista de quadros livres;
+     - Definir o bit de referência como `true` para novas páginas é consistente com a política do Relógio, garantindo que elas tenham uma _segunda_ chance inicial.
+
+4. **Substituição de Página (Memória Cheia)**:
+
+   - **Código**:
+
+     ```cpp
+     else {
+         while (true) {
+             if (reference_bits[clock_hand] == false) {
+                 const DWORD victim_page = frames[clock_hand].value();
+                 page_table.erase(victim_page);
+                 frames[clock_hand] = page_number;
+                 reference_bits[clock_hand] = true;
+                 page_table[page_number] = clock_hand;
+                 clock_hand = (clock_hand + 1) % num_frames;
+                 break;
+             } else {
+                 reference_bits[clock_hand] = false;
+                 clock_hand = (clock_hand + 1) % num_frames;
+             }
+         }
+     }
+     ```
+
+   - **Funcionamento**: se a memória está cheia, o algoritmo Relógio usa o ponteiro `clock_hand` para varrer os quadros em ordem circular. Se o bit de referência do quadro atual é `false`, a página é selecionada como vítima, substituída pela nova página, com bit `true`, e o ponteiro avança. Se o bit é `true`, ele é zerado, dando uma _segunda chance_, e o ponteiro avança para o próximo quadro.
+
+   - **Análise**:
+     - A busca linear por um quadro livre é $O(n)$ no pior caso, pois pode ser necessário varrer todos os quadros se todos tiverem bit de referência `true`;
+     - A escolha da vítima é $O(n)$ no pior caso, pois pode ser necessário varrer todos os quadros se todos tiverem bit de referência `true`;
+     - Operações na `page_table`, remoção e inserção, são $O(1)$ em média;
+     - O avanço circular do `clock_hand` (`% num_frames`) simula a estrutura de relógio, mantendo a simplicidade e eficiência em relação ao **LRU** puro.
+
+Finalmente podemos ver que o algoritmo Relógio é mais simples que o **LRU** puro, pois usa bits de referência em vez de reordenar listas, reduzindo a sobrecarga computacional. Uma vantagem significativa é que a política de "segunda chance" mantém páginas recentemente usadas, aproveitando a localidade temporal com menos custo que o **LRU**.
+
+O exemplo em código C++23 reflete implementações reais em sistemas operacionais, nas quais bits de referência são suportados por hardware.
+
+Existem algumas limitações e considerações práticas na implementação:
+
+- **Busca por Quadro Livre**: a busca linear por quadros livres ($O(n)$) poderia ser otimizada com uma estrutura auxiliar, como uma lista de quadros disponíveis.
+- **Complexidade no Pior Caso**: a substituição pode exigir várias iterações ($O(n)$) se todos os bits de referência forem `true`, embora isso seja raro em cenários com localidade.
+- **Validação de Entrada**: o código não valida `page_number` ou `num_frames`, o que seria necessário em sistemas reais.
+- **Dependência de Hardware**: em sistemas reais, o algoritmo depende de suporte para bits de referência, que não é simulado diretamente aqui.
+
+### Variações e Melhorias do Algoritmo Relógio
+
+#### Relógio Melhorado (_Enhanced Clock_)
+
+Utiliza tanto bit de referência quanto bit de modificação:
+
+```shell
+Prioridades de substituição:
+1. (referência=0, modificação=0) - Melhor candidato
+2. (referência=0, modificação=1) - Segundo melhor  
+3. (referência=1, modificação=0) - Terceiro melhor
+4. (referência=1, modificação=1) - Último recurso
+```
+
+Esta variação reduz operações de I/O ao preferir páginas limpas.
+
+#### WSClock (Working Set Clock)
+
+Combina conceitos do modelo Working Set com eficiência do algoritmo clock, considerando tanto idade quanto frequência de acesso.
+
+## Working Set Model: Teoria da Localidade
+
+O **modelo Working Set**, proposto por Peter Denning em 1968, fundamenta-se numa observação empírica: *programas exibem fases distintas de execução, acessando conjuntos relativamente pequenos de páginas em cada fase*.
+
+### Definição Formal
+
+O **Working Set** $W(t, \tau)$ de um processo no tempo $t$ com janela $\tau$ é:
+
+$$W(t, \tau) = \{páginas\ referenciadas\ no\ intervalo\ [t-\tau+1, t]\}$$
+
+Onde:
+
+- $t$ = tempo virtual atual (número de referências);
+- $\tau$ = tamanho da janela temporal;
+- $|W(t, \tau)|$ igual ao tamanho do _working set_.
+
+### Princípios Operacionais
+
+O modelo _Working Set_ sugere que:
+
+1. **Páginas no working set**: devem permanecer na memória;
+2. **Páginas fora do working set**: são candidatas à substituição;
+3. **Transições de fase**: causam mudanças dramáticas no _working set_.
+
+### Implementação Prática
+
+A implementação exata do _Working Set_ é computacionalmente intensiva, mas aproximações são viáveis:
+
+```shell
+Algoritmo Working Set Aproximado:
+- Manter timestamp da última referência para cada página
+- Definir parâmetro τ (idade máxima)
+- Para substituição:
+  * Varrer todas as páginas
+  * Identificar páginas com idade > τ
+  * Selecionar mais antiga fora do working set
+```
+
+### Limitações e Desafios
+
+- **Overhead computacional**: requer varredura periódica de todas as páginas;
+- **Escolha de τ**: parâmetro crítico que afeta significativamente o desempenho;
+- **Variabilidade temporal**: _working sets_ mudam dinamicamente.
+
+## WSClock: Síntese Prática
+
+O **WSClock** representa uma síntese elegante entre a teoria do _Working Set_ e a eficiência prática do algoritmo _clock_. Desenvolvido para aproximar o comportamento ideal do _Working Set_ com overhead computacional aceitável.
+
+### Funcionamento Híbrido
+
+O WSClock mantém:
+
+- **Estrutura circular**: como algoritmo clock básico;
+- **Timestamps**: para cada página, momento da última referência;
+- **Parâmetro τ**: define limite de idade para _working set_.
+
+```shell
+Algoritmo WSClock:
+
+1. Varrer páginas com ponteiro circular
+2. Para cada página examinada:
+   a. Se bit_referência = 1:
+      * Atualizar timestamp
+      * Definir bit_referência = 0
+      * Continuar varredura
+   b. Se bit_referência = 0:
+      * Calcular idade = tempo_atual - timestamp
+      * Se idade > τ: selecionar como vítima
+      * Senão: continuar varredura
+3. Se varredura completa sem vítima: usar critério FIFO
+```
+
+### Vantagens Integradas
+
+- **Eficiência**: $O(1)$ amortizado como _clock_;
+- **Teoria sólida**: baseado em _Working Set_;
+- **Adaptabilidade**: ajusta-se automaticamente aos padrões de acesso;
+- **Implementação simples**: requer apenas _timestamps_ e bit de referência.
+
+## Algoritmos de _aging_: Refinamento Temporal
+
+Os **algoritmos de _aging_**, envelhecimento, implementam aproximações sofisticadas do **LRU** utilizando contadores de múltiplos bits para rastrear história de acessos. Esta abordagem oferece granularidade temporal superior aos algoritmos baseados em bit único.
+
+### Implementação Básica
+
+```shell
+Estrutura aging:
+- Contador de n bits por página (tipicamente 8-16 bits)
+- Timer periódico (ex: a cada 20ms)
+
+Algoritmo:
+1. Periodicamente (timer interrupt):
+   a. Para cada página: deslocar contador 1 bit à direita
+   b. Se bit_referência = 1: definir bit mais significativo = 1
+   c. Limpar bit_referência
+```
+
+### Análise Temporal
+
+O _aging_ captura **história ponderada** de acessos:
+
+- **Bits mais significativos**: Acessos recentes, maior peso;
+- **Bits menos significativos**: Acessos antigos, menor peso;
+- **Granularidade**: Depende do número de bits e frequência do timer.
+
+**Exemplo com contadores de 8 bits e timer de 20ms**:
+
+```shell
+Tempo | Página A | Página B | Bit Ref A | Bit Ref B
+  0   | 00000000 | 00000000 |     0     |     0
+ 20ms | 00000000 | 10000000 |     0     |     1
+ 40ms | 00000000 | 01000000 |     0     |     0
+ 60ms | 10000000 | 00100000 |     1     |     0
+ 80ms | 01000000 | 00010000 |     0     |     0
+```
+
+Página A seria selecionada para substituição (contador menor).
+
+#### Simulador 
+
+Assim como fizemos com os outros algoritmos, podemos implementar o algoritmo de _aging_ em C++ 23 a partir da classe `AgingPageManager`.
+
+```cpp
+void AgingPageManager::accessPage(DWORD page_number) {
+    // Verificar se a página está na memória (HIT)
+    auto it = page_table.find(page_number);
+    if (it != page_table.end()) {
+        hits++;
+        reference_bits[it->second] = true; // Marca como referenciada
+        return;
+    }
+    // Se ausente (MISS / Page Fault)
+    page_faults++;
+    // Tenta encontrar um quadro livre
+    std::optional<SIZE_T> free_frame;
+    for (SIZE_T i = 0; i < num_frames; ++i) {
+        if (!frames[i].has_value()) {
+            free_frame = i;
+            break;
+        }
+    }
+    // Se há quadro livre
+    if (free_frame.has_value()) {
+        SIZE_T frame_index = *free_frame;
+        frames[frame_index] = page_number;
+        reference_bits[frame_index] = true;
+        age_counters[frame_index] = 0; // Reseta o contador
+        page_table[page_number] = frame_index;
+    } else {
+        // Se a memória está cheia, encontrar a vítima com o menor contador
+        uint8_t min_age = std::numeric_limits<uint8_t>::max();
+        SIZE_T victim_frame_index = 0;
+        for (SIZE_T i = 0; i < num_frames; ++i) {
+            if (age_counters[i] < min_age) {
+                min_age = age_counters[i];
+                victim_frame_index = i;
+            }
+        }
+        const DWORD victim_page = frames[victim_frame_index].value();
+        page_table.erase(victim_page);
+        frames[victim_frame_index] = page_number;
+        reference_bits[victim_frame_index] = true;
+        age_counters[victim_frame_index] = 0;
+        page_table[page_number] = victim_frame_index;
+    }
+}
+
+void AgingPageManager::timerTick() {
+    const uint8_t msb_mask = (1 << (AGING_COUNTER_BITS - 1));
+    for (SIZE_T i = 0; i < num_frames; ++i) {
+        if (frames[i].has_value()) {
+            // Deslocar contador 1 bit à direita
+            age_counters[i] >>= 1;
+            // Se bit_referência = 1: definir bit mais significativo = 1
+            if (reference_bits[i]) {
+                age_counters[i] |= msb_mask;
+            }
+            // Limpar bit_referência
+            reference_bits[i] = false;
+        }
+    }
+}
+```
+
+O algoritmo _Aging_ combina dois métodos principais: `accessPage`, que gerencia acessos a páginas e substituições, e `timerTick`, que simula a passagem do tempo, atualizando os contadores de envelhecimento. Abaixo, uma análise detalhada de cada etapa:
+
+1. **Verificação de Acerto (Hit) em `accessPage`**:
+
+   - **Código**:
+
+     ```cpp
+     auto it = page_table.find(page_number);
+     if (it != page_table.end()) {
+         hits++;
+         reference_bits[it->second] = true;
+         return;
+     }
+     ```
+
+   - **Funcionamento**: verifica se a página solicitada (`page_number`) está na memória usando a `page_table` (um `std::unordered_map` que mapeia números de página para índices de quadros). Se presente, incrementa o contador de acertos (`hits`) e define o bit de referência do quadro como `true`, indicando acesso recente.
+
+   - **Análise**:
+
+     - A busca na `page_table` é O(1) em média, garantindo eficiência;
+     - Definir o bit de referência como `true` prepara a página para ter seu contador atualizado no próximo *timer tick*, aumentando seu valor e priorizando sua permanência na memória;
+     - Diferentemente do LRU, o Aging não reordena imediatamente, adiando a atualização do "peso" da página para o `timerTick`.
+
+2. **Registro de Falha (Miss) em `accessPage`**:
+
+   - **Código**: `page_faults++;`;
+   - **Funcionamento**: Se a página não está na memória, registra uma falha de página (`page_faults`);
+   - **Análise**: Este passo é essencial para rastrear o desempenho do algoritmo, permitindo calcular a taxa de acertos posteriormente.
+
+3. **Alocação em Quadro Livre em `accessPage`**:
+
+   - **Código**:
+
+     ```cpp
+     std::optional<SIZE_T> free_frame;
+     for (SIZE_T i = 0; i < num_frames; ++i) {
+         if (!frames[i].has_value()) {
+             free_frame = i;
+             break;
+         }
+     }
+     if (free_frame.has_value()) {
+         SIZE_T frame_index = *free_frame;
+         frames[frame_index] = page_number;
+         reference_bits[frame_index] = true;
+         age_counters[frame_index] = 0;
+         page_table[page_number] = frame_index;
+     }
+     ```
+
+   - **Funcionamento**: verifica se há quadros livres (usando `std::optional` para identificar quadros vazios). Se encontrado, aloca a nova página no quadro, define seu bit de referência como `true` (acesso recente) e reseta seu contador de envelhecimento, `age_counters`, para $0$, atualizando a `page_table`;
+
+   - **Análise**:
+
+     - A busca linear por um quadro livre é $O(n)$, onde `n` é o número de quadros, `num_frames`. Isso poderia ser otimizado com uma lista de quadros livres;
+     - Zerar o contador, $0$ reflete que a nova página ainda não foi _envelhecida_, enquanto o bit de referência `true` garante que ela ganhará prioridade no próximo _timer tick_.
+
+4. **Substituição de Página (Memória Cheia) em `accessPage`**:
+
+   - **Código**:
+
+     ```cpp
+     else {
+         uint8_t min_age = std::numeric_limits<uint8_t>::max();
+         SIZE_T victim_frame_index = 0;
+         for (SIZE_T i = 0; i < num_frames; ++i) {
+             if (age_counters[i] < min_age) {
+                 min_age = age_counters[i];
+                 victim_frame_index = i;
+             }
+         }
+         const DWORD victim_page = frames[victim_frame_index].value();
+         page_table.erase(victim_page);
+         frames[victim_frame_index] = page_number;
+         reference_bits[victim_frame_index] = true;
+         age_counters[victim_frame_index] = 0;
+         page_table[page_number] = victim_frame_index;
+     }
+     ```
+
+   - **Funcionamento**: se a memória está cheia, seleciona a página com o menor contador de envelhecimento, `age_counters`, como _vítima_, remove-a da `page_table` e do quadro, insere a nova página no mesmo quadro, define seu bit de referência como `true`, zera seu contador e atualiza a `page_table`.
+
+   - **Análise**:
+
+     - A busca pelo menor contador é $O(n)$, pois requer varrer todos os quadros;
+     - Operações na `page_table`, remoção e inserção, são $O(1)$ em média;
+     - A escolha da vítima com base no menor contador reflete a política do _Aging_, que prioriza páginas com menos acessos recentes, aproximando-se do **LRU**.
+
+5. **Envelhecimento em `timerTick`**:
+
+   - **Código**:
+
+     ```cpp
+     void AgingPageManager::timerTick() {
+         const uint8_t msb_mask = (1 << (AGING_COUNTER_BITS - 1));
+         for (SIZE_T i = 0; i < num_frames; ++i) {
+             if (frames[i].has_value()) {
+                 age_counters[i] >>= 1;
+                 if (reference_bits[i]) {
+                     age_counters[i] |= msb_mask;
+                 }
+                 reference_bits[i] = false;
+             }
+         }
+     }
+     ```
+
+   - **Funcionamento**: simula a passagem do tempo, deslocando todos os contadores de envelhecimento (`age_counters`) um bit à direita (reduzindo seu valor pela metade). Se o bit de referência de uma página é `true`, define o bit mais significativo do contador como $1$. Finalmente, limpa o bit de referência;
+
+   - **Análise**:
+
+     - O deslocamento à direita (`>>= 1`) reduz o peso de acessos antigos, enquanto o bit de referência adicionado ao contador (`|= msb_mask`) reflete acessos recentes, mantendo a localidade temporal;
+     - A operação é $O(n)$ devido ao laço sobre todos os quadros;
+     - Este passo é crucial para diferenciar o _Aging_ de outros algoritmos, pois permite rastrear o histórico de acessos com maior granularidade que o algoritmo Relógio.
+
+O _Aging_ oferece uma boa aproximação do **LRU** com contadores de múltiplos bits, capturando um histórico de acesso mais detalhado que o bit único do Relógio; No código a combinação de `std::unordered_map` ($O(1)$ para buscas) e vetores para contadores e bits garante uma implementação robusta. Além disso, neste código o número de bits do contador (`AGING_COUNTER_BITS`) pode ser ajustado para maior ou menor granularidade.
+
+O algoritmo é apenas uma versão de simulação para que a esforçada leitora possa entender o algoritmo e não deve ser usado em produção sem melhorias. As buscas lineares por quadros livres e pelo menor contador (ambas $O(n)$) podem ser otimizadas com estruturas auxiliares, como uma _heap_ para contadores. Além disso, não há verificação de entradas inválidas, o que seria necessário em sistemas reais. Finalmente, em sistemas reais, o _Aging_ depende de suporte para contadores de envelhecimento, que não está simulado no nosso código.
+
+### Variações e Otimizações
+
+#### _Aging_ com Múltiplas Classes
+
+Separar páginas em classes baseadas em tipos de uso:
+
+- **Classe 0**: Páginas de código (executável);
+- **Classe 1**: Páginas de dados privados;
+- **Classe 2**: Páginas compartilhadas;
+- **Classe 3**: Páginas de sistema.
+
+Cada classe mantém contadores independentes, permitindo políticas diferenciadas.
+
+#### _aging_ Adaptativo
+
+Ajustar frequência do timer baseado na carga do sistema:
+
+- **Carga baixa**: Timer mais lento (economia de energia);
+- **Carga alta**: Timer mais rápido (precisão temporal);
+- **Pressão de memória**: Aumentar granularidade.
+
+## Análise Comparativa e Trade-offs
+
+### Complexidade Computacional
+
+| Algoritmo | Acesso | Substituição | Espaço | Hardware |
+|-----------|--------|--------------|--------|----------|
+| FIFO      | $O(1)$   | $O(1)$         | $O(n)   | Nenhum   |
+| OPT       | -      | $O(n·m)$       | $O(n·m)$ | Impossible |
+| LRU       | $O(1)$   | $O(1)$         | $O(n)$   | Timestamps |
+| Clock     | $O(1)$   | $O(n)$ worst   | $O(n)$   | $1$ bit    |
+| WSClock   | $O(1)$   | $O(n)$ worst   | $O(n)$   | Timer    |
+| _aging_   | $O(1)$   | $O(n)$         | $O(n)$   | $n$ bits   |
+
+### Desempenho Relativo
+
+**Workloads com boa localidade temporal**: $\text{OPT} > \text{LRU} ≈ \text{aging} > \text{WSClock} > \text{Clock} > \text{FIFO}$;
+**Workloads com padrões sequenciais**: $\text{OPT} > \text{FIFO} ≈ \text{Clock} > \text{LRU} > \text{aging}$
+
+**Workloads aleatórios**: diferenças mínimas entre algoritmos
+
+### Implementação em Sistemas Reais
+
+## **Secção 1: Substituição de Páginas no Kernel Linux Moderno: O LRU Multi-Geracional**
+
+O subsistema de gestão de memória do Linux passou por uma evolução significativa, culminando numa reformulação arquitetónica que aborda as deficiências das abordagens anteriores face ao hardware moderno. Esta secção analisa essa evolução, aprofunda a mecânica do novo *framework* Multi-Generational LRU (MGLRU) e explora a sua interação com os daemons do sistema.
+
+### **1. Evolução Arquitetónica: Do Split-LRU ao MGLRU**
+
+A história da substituição de páginas no Linux é uma de aproximações cada vez mais sofisticadas ao ideal do LRU. As primeiras implementações dependiam de variantes do **algoritmo do Relógio (Clock)**, que usava um bit de acesso para dar uma "segunda oportunidade" às páginas antes da sua remoção, oferecendo uma aproximação de baixo custo ao LRU Durante muitos anos, a estratégia dominante foi o sistema
+
+**split-LRU de duas listas (ativa/inativa)**. Neste modelo, as páginas eram mantidas em duas listas: uma lista ativa para páginas acessadas recentemente e uma lista inativa para páginas candidatas à remoção. As páginas moviam-se da lista ativa para a inativa após um período de inatividade e eram promovidas de volta para a ativa se fossem acessadas enquanto estavam na lista inativa
+
+No entanto, com o advento de sistemas com centenas de gigabytes ou mesmo terabytes de RAM e processadores massivamente multi-core, as limitações deste modelo tornaram-se cada vez mais evidentes:
+
+* **Elevado Custo de CPU:** Sob forte pressão de memória, o daemon do kernel kswapd (responsável pela recuperação de páginas em segundo plano) e os caminhos de recuperação direta eram forçados a realizar varrimentos exaustivos das listas LRU para encontrar páginas candidatas à remoção. Este processo consumia uma quantidade significativa de tempo de CPU, podendo levar a uma falta de resposta do sistema em cenários de carga elevada  
+* **Informação de Recenticidade Grosseira:** A classificação binária de uma página como "ativa" ou "inativa" era demasiado simplista. Não conseguia distinguir entre uma página acessada há um segundo e uma acessada há uma hora, resultando frequentemente em más decisões de remoção. Páginas importantes podiam ser desativadas prematuramente, enquanto páginas verdadeiramente "frias" permaneciam na memória  
+* **Má Escalabilidade:** A contenção de bloqueios (lock) necessários para manipular as listas LRU e o custo dos varrimentos não escalavam bem com o aumento do número de núcleos de CPU e da capacidade de memória, tornando-se um gargalo de desempenho em hardware moderno
+
+A resposta a estes desafios foi o *framework* **Multi-Generational LRU (MGLRU)**, uma implementação alternativa desenvolvida pela Google e integrada na linha principal do kernel por volta da versão 6 O MGLRU foi explicitamente concebido para otimizar a recuperação de páginas, melhorar o desempenho sob pressão de memória e, crucialmente, reduzir o consumo de CPU do
+
+kswapd Esta mudança não foi apenas uma otimização, mas uma mudança filosófica fundamental na gestão de memória do Linux. Em vez de um modelo reativo e grosseiro, o MGLRU introduziu um sistema proativo, orientado por dados e baseado no tempo. O sistema antigo simplesmente reagia à falta de acesso; o novo sistema classifica ativamente as páginas numa escala contínua de "idade". Funcionalidades como a prevenção de
+
+*thrashing* e a recuperação proativa demonstram uma mudança para uma gestão antecipada, onde o sistema pode ser configurado para proteger conjuntos de trabalho temporais ou limpar páginas frias em preparação para novas cargas de trabalho, tornando-o mais adequado para a diversidade de cenários de uso modernos, desde dispositivos móveis a grandes centros de dados
+
+### **1. Análise Profunda do Framework MGLRU**
+
+O MGLRU opera com base em vários objetivos de design claros: obter uma boa representação da recenticidade de acesso, tirar partido da localidade espacial, usar caminhos rápidos para decisões óbvias e empregar heurísticas simples e autocorretivas
+
+O conceito central do MGLRU são as **gerações**. Em vez de duas listas, o MGLRU divide as páginas elegíveis para remoção em múltiplas gerações, onde cada geração representa um grupo de páginas com uma recenticidade de acesso semelhante Uma página recém-acessada é colocada na geração mais jovem. Com o tempo, se uma página não for acessada, envelhece e é movida para gerações progressivamente mais antigas. Isto fornece uma visão muito mais granular e baseada no tempo do quão "quente" ou "fria" uma página é, permitindo decisões de remoção muito mais inteligentes
+
+As principais estruturas de dados que suportam este *framework* incluem:
+
+* lruvec: Uma estrutura por-nó e por-`cgroup` que contém a informação LRU.  
+* lrugen: Uma subestrutura dentro da lruvec que armazena os dados específicos do MGLRU. Contém max\_seq, o número da geração mais jovem, e min\_seq, os números das gerações mais antigas, que são rastreados separadamente para páginas anónimas e de ficheiros  
+* folios: A estrutura de memória subjacente que representa uma ou mais páginas físicas contíguas. O folio contém um "contador de geração" (*gen counter*) nos seus *flags*, que indica a que geração pertence
+
+Para além das gerações, o MGLRU introduz o conceito de **níveis** (*tiers*). Os níveis são usados especificamente para páginas de ficheiros para rastrear a frequência de acesso, adicionando uma dimensão de informação para além da recenticidade. Uma página acessada N vezes através de descritores de ficheiro é colocada no nível order\_base\_2(N), permitindo que o sistema distinga entre páginas de uso único (como as de uma grande varredura de ficheiro) e páginas acessadas repetidamente
+
+Uma observação arquitetónica crucial é que, embora o MGLRU seja um novo *framework*, ele retém e refina a separação fundamental entre páginas anónimas (memória de processo, como *heap* e *stack*) e páginas de ficheiros (conteúdo de ficheiros em cache). O sistema split-LRU anterior já separava as listas ativa/inativa para estes dois tipos para evitar varrer páginas anónimas dispendiosas quando páginas de ficheiros limpas e baratas podiam ser simplesmente descartadas O MGLRU continua esta prática, mantendo contadores
+
+min\_seq separados para os tipos anónimo e de ficheiro A lógica de remoção reconhece explicitamente que "páginas de ficheiros limpas podem ser expulsas independentemente das restrições de
+
+*swap*" Isto demonstra que o princípio económico central — que expulsar uma página que requer uma escrita para o
+
+*swap* (anónima) é muito mais caro do que descartar uma página limpa que já existe em disco (de ficheiro) — permanece um pilar central da estratégia de substituição de páginas.
+
+### **1. O Processo de Envelhecimento e Remoção do MGLRU**
+
+O fluxo de trabalho do MGLRU pode ser dividido em dois processos principais: envelhecimento e remoção.
+
+O processo de **envelhecimento** é responsável por criar novas gerações mais jovens e, consequentemente, por fazer com que as páginas não referenciadas envelheçam e se movam para gerações mais antigas Este processo funciona varrendo periodicamente a memória para detetar páginas acessadas. O acesso é detetado através de dois canais principais:
+
+1. **Tabelas de Páginas:** Para memória anónima e de processo, o envelhecimento percorre as tabelas de páginas dos processos para verificar o bit de acesso, que é definido pelo hardware da MMU quando uma página é lida ou escrita.  
+2. **Descritores de Ficheiros:** Para páginas de ficheiros, o acesso também pode ser inferido através de chamadas de sistema como read() e write().
+
+Quando uma página é encontrada com o bit de acesso definido, ela é "promovida" para a geração mais jovem O próprio ato de criar uma nova geração mais jovem (incrementando
+
+max\_seq) faz com que todas as outras gerações se tornem relativamente mais antigas, efetivamente "rebaixando" as páginas frias
+
+O processo de **remoção** é ativado quando o sistema precisa de libertar memória. A lógica de remoção do MGLRU visa as gerações mais antigas primeiro, pois contêm as páginas que, com maior probabilidade, não são utilizadas. A decisão de remoção é inteligente e distingue entre os tipos de página. Como as páginas de ficheiros limpas são as mais baratas de expulsar (não requerem escrita em disco), são frequentemente candidatas prioritárias. Se as gerações mais antigas de páginas anónimas e de ficheiros tiverem a mesma idade, o sistema utiliza mecanismos de feedback, como uma percentagem de novas falhas de página (_refault_), para decidir qual tipo expulsar Um controlador PID (Proporcional-Integral-Derivativo) é usado para monitorizar as nova falhas (páginas que são expulsas e rapidamente solicitadas de novo) e ajustar dinamicamente as heurísticas para equilibrar a agressividade da remoção entre memória anónima e de ficheiros, evitando assim o
+
+*thrashing*
+
+### **1. Daemons do Sistema e Ajustabilidade: O Papel do kswapd**
+
+A interação entre o kswapd e o MGLRU é fundamental para a eficiência do sistema. O kswapd é um *thread* do kernel que corre em segundo plano, um por cada nó NUMA, e é responsável pela recuperação assíncrona de páginas Ele é acordado pelo alocador de memória quando a quantidade de memória livre num nó desce abaixo de uma marca de água baixa (
+
+*watermark*), pages\_low A sua tarefa é então recuperar páginas até que a memória livre atinja uma marca de água alta,
+
+pages\_high
+
+O MGLRU foi explicitamente concebido para tornar o trabalho do kswapd mais eficiente. Ao organizar as páginas numa hierarquia clara de gerações de recenticidade, o MGLRU fornece ao kswapd uma lista pré-ordenada de candidatas à remoção: as páginas nas gerações mais antigas. Isto permite que o kswapd identifique e recupere rapidamente as páginas vítimas com um varrimento mínimo, reduzindo diretamente o seu consumo de CPU e melhorando a capacidade de resposta do sistema sob pressão de memória
+
+Para além da sua operação automática, o MGLRU oferece um grau significativo de controlo e observabilidade ao administrador do sistema. O *framework* pode ser ativado e ajustado através do ficheiro /sys/kernel/mm/lru\_gen/enabled, que aceita uma máscara de bits para ativar diferentes componentes Funcionalidades importantes podem ser configuradas, como a
+
+**prevenção de *thrashing***, que pode ser ativada escrevendo um valor em milissegundos para min\_ttl\_ms. Isto instrui o kernel a proteger da remoção qualquer conjunto de trabalho (páginas acessadas) dentro dessa janela de tempo, acionando o OOM killer se não for possível manter esse conjunto de trabalho na memória Funcionalidades avançadas, como a estimativa de conjuntos de trabalho e a recuperação proativa, são expostas através de
+
+/sys/kernel/debug/lru\_gen, fornecendo ferramentas poderosas para agendadores de tarefas em centros de dados otimizarem a colocação de cargas de trabalho
+
+## **Secção 2: Substituição de Páginas no Windows 11: O Modelo do Conjunto de Trabalho**
+
+O subsistema de gestão de memória do Windows, refinado ao longo de décadas, opera com base num paradigma fundamentalmente diferente do Linux. Em vez de uma política de recuperação global, o Windows centra a sua estratégia em torno do **conjunto de trabalho** (*working set*) de cada processo individual. Esta secção explora este modelo, detalha o complexo ciclo de vida de uma página de memória e analisa os mecanismos, tanto reativos como proativos, que governam o desempenho da memória no Windows 11\.
+
+### **2. A Primazia do Conjunto de Trabalho do Processo**
+
+O conceito central da gestão de memória do Windows é o **conjunto de trabalho do processo**. Este é definido como o conjunto de páginas no espaço de endereçamento virtual de um processo que estão atualmente residentes na memória física Esta arquitetura implementa uma
+
+**política de substituição de páginas local**, o que significa que, quando a memória se torna escassa, as decisões de substituição são tomadas principalmente dentro do contexto de um único processo, em vez de uma perspetiva global de todo o sistema
+
+Cada processo no Windows tem associado um **tamanho mínimo e máximo do conjunto de trabalho**. O gestor de memória tenta manter pelo menos o número mínimo de páginas de um processo na memória enquanto este está ativo. Se um processo exceder o seu tamanho máximo, ou se houver uma pressão de memória em todo o sistema, o gestor de memória iniciará um processo de "corte" (*trimming*), removendo páginas do seu conjunto de trabalho Estes limites podem ser consultados e modificados programaticamente através de funções da API do Win32 como
+
+GetProcessWorkingSetSize e SetProcessWorkingSetSize, embora a manipulação direta destes valores seja geralmente desaconselhada, pois pode degradar o desempenho do sistema
+
+### **2. O Ciclo de Vida da Página: Uma Viagem Pelas Listas de Páginas**
+
+O estado de uma página de memória no Windows é muito mais complexo do que simplesmente estar "residente" ou "não residente". Uma página passa por um ciclo de vida bem definido, movendo-se entre várias listas geridas pelo gestor de memória. A compreensão deste fluxo é crucial para entender a estratégia de substituição de páginas do Windows, e a fonte definitiva para estes detalhes é a série de livros "Windows Internals"
+
+As principais listas e estados de página são 33:
+
+* **Ativa/Válida:** A página está no conjunto de trabalho de um processo e tem uma Entrada de Tabela de Páginas (PTE) válida que mapeia o seu endereço virtual para um endereço físico.  
+* **Transição:** Um estado temporário para uma página que foi removida de um conjunto de trabalho mas que ainda está na memória. Pode estar a sofrer uma operação de E/S ou a ser movida para outra lista  
+* **Lista de Espera (Standby List):** Esta é talvez a estrutura de dados mais importante na estratégia de cache do Windows. Contém páginas que foram removidas de um conjunto de trabalho mas que estão "limpas", ou seja, o seu conteúdo na memória corresponde ao que está em disco (seja no ficheiro original ou no ficheiro de paginação). Estas páginas são essencialmente uma cache. Se um processo precisar de uma página que está na lista de espera, pode recuperá-la através de uma "falha de página suave" (*soft page fault*) muito rápida, sem necessidade de aceder ao disco A lista de espera é priorizada; quando o sistema precisa de memória, as páginas de processos de baixa prioridade são reutilizadas primeiro  
+* **Lista Modificada (Modified List):** Contém páginas "sujas" que foram removidas de um conjunto de trabalho. Estas páginas foram alteradas na memória e o seu novo conteúdo deve ser escrito no ficheiro de paginação antes de poderem ser reutilizadas. Um *thread* do sistema, o "escritor de páginas modificadas", é responsável por esta tarefa, movendo as páginas para a lista de espera assim que a escrita é concluída  
+* **Lista Zerada (Zeroed List):** Uma lista de páginas que foram preenchidas com zeros e estão prontas para serem alocadas imediatamente a um processo para dados privados. Estas satisfazem as "falhas de demanda-zero" (*demand-zero faults*)  
+* **Lista Livre (Free List):** Contém páginas que foram libertadas mas que ainda contêm dados antigos. Por razões de segurança, estas páginas devem ser movidas para a lista zerada antes de serem entregues a um processo em modo de utilizador
+
+**Tabela 2: Transições de Estado de uma Página de Memória no Windows 11**
+
+| Lista/Estado da Página | Descrição | Gatilho de Transição de Entrada | Gatilho de Transição de Saída |
+| :---- | :---- | :---- | :---- |
+| **Livre** | Páginas não utilizadas que contêm dados residuais. | Processo termina e liberta as suas páginas. | *Thread* de zeragem do sistema move a página para a lista Zerada. |
+| **Zerada** | Páginas preenchidas com zeros, prontas para alocação. | *Thread* de zeragem limpa uma página da lista Livre. | Alocação para um processo (falha de demanda-zero). |
+| **Ativa (Conjunto de Trabalho)** | Páginas atualmente em uso por um processo. | Falha de página (dura ou suave) resolvida. | Corte do conjunto de trabalho pelo gestor de memória. |
+| **Espera (Standby)** | Cache de páginas limpas recentemente removidas dos conjuntos de trabalho. | Corte do conjunto de trabalho de uma página limpa; escritor de páginas modificadas termina a escrita de uma página. | Falha de página suave por um processo; reutilizada para uma nova alocação quando a memória é necessária. |
+| **Modificada** | Páginas "sujas" removidas dos conjuntos de trabalho que precisam ser escritas em disco. | Corte do conjunto de trabalho de uma página modificada. | Escritor de páginas modificadas move a página para a lista de Espera após a escrita. |
+
+### **2. O Gestor do Conjunto de Trabalho e a Lógica de Corte**
+
+O **Gestor do Conjunto de Trabalho** (*Working Set Manager*) é o componente do kernel responsável por aplicar as políticas de memória, incluindo a aplicação das quotas do conjunto de trabalho e o corte de páginas quando a memória disponível no sistema se torna escassa
+
+Quando o gestor decide cortar o conjunto de trabalho de um processo, ele não escolhe as páginas aleatoriamente. A implementação real é uma variação do **algoritmo do Relógio**. O gestor varre as tabelas de páginas do processo. Para cada página, ele verifica o bit de "acedido" na sua PTE. Se o bit estiver definido (indicando que a página foi acessada recentemente), o gestor simplesmente limpa o bit e passa para a página seguinte, dando-lhe uma "segunda oportunidade". Se o gestor encontrar uma página cujo bit de acedido já está limpo (o que significa que não foi acessada desde o último varrimento), essa página torna-se uma candidata principal para ser removida do conjunto de trabalho e movida para a lista de Espera ou Modificada Este método fornece uma aproximação eficiente e de baixo custo ao LRU, evitando a necessidade de manter carimbos de tempo ou listas ordenadas para cada acesso à memória.
+
+### **2. Gestão Proativa e Cache: SuperFetch e a Lista de Espera**
+
+A gestão de memória do Windows não é puramente reativa. Tecnologias como o **SuperFetch** (agora integrado no serviço SysMain) desempenham um papel proativo crucial O SuperFetch analisa os padrões de utilização históricos do utilizador para prever que aplicações e dados serão provavelmente necessários em breve. Em seguida, carrega proativamente esses dados do disco para a
+
+**Lista de Espera** durante os períodos de inatividade do sistema
+
+Este mecanismo de cache proativa é um pilar do desempenho percebido do Windows. Quando um utilizador inicia uma aplicação frequentemente utilizada, é muito provável que as suas páginas de código e dados já estejam na Lista de Espera. O que seriam falhas de página "duras" e lentas (que requerem leitura do disco) transformam-se em falhas de página "suaves" e quase instantâneas (que apenas requerem a re-mapeação de uma página já na RAM) Esta estratégia é uma otimização clara para o desempenho interativo do utilizador em ambientes de
+
+*desktop*, onde os padrões de lançamento de aplicações são relativamente previsíveis. A filosofia subjacente é que a RAM vazia é RAM desperdiçada; é mais benéfico usar qualquer memória disponível para armazenar em cache dados que possam ser necessários, em vez de a deixar ociosa
+
+A própria Lista de Espera funciona como uma cache global de segunda oportunidade, do tipo LRU. Uma página cortada do conjunto de trabalho de um processo não é imediatamente perdida. Permanece na Lista de Espera, disponível para ser rapidamente recuperada pelo mesmo processo ou, no caso de DLLs partilhadas, por qualquer outro processo que necessite dela, tudo sem E/S de disco Este design é uma solução arquitetônica elegante que liga a política de substituição local (por processo) à necessidade de eficiência global (em todo o sistema). A decisão de corte é local, mas o destino da página é gerido numa cache global e priorizada, mitigando as desvantagens de uma política puramente local e transformando uma simples remoção local numa decisão de cache global diferida.
+
+## Análise Comparativa e Implicações de Desempenho
+
+As abordagens do Linux e do Windows à substituição de páginas, embora ambas visem o objetivo comum de uma gestão de memória eficiente, divergem em filosofia, implementação e implicações de desempenho. Esta secção contrasta diretamente estas duas estratégias, analisando as suas filosofias de recuperação, complexidade de implementação e as ferramentas disponíveis para a sua observação e diagnóstico.
+
+### **3. Filosofia Algorítmica: Recuperação Local vs. Global**
+
+A diferença mais fundamental entre os dois sistemas reside no âmbito da sua política de substituição.
+
+* **Windows (Local):** A abordagem do Windows, centrada no conjunto de trabalho, é inerentemente **local** Quando a memória é necessária, o Gestor do Conjunto de Trabalho visa principalmente os processos que excedem as suas quotas ou o sistema como um todo sob pressão. A decisão de qual página remover é tomada dentro do contexto de um processo específico A principal vantagem desta abordagem é o  
+  **forte isolamento entre processos**. Um processo com uso intensivo de memória terá principalmente as *suas próprias* páginas cortadas, protegendo o desempenho de outras aplicações bem-comportadas. Isto proporciona uma maior justiça e previsibilidade no comportamento entre processos, uma característica desejável em ambientes de *desktop* multi-tarefa.  
+* **Linux (Global):** Em contraste, a política do Linux com MGLRU é fundamentalmente **global** (ou, mais precisamente, por nó NUMA e por `cgroup`) Quando a memória precisa de ser recuperada, o MGLRU procura a página mais fria em todo o sistema (dentro dos limites de um nó/`cgroup`), independentemente do processo a que pertence O objetivo é a  
+  **eficiência máxima a nível do sistema**. Ao expulsar a página globalmente menos útil, o sistema otimiza a utilização da RAM como um todo. A desvantagem é que isto pode levar a cenários em que a memória de um processo de baixa prioridade mas ativo é recuperada para beneficiar um processo de alta prioridade, o que pode parecer menos "justo" do ponto de vista de um único processo. A introdução de *memory `cgroup`s* no Linux mitiga isto, permitindo aos administradores criar limites de memória e hierarquias, aproximando o modelo global de um comportamento mais localizado quando necessário
+
+### **3. Implementação, Complexidade e Custo**
+
+As filosofias contrastantes refletem-se na complexidade e no custo das suas implementações.
+
+* **Linux (MGLRU):** O processo de envelhecimento do MGLRU depende de **varrimentos periódicos das tabelas de páginas** para detetar bits de acesso Embora concebido para ser muito mais eficiente do que os varrimentos  
+  rmap do sistema split-LRU anterior 16, esta atividade de fundo tem um custo de CPU não trivial. As estruturas de dados, com múltiplas listas geracionais por nó e por `cgroup`, juntamente com níveis e mecanismos de feedback, representam uma complexidade considerável, otimizada para escalabilidade e tomada de decisão granular.  
+* **Windows (Conjunto de Trabalho):** A abordagem do Windows utiliza um **algoritmo do tipo Relógio** para cortar os conjuntos de trabalho O custo deste varrimento é localizado no evento de corte e no processo específico que está a ser cortado. No entanto, a complexidade do Windows reside na intrincada rede de listas de páginas globais (Espera, Modificada, Zerada, Livre) e nas transições entre elas. A gestão desta "cadeia de abastecimento" de páginas, juntamente com serviços proativos como o SuperFetch, constitui a maior parte da complexidade do seu gestor de memória.
+
+### **3. Observabilidade, Diagnóstico e Ajuste**
+
+Para administradores de sistemas e programadores, compreender como monitorizar estas estratégias é crucial para o diagnóstico de problemas de desempenho.
+
+* **Windows:** As ferramentas principais são o **Gestor de Tarefas** e, para uma análise mais detalhada, o **Monitor de Recursos (resmon.exe)** A métrica mais importante a observar no separador Memória do Monitor de Recursos é  
+  **"Falhas Graves/s" (Hard Faults/sec)**. Uma falha grave ocorre quando o sistema tem de ir ao ficheiro de paginação em disco para recuperar uma página, porque esta não foi encontrada nem no conjunto de trabalho do processo nem na Lista de Espera Um número consistentemente elevado de falhas graves é um indicador inequívoco de pressão de memória, significando que o sistema está a depender fortemente do disco para satisfazer as necessidades de memória das aplicações  
+* **Linux:** A ferramenta de linha de comandos padrão para este fim é o vmstat As colunas críticas a observar são  
+  si (*swap-in*) e so (*swap-out*). Valores diferentes de zero nestas colunas indicam que o sistema está ativamente a mover páginas anónimas de e para o dispositivo de *swap* A atividade de  
+  *swap-out* (so) é uma consequência direta do algoritmo de substituição de páginas a expulsar páginas anónimas sob pressão de memória. Outras ferramentas, como o sar do pacote sysstat, também fornecem estatísticas detalhadas de paginação e *swapping* ao longo do tempo
+
+**Tabela 3: Contadores de Desempenho Chave para Análise de Substituição de Páginas**
+
+| Métrica/Contador | Sistema Operativo | Ferramenta(s) | Interpretação |
+| :---- | :---- | :---- | :---- |
+| **Falhas Graves/s** | Windows 11 | Monitor de Recursos, Monitor de Desempenho | Indica páginas a serem lidas do pagefile.sys porque não foram encontradas no conjunto de trabalho de um processo ou na Lista de Espera. Um valor elevado e sustentado indica uma pressão de memória significativa. |
+| **si / so** | Linux | vmstat | si: Páginas movidas do *swap* para a memória (KB/s). so: Páginas movidas da memória para o *swap* (KB/s). Um valor so consistentemente diferente de zero indica que o sistema está a expulsar ativamente páginas anónimas devido a pressão de memória. |
+
+**Tabela 4: Comparação Arquitetónica do MGLRU do Linux e do Modelo de Conjunto de Trabalho do Windows**
+
+| Aspeto Arquitetónico | Linux (MGLRU) | Windows 11 (Conjunto de Trabalho) |
+| :---- | :---- | :---- |
+| **Âmbito da Substituição** | Global (por nó/`cgroup`) | Local (por processo) |
+| **Objetivo Principal** | Eficiência a nível do sistema | Isolamento de processos e desempenho interativo |
+| **Conceito Central** | Gerações de recenticidade | Conjunto de trabalho do processo |
+| **Estruturas de Dados Chave** | lrugen com múltiplas listas de *folios* | Tabelas de páginas por processo \+ listas globais de Espera/Modificada |
+| **Gatilho de Remoção** | Envelhecimento da página para a geração mais antiga | Corte do conjunto de trabalho sob pressão de memória |
+
+## **Secção 4: O Futuro da Substituição de Páginas: Adaptação a Novos Paradigmas**
+
+Os algoritmos de substituição de páginas não são estáticos; evoluem continuamente para se adaptarem a novas tecnologias de hardware e a avanços em software. O campo está à beira de mudanças paradigmáticas impulsionadas por hierarquias de memória mais complexas e pela aplicação de inteligência artificial aos problemas centrais dos sistemas operativos.
+
+### **4. A Influência do Hardware Moderno: Memória em Camadas**
+
+O panorama do hardware de memória está a mudar fundamentalmente. Durante décadas, o modelo foi simples: uma camada de DRAM rápida e volátil e uma camada de armazenamento em disco lento e persistente. No entanto, o surgimento de **sistemas de memória em camadas** (*tiered memory*) está a quebrar este binário. Estes sistemas combinam DRAM rápida mas cara com tecnologias mais lentas mas de maior capacidade e mais baratas, como a **Memória Não-Volátil (NVM)** ligada através de NVMe, ou memória adicional ligada através do barramento **Compute Express Link (CXL)**
+
+Isto transforma o problema da substituição de páginas. Já não se trata apenas de decidir se uma página deve estar na RAM ou em disco. Em vez disso, torna-se um problema mais geral de **colocação ou migração de páginas** entre múltiplas camadas de memória com diferentes características de latência e largura de banda O objetivo é manter os dados mais "quentes" (acedidos com mais frequência) na camada mais rápida (DRAM) e mover os dados mais "frios" para as camadas mais lentas (NVM/CXL), usando o disco apenas como último recurso.
+
+A investigação nesta área está a explorar novas políticas adaptadas a esta realidade. Um exemplo é a política de **"promoção rápida e despromoção lenta"** proposta no *framework* MTM (*Multi-Tiered memory Management*) Nesta abordagem, as páginas quentes identificadas em qualquer camada inferior são promovidas diretamente para a camada mais rápida, contornando as camadas intermédias para minimizar a latência. Em contrapartida, quando uma página precisa de ser despromovida da camada mais rápida, é movida cautelosamente para a camada imediatamente inferior. Esta estratégia cria uma gestão hierárquica muito mais sofisticada do que o simples binário memória/disco, e é provável que os futuros gestores de memória do kernel incorporem lógicas semelhantes.
+
+### **4. O Amanhecer dos Algoritmos Aprendidos**
+
+Talvez a fronteira mais excitante na investigação de substituição de páginas seja a aplicação de **aprendizagem automática (Machine Learning \- ML)** ao problema A lógica por trás desta abordagem é que os algoritmos baseados em heurísticas, como o LRU e as suas aproximações, são, na melhor das hipóteses, uma tentativa de adivinhar o futuro com base no passado. Um modelo de ML, no entanto, poderia potencialmente
+
+*aprender* os padrões de acesso específicos de uma carga de trabalho e fazer previsões muito mais precisas.
+
+A investigação de vanguarda está a explorar o uso de modelos como redes neuronais de **Memória de Curto e Longo Prazo (LSTM \- Long Short-Term Memory)** para analisar o histórico de acessos a páginas de uma aplicação Ao treinar com este histórico, o modelo pode aprender as dependências temporais complexas nos padrões de acesso de um programa. Quando uma substituição de página é necessária, o modelo treinado pode então prever qual das páginas atualmente na memória tem a menor probabilidade de ser acessada no futuro próximo, aproximando-se assim do desempenho do algoritmo Ótimo teórico para essa carga de trabalho específica
+
+Esta abordagem representa uma potencial mudança de paradigma, passando de heurísticas criadas manualmente e de aplicação geral para políticas orientadas por dados e aprendidas dinamicamente. No entanto, os desafios são significativos. A execução de modelos de ML complexos dentro do *path* crítico do gestor de memória do kernel impõe um custo computacional considerável. A investigação está focada em desenvolver modelos leves e eficientes e em encontrar formas de realizar o treino e a inferência online sem impactar negativamente o desempenho do sistema. À medida que o hardware de IA se torna mais integrado nos processadores, a viabilidade de "algoritmos de substituição de páginas aprendidos" aumenta, prometendo um futuro onde o sistema operativo se adapta inteligentemente ao comportamento único de cada aplicação
+
+## **Conclusão: Sintetizando Duas Décadas de Evolução Algorítmica**
+
+A análise detalhada dos mecanismos de substituição de páginas no Windows 11 e nos kernels Linux mais recentes revela dois sistemas altamente sofisticados que evoluíram muito para além dos algoritmos de manual. Ambos representam soluções maduras e robustas para o desafio fundamental da gestão de memória virtual, embora tenham chegado a esse ponto através de filosofias de design distintas, moldadas por diferentes prioridades e histórias evolutivas.
+
+A abordagem do **Windows 11** pode ser caracterizada como um sistema maduro, focado localmente e fortemente otimizado para o desempenho interativo do utilizador. O seu modelo de conjunto de trabalho por processo fornece um forte isolamento e previsibilidade, enquanto a sua complexa rede de listas de páginas — em particular a Lista de Espera — funciona como uma camada de cache global extremamente eficaz. Tecnologias proativas como o SuperFetch sublinham uma filosofia de design que prioriza a capacidade de resposta percebida em cenários de *desktop*, antecipando as necessidades do utilizador e utilizando agressivamente a RAM disponível para acelerar as operações comuns.
+
+Por outro lado, a abordagem do **Linux moderno** é a de um sistema focado globalmente que passou recentemente por uma grande evolução arquitetónica com a introdução do **MGLRU**. Esta mudança foi uma resposta direta aos desafios de escalabilidade e eficiência impostos pelo hardware moderno de grande escala, como servidores com terabytes de RAM e um grande número de núcleos de CPU. Ao substituir o sistema grosseiro de duas listas por uma hierarquia granular de gerações baseada no tempo, o Linux melhorou drasticamente a sua capacidade de tomar decisões de remoção inteligentes com um custo de CPU muito menor, tornando-o excecionalmente adequado para centros de dados e cargas de trabalho de alto desempenho onde a eficiência a nível do sistema é primordial.
+
+Em última análise, tanto o Windows 11 como o Linux demonstram um profundo entendimento dos compromissos inerentes à gestão de memória. Não existe uma solução única "correta"; em vez disso, cada sistema operativo otimizou a sua estratégia para o seu ecossistema e casos de uso alvo. Olhando para o futuro, é claro que esta evolução está longe de terminar. A proliferação de hardware de memória em camadas e os avanços promissores em algoritmos orientados por aprendizagem automática garantirão que a arte e a ciência da substituição de páginas continuarão a ser um campo dinâmico e crítico da ciência da computação, com ambos os sistemas a adaptarem-se para enfrentar os desafios da próxima geração de computação.
+## Métricas de Avaliação
+
+### Métricas Primárias
+
+**Page Fault Rate**: $PFR = \frac{\text{número de faltas}}{\text{número total de acessos}}$
+
+**Working Set Size**: $WSS = |W(t, \tau)|$ - número de páginas únicas acessadas
+
+**Thrashing Indicator**: $TI = \frac{\text{tempo em I/O}}{\text{tempo total de CPU}}$
+
+### Métricas Secundárias
+
+**Temporal Locality**: Medida de reutilização recente
+**Spatial Locality**: Medida de acessos sequenciais  
+**Phase Behavior**: Estabilidade do working set
+
+### Metodologia de Avaliação
+
+Para avaliar algoritmos de substituição:
+
+1. **Trace collection**: Capturar _string_s de referência reais
+2. **Simulation**: Executar algoritmos com parâmetros variados
+3. **Statistical analysis**: Médias, variâncias, distribuições
+4. **Workload characterization**: Identificar padrões de acesso
+
+### Tendências Emergentes
+
+#### Algoritmos Learning-Based
+
+Utilização de machine learning para prever padrões de acesso:
+
+- **Neural networks**: Para predição de working sets
+- **Reinforcement learning**: Otimização adaptativa de parâmetros
+- **Statistical models**: Análise de comportamento temporal
+
+#### Memory Disaggregation
+
+Separação física entre computação e memória:
+
+- **Remote memory access**: Latências variáveis
+- **Tiered memory**: Múltiplos níveis de velocidade
+- **Network-attached memory**: Novos modelos de custo
+
+#### Non-Volatile Memory
+
+Integração de memórias persistentes:
+
+- **Hybrid algorithms**: Combinando volátil e não-volátil
+- **Wear leveling**: Distribuição de escritas
+- **Persistence-aware**: Políticas que consideram durabilidade
+
+### Recomendações Práticas
+
+Para sistemas contemporâneos:
+
+1. **Clock com enhancements**: Para maioria dos workloads
+2. **WSClock**: Para sistemas com fases bem definidas  
+3. **_aging_**: Para aplicações críticas com overhead aceitável
+4. **Algoritmos híbridos**: Combinando múltiplas estratégias
+
+A evolução dos algoritmos de substituição continua driven pela necessidade de adaptar-se a novos padrões de hardware, workloads emergentes e restrições energéticas. O futuro provavelmente verá algoritmos ainda mais sofisticados que aproveitam inteligência artificial e características específicas de hardware para otimizar decisões de substituição em tempo real.

@@ -206,7 +206,10 @@
      font-weight="bold"
      fill="#2d3748"
      id="text12"
-     style="font-weight:bold;font-size:24px;font-family:Arial, sans-serif;text-anchor:middle;fill:#2d3748"><tspan
+     style="font-weight:bold;font-size:24px;font-family:Arial, sans-serif;text-anchor:middle;fill:#2d3748"
+     inkscape:export-filename="..\images\TLB1.webp"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96"><tspan
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:26.6667px;font-family:Sans;-inkscape-font-specification:'Sans, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
        id="tspan77">Translation Lookaside Buffer (TLB): Aceleração da Tradução de Endereços</tspan></text>
   <!-- CPU Block -->

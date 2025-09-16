@@ -1,0 +1,1859 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1400 900"
+   version="1.1"
+   id="svg145"
+   sodipodi:docname="memory-segmentation-cheatsheet (2).svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview145"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.67175144"
+     inkscape:cx="428.73001"
+     inkscape:cy="494.97475"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg145" />
+  <defs
+     id="defs10">
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <linearGradient
+       id="blueGrad"
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#4A90E2;stop-opacity:1"
+         id="stop1" />
+      <stop
+         offset="100%"
+         style="stop-color:#357ABD;stop-opacity:1"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       id="pinkGrad"
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#E91E63;stop-opacity:1"
+         id="stop3" />
+      <stop
+         offset="100%"
+         style="stop-color:#C2185B;stop-opacity:1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="greenGrad"
+       x1="0%"
+       y1="0%"
+       x2="0%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#4CAF50;stop-opacity:1"
+         id="stop5" />
+      <stop
+         offset="100%"
+         style="stop-color:#388E3C;stop-opacity:1"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       id="purpleGrad"
+       x1="30"
+       y1="1120"
+       x2="30"
+       y2="1240"
+       gradientTransform="scale(2,0.5)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#9C27B0;stop-opacity:1"
+         id="stop7" />
+      <stop
+         offset="100%"
+         style="stop-color:#7B1FA2;stop-opacity:1"
+         id="stop8" />
+    </linearGradient>
+    <linearGradient
+       id="orangeGrad"
+       x1="34.641016"
+       y1="814.06388"
+       x2="34.641016"
+       y2="952.62794"
+       gradientTransform="scale(1.7320508,0.57735027)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#FF9800;stop-opacity:1"
+         id="stop9" />
+      <stop
+         offset="100%"
+         style="stop-color:#F57C00;stop-opacity:1"
+         id="stop10" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#blueGrad"
+       id="linearGradient145"
+       x1="34.641016"
+       y1="433.0127"
+       x2="34.641016"
+       y2="571.57677"
+       gradientTransform="matrix(1.7320508,0,0,0.57735027,0,-91.578947)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#greenGrad"
+       id="linearGradient146"
+       x1="30"
+       y1="1400"
+       x2="30"
+       y2="1520"
+       gradientTransform="scale(2,0.5)"
+       gradientUnits="userSpaceOnUse" />
+    <marker
+       id="arrowheadGreen"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="10,3.5 0,7 0,0 "
+         fill="#059669"
+         id="polygon40" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-8"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-6" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#blueGrad"
+       id="linearGradient66"
+       x1="355.64938"
+       y1="101.22329"
+       x2="355.64938"
+       y2="539.85754"
+       gradientTransform="matrix(0.70138349,0,0,0.91219488,154.72744,35.704172)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="argsGrad"
+       x1="136.44846"
+       y1="469.04156"
+       x2="136.44846"
+       y2="609.75403"
+       gradientTransform="matrix(2.049088,0,0,0.32687872,133.12196,51.820622)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#A5D6A7;stop-opacity:1"
+         id="stop15" />
+      <stop
+         offset="100%"
+         style="stop-color:#81C784;stop-opacity:1"
+         id="stop16" />
+    </linearGradient>
+    <linearGradient
+       id="returnGrad"
+       x1="118.16783"
+       y1="731.16345"
+       x2="118.16783"
+       y2="853.02405"
+       gradientTransform="matrix(2.366083,0,0,0.28308527,133.12196,47.820622)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#F48FB1;stop-opacity:1"
+         id="stop11" />
+      <stop
+         offset="100%"
+         style="stop-color:#EC407A;stop-opacity:1"
+         id="stop12" />
+    </linearGradient>
+    <linearGradient
+       id="sfpGrad"
+       x1="118.16783"
+       y1="880.10419"
+       x2="118.16783"
+       y2="1001.9647"
+       gradientTransform="matrix(2.366083,0,0,0.28308527,133.12196,43.820622)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#FFB74D;stop-opacity:1"
+         id="stop13" />
+      <stop
+         offset="100%"
+         style="stop-color:#FF9800;stop-opacity:1"
+         id="stop14" />
+    </linearGradient>
+    <linearGradient
+       id="bufferGrad"
+       x1="192.96725"
+       y1="630.15869"
+       x2="192.96725"
+       y2="829.15619"
+       gradientTransform="matrix(1.448924,0,0,0.46227632,133.12196,39.820622)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#80DEEA;stop-opacity:1"
+         id="stop9-6" />
+      <stop
+         offset="100%"
+         style="stop-color:#4DD0E1;stop-opacity:1"
+         id="stop10-0" />
+    </linearGradient>
+    <linearGradient
+       id="varsGrad"
+       x1="111.4097"
+       y1="1464.8635"
+       x2="111.4097"
+       y2="1579.7548"
+       gradientTransform="matrix(2.50961,0,0,0.31872334,133.12196,-40.100317)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#9FA8DA;stop-opacity:1"
+         id="stop17" />
+      <stop
+         offset="100%"
+         style="stop-color:#7986CB;stop-opacity:1"
+         id="stop18" />
+    </linearGradient>
+    <marker
+       style="overflow:visible"
+       id="Triangle-8-5"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-6-4" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-8-5-3"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-6-4-7" />
+    </marker>
+  </defs>
+  <!-- Background -->
+  <!-- Title with shadow effect (manual) -->
+  <rect
+     x="23"
+     y="23"
+     width="1360"
+     height="60"
+     rx="10"
+     fill="#00000020"
+     id="rect11"
+     inkscape:export-filename="D:\OneDrive\DISCIPLINAS\6 - Sistemas Computacionais\Apresentaçóes\rect11.webp"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     x="20"
+     y="20"
+     width="1360"
+     height="60"
+     rx="10"
+     fill="url(#blueGrad)"
+     id="rect12" />
+  <text
+     x="700"
+     y="55"
+     font-family="Arial, sans-serif"
+     font-size="28"
+     font-weight="bold"
+     fill="white"
+     text-anchor="middle"
+     id="text12">
+    Cheat Sheet de Segmentação de Memória
+  </text>
+  <text
+     x="700"
+     y="75"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     fill="white"
+     text-anchor="middle"
+     id="text13">
+    Entendendo Stack, Heap e Buffer Overflow
+  </text>
+  <!-- Memory Layout Section -->
+  <rect
+     x="43"
+     y="103"
+     width="280"
+     height="770"
+     rx="10"
+     fill="#00000015"
+     id="rect13" />
+  <rect
+     x="40"
+     y="100"
+     width="280"
+     height="770"
+     rx="10"
+     fill="#ffffff"
+     stroke="#dddddd"
+     stroke-width="2"
+     id="rect14" />
+  <text
+     x="180"
+     y="130"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text14">MEMÓRIA</text>
+  <text
+     x="20"
+     y="150"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#666666"
+     id="text15">Endereço</text>
+  <text
+     x="20"
+     y="165"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#666666"
+     id="text16">Alto</text>
+  <rect
+     x="60"
+     y="764.21051"
+     width="240"
+     height="60"
+     rx="5"
+     fill="#e8f5e9"
+     id="rect16" />
+  <text
+     x="180"
+     y="789.21051"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text17">Argumentos e</text>
+  <text
+     x="180"
+     y="804.21051"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text18">Ambiente</text>
+  <rect
+     x="60"
+     y="158.42105"
+     width="240"
+     height="80"
+     rx="5"
+     fill="url(#blueGrad)"
+     id="rect18"
+     style="fill:url(#linearGradient145)" />
+  <text
+     x="180"
+     y="188.42105"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text19">PILHA (Stack)</text>
+  <text
+     x="178.88351"
+     y="226.28481"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text20">Cresce para baixo <tspan
+   style="font-size:21.3333px;fill:#ff2a2a"
+   id="tspan146">↓</tspan></text>
+  <text
+     x="181.86081"
+     y="203.6965"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text21">Variáveis locais, endereços de retorno</text>
+  <rect
+     x="60"
+     y="246.3158"
+     width="240"
+     height="213.6842"
+     rx="5"
+     fill="#f5f5f5"
+     id="rect21"
+     style="stroke-width:1.33443" />
+  <text
+     x="177.89473"
+     y="346.57895"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     fill="#999999"
+     text-anchor="middle"
+     id="text22">MEMÓRIA</text>
+  <text
+     x="177.89473"
+     y="366.57895"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     fill="#999999"
+     text-anchor="middle"
+     id="text23">NÃO UTILIZADA</text>
+  <rect
+     x="60"
+     y="470"
+     width="240"
+     height="80"
+     rx="5"
+     fill="url(#orangeGrad)"
+     id="rect23"
+     style="fill:url(#orangeGrad)" />
+  <text
+     x="180"
+     y="500"
+     font-family="Arial, sans-serif"
+     font-size="16px"
+     font-weight="bold"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text24">HEAP</text>
+  <text
+     x="180"
+     y="514.78973"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text25">Cresce para cima <tspan
+   style="font-size:21.3333px;fill:#ff2a2a"
+   id="tspan147">↑</tspan></text>
+  <text
+     x="180"
+     y="535"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text26">Alocação dinâmica (malloc)</text>
+  <rect
+     x="60"
+     y="560"
+     width="240"
+     height="60"
+     rx="5"
+     fill="url(#purpleGrad)"
+     id="rect26"
+     style="fill:url(#purpleGrad)" />
+  <text
+     x="180"
+     y="585"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text27">BSS</text>
+  <text
+     x="180"
+     y="605"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text28">Variáveis globais não inicializadas</text>
+  <rect
+     x="60"
+     y="630"
+     width="240"
+     height="60"
+     rx="5"
+     fill="#bbdefb"
+     id="rect28" />
+  <text
+     x="180"
+     y="655"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text29">DADOS- Data Segment</text>
+  <g
+     id="g1"
+     transform="translate(-379.4995,326.39474)">
+    <path
+       d="m 752.92439,275.65269 c -54.38596,1.57895 -10.64369,57.15433 -61.34544,55.39994"
+       stroke="#059669"
+       stroke-width="3"
+       fill="none"
+       marker-end="url(#arrowheadGreen)"
+       id="path42"
+       style="marker-end:url(#Triangle);stroke:#37abc8"
+       sodipodi:nodetypes="cc" />
+    <path
+       d="m 743.03652,295.52026 c -50.70176,3.15789 -12.23814,-39.03376 -55.57147,-37.10394"
+       stroke="#059669"
+       stroke-width="3"
+       fill="none"
+       marker-end="url(#arrowheadGreen)"
+       id="path42-0"
+       style="stroke:#ab37c8;marker-end:url(#Triangle-8)"
+       sodipodi:nodetypes="cc" />
+  </g>
+  <g
+     id="g2"
+     transform="rotate(-176.17911,518.31026,260.99465)">
+    <path
+       d="m 740.85945,307.60136 c -50.70176,3.15789 -48.66918,40.98135 -92.00251,42.91117"
+       stroke="#059669"
+       stroke-width="3"
+       fill="none"
+       marker-end="url(#arrowheadGreen)"
+       id="path42-0-7"
+       style="stroke:#5599ff;marker-end:url(#Triangle-8-5)"
+       sodipodi:nodetypes="cc" />
+  </g>
+  <text
+     x="180"
+     y="675"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     text-anchor="middle"
+     id="text30">Variáveis globais inicializadas</text>
+  <rect
+     x="60"
+     y="700"
+     width="240"
+     height="60"
+     rx="5"
+     fill="url(#greenGrad)"
+     id="rect30"
+     style="fill:url(#linearGradient146)" />
+  <text
+     x="180"
+     y="725"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text31">TEXTO</text>
+  <text
+     x="180"
+     y="745"
+     font-family="Arial, sans-serif"
+     font-size="11px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text32">Código do programa (instruções)</text>
+  <text
+     x="23.157894"
+     y="816.05261"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#666666"
+     id="text33">Endereço</text>
+  <text
+     x="23.157894"
+     y="831.05261"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     fill="#666666"
+     id="text34">Baixo</text>
+  <!-- Stack Detail Section -->
+  <text
+     x="555.78564"
+     y="116"
+     font-family="Arial, sans-serif"
+     font-size="18px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text35">PILHA (STACK)</text>
+  <text
+     x="555.49268"
+     y="410"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text42">PONTEIROS DA PILHA</text>
+  <!-- Code Example Section -->
+  <rect
+     x="362.67621"
+     y="549.05133"
+     width="350.52631"
+     height="331.39194"
+     rx="9.2243767"
+     fill="#00000015"
+     id="rect44"
+     style="stroke-width:0.934556" />
+  <rect
+     x="363.39783"
+     y="546.05133"
+     width="347.33102"
+     height="330.64761"
+     rx="9.1402893"
+     fill="#263238"
+     id="rect45"
+     style="stroke-width:0.929242" />
+  <!-- Registers Section -->
+  <g
+     id="registers">
+    <rect
+       x="763"
+       y="103"
+       width="300"
+       height="320"
+       rx="10"
+       fill="#00000015"
+       id="rect84" />
+    <rect
+       x="760"
+       y="100"
+       width="300"
+       height="320"
+       rx="10"
+       fill="white"
+       stroke="#ddd"
+       stroke-width="2"
+       id="rect85" />
+    <text
+       x="910"
+       y="130"
+       font-family="Arial, sans-serif"
+       font-size="18"
+       font-weight="bold"
+       text-anchor="middle"
+       id="text85">REGISTRADORES</text>
+    <text
+       x="780"
+       y="160"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text86">Propósito Geral (x86-64)</text>
+    <text
+       x="780"
+       y="180"
+       font-family="monospace"
+       font-size="12"
+       id="text87">RAX, RBX, RCX, RDX</text>
+    <text
+       x="780"
+       y="200"
+       font-family="monospace"
+       font-size="12"
+       id="text88">RSI, RDI, R8-R15</text>
+    <text
+       x="780"
+       y="230"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text89">Ponteiros de Índice</text>
+    <text
+       x="780"
+       y="250"
+       font-family="monospace"
+       font-size="12"
+       id="text90">RSI: Índice de origem</text>
+    <text
+       x="780"
+       y="270"
+       font-family="monospace"
+       font-size="12"
+       id="text91">RDI: Índice de destino</text>
+    <text
+       x="780"
+       y="300"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text92">Registradores de Segmento</text>
+    <text
+       x="780"
+       y="320"
+       font-family="monospace"
+       font-size="12"
+       id="text93">CS: Código | DS: Dados</text>
+    <text
+       x="780"
+       y="340"
+       font-family="monospace"
+       font-size="12"
+       id="text94">SS: Pilha | ES, FS, GS: Extra</text>
+    <text
+       x="780"
+       y="370"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text95">Ponteiro de Instrução</text>
+    <text
+       x="780"
+       y="390"
+       font-family="monospace"
+       font-size="12"
+       id="text96">RIP: Próxima instrução</text>
+  </g>
+  <!-- Buffer Overflow Explanation -->
+  <g
+     id="overflow-explanation">
+    <rect
+       x="763"
+       y="443"
+       width="300"
+       height="430"
+       rx="10"
+       fill="#00000015"
+       id="rect96" />
+    <rect
+       x="760"
+       y="440"
+       width="300"
+       height="430"
+       rx="10"
+       fill="white"
+       stroke="#ddd"
+       stroke-width="2"
+       id="rect97" />
+    <rect
+       x="760"
+       y="440"
+       width="300"
+       height="50"
+       rx="10"
+       fill="url(#pinkGrad)"
+       id="rect98" />
+    <text
+       x="910"
+       y="470"
+       font-family="Arial, sans-serif"
+       font-size="18"
+       font-weight="bold"
+       fill="white"
+       text-anchor="middle"
+       id="text98">BUFFER OVERFLOW</text>
+    <text
+       x="780"
+       y="520"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text99">Como funciona:</text>
+    <text
+       x="780"
+       y="540"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text100">1. Buffer tem tamanho fixo (ex: 100 bytes)</text>
+    <text
+       x="780"
+       y="560"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text101">2. Entrada maior que o buffer</text>
+    <text
+       x="780"
+       y="580"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text102">3. Dados sobrescrevem memória adjacente</text>
+    <text
+       x="780"
+       y="600"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text103">4. Pode alterar endereço de retorno</text>
+    <text
+       x="780"
+       y="620"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text104">5. Execução de código arbitrário</text>
+    <text
+       x="780"
+       y="650"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text105">Exemplo de Exploit:</text>
+    <rect
+       x="775"
+       y="660"
+       width="270"
+       height="60"
+       rx="5"
+       fill="#FFF3E0"
+       id="rect105" />
+    <text
+       x="785"
+       y="680"
+       font-family="monospace"
+       font-size="11"
+       id="text106">entrada = &quot;A&quot; * 100 +</text>
+    <text
+       x="785"
+       y="695"
+       font-family="monospace"
+       font-size="11"
+       id="text107">          &quot;BBBB&quot; +  # sobrescreve EBP</text>
+    <text
+       x="785"
+       y="710"
+       font-family="monospace"
+       font-size="11"
+       id="text108">          &quot;\x41\x41\x41\x41&quot; # novo RET</text>
+    <text
+       x="780"
+       y="745"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text109">Proteções Modernas:</text>
+    <text
+       x="780"
+       y="765"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text110">• DEP/NX: Pilha não executável</text>
+    <text
+       x="780"
+       y="785"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text111">• ASLR: Randomização de endereços</text>
+    <text
+       x="780"
+       y="805"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text112">• Stack Canaries: Valores sentinela</text>
+    <text
+       x="780"
+       y="825"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text113">• FORTIFY_SOURCE: Checagem de limites</text>
+    <text
+       x="780"
+       y="845"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text114">• PIE: Position Independent Executable</text>
+  </g>
+  <!-- Exploitation Techniques -->
+  <g
+     id="exploitation">
+    <rect
+       x="1093"
+       y="103"
+       width="290"
+       height="320"
+       rx="10"
+       fill="#00000015"
+       id="rect114" />
+    <rect
+       x="1090"
+       y="100"
+       width="290"
+       height="320"
+       rx="10"
+       fill="white"
+       stroke="#ddd"
+       stroke-width="2"
+       id="rect115" />
+    <rect
+       x="1090"
+       y="100"
+       width="290"
+       height="50"
+       rx="10"
+       fill="#424242"
+       id="rect116" />
+    <text
+       x="1235"
+       y="130"
+       font-family="Arial, sans-serif"
+       font-size="16"
+       font-weight="bold"
+       fill="white"
+       text-anchor="middle"
+       id="text116">DESABILITAR PROTEÇÕES</text>
+    <text
+       x="1235"
+       y="145"
+       font-family="Arial, sans-serif"
+       font-size="10"
+       fill="white"
+       text-anchor="middle"
+       id="text117">(Apenas para testes/estudos)</text>
+    <text
+       x="1105"
+       y="175"
+       font-family="Arial, sans-serif"
+       font-size="13"
+       font-weight="bold"
+       id="text118">Linux:</text>
+    <text
+       x="1105"
+       y="195"
+       font-family="monospace"
+       font-size="11"
+       fill="#666"
+       id="text119">$ echo 0 &gt; /proc/sys/kernel/</text>
+    <text
+       x="1115"
+       y="210"
+       font-family="monospace"
+       font-size="11"
+       fill="#666"
+       id="text120">randomize_va_space</text>
+    <text
+       x="1105"
+       y="235"
+       font-family="Arial, sans-serif"
+       font-size="13"
+       font-weight="bold"
+       id="text121">Desabilitar Stack Protector:</text>
+    <text
+       x="1105"
+       y="255"
+       font-family="monospace"
+       font-size="11"
+       fill="#666"
+       id="text122">$ gcc -fno-stack-protector ...</text>
+    <text
+       x="1105"
+       y="280"
+       font-family="Arial, sans-serif"
+       font-size="13"
+       font-weight="bold"
+       id="text123">Desabilitar DEP/NX:</text>
+    <text
+       x="1105"
+       y="300"
+       font-family="monospace"
+       font-size="11"
+       fill="#666"
+       id="text124">$ gcc -z execstack ...</text>
+    <text
+       x="1105"
+       y="325"
+       font-family="Arial, sans-serif"
+       font-size="13"
+       font-weight="bold"
+       id="text125">Modo de compilação 32-bits:</text>
+    <text
+       x="1105"
+       y="345"
+       font-family="monospace"
+       font-size="11"
+       fill="#666"
+       id="text126">$ gcc -m32 ...</text>
+    <text
+       x="1105"
+       y="370"
+       font-family="Arial, sans-serif"
+       font-size="13"
+       font-weight="bold"
+       id="text127">Desabilitar PIE:</text>
+    <text
+       x="1105"
+       y="390"
+       font-family="monospace"
+       font-size="11"
+       fill="#666"
+       id="text128">$ gcc -no-pie ...</text>
+  </g>
+  <!-- Memory Operations -->
+  <g
+     id="memory-ops">
+    <rect
+       x="1093"
+       y="443"
+       width="290"
+       height="430"
+       rx="10"
+       fill="#00000015"
+       id="rect128" />
+    <rect
+       x="1090"
+       y="440"
+       width="290"
+       height="430"
+       rx="10"
+       fill="white"
+       stroke="#ddd"
+       stroke-width="2"
+       id="rect129" />
+    <rect
+       x="1090"
+       y="440"
+       width="290"
+       height="50"
+       rx="10"
+       fill="url(#greenGrad)"
+       id="rect130" />
+    <text
+       x="1235"
+       y="470"
+       font-family="Arial, sans-serif"
+       font-size="16"
+       font-weight="bold"
+       fill="white"
+       text-anchor="middle"
+       id="text130">OPERAÇÕES SEGURAS</text>
+    <text
+       x="1105"
+       y="520"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text131">Funções Inseguras → Seguras:</text>
+    <rect
+       x="1105"
+       y="535"
+       width="270"
+       height="120"
+       rx="5"
+       fill="#E8F5E9"
+       id="rect131" />
+    <text
+       x="1115"
+       y="555"
+       font-family="monospace"
+       font-size="11"
+       id="text132">strcpy() → strncpy()</text>
+    <text
+       x="1115"
+       y="575"
+       font-family="monospace"
+       font-size="11"
+       id="text133">strcat() → strncat()</text>
+    <text
+       x="1115"
+       y="595"
+       font-family="monospace"
+       font-size="11"
+       id="text134">sprintf() → snprintf()</text>
+    <text
+       x="1115"
+       y="615"
+       font-family="monospace"
+       font-size="11"
+       id="text135">gets() → fgets()</text>
+    <text
+       x="1115"
+       y="635"
+       font-family="monospace"
+       font-size="11"
+       id="text136">scanf(&quot;%s&quot;) → scanf(&quot;%99s&quot;)</text>
+    <text
+       x="1105"
+       y="680"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text137">Boas Práticas:</text>
+    <text
+       x="1105"
+       y="700"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text138">• Sempre verificar limites</text>
+    <text
+       x="1105"
+       y="720"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text139">• Usar funções com limite de tamanho</text>
+    <text
+       x="1105"
+       y="740"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text140">• Validar entrada do usuário</text>
+    <text
+       x="1105"
+       y="760"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text141">• Usar análise estática de código</text>
+    <text
+       x="1105"
+       y="780"
+       font-family="Arial, sans-serif"
+       font-size="12"
+       id="text142">• Compilar com proteções ativas</text>
+    <text
+       x="1105"
+       y="810"
+       font-family="Arial, sans-serif"
+       font-size="14"
+       font-weight="bold"
+       id="text143">Ferramentas de Debug:</text>
+    <text
+       x="1105"
+       y="830"
+       font-family="monospace"
+       font-size="12"
+       id="text144">• GDB • Valgrind • ASAN</text>
+    <text
+       x="1105"
+       y="850"
+       font-family="monospace"
+       font-size="12"
+       id="text145">• ltrace • strace • radare2</text>
+  </g>
+  <text
+     x="376.59799"
+     y="573.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#4caf50"
+     id="text1"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">// vulneravel.c</text>
+  <text
+     x="376.59799"
+     y="603.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text2"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">int</text>
+  <text
+     x="411.59799"
+     y="603.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text3"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">contador =</text>
+  <text
+     x="499.59799"
+     y="603.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#ff7043"
+     id="text4"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">5</text>
+  <text
+     x="509.59799"
+     y="603.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text5"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">;</text>
+  <text
+     x="376.59799"
+     y="623.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text6"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">char</text>
+  <text
+     x="416.59799"
+     y="623.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text7"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">mensagem;</text>
+  <text
+     x="376.59799"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text8"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">void</text>
+  <text
+     x="416.59799"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#ffd54f"
+     id="text9"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">vulneravel</text>
+  <text
+     x="495.59799"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text10"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(</text>
+  <text
+     x="505.59799"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text11"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">int</text>
+  <text
+     x="535.59796"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text12-6"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">x,</text>
+  <text
+     x="555.59796"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text13-1"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">int</text>
+  <text
+     x="585.59796"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text14-8"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">y,</text>
+  <text
+     x="605.59796"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text15-9"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">char</text>
+  <text
+     x="645.59796"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text16-2"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">*texto)</text>
+  <text
+     x="699.75586"
+     y="653.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text17-7"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">{</text>
+  <text
+     x="396.59799"
+     y="673.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text18-9"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">char</text>
+  <text
+     x="436.59799"
+     y="673.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text19-5"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">temp;</text>
+  <text
+     x="396.59799"
+     y="693.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text20-4"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">char</text>
+  <text
+     x="436.59799"
+     y="693.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text21-3"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">buffer[</text>
+  <text
+     x="496.59799"
+     y="693.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#ff7043"
+     id="text22-1"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">10</text>
+  <text
+     x="516.59796"
+     y="693.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text23-2"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">];</text>
+  <text
+     x="376.59799"
+     y="713.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text24-3"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">}</text>
+  <text
+     x="376.59799"
+     y="743.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text25-3"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">int</text>
+  <text
+     x="406.59799"
+     y="743.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#ffd54f"
+     id="text26-4"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">main</text>
+  <text
+     x="438.59799"
+     y="743.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text27-1"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">() {</text>
+  <text
+     x="396.59799"
+     y="763.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text28-1"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">int</text>
+  <text
+     x="426.59799"
+     y="763.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text29-3"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">valor;</text>
+  <text
+     x="479.47858"
+     y="764.68884"
+     font-family="monospace"
+     font-size="13px"
+     fill="#9e9e9e"
+     id="text30-8"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">// na pilha</text>
+  <text
+     x="396.59799"
+     y="783.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text31-7"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">valor =</text>
+  <text
+     x="459.59799"
+     y="783.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#ff7043"
+     id="text32-4"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">42</text>
+  <text
+     x="479.59799"
+     y="783.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text33-2"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">;</text>
+  <text
+     x="396.59799"
+     y="813.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#ffd54f"
+     id="text34-7"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">vulneravel</text>
+  <text
+     x="475.83096"
+     y="813.10345"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text35-7"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(valor, contador, mensagem);</text>
+  <text
+     x="396.59799"
+     y="843.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#64b5f6"
+     id="text36-9"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">return</text>
+  <text
+     x="451.59799"
+     y="843.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#ff7043"
+     id="text37-3"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">0</text>
+  <text
+     x="461.59799"
+     y="843.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text38-1"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">;</text>
+  <text
+     x="376.59799"
+     y="863.2002"
+     font-family="monospace"
+     font-size="13px"
+     fill="#e0e0e0"
+     id="text39-9"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">}</text>
+  <rect
+     x="403.81796"
+     y="131.08365"
+     width="310.62811"
+     height="398.63126"
+     rx="6.7162833"
+     fill="#00000015"
+     id="rect37"
+     style="stroke-width:0.802238" />
+  <rect
+     x="404.17404"
+     y="128.03954"
+     width="307.65085"
+     height="400.1199"
+     rx="6.6519098"
+     fill="url(#blueGrad)"
+     id="rect38"
+     style="fill:url(#linearGradient66);stroke-width:0.799874" />
+  <text
+     x="520.92767"
+     y="208.16272"
+     font-family="Arial, sans-serif"
+     font-size="13.0946px"
+     font-weight="bold"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text38"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">Stack Frame - vulneravel()</text>
+  <rect
+     x="413.46118"
+     y="143.95915"
+     width="288.33224"
+     height="34.1628"
+     rx="3.4949362"
+     fill="#1976d2"
+     opacity="0.5"
+     id="rect39"
+     style="stroke-width:0.997483" />
+  <text
+     x="525.11084"
+     y="174.82582"
+     font-family="Arial, sans-serif"
+     font-size="9.00257px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text39"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#ffffff;stroke-width:0.818415">... outros frames ...</text>
+  <rect
+     x="412.71686"
+     y="205.14034"
+     width="288.33224"
+     height="45.995914"
+     rx="3.4949362"
+     fill="url(#argsGrad)"
+     id="rect40"
+     style="fill:url(#argsGrad);stroke-width:0.818415" />
+  <text
+     x="521.62488"
+     y="233.23941"
+     font-family="Arial, sans-serif"
+     font-size="9.82098px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text40"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">Argumentos da Função</text>
+  <text
+     x="521.62488"
+     y="249.78603"
+     font-family="monospace"
+     font-size="8.18415px"
+     text-anchor="middle"
+     id="text41"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:monospace;-inkscape-font-specification:'monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.818415">char *texto [8]</text>
+  <text
+     x="521.62488"
+     y="262.56061"
+     font-family="monospace"
+     font-size="8.18415px"
+     text-anchor="middle"
+     id="text42-4"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:monospace;-inkscape-font-specification:'monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.818415">int y [4] | int x [4]</text>
+  <rect
+     x="412.71686"
+     y="254.80223"
+     width="288.33224"
+     height="34.496933"
+     rx="3.4949362"
+     fill="url(#returnGrad)"
+     id="rect42"
+     style="fill:url(#returnGrad);stroke-width:0.818415" />
+  <text
+     x="521.62488"
+     y="286.75641"
+     font-family="Arial, sans-serif"
+     font-size="9.82098px"
+     font-weight="bold"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text43-8"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">Endereço de Retorno</text>
+  <text
+     x="521.62488"
+     y="300.66949"
+     font-family="monospace"
+     font-size="8.18415px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text44-6"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#ffffff;stroke-width:0.818415">RET para main() [8 bytes]</text>
+  <rect
+     x="412.71686"
+     y="292.96515"
+     width="288.33224"
+     height="34.496933"
+     rx="3.4949362"
+     fill="url(#sfpGrad)"
+     id="rect44-5"
+     style="fill:url(#sfpGrad);stroke-width:0.818415" />
+  <text
+     x="521.62488"
+     y="327.49887"
+     font-family="Arial, sans-serif"
+     font-size="9.82098px"
+     font-weight="bold"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text45"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">Frame Pointer Salvo</text>
+  <text
+     x="521.62488"
+     y="341.41193"
+     font-family="monospace"
+     font-size="8.18415px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text46"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:8.18415px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#ffffff;stroke-width:0.818415">RBP anterior [8 bytes]</text>
+  <rect
+     x="412.71686"
+     y="331.12808"
+     width="288.33224"
+     height="91.991829"
+     rx="3.4949362"
+     fill="url(#bufferGrad)"
+     id="rect46"
+     style="fill:url(#bufferGrad);stroke-width:0.818415" />
+  <rect
+     x="417.08554"
+     y="334.96106"
+     width="279.59491"
+     height="84.325844"
+     rx="3.4949362"
+     fill="none"
+     stroke="#c62828"
+     stroke-width="1.63683"
+     stroke-dasharray="5, 5"
+     id="rect47" />
+  <text
+     x="521.62488"
+     y="373.97021"
+     font-family="Arial, sans-serif"
+     font-size="10.6394px"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text47"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">Buffer [10 bytes]</text>
+  <text
+     x="521.62488"
+     y="394.4306"
+     font-family="Arial, sans-serif"
+     font-size="11.4578px"
+     fill="#c62828"
+     font-weight="bold"
+     text-anchor="middle"
+     id="text48"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">⚠ ZONA DE PERIGO ⚠</text>
+  <text
+     x="521.62488"
+     y="410.79889"
+     font-family="Arial, sans-serif"
+     font-size="8.18415px"
+     fill="#c62828"
+     text-anchor="middle"
+     id="text49"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">Overflow aqui pode sobrescrever</text>
+  <text
+     x="521.62488"
+     y="423.07513"
+     font-family="Arial, sans-serif"
+     font-size="8.18415px"
+     fill="#c62828"
+     text-anchor="middle"
+     id="text50"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">RBP e RET acima!</text>
+  <text
+     x="521.62488"
+     y="439.44342"
+     font-family="Arial, sans-serif"
+     font-size="7.36574px"
+     fill="#666666"
+     text-anchor="middle"
+     id="text51"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#666666;stroke-width:0.818415">strcpy() não verifica limites</text>
+  <rect
+     x="412.71686"
+     y="426.78589"
+     width="288.33224"
+     height="36.618526"
+     rx="3.4949362"
+     fill="url(#varsGrad)"
+     id="rect51"
+     style="fill:url(#varsGrad);stroke-width:0.894355" />
+  <text
+     x="521.62488"
+     y="470.3649"
+     font-family="Arial, sans-serif"
+     font-size="9.82098px"
+     font-weight="bold"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text52"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">Variável Local</text>
+  <text
+     x="325.26468"
+     y="230.4879"
+     font-family="monospace"
+     font-size="7.36574px"
+     fill="#666666"
+     id="text55"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:monospace;-inkscape-font-specification:'monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.818415">0x7fff</text>
+  <text
+     x="325.26468"
+     y="283.50653"
+     font-family="monospace"
+     font-size="7.36574px"
+     fill="#666666"
+     id="text56"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:monospace;-inkscape-font-specification:'monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.818415">0x7ffe</text>
+  <text
+     x="325.26468"
+     y="328.34106"
+     font-family="monospace"
+     font-size="7.36574px"
+     fill="#666666"
+     id="text57"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:monospace;-inkscape-font-specification:'monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.818415">0x7ffd</text>
+  <text
+     x="325.26468"
+     y="401.8201"
+     font-family="monospace"
+     font-size="7.36574px"
+     fill="#666666"
+     id="text58"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:monospace;-inkscape-font-specification:'monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.818415">0x7ffc</text>
+  <text
+     x="325.26468"
+     y="471.20706"
+     font-family="monospace"
+     font-size="7.36574px"
+     fill="#666666"
+     id="text59"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;font-family:monospace;-inkscape-font-specification:'monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.818415">0x7ffb</text>
+  <text
+     x="681.21582"
+     y="463.30319"
+     font-family="monospace"
+     font-size="9.00257px"
+     fill="#ffffff"
+     id="text60"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">RSP</text>
+  <text
+     x="681.21582"
+     y="324.17264"
+     font-family="monospace"
+     font-size="9.00257px"
+     fill="#ffffff"
+     id="text61"
+     transform="scale(1.0675928,0.93668672)"
+     style="stroke-width:0.818415">RBP</text>
+  <text
+     x="444.97351"
+     y="503.91504"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     id="text43"
+     style="fill:#ffffff">ESP/RSP: Topo da pilha (Stack Pointer)</text>
+  <text
+     x="521.62488"
+     y="482.64111"
+     font-family="monospace"
+     font-size="8.18415px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text53"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#ffffff;stroke-width:0.818415">char temp [1 byte]</text>
+  <rect
+     x="412.8688"
+     y="462.38855"
+     width="288.33224"
+     height="22.997957"
+     rx="3.4949362"
+     fill="#1976d2"
+     opacity="0.5"
+     id="rect39-9"
+     style="stroke-width:0.818415" />
+  <text
+     x="513.95569"
+     y="509.39206"
+     font-family="Arial, sans-serif"
+     font-size="9.00257px"
+     fill="#ffffff"
+     text-anchor="middle"
+     id="text54"
+     transform="scale(1.0675928,0.93668672)"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.6667px;font-family:Arial, sans-serif;-inkscape-font-specification:'Arial, sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#ffffff;stroke-width:0.818415">... resto da pilha ...</text>
+  <text
+     x="431.97632"
+     y="523.91504"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     id="text44"
+     style="fill:#ffffff">EBP/RBP: Base do frame atual (Frame Pointer)</text>
+  <g
+     id="g2-6"
+     transform="matrix(0.681111,-0.06965905,-0.04548878,-1.0430165,-75.911573,825.58946)">
+    <path
+       d="m 1134.7368,-65.87536 c 97.174,-11.788968 78.9523,29.261156 95.5489,406.19581 6.2561,142.08547 25.9906,169.07543 -28.2281,171.05277"
+       stroke="#059669"
+       stroke-width="3"
+       fill="none"
+       marker-end="url(#arrowheadGreen)"
+       id="path42-0-7-0"
+       style="stroke:#5599ff;marker-end:url(#Triangle-8-5-3)"
+       sodipodi:nodetypes="csc" />
+  </g>
+</svg>

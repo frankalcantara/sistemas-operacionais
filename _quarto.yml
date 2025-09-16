@@ -30,9 +30,11 @@ book:
         - gerproc5.qmd
         - gerproc6.qmd 
     - part: Gestão de Memória
+      chapters:
         - 12germem.qmd
-        - 12Agermen.qmd
-        - 12Zgermen
+        - 12Agermem.qmd
+        - 12Bgermem.qmd
+        - 12Zgermem.qmd
     - 13gerfiles.qmd
     - 14geres.qmd
     - 15gerredes.qmd

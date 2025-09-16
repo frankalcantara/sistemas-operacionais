@@ -1,4 +1,7 @@
 # Gestão de Memória - Referências
+
+Muito há que ser corrigido aqui... por enquanto é só uma lista sem verificações. O histórico do meu navegador e dos meus downloads. 
+
 ## Referências Hierarquia de Memória
 
 CULLER, D.; SINGH, J. P.; GUPTA, A. **Parallel Computer Architecture: A Hardware/Software Approach**. San Francisco: Morgan Kaufmann, 1999.
