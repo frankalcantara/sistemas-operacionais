@@ -1,0 +1,605 @@
+# A Arte da Mensagem de _commit_: Um Guia para Históricos Inteligíveis
+
+A esforçada leitora deve começar considerando que o controle de versão é um pilar do desenvolvimento de software moderno, e o [Git](https://git-scm.com/) reina como seu sistema predominante. O controle de versão, com o Git, ou não,  permite que equipes de desenvolvimento acompanhem as alterações, colaborem em projetos complexos e, fundamentalmente, revertam erros. Amém!
+
+A proficiência em Git transcende o domínio de seus comandos; ela reside na habilidade de comunicar a intenção por trás de cada mudança. É neste ponto que a mensagem de _commit_ se revela.
+
+Uma mensagem de _commit_ bem elaborada é uma forma de comunicação assíncrona entre os colaboradores de um determinado projeto. Uma mensagem transforma um simples registro de alterações em uma narrativa coesa sobre a evolução de um projeto. Com impacto direto nos custos de redação e manutenção de projetos. 
+
+Nesta jornada, a atenta leitora viajará pelas melhores práticas para a escrita de mensagens de _commit_, explorando não apenas _o quê_, mas também _o porquê_ de cada regra.
+
+## A Anatomia de uma Mensagem de _Commit_
+
+Antes de nos aprofundarmos nas melhores práticas, é fundamental entender a estrutura formal de uma mensagem de _commit_. Uma mensagem de _commit_ ideal é composta por três partes distintas:
+
+1. **Título (_Subject_)**: uma única linha, concisa, que resume a mudança;
+2. **Corpo (_Body_)** (Opcional):  uma ou mais linhas que explicam o contexto, a motivação e os detalhes da implementação da mudança.
+3. **Rodapé (_Footer_)** (Opcional):  uma seção para metadados, como a referência a tarefas, _issues_, ou a identificação de coautores.
+
+Esta estrutura não é arbitrária; ela é projetada para ser facilmente processada tanto por humanos quanto por ferramentas automatizadas, como geradores de __changelogs__ e ferramentas de Inteligência Artificial.
+
+### O Título: A Essência da Mudança
+
+O título é a parte mais visível de um _commit_. Ferramentas como `git _log_ --oneline` e as interfaces do [GitHub](https://github.com/?locale=pt-br) e [GitLab](https://about.gitlab.com/) dependem dele para exibir um resumo do histórico. Portanto, sua clareza e concisão são primordiais.
+
+#### Recomendações Fundamentais
+
+**1. Use o Modo Imperativo**: escreva o título como se estivesse dando um comando. A razão para isso é que o próprio Git usa o modo imperativo em suas mensagens automáticas (ex: "Merge branch 'feature-x'"). Esta convenção cria consistência entre mensagens geradas automaticamente e manualmente.
+
+**2. Limite a 50 Caracteres** : esta restrição garante que o título não seja truncado em visualizações de _log_ ou interfaces web. A maioria das ferramentas de interface gráfica para Git exibe os primeiros 50-72 caracteres do título.
+
+**3. Capitalize a Primeira Letra**: inicie o título com letra maiúscula, seguindo a convenção de títulos em português. Esta prática melhora a legibilidade e profissionalismo do histórico.
+
+**4. Não Termine com Ponto**: o título é uma frase imperativa curta, não uma sentença completa. O ponto final é desnecessário e desperdiça um caractere valioso.
+
+**5. Lembre-se de Hemingway**: seja breve e direto. Evite jargões, siglas não explicadas ou detalhes técnicos que não sejam imediatamente relevantes para entender a mudança e, como diz a lenda, conte uma história em apenas seis palavras.
+
+#### Exemplos
+
+**Faça**:
+* `Adiciona autenticação de usuário via OAuth 2.0`;
+* `Corrige cálculo de imposto para pedidos internacionais`;
+* `Remove dependência obsoleta do lodash`;
+* `Refatora parser de expressões regulares`.
+
+**Não Faça**:
+* `Correções de bugs e outras coisas` (Vago e não específico);
+* `Eu adicionei a nova funcionalidade de _log_in que o cliente pediu na última reunião` (Excede o limite de caracteres e é excessivamente pessoal);
+* `corrigido bug.` (Não capitalizado, com ponto final, e vago);
+* `Atualização` (Extremamente vago, não comunica nada útil).
+
+### O Corpo: Onde a História é Contada
+
+Enquanto o título informa **o que** foi feito, o corpo explica **o porquê** e **o como**. É o espaço para fornecer contexto que não caberia no título. O corpo é opcional para mudanças triviais, mas essencial para alterações complexas.
+
+#### Recomendações Fundamentais
+
+**1. Separe do Título com uma Linha em Branco**: esta linha em branco é fundamental para que as ferramentas do Git diferenciem corretamente o título do corpo. Sem ela, muitas ferramentas tratarão a segunda linha como parte do título.
+
+**2. Quebre as Linhas em 72 Caracteres**: esta é uma convenção histórica, originada nos terminais de 80 colunas, que melhora a legibilidade do _log_ diretamente no terminal. A margem de 4 caracteres de cada lado permite que o Git adicione indentação para _threading_ de mensagens.
+
+**3. Explique o Contexto e a Motivação**: o código mostra o que foi feito. A mensagem de _commit_ deve explicar por que foi feito. Descreva:
+* O problema que existia antes da mudança;
+* Por que esta solução foi escolhida;
+* Quaisquer limitações ou -trade-offs- da solução;
+* Links para discussões ou documentação relevante.
+
+**4. Use Listas Quando Apropriado**: para mudanças que afetam múltiplos aspectos, use listas marcadas com hífen ou asterisco para melhor legibilidade.
+
+#### Exemplos
+
+**Faça**:
+
+```shell
+Refatora lógica de conexão com o banco de dados
+
+O código de conexão estava duplicado nos módulos de Usuário 
+e Produto, violando o princípio DRY (Don't Repeat Yourself).
+
+Esta mudança introduz uma classe `DatabaseConnector` que 
+centraliza a configuração e o gerenciamento de conexões.
+
+Benefícios:
+- Redução de código duplicado em aproximadamente 150 linhas
+- Facilita testes unitários através de injeção de dependência
+- Permite configuração centralizada de pool de conexões
+- Simplifica futuras migrações de banco de dados
+
+A classe utiliza o padrão Singleton para garantir uma única
+instância do pool de conexões durante o ciclo de vida da
+aplicação.
+```
+
+```shell
+Otimiza consulta de relatório de vendas anuais
+
+A consulta anterior realizava múltiplos joins desnecessários,
+causando lentidão e timeouts em bases de dados com mais de 
+1 milhão de registros.
+
+Problema identificado:
+- A query executava 5 joins em sequência
+- Não utilizava índices adequadamente
+- Tempo médio de execução: 5 minutos
+- Taxa de timeout: 15% das requisições
+
+Solução implementada:
+- Criação de view materializada atualizada diariamente
+- Índices compostos nas colunas mais consultadas
+- Cache de resultados para consultas repetidas
+
+Resultados dos testes:
+- Tempo médio de execução: 2.8 segundos
+- Taxa de timeout: 0%
+- Uso de memória reduzido em 40%
+
+Referência: Issue #234, discussão em design-doc-2024-Q3.md
+```
+
+**Não Faça**:
+
+```shell
+Corrige bug
+
+Arrumei o problema que estava dando erro.
+```
+
+```shell
+Atualiza código
+
+Ver o código para entender o que mudou.
+```
+
+### O Rodapé: Metadados e Ações Automatizadas
+
+O rodapé é usado para vincular o _commit_ a outras partes do ecossistema de desenvolvimento. Esta seção é processada por ferramentas automatizadas e deve seguir formatos específicos.
+
+#### Recomendações Fundamentais
+
+**1. Referencie Tarefas (_issues_)**: use palavras-chave específicas para que plataformas como GitHub, GitLab ou Jira possam processar automaticamente as referências:
+
+* `Closes #123` - Fecha a issue quando o _commit_ chega à branch principal;
+* `Fixes #123` - Indica correção de bug;
+* `Resolves #123` - Resolve a issue;
+* `Refs #123` - Apenas referencia, sem fechar;
+* `See also #123` - Referência adicional.
+
+Múltiplas _issues_ podem ser referenciadas: `Closes #42, Resolves #55`
+
+**2. Indique Mudanças Drásticas (Breaking Changes)**: se a mudança quebra a compatibilidade com versões anteriores, indique-o claramente com `BREAKING CHANGE:` seguido de uma descrição detalhada do que mudou e como migrar.
+
+**3. Credite Coautores**: quando o trabalho é feito em colaboração, use:
+
+```shell
+Co-authored-by: Nome Completo <email@example.com>
+```
+
+**4. Adicione Assinaturas GPG**: para projetos que requerem _commits_ assinados:
+
+```shell
+Signed-off-by: Seu Nome <seu.email@example.com>
+```
+
+#### Exemplos
+
+**Faça**:
+
+```shell
+Refatora API de autenticação para usar JWT
+
+[corpo da mensagem]
+
+BREAKING CHANGE: O endpoint /api/v1/auth agora retorna tokens
+JWT em vez de sessões baseadas em cookies. 
+
+Migração necessária:
+- Atualizar clientes para armazenar e enviar tokens JWT
+- Remover dependência de cookies de sessão
+- Atualizar testes de integração
+
+Refs: #156, #189
+Closes: #201
+```
+
+```shell
+Implementa cache distribuído com Redis
+
+[corpo da mensagem]
+
+Performance melhorada em 300% para operações de leitura.
+
+Co-authored-by: Maria Silva <maria.silva@example.com>
+Co-authored-by: João Santos <joao.santos@example.com>
+Closes: #178
+```
+
+**Não Faça**:
+
+```shell
+Trabalho feito na tarefa 42
+Feito em par com o João
+Quebra algumas coisas, cuidado
+```
+
+## Conventional _commits_: Um Padrão para Automação
+
+O padrão Conventional _commits_ é uma convenção estruturada para mensagens de _commit_ que facilita a automação de processos como geração de _changelogs_ e versionamento semântico.
+
+### Estrutura do Conventional _commits_
+
+```shell
+<tipo>[escopo opcional]: <descrição>
+
+[corpo opcional]
+
+[rodapé(s) opcional(is)]
+```
+
+### Tipos Comuns
+
+**feat**: introduz uma nova funcionalidade ao código (correlaciona-se com MINOR no versionamento semântico).
+
+**fix**: corrige um bug (correlaciona-se com PATCH no versionamento semântico).
+
+**docs**: mudanças apenas na documentação.
+
+**style**: mudanças que não afetam o significado do código (espaços em branco, formatação, ponto e vírgula faltando, etc.).
+
+**refactor**: mudança de código que não corrige bug nem adiciona funcionalidade.
+
+**perf**: mudança que melhora performance.
+
+**test**: adiciona ou corrige testes.
+
+**build**: mudanças que afetam o sistema de build ou dependências externas.
+
+**ci**: mudanças em arquivos e scripts de configuração de CI/CD.
+
+**chore**: outras mudanças que não modificam código de produção ou testes.
+
+### Exemplos de Conventional _commits_
+
+```shell
+feat(auth): adiciona suporte para _log_in social via Google
+
+Implementa OAuth 2.0 para permitir autenticação através de
+contas Google. Os usuários agora podem fazer _log_in sem criar
+credenciais separadas.
+
+Closes: #142
+```
+
+```shell
+fix(parser): corrige erro de segmentação em expressões aninhadas
+
+O parser falhava ao processar expressões com mais de 5 níveis
+de aninhamento devido a overflow de stack.
+
+A solução implementa parsing iterativo usando uma pilha 
+explícita, eliminando a recursão profunda.
+
+Fixes: #267
+```
+
+```shell
+perf(database): otimiza queries usando índices compostos
+
+As consultas ao banco de dados foram otimizadas através da
+criação de índices compostos nas colunas mais consultadas.
+
+Melhoria medida: tempo de resposta reduzido de 450ms para 45ms
+nas operações mais comuns (90% dos casos de uso).
+
+Refs: #189
+```
+
+## A Dicotomia do Histórico: Declarativo vs. Operacional
+
+A esforçada leitora deve ter em mente que o `git diff` e a mensagem de _commit_ estabelecem uma dicotomia fundamental. Enquanto o **`git diff`** é *operacional* e ele descreve em detalhes mecânicos **como** o código mudou. Sendo a visão da máquina, mostrando cada linha adicionada, removida ou modificada. A **mensagem de _commit_** é *declarativa*: ela descreve **o que** a mudança significa e **por que** ela foi necessária. É a intenção humana traduzida em linguagem natural.
+
+A genialidade de um bom histórico de _commits_, amável leitora, reside na garantia de que podemos traduzir informações, sem perdas significativas, do mundo declarativo, que é mais acessível para os humanos, para o mundo operacional, que é processável pelas máquinas. E, no domínio das máquinas, não esqueça de incluir as ferramentas de Inteligência Artificial que, cada vez mais, fazem parte do nosso cotidiano.
+
+Esta dualidade é essencial: enquanto o `diff` permite reverter mudanças mecanicamente, a mensagem de _commit_ permite entender se devemos revertê-las e quais efeitos colaterais esta reversão poderá causar.
+
+## Resolvendo Ambiguidade: Atomicidade e Frequência
+
+Na prática, a escrita de _commits_ enfrenta ambiguidades que devem ser resolvidas por regras claras definidas no domínio do projeto.
+
+### Regra da Atomicidade
+
+**Princípio**: Um _commit_ deve ser atômico, ou seja, representar a menor mudança *lógica* possível e completa. A atomicidade garante que todas as partes de uma única mudança lógica estejam contidas em um único _commit_. Neste ponto, a curiosa leitora deve tomar atentar para a palavra _lógica_. Um _commit_ deve representar uma única unidade de trabalho do ponto de vista do domínio do problema, não necessariamente uma única alteração técnica.
+
+**Características de um _commit_ atômico**:
+
+* Implementa exatamente uma mudança lógica;
+* Inclui todos os arquivos relacionados à mudança (código, testes, documentação);
+* Não mistura múltiplas mudanças independentes;
+* Pode ser revertido sem efeitos colaterais inesperados;
+* Passa em todos os testes quando aplicado isoladamente.
+
+**Exemplo de violação da atomicidade**:
+
+```shell
+Adiciona validação de email e corrige bug no parser JSON
+
+[Este _commit_ mistura duas mudanças independentes]
+```
+
+**Solução correta**:
+
+```shell
+_commit_ 1:
+feat: adiciona validação de formato de email
+
+Implementa regex para validar formato RFC 5322 de endereços
+de email no formulário de registro.
+
+_commit_ 2:
+fix: corrige parsing de arrays vazios em JSON
+
+O parser falhava ao processar arrays vazios, retornando null
+em vez de array vazio.
+```
+
+### Regra da Frequência
+
+**Princípio**: _commits_ pequenos e frequentes devem ter prioridade sobre _commits_ grandes e monolíticos. Desde que os _commits_ não violem a **Regra da Atomicidade**, é preferível fazer múltiplos _commits_ pequenos que documentem a evolução do código em etapas claras. Os _commits_ incrementais facilitam:
+
+* Identificação precisa de regressões através de `git bisect`;
+* Code review mais eficiente e focado;
+* Entendimento gradual da evolução do código;
+* Reversão cirúrgica de mudanças problemáticas.
+
+**Prática recomendada**: execute _commits_ após completar cada unidade lógica de trabalho, mesmo que pequena. Um dia de trabalho deve resultar em múltiplos _commits_, não um único _commit_ gigante.
+
+## Estratégias Avançadas de _commit_
+
+### _commits_ de Correção (_Fixup_) e Squash
+
+Durante o desenvolvimento, é comum criar _commits_ intermediários que posteriormente devem ser mesclados. O Git oferece comandos específicos para isso:
+
+```bash
+# Cria um _commit_ marcado para ser mesclado com um _commit_ anterior
+git _commit_ --fixup <_commit_-hash>
+
+# Durante rebase interativo, mescla automaticamente os fixup _commits_
+git rebase -i --autosquash <base-_commit_>
+```
+
+### _commits_ Vazios para Marcação
+
+Em alguns casos, _commits_ vazios são úteis para marcar pontos importantes:
+
+```bash
+git _commit_ --allow-empty -m "chore: marca início do sprint 2024-Q4"
+```
+
+### Reescrevendo o Histórico
+
+O comando `git rebase -i` permite reorganizar, mesclar, editar ou remover _commits_ antes de compartilhá-los. Esta ferramenta é essencial para manter um histórico limpo.
+
+**Atenção**: Nunca reescreva o histórico que já foi compartilhado com outros desenvolvedores (_pushed_ para _branches_ públicas).
+
+## Ferramentas e Automação
+
+### _commitlint_
+
+Ferramenta que valida mensagens de _commit_ contra regras configuráveis:
+
+```bash
+npm install --save-dev @commitlint/{cli,config-conventional}
+echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
+```
+
+### _commitizen_
+
+Interface interativa para criar _commits_ no padrão Conventional _commits_:
+
+```bash
+npm install -g commitizen
+commitizen init cz-conventional-changelog --save-dev --save-exact
+```
+
+### Hooks do Git
+
+Utilize hooks pre-_commit_ e _commit_-msg para validar automaticamente:
+
+```bash
+# .git/hooks/commit-msg
+#!/bin/sh
+npx --no -- commitlint --edit $1
+```
+
+### Geradores de _Changelog_
+
+Ferramentas como `standard-version` ou `semantic-release` geram automaticamente _changelogs_ a partir de _commits_ no padrão Conventional:
+
+```bash
+npm install --save-dev standard-version
+npx standard-version
+```
+
+## Casos Especiais e Situações Complexas
+
+### _commits_ de Merge
+
+Para _merge commits_, o Git gera automaticamente uma mensagem. Se necessário personalizá-la:
+
+```shell
+Merge branch 'feature/payment-gateway' into develop
+
+Integra novo gateway de pagamento com suporte para PIX.
+
+Esta funcionalidade adiciona:
+- Integração com API do Banco Central
+- Validação de chaves PIX
+- Geração de QR codes dinâmicos
+
+Tested-by: QA Team
+Approved-by: Tech Lead
+```
+
+### _commits_ de Revert
+
+Ao reverter um _commit_, explique o motivo:
+
+```
+Revert "feat: adiciona cache em memória para sessões"
+
+This reverts _commit_ a1b2c3d4.
+
+A implementação causava memory leaks em produção sob alta
+carga. Identificamos que o cache não estava sendo limpo
+corretamente após expiração das sessões.
+
+Será reimplementado em #456 com testes de carga adequados.
+```
+
+### _commits_ de _Hotfix_
+
+_Hotfixes_ devem ser especialmente claros sobre o problema e a urgência:
+
+```shell
+_Hotfix_: corrige vulnerabilidade crítica de SQL injection
+
+CVE-2024-XXXXX: O endpoint /api/users/search estava vulnerável
+a SQL injection através do parâmetro 'name'.
+
+Solução aplicada:
+- Implementado prepared statements
+- Adicionada validação de entrada
+- Escapamento de caracteres especiais
+
+Esta correção deve ser aplicada imediatamente em produção.
+
+Security-Impact: Critical
+Fixes: #SECURITY-123
+```
+
+## Princípios de Design de Mensagens de _Commit_
+
+### Princípio da Localidade
+
+Cada _commit_ deve ser autocontido. Um desenvolvedor deve ser capaz de entender a mudança lendo apenas a mensagem, sem precisar investigar _issues_ externas ou documentação adicional.
+
+### Princípio da Rastreabilidade
+
+Sempre forneça contexto suficiente para rastrear a origem da mudança:
+
+* Por que a mudança foi necessária?
+* Quem solicitou?
+* Qual problema resolve?
+* Existem alternativas que foram consideradas?
+
+### Princípio da Testabilidade
+
+A mensagem deve incluir informação sobre como a mudança foi testada:
+
+* Quais casos de teste foram adicionados?
+* Como verificar que a mudança funciona?
+* Existem cenários especiais a considerar?
+
+### Princípio da Reversibilidade
+
+Escreva pensando que o _commit_ pode precisar ser revertido no futuro. Forneça informações sobre possíveis efeitos colaterais da reversão.
+
+## Erros Comuns e Como Evitá-los
+
+### Erro 1: Mensagens Vagas
+
+**Problemático**:
+
+```shell
+Atualiza código
+Correções
+WIP
+Mudanças
+```
+
+**Solução**:
+Seja específico sobre o que mudou e por quê.
+
+### Erro 2: _commits_ Muito Grandes
+
+**Problemático**:
+Um _commit_ que muda 50 arquivos e implementa múltiplas funcionalidades.
+
+**Solução**:
+Divida em _commits_ atômicos, cada um representando uma mudança lógica.
+
+### Erro 3: _commits_ Muito Pequenos
+
+**Problemático**:
+
+```shell
+Adiciona vírgula
+Remove espaço em branco
+Corrige typo
+```
+
+**Solução**:
+Agrupe pequenas correções relacionadas ou use `git _commit_ --amend` para adicionar ao _commit_ anterior.
+
+### Erro 4: Histórico Não Linear Confuso
+
+**Problemático**:
+Múltiplos merges desnecessários criando um grafo confuso.
+
+**Solução**:
+Use `git rebase` ao invés de merge para manter histórico linear em _branches_ de desenvolvimento.
+
+### Erro 5: Informação Sensível em _commits_
+
+**Problemático**:
+Incluir senhas, tokens de API ou dados sensíveis em mensagens de _commit_.
+
+**Solução**:
+Nunca inclua informações sensíveis. Se acidentalmente incluídas, use `git filter-branch` ou `BFG Repo-Cleaner` para removê-las do histórico.
+
+## Práticas para Equipes
+
+### Estabeleça um Guia de Estilo
+
+Documente as convenções da equipe em um arquivo `CONTRIBUTING.md`:
+
+* Formato preferido (_[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)_ ou outro);
+* Idioma para mensagens (português, inglês);
+* Requisitos mínimos para corpo da mensagem;
+* Como referenciar _issues_;
+* Processo de _code review_.
+
+### _Code Review_ de Mensagens
+
+Durante _code review_, avalie não apenas o código, mas também a qualidade das mensagens de _commit_:
+
+* As mensagens explicam claramente as mudanças?
+* Os _commits_ são atômicos?
+* Há informação suficiente para entender o contexto?
+
+### Templates de _Commit_
+
+Configure templates para padronizar mensagens:
+
+```bash
+git config --global _commit_.template ~/.gitmessage
+```
+
+Conteúdo de `~/.gitmessage`:
+
+```bash
+# <tipo>(<escopo>): <assunto>
+#
+# <corpo>
+#
+# <rodapé>
+#
+# Tipos: feat, fix, docs, style, refactor, perf, test, chore
+# Lembre-se:
+# - Use o modo imperativo no assunto
+# - Limite o assunto a 50 caracteres
+# - Separe assunto do corpo com linha em branco
+# - Quebre corpo em 72 caracteres
+# - Use corpo para explicar "o quê" e "por quê"
+```
+
+### Automação de CI/CD
+
+Integre validação de mensagens no pipeline:
+
+```yaml
+# .github/workflows/_commit_-lint.yml
+name: Lint _commits_
+on: [pull_request]
+jobs:
+  _commit_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: wagoid/_commit_lint-github-action@v4
+```
+
+A excelência na escrita de _commits_ demonstra profissionalismo, facilita colaboração e, fundamentalmente, respeita o tempo de todos que interagirão com o código no futuro, incluindo você mesmo.
+
+Lembre-se: você está escrevendo para humanos, não apenas para máquinas. Cada _commit_ é uma oportunidade de comunicar claramente suas intenções e facilitar o trabalho de seus colegas e do seu futuro eu.

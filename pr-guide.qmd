@@ -103,11 +103,11 @@ git add arquivo1.py arquivo2.cpp
 # Ou adicionar todas as alterações
 git add .
 
-# Fazer commit com mensagem descritiva
-git commit -m "feat: adiciona funcionalidade X para resolver issue #123"
+# Fazer _commit_ com mensagem descritiva
+git _commit_ -m "feat: adiciona funcionalidade X para resolver issue #123"
 ```
 
-### Convenções de Mensagens de Commit
+### Convenções de Mensagens de _commit_
 
 Formato recomendado: `tipo(escopo): descrição`
 
@@ -195,7 +195,7 @@ Quando revisores solicitarem alterações:
 ```bash
 # Fazer alterações necessárias
 git add arquivos-modificados
-git commit -m "fix: corrige problema apontado na revisão"
+git _commit_ -m "fix: corrige problema apontado na revisão"
 
 # Push das alterações
 git push origin feature/minha-contribuicao
@@ -230,7 +230,7 @@ git push -f origin feature/minha-contribuicao
 
 ### Opções de Merge
 
-#### Merge Commit
+#### Merge _commit_
 Preserva todo o histórico de commits:
 
 ```bash
@@ -244,7 +244,7 @@ Combina todos os commits em um único:
 ```bash
 git checkout main
 git merge --squash pull-request-branch
-git commit -m "feat: descrição consolidada das alterações (#PR-number)"
+git _commit_ -m "feat: descrição consolidada das alterações (#PR-number)"
 ```
 
 #### Rebase and Merge
@@ -261,7 +261,7 @@ git merge pull-request-branch
 
 1. Na página do _pull request_, clique em "Merge _pull request_"
 2. Escolha o método de merge:
-   - Create a merge commit
+   - Create a merge _commit_
    - Squash and merge
    - Rebase and merge
 3. Confirme o merge
@@ -271,7 +271,7 @@ git merge pull-request-branch
 
 ```bash
 # Como mantenedor
-gh pr merge PR-NUMBER --merge    # merge commit
+gh pr merge PR-NUMBER --merge    # merge _commit_
 gh pr merge PR-NUMBER --squash   # squash and merge
 gh pr merge PR-NUMBER --rebase   # rebase and merge
 ```
@@ -331,7 +331,7 @@ git diff --name-only main..feature/minha-contribuicao
 ```bash
 # Adicionar mais commits
 git add .
-git commit -m "fix: adiciona melhorias solicitadas"
+git _commit_ -m "fix: adiciona melhorias solicitadas"
 git push origin feature/minha-contribuicao
 ```
 
@@ -362,10 +362,10 @@ git rebase upstream/main
 git push -f origin feature/minha-contribuicao
 ```
 
-### Commit na Branch Errada
+### _commit_ na Branch Errada
 
 ```bash
-# Criar nova branch com o commit
+# Criar nova branch com o _commit_
 git branch nova-branch
 
 # Resetar branch atual

@@ -20,6 +20,8 @@ book:
         - intro2.qmd
         - intro3.qmd
         - pr-guide.qmd
+        - commit-guide.qmd
+        - topo-guide.qmd
     - part: Gestão de Processos
       chapters: 
         - gerproc.qmd

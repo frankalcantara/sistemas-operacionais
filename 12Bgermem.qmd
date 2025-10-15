@@ -107,7 +107,7 @@ O método `accessPage` encapsula a essência do algoritmo **FIFO**, que substitu
 
    - **Código**: `page_faults++;`;
    - **Funcionamento**: se a página não está na memória, registra uma falha de página (`page_faults`);
-   - **Análise**: este passo é crucial para rastrear o desempenho do algoritmo, permitindo calcular a taxa de acertos posteriormente.
+   - **Análise**: este passo é importante para rastrear o desempenho do algoritmo, permitindo calcular a taxa de acertos posteriormente.
 
 3. **Alocação em Quadro Livre**:
 
@@ -130,7 +130,7 @@ O método `accessPage` encapsula a essência do algoritmo **FIFO**, que substitu
 
    - **Funcionamento**: se há quadros livres, ou seja, menos páginas que o número total de quadros, `num_frames`, encontra o primeiro quadro vazio, aloca a nova página, atualiza a `page_table` e adiciona a página à fila **FIFO** (`fifo_queue`).
    - **Análise**:
-     - A busca linear por um quadro livre tem complexidade $O(n)$, onde `n` é o número de quadros. Isso poderia ser otimizado com uma lista de quadros livres;
+     - A busca linear por um quadro livre tem complexidade $O(n)$, onde `n` é o número de quadros. Isto poderia ser otimizado com uma lista de quadros livres;
      - O uso de `std::optional` para representar quadros vazios é uma escolha moderna e segura;
      - A adição à `fifo_queue` mantém a ordem de entrada, essencial para a política **FIFO**.
 
@@ -500,7 +500,7 @@ Neste caso, o método `accessPage` encapsula a lógica do algoritmo Relógio, qu
 
    - **Código**: `page_faults++;`;
    - **Funcionamento**: se a página não está na memória, registra uma falha de página, `page_faults`;
-   - **Análise**: Este passo é crucial para rastrear o desempenho do algoritmo, permitindo calcular a taxa de acertos posteriormente.
+   - **Análise**: Este passo é importante para rastrear o desempenho do algoritmo, permitindo calcular a taxa de acertos posteriormente.
 
 3. **Alocação em Quadro Livre**:
 
@@ -526,7 +526,7 @@ Neste caso, o método `accessPage` encapsula a lógica do algoritmo Relógio, qu
 
    - **Análise**:
 
-     - A busca linear por um quadro livre é $O(n)$, onde `n` é o número de quadros, `num_frames`. Isso poderia ser otimizado com uma lista de quadros livres;
+     - A busca linear por um quadro livre é $O(n)$, onde `n` é o número de quadros, `num_frames`. Isto poderia ser otimizado com uma lista de quadros livres;
      - Definir o bit de referência como `true` para novas páginas é consistente com a política do Relógio, garantindo que elas tenham uma _segunda_ chance inicial.
 
 4. **Substituição de Página (Memória Cheia)**:
@@ -567,7 +567,7 @@ O exemplo em código C++23 reflete implementações reais em sistemas operaciona
 Existem algumas limitações e considerações práticas na implementação:
 
 - **Busca por Quadro Livre**: a busca linear por quadros livres ($O(n)$) poderia ser otimizada com uma estrutura auxiliar, como uma lista de quadros disponíveis.
-- **Complexidade no Pior Caso**: a substituição pode exigir várias iterações ($O(n)$) se todos os bits de referência forem `true`, embora isso seja raro em cenários com localidade.
+- **Complexidade no Pior Caso**: a substituição pode exigir várias iterações ($O(n)$) se todos os bits de referência forem `true`, embora isto seja raro em cenários com localidade.
 - **Validação de Entrada**: o código não valida `page_number` ou `num_frames`, o que seria necessário em sistemas reais.
 - **Dependência de Hardware**: em sistemas reais, o algoritmo depende de suporte para bits de referência, que não é simulado diretamente aqui.
 
@@ -829,7 +829,7 @@ O algoritmo _Aging_ combina dois métodos principais: `accessPage`, que gerencia
 
    - **Análise**:
 
-     - A busca linear por um quadro livre é $O(n)$, onde `n` é o número de quadros, `num_frames`. Isso poderia ser otimizado com uma lista de quadros livres;
+     - A busca linear por um quadro livre é $O(n)$, onde `n` é o número de quadros, `num_frames`. Isto poderia ser otimizado com uma lista de quadros livres;
      - Zerar o contador, $0$ reflete que a nova página ainda não foi _envelhecida_, enquanto o bit de referência `true` garante que ela ganhará prioridade no próximo _timer tick_.
 
 4. **Substituição de Página (Memória Cheia) em `accessPage`**:
@@ -888,7 +888,7 @@ O algoritmo _Aging_ combina dois métodos principais: `accessPage`, que gerencia
 
      - O deslocamento à direita (`>>= 1`) reduz o peso de acessos antigos, enquanto o bit de referência adicionado ao contador (`|= msb_mask`) reflete acessos recentes, mantendo a localidade temporal;
      - A operação é $O(n)$ devido ao laço sobre todos os quadros;
-     - Este passo é crucial para diferenciar o _Aging_ de outros algoritmos, pois permite rastrear o histórico de acessos com maior granularidade que o algoritmo Relógio.
+     - Este passo é importante para diferenciar o _Aging_ de outros algoritmos, pois permite rastrear o histórico de acessos com maior granularidade que o algoritmo Relógio.
 
 O _Aging_ oferece uma boa aproximação do **LRU** com contadores de múltiplos bits, capturando um histórico de acesso mais detalhado que o bit único do Relógio; No código a combinação de `std::unordered_map` ($O(1)$ para buscas) e vetores para contadores e bits garante uma implementação robusta. Além disso, neste código o número de bits do contador (`AGING_COUNTER_BITS`) pode ser ajustado para maior ou menor granularidade.
 
@@ -937,90 +937,86 @@ Ajustar frequência do timer baseado na carga do sistema:
 
 ### Implementação em Sistemas Reais
 
-## **Secção 1: Substituição de Páginas no Kernel Linux Moderno: O LRU Multi-Geracional**
+## Substituição de Páginas no `kernel` Linux Moderno: O LRU Multi-Geracional
 
-O subsistema de gestão de memória do Linux passou por uma evolução significativa, culminando numa reformulação arquitetónica que aborda as deficiências das abordagens anteriores face ao hardware moderno. Esta secção analisa essa evolução, aprofunda a mecânica do novo *framework* Multi-Generational LRU (MGLRU) e explora a sua interação com os daemons do sistema.
+O subsistema de gerenciamento de memória do Linux passou por uma evolução significativa, culminando numa reformulação arquitetônica que aborda as deficiências das abordagens anteriores em face do hardware moderno. Esta secção analisa essa evolução, aprofunda a mecânica do novo _framework Multi-Generational LRU (**MGLRU**)_ e explora a sua interação com os daemons do sistema.
 
-### **1. Evolução Arquitetónica: Do Split-LRU ao MGLRU**
+### Evolução Arquitetônica: Do Split-LRU ao MGLRU
 
-A história da substituição de páginas no Linux é uma de aproximações cada vez mais sofisticadas ao ideal do LRU. As primeiras implementações dependiam de variantes do **algoritmo do Relógio (Clock)**, que usava um bit de acesso para dar uma "segunda oportunidade" às páginas antes da sua remoção, oferecendo uma aproximação de baixo custo ao LRU Durante muitos anos, a estratégia dominante foi o sistema
+A história da substituição de páginas no Linux é uma história de aproximações cada vez mais sofisticadas ao ideal do **LRU**. As primeiras implementações dependiam de variantes do _algoritmo do Relógio (Clock)_, que usava um bit de acesso para dar uma _segunda oportunidade_ às páginas antes de sua remoção, oferecendo uma aproximação de baixo custo ao **LRU**. Durante muitos anos, a estratégia dominante foi o sistema _split-LRU_ com duas listas, uma ativa e outra inativa. Neste modelo, as páginas eram mantidas em duas listas: uma lista ativa para páginas acessadas recentemente e uma lista inativa para páginas candidatas à remoção. As páginas moviam-se da lista ativa para a inativa após um período de inatividade e eram promovidas de volta para a ativa se fossem acessadas enquanto estavam na lista inativa. No entanto, com o advento de sistemas com centenas de gigabytes ou mesmo terabytes de RAM e processadores massivamente multi-core, as limitações deste modelo tornaram-se evidentes:
 
-**split-LRU de duas listas (ativa/inativa)**. Neste modelo, as páginas eram mantidas em duas listas: uma lista ativa para páginas acessadas recentemente e uma lista inativa para páginas candidatas à remoção. As páginas moviam-se da lista ativa para a inativa após um período de inatividade e eram promovidas de volta para a ativa se fossem acessadas enquanto estavam na lista inativa
+1. **Elevado Custo de CPU**: sob forte pressão de memória, o _daemon_ do `kernel` `kswapd`, responsável pela recuperação de páginas em segundo plano, e os caminhos de recuperação direta eram forçados a realizar varreduras exaustivas das listas **LRU** para encontrar páginas candidatas à remoção. Este processo consumia uma quantidade significativa de tempo de `CPU`, podendo levar a uma falta de resposta do sistema em cenários de carga elevada;
 
-No entanto, com o advento de sistemas com centenas de gigabytes ou mesmo terabytes de RAM e processadores massivamente multi-core, as limitações deste modelo tornaram-se cada vez mais evidentes:
+2. **Informação de Idade Grosseira**: a classificação binária de uma página como _ativa_ ou _inativa_ era excessivamente simplista e não conseguia distinguir entre uma página acessada há um segundo e uma acessada há uma hora, resultando frequentemente em decisões de remoção ruins. Graças a essa simplicidade, páginas importantes podiam ser desativadas prematuramente, enquanto páginas verdadeiramente _frias_ permaneciam na memória;
 
-* **Elevado Custo de CPU:** Sob forte pressão de memória, o daemon do kernel kswapd (responsável pela recuperação de páginas em segundo plano) e os caminhos de recuperação direta eram forçados a realizar varrimentos exaustivos das listas LRU para encontrar páginas candidatas à remoção. Este processo consumia uma quantidade significativa de tempo de CPU, podendo levar a uma falta de resposta do sistema em cenários de carga elevada  
-* **Informação de Recenticidade Grosseira:** A classificação binária de uma página como "ativa" ou "inativa" era demasiado simplista. Não conseguia distinguir entre uma página acessada há um segundo e uma acessada há uma hora, resultando frequentemente em más decisões de remoção. Páginas importantes podiam ser desativadas prematuramente, enquanto páginas verdadeiramente "frias" permaneciam na memória  
-* **Má Escalabilidade:** A contenção de bloqueios (lock) necessários para manipular as listas LRU e o custo dos varrimentos não escalavam bem com o aumento do número de núcleos de CPU e da capacidade de memória, tornando-se um gargalo de desempenho em hardware moderno
+3. **Baixa Escalabilidade**: a contenção de bloqueios, _locks_, necessários para manipular as listas **LRU** e o custo das varreduras das lista não escalavam bem com o aumento do número de núcleos de `CPU` e da capacidade de memória, tornando-se um gargalo de desempenho em hardware moderno.
 
-A resposta a estes desafios foi o *framework* **Multi-Generational LRU (MGLRU)**, uma implementação alternativa desenvolvida pela Google e integrada na linha principal do kernel por volta da versão 6 O MGLRU foi explicitamente concebido para otimizar a recuperação de páginas, melhorar o desempenho sob pressão de memória e, crucialmente, reduzir o consumo de CPU do
+A resposta a estes desafios foi o _framework Multi-Generational LRU (**MGLRU**)_, uma implementação alternativa desenvolvida pelo Google e integrada na linha principal do `kernel` por volta da versão 6.0. O **MGLRU** foi explicitamente concebido para otimizar a recuperação de páginas, melhorar o desempenho sob pressão de memória e reduzir o consumo de `CPU` do `kswapd`. A primeira _patch_ submetida publicamente foi em março de 2021, com versões revisadas e discutidas ao longo de 2021 e 2022. O _merge_ deste mecanismo foi realizado no `kernel` principal do Linux a partir da versão 6.1 (2022). A modificação introduzida por este _patch_ não foi apenas uma otimização, mas sim uma mudança filosófica fundamental nos processos de gerenciamento de memória do Linux. Em vez de um modelo reativo, o **MGLRU** introduziu um sistema proativo, orientado por dados e baseado no tempo. O sistema de duas listas simplesmente reagia à falta de acesso. O **MGLRU** classifica ativamente as páginas numa escala contínua de _idade_.
 
-kswapd Esta mudança não foi apenas uma otimização, mas uma mudança filosófica fundamental na gestão de memória do Linux. Em vez de um modelo reativo e grosseiro, o MGLRU introduziu um sistema proativo, orientado por dados e baseado no tempo. O sistema antigo simplesmente reagia à falta de acesso; o novo sistema classifica ativamente as páginas numa escala contínua de "idade". Funcionalidades como a prevenção de
+Funcionalidades como a prevenção de _thrashing_ e a recuperação proativa demonstram uma mudança para uma gerenciamento antecipada, onde o sistema pode ser configurado para proteger conjuntos de trabalho temporais ou limpar páginas frias em preparação para novas cargas de trabalho, tornando-o mais adequado para a diversidade de cenários de uso modernos, desde dispositivos móveis a grandes centros de dados
 
-*thrashing* e a recuperação proativa demonstram uma mudança para uma gestão antecipada, onde o sistema pode ser configurado para proteger conjuntos de trabalho temporais ou limpar páginas frias em preparação para novas cargas de trabalho, tornando-o mais adequado para a diversidade de cenários de uso modernos, desde dispositivos móveis a grandes centros de dados
+### **1. Análise Profunda do Framework **MGLRU****
 
-### **1. Análise Profunda do Framework MGLRU**
+O **MGLRU** opera com base em vários objetivos de design claros: obter uma boa representação da recenticidade de acesso, tirar partido da localidade espacial, usar caminhos rápidos para decisões óbvias e empregar heurísticas simples e autocorretivas
 
-O MGLRU opera com base em vários objetivos de design claros: obter uma boa representação da recenticidade de acesso, tirar partido da localidade espacial, usar caminhos rápidos para decisões óbvias e empregar heurísticas simples e autocorretivas
-
-O conceito central do MGLRU são as **gerações**. Em vez de duas listas, o MGLRU divide as páginas elegíveis para remoção em múltiplas gerações, onde cada geração representa um grupo de páginas com uma recenticidade de acesso semelhante Uma página recém-acessada é colocada na geração mais jovem. Com o tempo, se uma página não for acessada, envelhece e é movida para gerações progressivamente mais antigas. Isto fornece uma visão muito mais granular e baseada no tempo do quão "quente" ou "fria" uma página é, permitindo decisões de remoção muito mais inteligentes
+O conceito central do **MGLRU** são as **gerações**. Em vez de duas listas, o **MGLRU** divide as páginas elegíveis para remoção em múltiplas gerações, onde cada geração representa um grupo de páginas com uma recenticidade de acesso semelhante Uma página recém-acessada é colocada na geração mais jovem. Com o tempo, se uma página não for acessada, envelhece e é movida para gerações progressivamente mais antigas. Isto fornece uma visão muito mais granular e baseada no tempo do quão "quente" ou "fria" uma página é, permitindo decisões de remoção muito mais inteligentes
 
 As principais estruturas de dados que suportam este *framework* incluem:
 
 * lruvec: Uma estrutura por-nó e por-`cgroup` que contém a informação LRU.  
-* lrugen: Uma subestrutura dentro da lruvec que armazena os dados específicos do MGLRU. Contém max\_seq, o número da geração mais jovem, e min\_seq, os números das gerações mais antigas, que são rastreados separadamente para páginas anónimas e de ficheiros  
+* lrugen: Uma subestrutura dentro da `lruvec` que armazena os dados específicos do **MGLRU**. Contém max\_seq, o número da geração mais jovem, e min\_seq, os números das gerações mais antigas, que são rastreados separadamente para páginas anônimas e de arquivos  
 * folios: A estrutura de memória subjacente que representa uma ou mais páginas físicas contíguas. O folio contém um "contador de geração" (*gen counter*) nos seus *flags*, que indica a que geração pertence
 
-Para além das gerações, o MGLRU introduz o conceito de **níveis** (*tiers*). Os níveis são usados especificamente para páginas de ficheiros para rastrear a frequência de acesso, adicionando uma dimensão de informação para além da recenticidade. Uma página acessada N vezes através de descritores de ficheiro é colocada no nível order\_base\_2(N), permitindo que o sistema distinga entre páginas de uso único (como as de uma grande varredura de ficheiro) e páginas acessadas repetidamente
+Para além das gerações, o **MGLRU** introduz o conceito de **níveis** (*tiers*). Os níveis são usados especificamente para páginas de arquivos para rastrear a frequência de acesso, adicionando uma dimensão de informação para além da recenticidade. Uma página acessada N vezes através de descritores de arquivo é colocada no nível order\_base\_2(N), permitindo que o sistema distinga entre páginas de uso único (como as de uma grande varredura de arquivo) e páginas acessadas repetidamente
 
-Uma observação arquitetónica crucial é que, embora o MGLRU seja um novo *framework*, ele retém e refina a separação fundamental entre páginas anónimas (memória de processo, como *heap* e *stack*) e páginas de ficheiros (conteúdo de ficheiros em cache). O sistema split-LRU anterior já separava as listas ativa/inativa para estes dois tipos para evitar varrer páginas anónimas dispendiosas quando páginas de ficheiros limpas e baratas podiam ser simplesmente descartadas O MGLRU continua esta prática, mantendo contadores
+Uma observação arquitetônica fundamental é que, embora o **MGLRU** seja um novo *framework*, ele retém e refina a separação fundamental entre páginas anônimas (memória de processo, como *heap* e *stack*) e páginas de arquivos (conteúdo de arquivos em cache). O sistema split-LRU anterior já separava as listas ativa/inativa para estes dois tipos para evitar varrer páginas anônimas dispendiosas quando páginas de arquivos limpas e baratas podiam ser simplesmente descartadas O **MGLRU** continua esta prática, mantendo contadores
 
-min\_seq separados para os tipos anónimo e de ficheiro A lógica de remoção reconhece explicitamente que "páginas de ficheiros limpas podem ser expulsas independentemente das restrições de
+min\_seq separados para os tipos anónimo e de arquivo A lógica de remoção reconhece explicitamente que "páginas de arquivos limpas podem ser expulsas independentemente das restrições de
 
 *swap*" Isto demonstra que o princípio económico central — que expulsar uma página que requer uma escrita para o
 
-*swap* (anónima) é muito mais caro do que descartar uma página limpa que já existe em disco (de ficheiro) — permanece um pilar central da estratégia de substituição de páginas.
+*swap* (anónima) é muito mais caro do que descartar uma página limpa que já existe em disco (de arquivo) — permanece um pilar central da estratégia de substituição de páginas.
 
-### **1. O Processo de Envelhecimento e Remoção do MGLRU**
+### **1. O Processo de Envelhecimento e Remoção do **MGLRU****
 
-O fluxo de trabalho do MGLRU pode ser dividido em dois processos principais: envelhecimento e remoção.
+O fluxo de trabalho do **MGLRU** pode ser dividido em dois processos principais: envelhecimento e remoção.
 
 O processo de **envelhecimento** é responsável por criar novas gerações mais jovens e, consequentemente, por fazer com que as páginas não referenciadas envelheçam e se movam para gerações mais antigas Este processo funciona varrendo periodicamente a memória para detetar páginas acessadas. O acesso é detetado através de dois canais principais:
 
-1. **Tabelas de Páginas:** Para memória anónima e de processo, o envelhecimento percorre as tabelas de páginas dos processos para verificar o bit de acesso, que é definido pelo hardware da MMU quando uma página é lida ou escrita.  
-2. **Descritores de Ficheiros:** Para páginas de ficheiros, o acesso também pode ser inferido através de chamadas de sistema como read() e write().
+1. **Tabelas de Páginas**: Para memória anónima e de processo, o envelhecimento percorre as tabelas de páginas dos processos para verificar o bit de acesso, que é definido pelo hardware da MMU quando uma página é lida ou escrita.  
+2. **Descritores de Arquivos**: Para páginas de arquivos, o acesso também pode ser inferido através de chamadas de sistema como read() e write().
 
 Quando uma página é encontrada com o bit de acesso definido, ela é "promovida" para a geração mais jovem O próprio ato de criar uma nova geração mais jovem (incrementando
 
 max\_seq) faz com que todas as outras gerações se tornem relativamente mais antigas, efetivamente "rebaixando" as páginas frias
 
-O processo de **remoção** é ativado quando o sistema precisa de libertar memória. A lógica de remoção do MGLRU visa as gerações mais antigas primeiro, pois contêm as páginas que, com maior probabilidade, não são utilizadas. A decisão de remoção é inteligente e distingue entre os tipos de página. Como as páginas de ficheiros limpas são as mais baratas de expulsar (não requerem escrita em disco), são frequentemente candidatas prioritárias. Se as gerações mais antigas de páginas anónimas e de ficheiros tiverem a mesma idade, o sistema utiliza mecanismos de feedback, como uma percentagem de novas falhas de página (_refault_), para decidir qual tipo expulsar Um controlador PID (Proporcional-Integral-Derivativo) é usado para monitorizar as nova falhas (páginas que são expulsas e rapidamente solicitadas de novo) e ajustar dinamicamente as heurísticas para equilibrar a agressividade da remoção entre memória anónima e de ficheiros, evitando assim o
+O processo de **remoção** é ativado quando o sistema precisa de libertar memória. A lógica de remoção do **MGLRU** visa as gerações mais antigas primeiro, pois contêm as páginas que, com maior probabilidade, não são utilizadas. A decisão de remoção é inteligente e distingue entre os tipos de página. Como as páginas de arquivos limpas são as mais baratas de expulsar (não requerem escrita em disco), são frequentemente candidatas prioritárias. Se as gerações mais antigas de páginas anônimas e de arquivos tiverem a mesma idade, o sistema utiliza mecanismos de feedback, como uma percentagem de novas falhas de página (_refault_), para decidir qual tipo expulsar Um controlador PID (Proporcional-Integral-Derivativo) é usado para monitorizar as nova falhas (páginas que são expulsas e rapidamente solicitadas de novo) e ajustar dinamicamente as heurísticas para equilibrar a agressividade da remoção entre memória anónima e de arquivos, evitando assim o
 
 *thrashing*
 
-### **1. Daemons do Sistema e Ajustabilidade: O Papel do kswapd**
+### **1. Daemons do Sistema e Ajustabilidade: O Papel do `kswapd`**
 
-A interação entre o kswapd e o MGLRU é fundamental para a eficiência do sistema. O kswapd é um *thread* do kernel que corre em segundo plano, um por cada nó NUMA, e é responsável pela recuperação assíncrona de páginas Ele é acordado pelo alocador de memória quando a quantidade de memória livre num nó desce abaixo de uma marca de água baixa (
+A interação entre o `kswapd` e o **MGLRU** é fundamental para a eficiência do sistema. O `kswapd` é um *thread* do `kernel` que corre em segundo plano, um por cada nó NUMA, e é responsável pela recuperação assíncrona de páginas Ele é acordado pelo alocador de memória quando a quantidade de memória livre num nó desce abaixo de uma marca de água baixa (
 
 *watermark*), pages\_low A sua tarefa é então recuperar páginas até que a memória livre atinja uma marca de água alta,
 
 pages\_high
 
-O MGLRU foi explicitamente concebido para tornar o trabalho do kswapd mais eficiente. Ao organizar as páginas numa hierarquia clara de gerações de recenticidade, o MGLRU fornece ao kswapd uma lista pré-ordenada de candidatas à remoção: as páginas nas gerações mais antigas. Isto permite que o kswapd identifique e recupere rapidamente as páginas vítimas com um varrimento mínimo, reduzindo diretamente o seu consumo de CPU e melhorando a capacidade de resposta do sistema sob pressão de memória
+O **MGLRU** foi explicitamente concebido para tornar o trabalho do `kswapd` mais eficiente. Ao organizar as páginas numa hierarquia clara de gerações de recenticidade, o **MGLRU** fornece ao `kswapd` uma lista pré-ordenada de candidatas à remoção: as páginas nas gerações mais antigas. Isto permite que o `kswapd` identifique e recupere rapidamente as páginas vítimas com um varrimento mínimo, reduzindo diretamente o seu consumo de CPU e melhorando a capacidade de resposta do sistema sob pressão de memória
 
-Para além da sua operação automática, o MGLRU oferece um grau significativo de controlo e observabilidade ao administrador do sistema. O *framework* pode ser ativado e ajustado através do ficheiro /sys/kernel/mm/lru\_gen/enabled, que aceita uma máscara de bits para ativar diferentes componentes Funcionalidades importantes podem ser configuradas, como a
+Para além da sua operação automática, o **MGLRU** oferece um grau significativo de controlo e observabilidade ao administrador do sistema. O *framework* pode ser ativado e ajustado através do arquivo /sys/`kernel`/mm/lru\_gen/enabled, que aceita uma máscara de bits para ativar diferentes componentes Funcionalidades importantes podem ser configuradas, como a
 
-**prevenção de *thrashing***, que pode ser ativada escrevendo um valor em milissegundos para min\_ttl\_ms. Isto instrui o kernel a proteger da remoção qualquer conjunto de trabalho (páginas acessadas) dentro dessa janela de tempo, acionando o OOM killer se não for possível manter esse conjunto de trabalho na memória Funcionalidades avançadas, como a estimativa de conjuntos de trabalho e a recuperação proativa, são expostas através de
+**prevenção de *thrashing***, que pode ser ativada escrevendo um valor em milissegundos para min\_ttl\_ms. Isto instrui o `kernel` a proteger da remoção qualquer conjunto de trabalho (páginas acessadas) dentro dessa janela de tempo, acionando o OOM killer se não for possível manter esse conjunto de trabalho na memória Funcionalidades avançadas, como a estimativa de conjuntos de trabalho e a recuperação proativa, são expostas através de
 
-/sys/kernel/debug/lru\_gen, fornecendo ferramentas poderosas para agendadores de tarefas em centros de dados otimizarem a colocação de cargas de trabalho
+/sys/`kernel`/debug/lru\_gen, fornecendo ferramentas poderosas para agendadores de tarefas em centros de dados otimizarem a colocação de cargas de trabalho
 
 ## **Secção 2: Substituição de Páginas no Windows 11: O Modelo do Conjunto de Trabalho**
 
-O subsistema de gestão de memória do Windows, refinado ao longo de décadas, opera com base num paradigma fundamentalmente diferente do Linux. Em vez de uma política de recuperação global, o Windows centra a sua estratégia em torno do **conjunto de trabalho** (*working set*) de cada processo individual. Esta secção explora este modelo, detalha o complexo ciclo de vida de uma página de memória e analisa os mecanismos, tanto reativos como proativos, que governam o desempenho da memória no Windows 11\.
+O subsistema de gerenciamento de memória do Windows, refinado ao longo de décadas, opera com base num paradigma fundamentalmente diferente do Linux. Em vez de uma política de recuperação global, o Windows centra a sua estratégia em torno do **conjunto de trabalho** (*working set*) de cada processo individual. Esta secção explora este modelo, detalha o complexo ciclo de vida de uma página de memória e analisa os mecanismos, tanto reativos como proativos, que governam o desempenho da memória no Windows 11\.
 
 ### **2. A Primazia do Conjunto de Trabalho do Processo**
 
-O conceito central da gestão de memória do Windows é o **conjunto de trabalho do processo**. Este é definido como o conjunto de páginas no espaço de endereçamento virtual de um processo que estão atualmente residentes na memória física Esta arquitetura implementa uma
+O conceito central da gerenciamento de memória do Windows é o **conjunto de trabalho do processo**. Este é definido como o conjunto de páginas no espaço de endereçamento virtual de um processo que estão atualmente residentes na memória física Esta arquitetura implementa uma
 
 **política de substituição de páginas local**, o que significa que, quando a memória se torna escassa, as decisões de substituição são tomadas principalmente dentro do contexto de um único processo, em vez de uma perspetiva global de todo o sistema
 
@@ -1030,16 +1026,16 @@ GetProcessWorkingSetSize e SetProcessWorkingSetSize, embora a manipulação dire
 
 ### **2. O Ciclo de Vida da Página: Uma Viagem Pelas Listas de Páginas**
 
-O estado de uma página de memória no Windows é muito mais complexo do que simplesmente estar "residente" ou "não residente". Uma página passa por um ciclo de vida bem definido, movendo-se entre várias listas geridas pelo gestor de memória. A compreensão deste fluxo é crucial para entender a estratégia de substituição de páginas do Windows, e a fonte definitiva para estes detalhes é a série de livros "Windows Internals"
+O estado de uma página de memória no Windows é muito mais complexo do que simplesmente estar "residente" ou "não residente". Uma página passa por um ciclo de vida bem definido, movendo-se entre várias listas geridas pelo gestor de memória. A compreensão deste fluxo é permite entender a estratégia de substituição de páginas do Windows, e a fonte definitiva para estes detalhes é a série de livros "Windows Internals"
 
 As principais listas e estados de página são 33:
 
-* **Ativa/Válida:** A página está no conjunto de trabalho de um processo e tem uma Entrada de Tabela de Páginas (PTE) válida que mapeia o seu endereço virtual para um endereço físico.  
-* **Transição:** Um estado temporário para uma página que foi removida de um conjunto de trabalho mas que ainda está na memória. Pode estar a sofrer uma operação de E/S ou a ser movida para outra lista  
-* **Lista de Espera (Standby List):** Esta é talvez a estrutura de dados mais importante na estratégia de cache do Windows. Contém páginas que foram removidas de um conjunto de trabalho mas que estão "limpas", ou seja, o seu conteúdo na memória corresponde ao que está em disco (seja no ficheiro original ou no ficheiro de paginação). Estas páginas são essencialmente uma cache. Se um processo precisar de uma página que está na lista de espera, pode recuperá-la através de uma "falha de página suave" (*soft page fault*) muito rápida, sem necessidade de aceder ao disco A lista de espera é priorizada; quando o sistema precisa de memória, as páginas de processos de baixa prioridade são reutilizadas primeiro  
-* **Lista Modificada (Modified List):** Contém páginas "sujas" que foram removidas de um conjunto de trabalho. Estas páginas foram alteradas na memória e o seu novo conteúdo deve ser escrito no ficheiro de paginação antes de poderem ser reutilizadas. Um *thread* do sistema, o "escritor de páginas modificadas", é responsável por esta tarefa, movendo as páginas para a lista de espera assim que a escrita é concluída  
-* **Lista Zerada (Zeroed List):** Uma lista de páginas que foram preenchidas com zeros e estão prontas para serem alocadas imediatamente a um processo para dados privados. Estas satisfazem as "falhas de demanda-zero" (*demand-zero faults*)  
-* **Lista Livre (Free List):** Contém páginas que foram libertadas mas que ainda contêm dados antigos. Por razões de segurança, estas páginas devem ser movidas para a lista zerada antes de serem entregues a um processo em modo de utilizador
+* **Ativa/Válida**: A página está no conjunto de trabalho de um processo e tem uma Entrada de Tabela de Páginas (PTE) válida que mapeia o seu endereço virtual para um endereço físico.  
+* **Transição**: Um estado temporário para uma página que foi removida de um conjunto de trabalho mas que ainda está na memória. Pode estar a sofrer uma operação de E/S ou a ser movida para outra lista  
+* **Lista de Espera (Standby List)**: Esta é talvez a estrutura de dados mais importante na estratégia de cache do Windows. Contém páginas que foram removidas de um conjunto de trabalho mas que estão "limpas", ou seja, o seu conteúdo na memória corresponde ao que está em disco (seja no arquivo original ou no arquivo de paginação). Estas páginas são essencialmente uma cache. Se um processo precisar de uma página que está na lista de espera, pode recuperá-la através de uma "falha de página suave" (*soft page fault*) muito rápida, sem necessidade de aceder ao disco A lista de espera é priorizada; quando o sistema precisa de memória, as páginas de processos de baixa prioridade são reutilizadas primeiro  
+* **Lista Modificada (Modified List)**: Contém páginas "sujas" que foram removidas de um conjunto de trabalho. Estas páginas foram alteradas na memória e o seu novo conteúdo deve ser escrito no arquivo de paginação antes de poderem ser reutilizadas. Um *thread* do sistema, o "escritor de páginas modificadas", é responsável por esta tarefa, movendo as páginas para a lista de espera assim que a escrita é concluída  
+* **Lista Zerada (Zeroed List)**: Uma lista de páginas que foram preenchidas com zeros e estão prontas para serem alocadas imediatamente a um processo para dados privados. Estas satisfazem as "falhas de demanda-zero" (*demand-zero faults*)  
+* **Lista Livre (Free List)**: Contém páginas que foram libertadas mas que ainda contêm dados antigos. Por razões de segurança, estas páginas devem ser movidas para a lista zerada antes de serem entregues a um processo em modo de utilizador
 
 **Tabela 2: Transições de Estado de uma Página de Memória no Windows 11**
 
@@ -1053,13 +1049,13 @@ As principais listas e estados de página são 33:
 
 ### **2. O Gestor do Conjunto de Trabalho e a Lógica de Corte**
 
-O **Gestor do Conjunto de Trabalho** (*Working Set Manager*) é o componente do kernel responsável por aplicar as políticas de memória, incluindo a aplicação das quotas do conjunto de trabalho e o corte de páginas quando a memória disponível no sistema se torna escassa
+O **Gestor do Conjunto de Trabalho** (*Working Set Manager*) é o componente do `kernel` responsável por aplicar as políticas de memória, incluindo a aplicação das quotas do conjunto de trabalho e o corte de páginas quando a memória disponível no sistema se torna escassa
 
-Quando o gestor decide cortar o conjunto de trabalho de um processo, ele não escolhe as páginas aleatoriamente. A implementação real é uma variação do **algoritmo do Relógio**. O gestor varre as tabelas de páginas do processo. Para cada página, ele verifica o bit de "acedido" na sua PTE. Se o bit estiver definido (indicando que a página foi acessada recentemente), o gestor simplesmente limpa o bit e passa para a página seguinte, dando-lhe uma "segunda oportunidade". Se o gestor encontrar uma página cujo bit de acedido já está limpo (o que significa que não foi acessada desde o último varrimento), essa página torna-se uma candidata principal para ser removida do conjunto de trabalho e movida para a lista de Espera ou Modificada Este método fornece uma aproximação eficiente e de baixo custo ao LRU, evitando a necessidade de manter carimbos de tempo ou listas ordenadas para cada acesso à memória.
+Quando o gestor decide cortar o conjunto de trabalho de um processo, ele não escolhe as páginas aleatoriamente. A implementação real é uma variação do **algoritmo do Relógio**. O gestor varre as tabelas de páginas do processo. Para cada página, ele verifica o bit de "acessado" na sua PTE. Se o bit estiver definido (indicando que a página foi acessada recentemente), o gestor simplesmente limpa o bit e passa para a página seguinte, dando-lhe uma "segunda oportunidade". Se o gestor encontrar uma página cujo bit de acessado já está limpo (o que significa que não foi acessada desde o último varrimento), essa página torna-se uma candidata principal para ser removida do conjunto de trabalho e movida para a lista de Espera ou Modificada Este método fornece uma aproximação eficiente e de baixo custo ao LRU, evitando a necessidade de manter carimbos de tempo ou listas ordenadas para cada acesso à memória.
 
-### **2. Gestão Proativa e Cache: SuperFetch e a Lista de Espera**
+### **2. Gerenciamento Proativa e Cache: SuperFetch e a Lista de Espera**
 
-A gestão de memória do Windows não é puramente reativa. Tecnologias como o **SuperFetch** (agora integrado no serviço SysMain) desempenham um papel proativo crucial O SuperFetch analisa os padrões de utilização históricos do utilizador para prever que aplicações e dados serão provavelmente necessários em breve. Em seguida, carrega proativamente esses dados do disco para a
+A gerenciamento de memória do Windows não é puramente reativa. Tecnologias como o **SuperFetch** (agora integrado no serviço SysMain) desempenham um papel proativo. O SuperFetch analisa os padrões de utilização históricos do utilizador para prever que aplicações e dados serão provavelmente necessários em breve. Em seguida, carrega proativamente esses dados do disco para a
 
 **Lista de Espera** durante os períodos de inatividade do sistema
 
@@ -1071,45 +1067,45 @@ A própria Lista de Espera funciona como uma cache global de segunda oportunidad
 
 ## Análise Comparativa e Implicações de Desempenho
 
-As abordagens do Linux e do Windows à substituição de páginas, embora ambas visem o objetivo comum de uma gestão de memória eficiente, divergem em filosofia, implementação e implicações de desempenho. Esta secção contrasta diretamente estas duas estratégias, analisando as suas filosofias de recuperação, complexidade de implementação e as ferramentas disponíveis para a sua observação e diagnóstico.
+As abordagens do Linux e do Windows à substituição de páginas, embora ambas visem o objetivo comum de uma gerenciamento de memória eficiente, divergem em filosofia, implementação e implicações de desempenho. Esta secção contrasta diretamente estas duas estratégias, analisando as suas filosofias de recuperação, complexidade de implementação e as ferramentas disponíveis para a sua observação e diagnóstico.
 
 ### **3. Filosofia Algorítmica: Recuperação Local vs. Global**
 
 A diferença mais fundamental entre os dois sistemas reside no âmbito da sua política de substituição.
 
-* **Windows (Local):** A abordagem do Windows, centrada no conjunto de trabalho, é inerentemente **local** Quando a memória é necessária, o Gestor do Conjunto de Trabalho visa principalmente os processos que excedem as suas quotas ou o sistema como um todo sob pressão. A decisão de qual página remover é tomada dentro do contexto de um processo específico A principal vantagem desta abordagem é o  
+* **Windows (Local)**: A abordagem do Windows, centrada no conjunto de trabalho, é inerentemente **local** Quando a memória é necessária, o Gestor do Conjunto de Trabalho visa principalmente os processos que excedem as suas quotas ou o sistema como um todo sob pressão. A decisão de qual página remover é tomada dentro do contexto de um processo específico A principal vantagem desta abordagem é o  
   **forte isolamento entre processos**. Um processo com uso intensivo de memória terá principalmente as *suas próprias* páginas cortadas, protegendo o desempenho de outras aplicações bem-comportadas. Isto proporciona uma maior justiça e previsibilidade no comportamento entre processos, uma característica desejável em ambientes de *desktop* multi-tarefa.  
-* **Linux (Global):** Em contraste, a política do Linux com MGLRU é fundamentalmente **global** (ou, mais precisamente, por nó NUMA e por `cgroup`) Quando a memória precisa de ser recuperada, o MGLRU procura a página mais fria em todo o sistema (dentro dos limites de um nó/`cgroup`), independentemente do processo a que pertence O objetivo é a  
+* **Linux (Global)**: Em contraste, a política do Linux com **MGLRU** é fundamentalmente **global** (ou, mais precisamente, por nó NUMA e por `cgroup`) Quando a memória precisa de ser recuperada, o **MGLRU** procura a página mais fria em todo o sistema (dentro dos limites de um nó/`cgroup`), independentemente do processo a que pertence O objetivo é a  
   **eficiência máxima a nível do sistema**. Ao expulsar a página globalmente menos útil, o sistema otimiza a utilização da RAM como um todo. A desvantagem é que isto pode levar a cenários em que a memória de um processo de baixa prioridade mas ativo é recuperada para beneficiar um processo de alta prioridade, o que pode parecer menos "justo" do ponto de vista de um único processo. A introdução de *memory `cgroup`s* no Linux mitiga isto, permitindo aos administradores criar limites de memória e hierarquias, aproximando o modelo global de um comportamento mais localizado quando necessário
 
 ### **3. Implementação, Complexidade e Custo**
 
 As filosofias contrastantes refletem-se na complexidade e no custo das suas implementações.
 
-* **Linux (MGLRU):** O processo de envelhecimento do MGLRU depende de **varrimentos periódicos das tabelas de páginas** para detetar bits de acesso Embora concebido para ser muito mais eficiente do que os varrimentos  
+* **Linux (**MGLRU**)**: O processo de envelhecimento do **MGLRU** depende de **varrimentos periódicos das tabelas de páginas** para detetar bits de acesso Embora concebido para ser muito mais eficiente do que os varrimentos  
   rmap do sistema split-LRU anterior 16, esta atividade de fundo tem um custo de CPU não trivial. As estruturas de dados, com múltiplas listas geracionais por nó e por `cgroup`, juntamente com níveis e mecanismos de feedback, representam uma complexidade considerável, otimizada para escalabilidade e tomada de decisão granular.  
-* **Windows (Conjunto de Trabalho):** A abordagem do Windows utiliza um **algoritmo do tipo Relógio** para cortar os conjuntos de trabalho O custo deste varrimento é localizado no evento de corte e no processo específico que está a ser cortado. No entanto, a complexidade do Windows reside na intrincada rede de listas de páginas globais (Espera, Modificada, Zerada, Livre) e nas transições entre elas. A gestão desta "cadeia de abastecimento" de páginas, juntamente com serviços proativos como o SuperFetch, constitui a maior parte da complexidade do seu gestor de memória.
+* **Windows (Conjunto de Trabalho)**: A abordagem do Windows utiliza um **algoritmo do tipo Relógio** para cortar os conjuntos de trabalho O custo deste varrimento é localizado no evento de corte e no processo específico que está a ser cortado. No entanto, a complexidade do Windows reside na intrincada rede de listas de páginas globais (Espera, Modificada, Zerada, Livre) e nas transições entre elas. A gerenciamento desta "cadeia de abastecimento" de páginas, juntamente com serviços proativos como o SuperFetch, constitui a maior parte da complexidade do seu gestor de memória.
 
 ### **3. Observabilidade, Diagnóstico e Ajuste**
 
-Para administradores de sistemas e programadores, compreender como monitorizar estas estratégias é crucial para o diagnóstico de problemas de desempenho.
+Para administradores de sistemas e programadores, compreender como monitorizar estas estratégias permite o diagnóstico de problemas de desempenho.
 
-* **Windows:** As ferramentas principais são o **Gestor de Tarefas** e, para uma análise mais detalhada, o **Monitor de Recursos (resmon.exe)** A métrica mais importante a observar no separador Memória do Monitor de Recursos é  
-  **"Falhas Graves/s" (Hard Faults/sec)**. Uma falha grave ocorre quando o sistema tem de ir ao ficheiro de paginação em disco para recuperar uma página, porque esta não foi encontrada nem no conjunto de trabalho do processo nem na Lista de Espera Um número consistentemente elevado de falhas graves é um indicador inequívoco de pressão de memória, significando que o sistema está a depender fortemente do disco para satisfazer as necessidades de memória das aplicações  
-* **Linux:** A ferramenta de linha de comandos padrão para este fim é o vmstat As colunas críticas a observar são  
-  si (*swap-in*) e so (*swap-out*). Valores diferentes de zero nestas colunas indicam que o sistema está ativamente a mover páginas anónimas de e para o dispositivo de *swap* A atividade de  
-  *swap-out* (so) é uma consequência direta do algoritmo de substituição de páginas a expulsar páginas anónimas sob pressão de memória. Outras ferramentas, como o sar do pacote sysstat, também fornecem estatísticas detalhadas de paginação e *swapping* ao longo do tempo
+* **Windows**: As ferramentas principais são o **Gestor de Tarefas** e, para uma análise mais detalhada, o **Monitor de Recursos (resmon.exe)** A métrica mais importante a observar no separador Memória do Monitor de Recursos é  
+  **"Falhas Graves/s" (Hard Faults/sec)**. Uma falha grave ocorre quando o sistema tem de ir ao arquivo de paginação em disco para recuperar uma página, porque esta não foi encontrada nem no conjunto de trabalho do processo nem na Lista de Espera Um número consistentemente elevado de falhas graves é um indicador inequívoco de pressão de memória, significando que o sistema está a depender fortemente do disco para satisfazer as necessidades de memória das aplicações  
+* **Linux**: A ferramenta de linha de comandos padrão para este fim é o vmstat As colunas críticas a observar são  
+  si (*swap-in*) e so (*swap-out*). Valores diferentes de zero nestas colunas indicam que o sistema está ativamente a mover páginas anônimas de e para o dispositivo de *swap* A atividade de  
+  *swap-out* (so) é uma consequência direta do algoritmo de substituição de páginas a expulsar páginas anônimas sob pressão de memória. Outras ferramentas, como o sar do pacote sysstat, também fornecem estatísticas detalhadas de paginação e *swapping* ao longo do tempo
 
 **Tabela 3: Contadores de Desempenho Chave para Análise de Substituição de Páginas**
 
 | Métrica/Contador | Sistema Operativo | Ferramenta(s) | Interpretação |
 | :---- | :---- | :---- | :---- |
 | **Falhas Graves/s** | Windows 11 | Monitor de Recursos, Monitor de Desempenho | Indica páginas a serem lidas do pagefile.sys porque não foram encontradas no conjunto de trabalho de um processo ou na Lista de Espera. Um valor elevado e sustentado indica uma pressão de memória significativa. |
-| **si / so** | Linux | vmstat | si: Páginas movidas do *swap* para a memória (KB/s). so: Páginas movidas da memória para o *swap* (KB/s). Um valor so consistentemente diferente de zero indica que o sistema está a expulsar ativamente páginas anónimas devido a pressão de memória. |
+| **si / so** | Linux | vmstat | si: Páginas movidas do *swap* para a memória (KB/s). so: Páginas movidas da memória para o *swap* (KB/s). Um valor so consistentemente diferente de zero indica que o sistema está a expulsar ativamente páginas anônimas devido a pressão de memória. |
 
-**Tabela 4: Comparação Arquitetónica do MGLRU do Linux e do Modelo de Conjunto de Trabalho do Windows**
+**Tabela 4: Comparação Arquitetônica do **MGLRU** do Linux e do Modelo de Conjunto de Trabalho do Windows**
 
-| Aspeto Arquitetónico | Linux (MGLRU) | Windows 11 (Conjunto de Trabalho) |
+| Aspeto Arquitetónico | Linux (**MGLRU**) | Windows 11 (Conjunto de Trabalho) |
 | :---- | :---- | :---- |
 | **Âmbito da Substituição** | Global (por nó/`cgroup`) | Local (por processo) |
 | **Objetivo Principal** | Eficiência a nível do sistema | Isolamento de processos e desempenho interativo |
@@ -1125,9 +1121,9 @@ Os algoritmos de substituição de páginas não são estáticos; evoluem contin
 
 O panorama do hardware de memória está a mudar fundamentalmente. Durante décadas, o modelo foi simples: uma camada de DRAM rápida e volátil e uma camada de armazenamento em disco lento e persistente. No entanto, o surgimento de **sistemas de memória em camadas** (*tiered memory*) está a quebrar este binário. Estes sistemas combinam DRAM rápida mas cara com tecnologias mais lentas mas de maior capacidade e mais baratas, como a **Memória Não-Volátil (NVM)** ligada através de NVMe, ou memória adicional ligada através do barramento **Compute Express Link (CXL)**
 
-Isto transforma o problema da substituição de páginas. Já não se trata apenas de decidir se uma página deve estar na RAM ou em disco. Em vez disso, torna-se um problema mais geral de **colocação ou migração de páginas** entre múltiplas camadas de memória com diferentes características de latência e largura de banda O objetivo é manter os dados mais "quentes" (acedidos com mais frequência) na camada mais rápida (DRAM) e mover os dados mais "frios" para as camadas mais lentas (NVM/CXL), usando o disco apenas como último recurso.
+Isto transforma o problema da substituição de páginas. Não se trata apenas de decidir se uma página deve estar na RAM ou em disco. Em vez disso, torna-se um problema mais geral de **colocação ou migração de páginas** entre múltiplas camadas de memória com diferentes características de latência e largura de banda O objetivo é manter os dados mais "quentes" (acessados com mais frequência) na camada mais rápida (DRAM) e mover os dados mais "frios" para as camadas mais lentas (NVM/CXL), usando o disco apenas como último recurso.
 
-A investigação nesta área está a explorar novas políticas adaptadas a esta realidade. Um exemplo é a política de **"promoção rápida e despromoção lenta"** proposta no *framework* MTM (*Multi-Tiered memory Management*) Nesta abordagem, as páginas quentes identificadas em qualquer camada inferior são promovidas diretamente para a camada mais rápida, contornando as camadas intermédias para minimizar a latência. Em contrapartida, quando uma página precisa de ser despromovida da camada mais rápida, é movida cautelosamente para a camada imediatamente inferior. Esta estratégia cria uma gestão hierárquica muito mais sofisticada do que o simples binário memória/disco, e é provável que os futuros gestores de memória do kernel incorporem lógicas semelhantes.
+A investigação nesta área está a explorar novas políticas adaptadas a esta realidade. Um exemplo é a política de **"promoção rápida e despromoção lenta"** proposta no *framework* MTM (*Multi-Tiered memory Management*) Nesta abordagem, as páginas quentes identificadas em qualquer camada inferior são promovidas diretamente para a camada mais rápida, contornando as camadas intermédias para minimizar a latência. Em contrapartida, quando uma página precisa de ser despromovida da camada mais rápida, é movida cautelosamente para a camada imediatamente inferior. Esta estratégia cria uma gerenciamento hierárquica muito mais sofisticada do que o simples binário memória/disco, e é provável que os futuros gestores de memória do `kernel` incorporem lógicas semelhantes.
 
 ### **4. O Amanhecer dos Algoritmos Aprendidos**
 
@@ -1137,17 +1133,17 @@ Talvez a fronteira mais excitante na investigação de substituição de página
 
 A investigação de vanguarda está a explorar o uso de modelos como redes neuronais de **Memória de Curto e Longo Prazo (LSTM \- Long Short-Term Memory)** para analisar o histórico de acessos a páginas de uma aplicação Ao treinar com este histórico, o modelo pode aprender as dependências temporais complexas nos padrões de acesso de um programa. Quando uma substituição de página é necessária, o modelo treinado pode então prever qual das páginas atualmente na memória tem a menor probabilidade de ser acessada no futuro próximo, aproximando-se assim do desempenho do algoritmo Ótimo teórico para essa carga de trabalho específica
 
-Esta abordagem representa uma potencial mudança de paradigma, passando de heurísticas criadas manualmente e de aplicação geral para políticas orientadas por dados e aprendidas dinamicamente. No entanto, os desafios são significativos. A execução de modelos de ML complexos dentro do *path* crítico do gestor de memória do kernel impõe um custo computacional considerável. A investigação está focada em desenvolver modelos leves e eficientes e em encontrar formas de realizar o treino e a inferência online sem impactar negativamente o desempenho do sistema. À medida que o hardware de IA se torna mais integrado nos processadores, a viabilidade de "algoritmos de substituição de páginas aprendidos" aumenta, prometendo um futuro onde o sistema operativo se adapta inteligentemente ao comportamento único de cada aplicação
+Esta abordagem representa uma potencial mudança de paradigma, passando de heurísticas criadas manualmente e de aplicação geral para políticas orientadas por dados e aprendidas dinamicamente. No entanto, os desafios são significativos. A execução de modelos de ML complexos dentro do *path* crítico do gestor de memória do `kernel` impõe um custo computacional considerável. A investigação está focada em desenvolver modelos leves e eficientes e em encontrar formas de realizar o treino e a inferência online sem impactar negativamente o desempenho do sistema. À medida que o hardware de IA se torna mais integrado nos processadores, a viabilidade de "algoritmos de substituição de páginas aprendidos" aumenta, prometendo um futuro onde o sistema operativo se adapta inteligentemente ao comportamento único de cada aplicação
 
 ## **Conclusão: Sintetizando Duas Décadas de Evolução Algorítmica**
 
-A análise detalhada dos mecanismos de substituição de páginas no Windows 11 e nos kernels Linux mais recentes revela dois sistemas altamente sofisticados que evoluíram muito para além dos algoritmos de manual. Ambos representam soluções maduras e robustas para o desafio fundamental da gestão de memória virtual, embora tenham chegado a esse ponto através de filosofias de design distintas, moldadas por diferentes prioridades e histórias evolutivas.
+A análise detalhada dos mecanismos de substituição de páginas no Windows 11 e nos kernels Linux mais recentes revela dois sistemas altamente sofisticados que evoluíram muito para além dos algoritmos de manual. Ambos representam soluções maduras e robustas para o desafio fundamental da gerenciamento de memória virtual, embora tenham chegado a esse ponto através de filosofias de design distintas, moldadas por diferentes prioridades e histórias evolutivas.
 
 A abordagem do **Windows 11** pode ser caracterizada como um sistema maduro, focado localmente e fortemente otimizado para o desempenho interativo do utilizador. O seu modelo de conjunto de trabalho por processo fornece um forte isolamento e previsibilidade, enquanto a sua complexa rede de listas de páginas — em particular a Lista de Espera — funciona como uma camada de cache global extremamente eficaz. Tecnologias proativas como o SuperFetch sublinham uma filosofia de design que prioriza a capacidade de resposta percebida em cenários de *desktop*, antecipando as necessidades do utilizador e utilizando agressivamente a RAM disponível para acelerar as operações comuns.
 
-Por outro lado, a abordagem do **Linux moderno** é a de um sistema focado globalmente que passou recentemente por uma grande evolução arquitetónica com a introdução do **MGLRU**. Esta mudança foi uma resposta direta aos desafios de escalabilidade e eficiência impostos pelo hardware moderno de grande escala, como servidores com terabytes de RAM e um grande número de núcleos de CPU. Ao substituir o sistema grosseiro de duas listas por uma hierarquia granular de gerações baseada no tempo, o Linux melhorou drasticamente a sua capacidade de tomar decisões de remoção inteligentes com um custo de CPU muito menor, tornando-o excecionalmente adequado para centros de dados e cargas de trabalho de alto desempenho onde a eficiência a nível do sistema é primordial.
+Por outro lado, a abordagem do **Linux moderno** é a de um sistema focado globalmente que passou recentemente por uma grande evolução arquitetônica com a introdução do ****MGLRU****. Esta mudança foi uma resposta direta aos desafios de escalabilidade e eficiência impostos pelo hardware moderno de grande escala, como servidores com terabytes de RAM e um grande número de núcleos de CPU. Ao substituir o sistema grosseiro de duas listas por uma hierarquia granular de gerações baseada no tempo, o Linux melhorou drasticamente a sua capacidade de tomar decisões de remoção inteligentes com um custo de CPU muito menor, tornando-o excecionalmente adequado para centros de dados e cargas de trabalho de alto desempenho onde a eficiência a nível do sistema é primordial.
 
-Em última análise, tanto o Windows 11 como o Linux demonstram um profundo entendimento dos compromissos inerentes à gestão de memória. Não existe uma solução única "correta"; em vez disso, cada sistema operativo otimizou a sua estratégia para o seu ecossistema e casos de uso alvo. Olhando para o futuro, é claro que esta evolução está longe de terminar. A proliferação de hardware de memória em camadas e os avanços promissores em algoritmos orientados por aprendizagem automática garantirão que a arte e a ciência da substituição de páginas continuarão a ser um campo dinâmico e crítico da ciência da computação, com ambos os sistemas a adaptarem-se para enfrentar os desafios da próxima geração de computação.
+Em última análise, tanto o Windows 11 como o Linux demonstram um profundo entendimento dos compromissos inerentes à gerenciamento de memória. Não existe uma solução única "correta"; em vez disso, cada sistema operativo otimizou a sua estratégia para o seu ecossistema e casos de uso alvo. Olhando para o futuro, é claro que esta evolução está longe de terminar. A proliferação de hardware de memória em camadas e os avanços promissores em algoritmos orientados por aprendizagem automática garantirão que a arte e a ciência da substituição de páginas continuarão a ser um campo dinâmico e crítico da ciência da computação, com ambos os sistemas a adaptarem-se para enfrentar os desafios da próxima geração de computação.
 ## Métricas de Avaliação
 
 ### Métricas Primárias
