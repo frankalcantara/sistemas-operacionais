@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1200 900"
+   version="1.1"
+   id="svg_driver_abstraction"
+   sodipodi:docname="drivers1.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   inkscape:export-filename="..\images\drivers1.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview16"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.67175144"
+     inkscape:cx="442.12782"
+     inkscape:cy="355.04204"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg_driver_abstraction" />
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="marker72"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path72" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <style
+       id="style1">
+      .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #2c3e50; }
+      .subtitle { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #34495e; }
+      .label { font-family: Arial, sans-serif; font-size: 11px; fill: #2c3e50; }
+      .small-label { font-family: Arial, sans-serif; font-size: 9px; fill: #2c3e50; }
+      .bit-label { font-family: 'Courier New', monospace; font-size: 10px; fill: #2c3e50; }
+      .hex-label { font-family: 'Courier New', monospace; font-size: 12px; fill: #2c3e50; font-weight: bold; }
+      .vpn-section { fill: #3498db; stroke: #2980b9; stroke-width: 2; }
+      .offset-section { fill: #e74c3c; stroke: #c0392b; stroke-width: 2; }
+      .example-box { fill: #f39c12; stroke: #e67e22; stroke-width: 2; }
+      .calculation-box { fill: #9b59b6; stroke: #8e44ad; stroke-width: 2; }
+      .result-box { fill: #2ecc71; stroke: #27ae60; stroke-width: 2; }
+      .header-box { fill: #34495e; stroke: #2c3e50; stroke-width: 2; }
+      .mmu-process { fill: #16a085; stroke: #138d75; stroke-width: 2; }
+      .arrow { stroke: #34495e; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .curved-arrow { stroke: #e67e22; stroke-width: 2; fill: none; marker-end: url(#orangearrow); }
+    </style>
+    <marker
+       id="arrowhead"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#34495e"
+         id="polygon1" />
+    </marker>
+    <marker
+       id="orangearrow"
+       markerWidth="10"
+       markerHeight="7"
+       refX="9"
+       refY="3.5"
+       orient="auto">
+      <polygon
+         points="0 0, 10 3.5, 0 7"
+         fill="#e67e22"
+         id="polygon2" />
+    </marker>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter107"
+       x="-0.025733333"
+       y="-0.085777777"
+       width="1.0708"
+       height="1.236">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood106" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="2.800000"
+         id="feGaussianBlur106" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="5.800000"
+         dy="5.800000"
+         id="feOffset106" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite106" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite107" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter109"
+       x="-0.0193"
+       y="-0.1544"
+       width="1.0531"
+       height="1.4248">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood107" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="2.800000"
+         id="feGaussianBlur107" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="5.800000"
+         dy="5.800000"
+         id="feOffset107" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite108" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite109" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter111"
+       x="-0.025733333"
+       y="-0.085777777"
+       width="1.0708"
+       height="1.236">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood109" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="2.800000"
+         id="feGaussianBlur109" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="5.800000"
+         dy="5.800000"
+         id="feOffset109" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite110" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite111" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter113"
+       x="-0.025733333"
+       y="-0.085777777"
+       width="1.0708"
+       height="1.236">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood111" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="2.800000"
+         id="feGaussianBlur111" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="5.800000"
+         dy="5.800000"
+         id="feOffset111" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite112" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite113" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter115"
+       x="-0.025733333"
+       y="-0.085777777"
+       width="1.0708"
+       height="1.236">
+      <feFlood
+         result="flood"
+         in="SourceGraphic"
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         id="feFlood113" />
+      <feGaussianBlur
+         result="blur"
+         in="SourceGraphic"
+         stdDeviation="2.800000"
+         id="feGaussianBlur113" />
+      <feOffset
+         result="offset"
+         in="blur"
+         dx="5.800000"
+         dy="5.800000"
+         id="feOffset113" />
+      <feComposite
+         result="comp1"
+         operator="in"
+         in="flood"
+         in2="offset"
+         id="feComposite114" />
+      <feComposite
+         result="comp2"
+         operator="over"
+         in="SourceGraphic"
+         in2="comp1"
+         id="feComposite115" />
+    </filter>
+  </defs>
+  <text
+     x="463.69437"
+     y="99.741928"
+     text-anchor="middle"
+     class="title"
+     style="font-size:24px;fill:#2c3e50"
+     id="text1">Fluxo de Abstração do Driver de Dispositivo</text>
+  <rect
+     x="99.872475"
+     y="118.58288"
+     width="771.24438"
+     height="198.58624"
+     rx="12"
+     fill="#f8f9fa"
+     stroke="#dee2e6"
+     stroke-width="1.75019"
+     id="user-mode-bg"
+     ry="11.999999" />
+  <text
+     x="114.04542"
+     y="302.03531"
+     class="subtitle"
+     style="font-size:18px;fill:#34495e"
+     id="text2">User-Mode (Espaço do Usuário)</text>
+  <rect
+     x="450"
+     y="140"
+     width="300"
+     height="90"
+     class="example-box"
+     id="app-box"
+     style="filter:url(#filter107);fill:#ffeeaa;stroke:#ffcc00" />
+  <text
+     x="600"
+     y="170"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     style="font-weight:bold;font-size:16px"
+     id="text3">Aplicação</text>
+  <text
+     x="600"
+     y="195"
+     text-anchor="middle"
+     class="hex-label"
+     fill="white"
+     style="font-size:14px"
+     id="text4">Solicitação: read()</text>
+  <text
+     x="600"
+     y="215"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     style="font-size:12px"
+     id="text5">(Não privilegiado)</text>
+  <line
+     x1="600"
+     y1="230"
+     x2="600"
+     y2="286.07288"
+     class="arrow"
+     id="arrow1" />
+  <rect
+     x="100.69571"
+     y="319.09161"
+     width="771.2215"
+     height="453.13538"
+     rx="12"
+     fill="#ecf0f1"
+     stroke="#bdc3c7"
+     stroke-width="1.76249"
+     id="kernel-mode-bg"
+     ry="11.999999" />
+  <line
+     x1="600.26318"
+     y1="329.36841"
+     x2="600.26318"
+     y2="379.36841"
+     class="arrow"
+     id="arrow2" />
+  <rect
+     x="400"
+     y="288"
+     width="400"
+     height="50"
+     class="calculation-box"
+     id="api-box"
+     style="fill:#e580ff;stroke:#dd55ff;filter:url(#filter109)" />
+  <text
+     x="600.3623"
+     y="318"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     style="font-weight:bold;font-size:14px"
+     id="text6">API do Sistema Operacional (ex: POSIX, Win32)</text>
+  <text
+     x="110.63213"
+     y="354.01706"
+     class="subtitle"
+     style="font-size:18px;fill:#34495e"
+     id="text7">Kernel-Mode (Espaço do Kernel)</text>
+  <rect
+     x="451.05264"
+     y="381.78946"
+     width="300"
+     height="90"
+     class="vpn-section"
+     id="kernel-box"
+     style="fill:#80e5ff;stroke:#55ddff;filter:url(#filter111)" />
+  <text
+     x="601.05261"
+     y="411.78946"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     style="font-weight:bold;font-size:16px"
+     id="text8">Núcleo do Kernel (VFS, Ger. E/S)</text>
+  <text
+     x="601.05261"
+     y="436.78946"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     style="font-size:12px"
+     id="text9">(Privilegiado)</text>
+  <text
+     x="601.05261"
+     y="456.78946"
+     text-anchor="middle"
+     class="hex-label"
+     fill="white"
+     style="font-size:14px"
+     id="text10">Cria IRP / Syscall</text>
+  <line
+     x1="601.05261"
+     y1="471.78946"
+     x2="601.05261"
+     y2="521.78949"
+     class="arrow"
+     id="arrow3" />
+  <rect
+     x="451.05264"
+     y="521.78949"
+     width="300"
+     height="90"
+     class="mmu-process"
+     id="driver-box"
+     style="fill:#80ffb3;stroke:#55ff99;filter:url(#filter113)" />
+  <text
+     x="601.05261"
+     y="551.78949"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     style="font-weight:bold;font-size:16px"
+     id="text11">Driver de Dispositivo</text>
+  <text
+     x="601.05261"
+     y="576.78949"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     style="font-size:12px"
+     id="text12">(Traduz IRP, gerencia estado)</text>
+  <text
+     x="601.05261"
+     y="596.78949"
+     text-anchor="middle"
+     class="hex-label"
+     fill="white"
+     style="font-size:14px"
+     id="text13">(Ex: WDF, Módulo .ko)</text>
+  <line
+     x1="601.05261"
+     y1="611.78949"
+     x2="601.05261"
+     y2="661.78949"
+     class="arrow"
+     id="arrow4" />
+  <rect
+     x="451.05264"
+     y="661.78949"
+     width="300"
+     height="90"
+     class="header-box"
+     id="hw-box"
+     style="fill:#dbe3e2;stroke:#b7c8c4;filter:url(#filter115)" />
+  <text
+     x="601.05261"
+     y="691.78949"
+     text-anchor="middle"
+     class="label"
+     fill="white"
+     style="font-weight:bold;font-size:16px"
+     id="text14">Hardware Físico</text>
+  <text
+     x="601.05261"
+     y="716.78949"
+     text-anchor="middle"
+     class="small-label"
+     fill="white"
+     style="font-size:12px"
+     id="text15">(Controladora de Disco, GPU, ...)</text>
+  <text
+     x="601.05261"
+     y="736.78949"
+     text-anchor="middle"
+     class="hex-label"
+     fill="white"
+     style="font-size:14px"
+     id="text16">(Registradores, Portas E/S)</text>
+</svg>

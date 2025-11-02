@@ -37,7 +37,10 @@ book:
         - 12Agermem.qmd
         - 12Bgermem.qmd
         - 12Zgermem.qmd
-    - 13gerfiles.qmd
+    - part: Presistência de Dados
+      chapters:
+        - 12persistencia1.qmd
+        - 13refpersistencia.qmd
     - 14geres.qmd
     - 15gerredes.qmd
     - 16gerseg.qmd    
