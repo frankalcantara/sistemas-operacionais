@@ -93,7 +93,7 @@ Cada _driver_ na pilha pode interceptar, modificar, atrasar, passar adiante (`Io
  
 Quando o **V**irtual **F**ile **S**ystem, **VFS**, do Linux recebe uma chamada `read()`, ele não a passa por uma pilha; ele identifica o tipo de arquivo e invoca diretamente o _callback_ apropriado do _driver_ que está registrado no subsistema correspondente.
 
-## Mergulho Profundo no Windows 11: O Windows _driver_ Frameworks (WDF)
+## Mergulho Profundo no Windows 11: O Windows Driver Frameworks (WDF)
 
 O **WDM** é a camada fundamental de **E/S** do _kernel_ NT, introduzida no Windows 2000. É a interface nativa do _kernel_ que define a estrutura da pilha de dispositivos, o formato dos **IRP**s e as regras para **PnP**, _Plug and Play_, e Gerenciamento de Energia.
 
@@ -102,9 +102,9 @@ Escrever um _driver_ **WDM** puro, sem *framework*, é obsoleto para a maioria d
 :: {.callout-note icon="system-code"}
 **A Revolução Silenciosa: O "Plug and Play" (PnP)**
 
-Hoje, consideramos um dado adquirido: você conecta um mouse USB, uma webcam ou uma nova placa de vídeo, e o Windows 11 simplesmente os reconhece e os faz funcionar. Essa mágica é, na verdade, um dos contratos de arquitetura mais importantes do sistema: o **Plug and Play (PnP)**.
+Hoje, consideramos um dado adquirido: você conecta um mouse USB, uma webcam ou uma nova placa de vídeo, e o **Windows 11** simplesmente os reconhece e os faz funcionar. Essa mágica é, na verdade, um dos contratos de arquitetura mais importantes do sistema: o **Plug and Play (PnP)**.
 
-Para entender a importância do **PnP**, é preciso lembrar como era a computação nos dias do MS-DOS e do Windows 3.1. Instalar um novo hardware (como uma placa de som em um barramento **ISA**) era um ritual complexo e propenso a erros. O usuário precisava configurar manualmente _jumpers_, pequenos pinos físicos, na placa para definir seu endereço de **IRQ**, a linha de requisição de interrupção, o canal de **DMA**, Acesso Direto à Memória, e as portas de **E/S**. O problema? Cada dispositivo precisava de recursos *únicos*. Se você configurasse sua nova placa de som para usar o `IRQ 5`, mas sua placa de rede já estivesse usando esse **IRQ**, o sistema inteiro travaria. Não havia um "gerente" central; era uma anarquia de hardware.
+Para entender a importância do **PnP**, é preciso lembrar como era a computação nos dias do MS-DOS e do **Windows 3.1**. Instalar um novo hardware, como uma placa de som em um barramento **ISA**, era um ritual complexo e propenso a erros. O usuário precisava configurar manualmente _jumpers_, pequenos pinos físicos, na placa para definir seu endereço de **IRQ**, a linha de requisição de interrupção, o canal de **DMA**, Acesso Direto à Memória, e as portas de **E/S**. O problema? Cada dispositivo precisava de recursos *únicos*. Se você configurasse sua nova placa de som para usar o `IRQ 5`, mas sua placa de rede já estivesse usando esse **IRQ**, o sistema inteiro travaria. Não havia um "gerente" central; era uma anarquia de hardware.
 
 O **Windows 95** foi revolucionário por introduzir o **Gerenciador PnP**. Ele foi projetado em conjunto com novos padrões de hardware, como o barramento **PCI**, que permitiam que os dispositivos se identificassem eletronicamente. O **PnP** estabeleceu um novo contrato cujos princípios centrais são:
 
@@ -160,9 +160,9 @@ Os objetos principais formam uma hierarquia clara:
 
 Como os objetos **WDF** são opacos, um *driver* não pode simplesmente adicionar seus próprios campos de dados a eles, como `driver->MeuDado = 1`. Para resolver isso, o **WDF** fornece um mecanismo chamado **Object Context Memory**.
 
-Ao criar um objeto, como um `WDFDEVICE`, o *driver* informa ao **WDF** o tamanho de uma estrutura de dados personalizada, definida pelo *driver*, que ele deseja anexar. O *framework* aloca essa memória, associa-a ao *handle* do objeto e gerencia seu ciclo de vida. O *driver* pode então, a qualquer momento, obter um ponteiro para esse "contexto" para armazenar informações específicas da instância (como *flags* de estado ou ponteiros para registradores de hardware).
+Ao criar um objeto, como um `WDFDEVICE`, o *driver* informa ao **WDF** o tamanho de uma estrutura de dados personalizada, definida pelo *driver*, que ele deseja anexar. O *framework* aloca essa memória, associa-a ao *handle* do objeto e gerencia seu ciclo de vida. O *driver* pode então, a qualquer momento, obter um ponteiro para esse contexto para armazenar informações específicas da instância (como *flags* de estado ou ponteiros para registradores de hardware).
 
-Esse mecanismo permite que cada objeto **WDF** carregue dados personalizados do *driver* sem violar o encapsulamento, mantendo a separação clara entre o código do *framework* e o código do *driver*.
+Esse mecanismo permite que cada objeto **WDF** carregue dados personalizados do *driver* sem violar o encapsulamento, mantendo a separação clara entre o código do *framework* e o código do *driver*. Este mecanismo de **Object Context Memory** é o equivalente moderno, gerenciado e seguro de um conceito do antigo modelo **WDM** chamado `DeviceExtension`, no qual drivers alocavam manualmente uma estrutura de dados anexada ao `DEVICE_OBJECT`. O **WDF** automatiza e torna mais seguro este padrão comum, garantindo que a memória de contexto seja alocada, gerenciada e liberada corretamente pelo framework.
 
 ### Anatomia de um Pedido de E/S (I/O Request)
 
@@ -216,12 +216,12 @@ Além dessas macros, o Linux usa as diretivas __init e __exit. Estas não são a
 
 Para _drivers_ *built-in*, o código de inicialização só precisa ser executado uma vez, na inicialização do sistema. O Linux otimiza agressivamente esse caso:
 
-* As funções marcadas com __init (como a função my_init_function) são colocadas em uma seção de memória especial chamada .init.text. 
+* As funções marcadas com `__init`, como a função `my_init_function`, são colocadas em uma seção de memória especial chamada `.init.text`. 
 * Após a sequência de inicialização do _kernel_ terminar, o _kernel_ **descarta e libera toda a seção de memória .init.text**. O código de inicialização desaparece, liberando megabytes de RAM. 
-* Da mesma forma, as funções marcadas com __exit (como a my_exit_function) são **completamente descartadas no momento da compilação** para _drivers_ *built-in*. Um _driver_ *built-in* não pode ser descarregado, então seu código de saída é desnecessário e é removido para economizar espaço. 
-* Para módulos (.ko) que podem ser carregados e descarregados, essas macros __init e __exit não têm efeito; o código deve permanecer residente.
+* Da mesma forma, as funções marcadas com `__exit`, como a `my_exit_function`, são **completamente descartadas no momento da compilação** para _drivers_ *built-in*. Um _driver_ *built-in* não pode ser descarregado, então seu código de saída é desnecessário e é removido para economizar espaço. 
+* Para módulos (`.ko`) que podem ser carregados e descarregados, essas macros `__init` e `__exit` não têm efeito; o código deve permanecer residente.
 
-### **Registro e file_operations: O Coração da **E/S** de Caractere (Char _drivers_)**
+### Registro e file_operations: O Coração da **E/S** de Caractere (Char drivers)
 
 Quando um aplicativo de *user-mode* abre, lê ou escreve em um arquivo de dispositivo (ex: /dev/my_device), o Virtual File System (VFS) do Linux roteia essas chamadas. A struct file_operations é o pilar central que conecta o VFS ao código do driver.
 
@@ -735,7 +735,7 @@ O Linux tem um conceito análogo ao **IRQ**L alto, chamado "contexto atômico". 
 
 Em ambos os sistemas, **IRQ**L >= DISPATCH_LEVEL (Windows) e "atomic context" (Linux) são implementações específicas do sistema operacional para o *mesmo conceito fundamental* de ciência da computação: um estado de execução de alta prioridade, não-preemptível e não-bloqueante. Ambas as falhas catastróficas são causadas pela *mesma ação ilegal*: tentar invocar uma operação de bloqueio/espera (como o *handler* de falha de página ou o *scheduler* de tarefas) de dentro de um contexto que, por definição, não pode ser bloqueado ou esperado.
 
-### **A Causa Universal: Desreferência de Ponteiro Nulo (NULL)**
+### A Causa Universal: Desreferência de Ponteiro Nulo (NULL)
 
 Este é o exemplo mais claro da diferença entre *user-mode* e *kernel-mode*.
 
@@ -758,14 +758,11 @@ Este é o exemplo mais claro da diferença entre *user-mode* e *kernel-mode*.
 
 A análise aprofundada refuta a noção do _driver_ como um "tradutor". O _driver_ de dispositivo é, na verdade, um gerenciador de recursos complexo, orientado a eventos e ciente do estado, que impõe a política do sistema operacional no nível do hardware. Ele é a camada onde as abstrações do sistema operacional (como arquivos, blocos e pacotes de rede) são finalmente convertidas em operações físicas (tensões em um barramento, luz em uma fibra).
 
-A fronteira *user-kernel* não é apenas uma barreira de segurança; é um contrato de API formal que permite a estabilidade do sistema. As APIs de interação — DeviceIoControl 60 no Windows e ioctl 80 no Linux — são os contratos explícitos para cruzar essa fronteira de forma controlada, solicitando que o _kernel_ execute ações privilegiadas em nome do usuário.
+A fronteira *user-kernel* não é apenas uma barreira de segurança; é um contrato de API formal que permite a estabilidade do sistema. As APIs de interação — DeviceIoControl no Windows e ioctl no Linux — são os contratos explícitos para cruzar essa fronteira de forma controlada, solicitando que o _kernel_ execute ações privilegiadas em nome do usuário.
 
 As diferenças arquitetônicas observadas — o modelo de objetos em camadas do **WDF** 13 versus o registro de subsistema modular do Linux 27, ou a abstração por *método* do ACPI 52 versus a abstração por *dados* do Device Tree 49 — não são arbitrárias. Elas refletem as diferentes histórias evolutivas e restrições de design do mundo padronizado do PC (onde a complexidade do hardware é escondida pelo firmware) e do mundo diverso de sistemas embarcados (onde a complexidade do hardware deve ser explicitamente descrita para o _kernel_).
 
 Em última análise, o _driver_ de dispositivo é a camada mais crítica e vulnerável da computação moderna. É o ponto onde o software encontra a física, e onde erros de lógica de programação — como acessar a memória errada 84, dormir no momento errado 89 ou desreferenciar um ponteiro inválido 93 — deixam de ser erros de aplicativo e se transformam instantaneamente em falhas de sistema catastróficas e irrecuperáveis.
-
-
-
 
 ### Mecanismos de Comunicação de **E/S**: Uma Análise Evolutiva
 
@@ -930,7 +927,7 @@ A regra fundamental da Flash NAND é: **você não pode sobrescrever (overwrite)
 Este é o principal problema de desempenho e resistência dos SSDs. Considere o cenário em que o Sistema Operacional deseja modificar 4 KB de dados (uma página) em um bloco que já contém outros dados válidos 52:
 
 1. O controlador do **SSD** não pode simplesmente apagar e escrever aquela página de 4 KB (o apagamento é em nível de bloco). 
-2. Ele deve ler o *bloco inteiro* (ex.: 4 MB) que contém a página "antiga" para sua memória cache interna. 
+2. Ele deve ler o *bloco inteiro* (ex.: 4 MB) que contém a página antiga para sua memória cache interna. 
 3. Modificar os 4 KB desejados no cache. 
 4. Encontrar um *novo bloco* (4 MB) que já esteja apagado. 
 5. Escrever o bloco *modificado* (4 MB) neste novo local. 
