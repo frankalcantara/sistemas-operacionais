@@ -1,0 +1,121 @@
+<!-- Diagrama atualizado: VM C++23 com validação de opcode, endianness, pilha int64_t, modo debug -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <linearGradient id="bggrad" x1="0" x2="1">
+      <stop offset="0" stop-color="#f7fbff"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title { font: 700 20px/1.1 'Segoe UI', Roboto, Arial; fill:#0b3b66; }
+      .subtitle { font: 600 14px/1 'Segoe UI', Roboto; fill:#0b3b66; }
+      .label { font: 400 13px/1 'Segoe UI', Roboto; fill:#123246; }
+      .note { font: 400 12px/1 'Segoe UI', Roboto; fill:#234; }
+      .box { fill: #ffffff; stroke: #cbd7e6; stroke-width:1.5; rx:12; ry:12; filter:url(#softShadow) }
+      .proc { fill:#fff7e6; stroke:#ffd08a; stroke-width:1.4; rx:9; ry:9 }
+      .host { fill:#eef9f2; stroke:#c6eed9; stroke-width:1.4; rx:14; ry:14 }
+      .arrow { stroke:#2b6b9a; stroke-width:2.2; fill:none; marker-end:url(#arrowhead) }
+      .small { font: 400 11px/1 'Segoe UI', Roboto; fill:#2a3b46; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2b6b9a"/>
+    </marker>
+  </defs>
+
+  <!-- título -->
+  <text x="32" y="38" class="title">Arquitetura da máquina virtual de processo (implementação C++23)</text>
+  <text x="32" y="62" class="note">diagrama: mapeamento entre o ambiente de desenvolvimento, o processo host e os componentes internos da vm</text>
+
+  <!-- editor / toolchain -->
+  <g transform="translate(28,92)">
+    <rect class="box" width="340" height="140" />
+    <text x="18" y="30" class="subtitle">visual studio community edition</text>
+    <text x="18" y="56" class="label">arquivo fonte: main.cpp (VM implementada em C++23)</text>
+    <text x="18" y="78" class="small">helpers de assembler: assembler::emit_*</text>
+    <text x="18" y="98" class="small">gera vetores std::vector&lt;uint8_t&gt; (bytecode)</text>
+    <rect x="20" y="106" width="80" height="18" rx="6" ry="6" class="proc"/>
+    <text x="110" y="120" class="small">salvar e compilar → gerar executável (vm_interpreter.exe)</text>
+  </g>
+
+  <!-- arrow: editor -> host -->
+  <path class="arrow" d="M 368 160 Q 420 180 470 200" />
+  <text x="410" y="150" class="small">bytecode (std::vector&lt;uint8_t&gt;) carregado no processo</text>
+
+  <!-- host OS container -->
+  <g transform="translate(520,32)">
+    <rect class="host" width="640" height="680"/>
+    <text x="24" y="34" class="subtitle">host os: windows 11 (user-mode)</text>
+
+    <!-- processo VM -->
+    <g transform="translate(32,64)">
+      <rect class="box" width="560" height="560"/>
+      <text x="18" y="30" class="label">processo: vm_interpreter.exe (user process)</text>
+      <text x="18" y="52" class="small">executa sem privilégios de administrador</text>
+
+      <!-- components -->
+      <g transform="translate(28,90)">
+        <!-- memory -->
+        <rect x="0" y="0" width="240" height="140" rx="10" ry="10" fill="#ffffff" stroke="#9fb6d9"/>
+        <text x="14" y="20" class="label">memory (bytecode)</text>
+        <text x="14" y="42" class="small">std::vector&lt;Byte&gt; memory_</text>
+        <text x="14" y="62" class="small">endereçamento: 0 .. N-1 (JMP/JZ usam 16-bit)</text>
+        <text x="14" y="82" class="small">endianness configurável (Config::Endianness)</text>
+
+        <!-- stack -->
+        <rect x="300" y="0" width="220" height="140" rx="10" ry="10" fill="#ffffff" stroke="#9fb6d9"/>
+        <text x="314" y="20" class="label">stack (pilha de dados)</text>
+        <text x="314" y="42" class="small">std::vector&lt;Int&gt; stack_  (Int = int64_t)</text>
+        <text x="314" y="62" class="small">operações implícitas: PUSH, POP, ADD, SUB, ...</text>
+
+        <!-- IP / ciclo FDE -->
+        <rect x="0" y="180" width="520" height="180" rx="10" ry="10" fill="#ffffff" stroke="#9fb6d9"/>
+        <text x="14" y="206" class="label">ip (instruction pointer) & ciclo fetch–decode–execute</text>
+        <text x="14" y="228" class="small">Address ip_ (size_t) — fetchByte(), fetchWord()</text>
+        <text x="14" y="246" class="small">validação de opcode: is_valid_opcode(raw) antes de consumir</text>
+        <text x="14" y="264" class="small">switch dispatch → execute(op) (tratamento de exceções VMError)</text>
+
+        <!-- config + debug -->
+        <g transform="translate(24,380)">
+          <rect x="0" y="0" width="220" height="56" rx="8" ry="8" class="proc"/>
+          <text x="10" y="18" class="small">config: Endianness (big/little), debug (true/false)</text>
+          <text x="10" y="36" class="small">modo debug imprime estado da pilha e ip</text>
+
+          <rect x="260" y="0" width="220" height="56" rx="8" ry="8" class="proc"/>
+          <text x="270" y="18" class="small">exceções: VMError (mensagens padronizadas)</text>
+          <text x="270" y="36" class="small">tratamento: captura no main e relatório</text>
+        </g>
+
+        <!-- syscalls / runtime interaction -->
+        <g transform="translate(552,60)">
+          <!-- small cluster to show I/O -->
+          <rect x="-28" y="0" width="220" height="120" rx="8" ry="8" fill="#fff6f6" stroke="#f2c6c6"/>
+          <text x="-18" y="20" class="label">interação com o so / runtime</text>
+          <text x="-18" y="44" class="small">std::cout / std::cin → runtime do C++ → so</text>
+          <text x="-18" y="64" class="small">alocação e memória gerida pelo runtime do processo</text>
+        </g>
+
+      </g>
+
+      <text x="40" y="520" class="note">nota: a validação de opcode evita interpretar bytes inválidos como instruções; fetchWord respeita a endianness configurada.</text>
+      <text x="40" y="540" class="note">nota: helpers de assembler (assembler::emit_*) geram bytecode big-endian por padrão; alinhar Config se necessário.</text>
+    </g>
+  </g>
+
+  <!-- ligações visuais (arrows) -->
+  <path class="arrow" d="M 188 206 L 320 240" />
+  <path class="arrow" d="M 460 260 L 560 300" />
+  <path class="arrow" d="M 820 420 L 920 420" />
+  <text x="260" y="240" class="small">carregamento do vetor bytecode para memory_</text>
+  <text x="620" y="460" class="small">fetch → decode → execute → chamadas de I/O para runtime/so</text>
+
+  <!-- legenda -->
+  <g transform="translate(28,640)">
+    <rect x="0" y="0" width="1144" height="100" fill="#ffffff" stroke="#e0e6ef" rx="8" ry="8"/>
+    <text x="12" y="22" class="subtitle">legenda e notas rápidas</text>
+    <text x="12" y="44" class="small">- memory_: armazenamento do bytecode gerado por ferramentas/assembler;</text>
+    <text x="12" y="60" class="small">- stack_: pilha de dados do tipo int64_t para reduzir surpresas por overflow;</text>
+    <text x="12" y="76" class="small">- Config: controla endianness e modo debug. exceções VMError encapsulam falhas de execução.</text>
+  </g>
+</svg>
